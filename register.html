@@ -73,7 +73,7 @@
 
     <div class="header">
         <h2>🏹 TRIBAL RHYTHM REGISTRATION</h2>
-        <p>Wel Come  To Tribal Rhythm Registration  Form</p>
+        <p>Wel Come To Tribal Rhythm Registration Form</p>
         <p>See ruls before register</p>
     </div>
 
@@ -106,7 +106,7 @@
 
                     <textarea placeholder="Address (Village, District, State)" required></textarea>
 
-                    <input placeholder="Ticket ID (Auto Generated)" disabled>
+                    <input id="ticket" placeholder="Ticket ID" disabled>
 
                     <select required>
                         <option value="">Select Tribe</option>
@@ -151,6 +151,10 @@
         function genTicket() {
             return "TR-" + Math.floor(100000 + Math.random() * 900000);
         }
+        window.addEventListener("DOMContentLoaded", () => {
+            let ticket = genTicket();
+            document.getElementById("ticket").value = ticket;
+        });
 
         /* 💳 PAYMENT + REGISTER */
         document.getElementById("bForm").addEventListener("submit", function (e) {
@@ -159,38 +163,38 @@
             let name = document.getElementById("bname").value;
             let email = document.getElementById("bemail").value;
             let mobile = document.getElementById("bmobile").value;
-            let event = document.getElementById("bevent").value;
+
+            let ticket = genTicket();
 
             var options = {
-                key: "YOUR_RAZORPAY_KEY",
-                amount: 20000,
+                key: "rzp_test_XXXXXXXX", // 👈 apna real key ID daal
+                amount: 30000, // ₹300 = 30000 paisa
                 currency: "INR",
                 name: "Tribal Rhythm",
-                handler: async function () {
-
-                    let ticket = genTicket();
+                description: "Competition Registration",
+                handler: async function (response) {
 
                     await setDoc(doc(db, "users", email), {
                         name,
                         email,
                         mobile,
-                        event,
                         payment: true,
-                        ticket: ticket
+                        ticket: ticket,
+                        payment_id: response.razorpay_payment_id
                     });
 
                     localStorage.setItem("email", email);
                     localStorage.setItem("ticket", ticket);
+                    localStorage.setItem("name", name);   // 👈 ADD THIS
 
-                    alert("Payment Success! Ticket ID: " + ticket);
+                    alert("✅ Payment Success! Ticket ID: " + ticket);
 
                     window.location.href = "competition.html";
                 }
             };
 
-            let rzp = new Razorpay(options);
+            var rzp = new Razorpay(options);
             rzp.open();
-
         });
 
     </script>

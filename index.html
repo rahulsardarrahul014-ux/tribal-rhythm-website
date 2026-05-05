@@ -43,7 +43,7 @@
                     <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="#features">Our Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="#booking">Book Your Spot</a></li>
-                    <li class="nav-item"><a class="nav-link" href="competition.html">Online Competition</a></li>
+                    <a class="nav-link" href="#" onclick="goCompetition()">Online Competition</a>
                     <li class="nav-item"><a class="nav-link" href="rules.html">Rules & Regulation</a></li>
                     <li class="nav-item"><a class="nav-link" href="#live">Live Event</a></li>
                     <li class="nav-item"><a class="nav-link" href="#upcoming">Upcoming Program</a></li>
@@ -950,6 +950,19 @@
             console.log(snapshot.exists());
             console.log(snapshot.val());
         });
+        function goCompetition() {
+
+            let email = localStorage.getItem("email");
+            let ticket = localStorage.getItem("ticket");
+
+            // ✅ Agar already registered + paid hai
+            if (email && ticket) {
+                window.location.href = "competition.html";
+            } else {
+                // ❌ Pehle register karna padega
+                window.location.href = "register.html";
+            }
+        }
 
 
 

@@ -121,10 +121,10 @@
     </div>
 
     <script type="module">
-
+        import { getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         const firebaseConfig = {
             apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
             authDomain: "tribalrhythm-486bd.firebaseapp.com",
@@ -137,6 +137,59 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
+        // 🔐 FIREBASE PAYMENT VERIFY
+        window.addEventListener("DOMContentLoaded", async () => {
+
+            let email = localStorage.getItem("email");
+
+            if (!email) {
+                alert("❌ पहले register karo");
+                window.location.href = "register.html";
+                return;
+            }
+
+            try {
+                const ref = doc(db, "users", email);
+                const snap = await getDoc(ref);
+
+                if (!snap.exists()) {
+                    alert("❌ User not found");
+                    window.location.href = "register.html";
+                    return;
+                }
+
+                let data = snap.data();
+
+                if (data.payment !== true) {
+                    alert("❌ Payment not completed");
+                    window.location.href = "register.html";
+                    return;
+                }
+
+                // ✅ SUCCESS → auto fill name
+                document.getElementById("name").value = data.name;
+
+            } catch (err) {
+                console.error(err);
+                alert("⚠️ Error verifying user");
+            }
+        });
+        window.addEventListener("DOMContentLoaded", () => {
+
+            let name = localStorage.getItem("name");
+
+            if (name) {
+                document.getElementById("name").value = name;
+            }
+        });
+        window.addEventListener("DOMContentLoaded", () => {
+
+            let email = localStorage.getItem("email");
+
+            if (email) {
+                document.getElementById("name").value = email;
+            }
+        });
 
         let selectedComp = "";
         let entryFees = {
@@ -149,6 +202,17 @@
             dialogue: 60,
             poem: 40
         };
+        // 🔐 CHECK PAYMENT ACCESS
+        window.addEventListener("DOMContentLoaded", () => {
+
+            let email = localStorage.getItem("email");
+            let ticket = localStorage.getItem("ticket");
+
+            if (!email || !ticket) {
+                alert("❌ Please register & pay first");
+                window.location.href = "register.html";
+            }
+        });
 
         /* 🎯 SELECT COMP */
         window.joinComp = function () {
@@ -215,7 +279,7 @@
         function startPayment(amount) {
 
             let options = {
-                key: "YOUR_KEY",
+                key: "rzp_test_xxxxxxxx",
                 amount: amount * 100,
                 currency: "INR",
                 name: "Tribal Competition",
