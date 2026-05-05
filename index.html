@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TribalRhythm</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header py-2">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <img src="tribalweblogo.png" class="logo-img me-2">
+                <h4 class="title-text m-0">TRIBAL RHYTHM</h4>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAV -->
+    <!-- NAVBAR FIXED (NO DESIGN CHANGE) -->
+    <nav class="navbar navbar-expand-lg navbar-dark custom-nav">
+        <div class="container">
+
+            <!-- TOGGLER -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                ☰
+            </button>
+
+            <!-- MENU -->
+            <div class="collapse navbar-collapse" id="nav">
+
+                <ul class="navbar-nav mx-auto">
+
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Our Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#booking">Book Your Spot</a></li>
+                    <li class="nav-item"><a class="nav-link" href="competition.html">Online Competition</a></li>
+                    <li class="nav-item"><a class="nav-link" href="rules.html">Rules & Regulation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#live">Live Event</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#upcoming">Upcoming Program</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#ticket">Ticket Booking</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
+
+                    <!-- ACCOUNT -->
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            👤 Account
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="login.html">Login</a></li>
+                            <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
+                            <li><a class="dropdown-item" href="prizes.html">🏆 Prizes & Certificates</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
+                            <li><a class="dropdown-item" href="admin.html">Admin</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="toggleHistory()">History</a></li>
+                        </ul>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+    <!-- ================= NEWS MARQUEE ================= -->
+    <section class="news-section">
+
+        <div class="news-label">📢 Latest News</div>
+
+        <marquee id="newsMarquee" behavior="scroll" direction="left" scrollamount="6">
+            Loading news...
+        </marquee>
+
+    </section>
+
+
+
+    <!-- SLIDER -->
+    <!-- ================= HERO ULTRA PRO ================= -->
+    <section class="hero-ultra position-relative">
+
+        <!-- SLIDER -->
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
+
+            <div class="carousel-inner">
+
+                <div class="carousel-item active">
+                    <img src="banner1.png" class="d-block w-100 hero-img">
+                </div>
+
+                <div class="carousel-item">
+                    <img src="banner2.png" class="d-block w-100 hero-img">
+                </div>
+
+                <div class="carousel-item">
+                    <img src="banner3.png" class="d-block w-100 hero-img">
+                </div>
+
+                <div class="carousel-item">
+                    <img src="banner4.png" class="d-block w-100 hero-img">
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- DARK OVERLAY -->
+        <div class="hero-overlay"></div>
+
+        <!-- TEXT CONTENT -->
+        <div class="hero-content text-center">
+
+            <h1 class="glow-text" id="typeText"></h1>
+
+            <h2 class="sub-text">
+                Show Your Talent • Dance • Song • Culture
+            </h2>
+
+            <p class="tribal-line">
+                Santali • Bhumij Samaj Talent Platform
+            </p>
+
+            <div class="hero-btns">
+
+                <a href="register.html" class="btn-glow">🚀 Register Now</a>
+
+                <a href="#upload" class="btn-outline">
+                    📤 Upload Video
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- ================= ABOUT US ULTRA PRO BILINGUAL ================= -->
+    <section id="about" class="about-ultra py-5">
+
+        <div class="container">
+
+            <div class="row align-items-center">
+
+                <!-- LEFT SIDE TEXT -->
+                <div class="col-md-6">
+
+                    <div class="about-box">
+
+                        <h2 class="about-title">ABOUT US</h2>
+
+                        <p class="about-text">
+                            <b>English:</b><br>
+                            Tribal Rhythm is a digital cultural platform dedicated to showcasing the hidden talent
+                            of
+                            Santali and Bhumij communities. We provide a modern stage for artists to express their
+                            creativity in dance, music, and performance through live events and online competitions.
+                        </p>
+
+                        <p class="about-text">
+                            Our mission is to empower rural talent and connect them with a global audience using
+                            technology, innovation, and cultural preservation.
+                        </p>
+
+                        <p class="about-text highlight">
+                            🎯 Empowering Talent • Celebrating Culture • Building Future
+                        </p>
+
+                        <hr style="border-color:gold;">
+
+                        <p class="about-text">
+                            <b>हिंदी:</b><br>
+                            Tribal Rhythm एक डिजिटल सांस्कृतिक मंच है जो संथाली और भूमिज समुदाय की प्रतिभा को
+                            दुनिया के सामने लाने के लिए बनाया गया है। यहाँ कलाकार अपनी कला, नृत्य और संगीत को
+                            आधुनिक तकनीक के माध्यम से प्रस्तुत कर सकते हैं।
+                        </p>
+
+                        <p class="about-text">
+                            हमारा उद्देश्य ग्रामीण प्रतिभाओं को डिजिटल दुनिया से जोड़कर उन्हें एक बड़ा मंच प्रदान
+                            करना है।
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT SIDE LOGO -->
+                <div class="col-md-6 text-center">
+
+                    <div class="about-logo-box">
+                        <img src="tribalweblogo.png" class="about-logo">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FEATURES -->
+    <!-- FEATURES ULTRA PRO -->
+    <section id="features" class="features-pro">
+
+        <div class="container text-center">
+
+            <h2 class="feature-title">✨ Our Features</h2>
+
+            <div class="feature-grid">
+
+                <!-- CARD 1 -->
+                <div class="feature-card">
+                    <div class="icon">🎬</div>
+                    <h4>Live Events</h4>
+                    <p>Watch real-time cultural & tribal performances</p>
+                </div>
+
+                <!-- CARD 2 -->
+                <div class="feature-card">
+                    <div class="icon">📤</div>
+                    <h4>Upload Talent</h4>
+                    <p>Share your dance, song & cultural videos</p>
+                </div>
+
+                <!-- CARD 3 -->
+                <div class="feature-card">
+                    <div class="icon">🏆</div>
+                    <h4>Win Rewards</h4>
+                    <p>Participate in competitions & win prizes</p>
+                </div>
+
+                <!-- CARD 4 -->
+                <div class="feature-card">
+                    <div class="icon">🌐</div>
+                    <h4>Global Reach</h4>
+                    <p>Show talent to Santali & Bhumij community worldwide</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= BOOK YOUR SPOT ================= -->
+    <section id="booking" class="py-5">
+
+        <div class="container">
+
+            <h2 class="text-center text-warning mb-4">🎫 BOOK YOUR SPOT</h2>
+            <p class="text-center text-light mb-5">Feel the Rhythm. Live the Culture.</p>
+
+            <div class="row g-4">
+
+                <!-- EVENT CARD -->
+                <div class="col-md-4">
+                    <div class="gold-premium-card">
+
+                        <img src="banner2.png" class="gold-img">
+
+                        <div class="gold-content">
+                            <h3>Tribal Night Event</h3>
+                            <p>📍 mayurbhaj</p>
+                            <p>📅 25 May 2026</p>
+                            <p>💰 Starting ₹499</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- USER DETAILS -->
+                <div class="col-md-4">
+                    <div class="gold-premium-card">
+
+                        <h3>👤 Your Details</h3>
+
+                        <input type="text" id="name" placeholder="Full Name">
+                        <input type="number" id="phone" placeholder="Mobile Number">
+                        <input type="email" placeholder="Email">
+
+                        <select>
+                            <option>Number of Tickets</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+
+                        <button>Send OTP</button>
+                        <button onclick="goToTicket()">Book Ticket</button>
+
+                    </div>
+                </div>
+
+                <!-- PASS CARD -->
+                <div class="col-md-4">
+                    <div class="gold-premium-card">
+
+                        <h3>👑 Choose Pass</h3>
+
+                        <div class="pass-box">🎫 General Pass - ₹499</div>
+                        <div class="pass-box">👑 VIP Pass - ₹999</div>
+                        <div class="pass-box">👥 Group Pass - ₹399/person</div>
+
+                        <button onclick="payNow('VIP')">Confirm & Pay</button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- ================= LIVE SECTION ================= -->
+    <section id="live" class="py-5">
+
+        <div class="container">
+
+            <h2 class="text-warning text-center mb-4">🔴 Live Event </h2>
+
+            <div class="live-grid">
+
+                <!-- CARD 1 -->
+                <div class="live-card">
+                    <div class="live-badge">LIVE</div>
+                    <h4>YouTube Live Concert</h4>
+                    <p>Dance Festival</p>
+
+                    <div class="live-info">
+                        <span>📅 update</span>
+                        <span>⏰ 00 PM</span>
+                    </div>
+
+                    <button class="live-btn" onclick="openLive('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        ▶ Watch Live
+                    </button>
+                </div>
+
+                <!-- CARD 2 -->
+                <div class="live-card">
+                    <div class="live-badge">LIVE</div>
+                    <h4>Instagram Live</h4>
+                    <p>Music Show</p>
+
+                    <div class="live-info">
+                        <span>📅 Today</span>
+                        <span>⏰ 00 PM</span>
+                    </div>
+
+                    <button class="live-btn" onclick="openLive('https://instagram.com')">
+                        ▶ Watch Live
+                    </button>
+                </div>
+
+                <!-- CARD 3 -->
+                <div class="live-card">
+                    <div class="live-badge">LIVE</div>
+                    <h4>Facebook Live</h4>
+                    <p>Dance Battle</p>
+
+                    <div class="live-info">
+                        <span>📅 Tomorrow</span>
+                        <span>⏰ 00 PM</span>
+                    </div>
+
+                    <button class="live-btn" onclick="openLive('https://facebook.com')">
+                        ▶ Watch Live
+                    </button>
+                </div>
+
+                <!-- CARD 4 -->
+                <div class="live-card">
+                    <div class="live-badge zoom">MEETING</div>
+                    <h4>Zoom Meeting</h4>
+                    <p>Judges Panel</p>
+
+                    <div class="live-info">
+                        <span>📅 ****</span>
+                        <span>⏰ 00 PM</span>
+                    </div>
+
+                    <button class="live-btn" onclick="openLive('https://zoom.us')">
+                        ▶ Join Meeting
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- ================= UPCOMING ================= -->
+    <section id="upcoming" class="upcoming-section">
+
+        <h1 class="title">🌟 Upcoming Programs</h1>
+
+        <div class="card-container">
+            <p style="color:white;text-align:center;">Loading upcoming programs...</p>
+        </div>
+
+    </section>
+
+    <!-- ================= UPLOAD ================= -->
+    <section id="upload" class="py-5 text-center">
+
+        <h2 class="text-warning">Upload Studio</h2>
+
+        <div class="upload-wrapper">
+
+            <!-- YOUTUBE -->
+            <div class="upload-card-pro">
+                <h4>🎬 YouTube Upload</h4>
+
+                <input type="text" id="ytTitle" placeholder="Title">
+                <input type="text" id="ytLink" placeholder="YouTube Link">
+
+                <button class="upload-btn youtube-btn" onclick="uploadYouTube()">
+                    Upload YouTube
+                </button>
+                <button class="watch-btn" onclick="watchYouTube()">
+                    ▶ Watch Video
+                </button>
+            </div>
+
+            <!-- FIREBASE -->
+            <div class="upload-card-pro">
+                <h4>☁ Upload to website</h4>
+
+                <input type="text" id="fbTitle" placeholder="Title">
+                <input type="file" id="fbFile">
+
+                <button class="upload-btn firebase-btn" onclick="uploadFirebase()">
+                    Upload
+                </button>
+                <button class="watch-btn" onclick="watchFirebase()">
+                    ▶ Watch Video
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================= LIVE MODAL ================= -->
+    <div id="liveModal" class="live-modal">
+        <div class="modal-box">
+
+            <span class="close-btn" onclick="closeLive()">❌</span>
+
+            <iframe id="liveFrame" allowfullscreen></iframe>
+
+            <div class="chat-box">
+                <div id="chatMessages">Live Chat...</div>
+                <input id="chatInput" placeholder="Type message...">
+                <button onclick="sendChat()">Send</button>
+            </div>
+
+        </div>
+    </div>
+    <!-- ================= TICKET BOOKING PREMIUM ================= -->
+    <section id="ticket" class="ticket-section py-5">
+
+        <div class="container text-center">
+
+            <h2 class="text-warning mb-4">🎟 Book Your Ticket</h2>
+
+            <div class="row g-4">
+
+                <!-- CARD 1 -->
+                <div class="col-md-4">
+                    <div class="ticket-card">
+                        <h3>🎫 General</h3>
+                        <p>Entry Pass</p>
+                        <h4>₹499</h4>
+                        <button onclick="bookNow('General')">Book Now</button>
+                    </div>
+                </div>
+
+                <!-- CARD 2 -->
+                <div class="col-md-4">
+                    <div class="ticket-card vip">
+                        <h3>👑 VIP</h3>
+                        <p>Front Seat + Special Entry</p>
+                        <h4>₹999</h4>
+                        <button onclick="bookNow('VIP')">Book Now</button>
+                    </div>
+                </div>
+
+                <!-- CARD 3 -->
+                <div class="col-md-4">
+                    <div class="ticket-card group">
+                        <h3>👥 Group</h3>
+                        <p>Minimum 5 People</p>
+                        <h4>₹399</h4>
+                        <button onclick="bookNow('Group')">Book Now</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- ================= CONTACT US ================= -->
+    <section id="contact" class="contact-section py-4">
+
+        <div class="container">
+
+            <div class="contact-row">
+
+                <!-- EMAIL -->
+                <div class="contact-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" class="contact-icon">
+                    <span>rahulsardarrahul014@gmail.com</span>
+                </div>
+
+                <!-- PHONE -->
+                <div class="contact-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" class="contact-icon">
+                    <span>+91 7903946369</span>
+                </div>
+
+                <!-- SOCIAL -->
+                <div class="contact-item social">
+
+                    <span>Follow us:</span>
+
+                    <a href="https://youtube.com/@rahulsardar6614" target="_blank">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+                    </a>
+
+                    <a href="https://facebook.com/yourpage" target="_blank">
+                        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png">
+                    </a>
+
+                    <a href="https://instagram.com/yourid" target="_blank">
+                        <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png">
+                    </a>
+
+                    <a href="https://t.me/yourchannel" target="_blank">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png">
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer-section">
+
+        <div class="container footer-row">
+
+            <!-- LEFT LOGO -->
+            <div class="footer-left">
+                <img src="tribalweblogo.png" class="footer-logo">
+            </div>
+
+            <!-- RIGHT TEXT -->
+            <div class="footer-right">
+                <p>© 2026 Tribal Rhythm. All Rights Reserved.</p>
+            </div>
+
+        </div>
+
+    </footer>
+
+    <!-- ================= SCRIPTS ================= -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+    <script type="module">
+
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+        import { getFirestore, addDoc, collection }
+            from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+        import {
+            getStorage,
+            ref as storageRef,
+            uploadBytes,
+            getDownloadURL
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+        import {
+            getDatabase,
+            ref as dbRef,
+            push,
+            onValue
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { query, where }
+            from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        async function loadUpcoming() {
+            try {
+                const snap = await getDocs(collection(db, "upcoming"));
+
+                let html = "";
+
+                snap.forEach((doc) => {
+                    const data = doc.data();
+
+                    // SAFE DATE HANDLING
+                    let dateText = "No Date";
+
+                    if (data.date) {
+                        const d = new Date(data.date);
+
+                        if (!isNaN(d)) {
+                            dateText = d.toLocaleString("en-IN", {
+                                dateStyle: "medium",
+                                timeStyle: "short"
+                            });
+                        }
+                    }
+
+                    html += `
+            <div class="col-md-4 mb-4">
+                <div class="gold-card">
+                    <h2>${data.title || "No Title"}</h2>
+
+                    <div class="countdown" data-time="${data.date || ""}"></div>
+
+                    <p>📍 ${data.place || "No Place"}</p>
+
+                    <p>⏰ ${dateText}</p>
+                </div>
+            </div>
+            `;
+                });
+
+                document.querySelector(".card-container").innerHTML = html;
+
+            } catch (error) {
+                console.log("Upcoming Load Error:", error);
+
+                document.querySelector(".card-container").innerHTML =
+                    `<p style="color:red;text-align:center;">❌ Failed to load programs</p>`;
+            }
+        }
+        window.loadUpcoming = loadUpcoming;
+
+
+
+
+        async function loadNews() {
+
+            let snapshot = await getDocs(collection(db, "news"));
+
+            let newsHTML = "";
+
+            snapshot.forEach(doc => {
+
+                let data = doc.data();
+
+                newsHTML += `
+        <span class="news-item" onclick='openNews(${JSON.stringify(data.text)})'>
+            🔥 ${data.text} • 
+        </span>
+        `;
+            });
+            if (newsHTML === "") {
+                newsHTML = "No news available right now ***************************";
+            }
+
+
+            document.getElementById("newsMarquee").innerHTML = newsHTML;
+        }
+
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
+            authDomain: "tribalrhythm-486bd.firebaseapp.com",
+            projectId: "tribalrhythm-486bd",
+            storageBucket: "tribalrhythm-486bd.appspot.com",
+            messagingSenderId: "566528037279",
+            appId: "1:566528037279:web:b475312ea2c721d4fd2daa",
+            databaseURL: "https://tribalrhythm-486bd-default-rtdb.asia-southeast1.firebasedatabase.app"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        import { initializeFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const db = initializeFirestore(app, {
+            experimentalForceLongPolling: true,
+            useFetchStreams: false
+        });
+
+        // const db = getFirestore(app);
+        const storage = getStorage(app);
+        const rtdb = getDatabase(app);
+        loadNews();
+
+        // expose globally
+        window.db = db;
+        window.storage = storage;
+        window.rtdb = rtdb;
+        window.addDoc = addDoc;
+        window.collection = collection;
+        window.push = push;
+        window.dbRef = dbRef;
+        window.storageRef = storageRef;
+        window.uploadBytes = uploadBytes;
+        window.getDownloadURL = getDownloadURL;
+
+        /* ================= LIVE ================= */
+        window.openLive = function (url) {
+            document.getElementById("liveFrame").src = url;
+            document.getElementById("liveModal").style.display = "flex";
+        };
+
+        window.closeLive = function () {
+            document.getElementById("liveModal").style.display = "none";
+            document.getElementById("liveFrame").src = "";
+        };
+
+        /* ================= CHAT ================= */
+        window.sendChat = function () {
+            let input = document.getElementById("chatInput");
+            let msg = document.getElementById("chatMessages");
+
+            if (!input.value.trim()) return;
+
+            msg.innerHTML += "<br>👤 " + input.value;
+            input.value = "";
+        };
+
+        /* ================= YOUTUBE UPLOAD ================= */
+        window.uploadYouTube = async function () {
+            let t = document.getElementById("ytTitle").value;
+            let l = document.getElementById("ytLink").value;
+
+            await addDoc(collection(db, "youtube"), {
+                title: t,
+                link: l
+            });
+
+            alert("Uploaded YouTube");
+        };
+
+        /* ================= FIREBASE UPLOAD ================= */
+        window.uploadFirebase = async function () {
+            let file = document.getElementById("fbFile").files[0];
+            let title = document.getElementById("fbTitle").value;
+
+            if (!file) return alert("Select file first!");
+
+            let fileRef = storageRef(storage, "videos/" + file.name);
+
+            await uploadBytes(fileRef, file);
+
+            let url = await getDownloadURL(fileRef);
+
+            await addDoc(collection(db, "videos"), {
+                title: title,
+                videoUrl: url
+            });
+
+            alert("Uploaded Successfully");
+        };
+
+        /* ================= WATCH VIDEO ================= */
+        window.watchYouTube = function () {
+            let link = document.getElementById("ytLink").value;
+
+            if (!link) return alert("Enter YouTube link first!");
+
+            let videoId = link.split("v=")[1];
+            let embed = "https://www.youtube.com/embed/" + videoId;
+
+            openLive(embed);
+        };
+
+        window.watchFirebase = async function () {
+
+            const snap = await getDocs(collection(db, "videos"));
+
+            let lastVideo = null;
+
+            snap.forEach(doc => {
+                lastVideo = doc.data().videoUrl;
+            });
+
+            if (!lastVideo) return alert("No video found!");
+
+            openLive(lastVideo);
+        };
+
+        /* ================= SAVE TICKET ================= */
+        window.saveTicket = function () {
+
+            let name = prompt("Enter Name:");
+            let event = "Karam Puja";
+
+            if (!name) return;
+
+            push(dbRef(rtdb, "tickets"), {
+                name: name,
+                event: event,
+                time: Date.now()
+            });
+
+            alert("Ticket Booked Successfully!");
+        };
+        /* ================= GO TO TICKET ================= */
+        window.goToTicket = function () {
+
+            // scroll to ticket section
+            document.getElementById("ticket").scrollIntoView({
+                behavior: "smooth"
+            });
+
+            // highlight effect
+            let section = document.getElementById("ticket");
+            section.style.border = "2px solid gold";
+
+            setTimeout(() => {
+                section.style.border = "none";
+            }, 2000);
+        };
+
+        /* ================= PAYMENT ================= */
+        window.payNow = async function (type) {
+            // 🔥 GET USER INPUT
+            let name = document.getElementById("name").value;
+            let phone = document.getElementById("phone").value;
+
+            // 🔥 VALIDATION
+            if (!name || name.length < 3) {
+                alert("Enter valid name");
+                return;
+            }
+
+            if (!/^[6-9]\d{9}$/.test(phone)) {
+                alert("Invalid phone number");
+                return;
+            }
+            const q = query(
+                collection(db, "bookings"),
+                where("phone", "==", phone)
+            );
+
+            const snap = await getDocs(q);
+
+            if (!snap.empty) {
+                alert("You already booked ticket!");
+                return;
+            }
+
+            let res = await fetch("https://your-backend-url/create-order", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    ticketType: type
+                })
+            });
+
+            let data = await res.json();
+
+            let options = {
+                key: data.key,
+                amount: data.amount,
+                currency: "INR",
+                name: "Tribal Rhythm",
+                description: type + " Ticket",
+
+                order_id: data.orderId,
+
+                handler: async function (response) {
+                    alert("Payment Success!");
+
+                    // ✅ 1. Firebase में booking save
+                    await addDoc(collection(db, "bookings"), {
+                        ticketType: type,
+                        paymentId: response.razorpay_payment_id,
+                        orderId: response.razorpay_order_id,
+                        status: "success",
+                        createdAt: new Date()
+                    });
+                    // 🎟 PDF DOWNLOAD
+                    generateTicketPDF(
+                        name,
+                        phone,
+                        type,
+                        response.razorpay_payment_id
+                    );
+
+                    // ✅ 2. Backend verify + PDF
+                    fetch("https://your-backend-url/verify-payment", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(response)
+                    });
+
+                }
+            };
+
+            let rzp = new Razorpay(options);
+            rzp.open();
+        };
+        window.generateTicketPDF = function (name, phone, type, paymentId) {
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.text("🎟 TRIBAL RHYTHM TICKET", 20, 20);
+
+            doc.setFontSize(12);
+            doc.text("Name: " + name, 20, 40);
+            doc.text("Phone: " + phone, 20, 50);
+            doc.text("Ticket: " + type, 20, 60);
+            doc.text("Payment ID: " + paymentId, 20, 70);
+
+            doc.text("Event: Karam Puja", 20, 90);
+            doc.text("Date: 25 May 2026", 20, 100);
+
+            doc.text("✅ Entry Allowed with this ticket", 20, 120);
+
+            doc.save("TribalTicket.pdf");
+        };
+
+        /* ================= REALTIME LISTENER ================= */
+        onValue(dbRef(rtdb, "tickets"), (snapshot) => {
+            console.log(snapshot.exists());
+            console.log(snapshot.val());
+        });
+
+
+
+    </script>
+    <script>
+        window.addEventListener("load", () => {
+            loadUpcoming(); // ✅ NOW WORKS
+        });
+    </script>
+
+    <!-- TYPE WRITER -->
+    <script>
+        const text = "WELCOME TO TRIBAL RHYTHM";
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                document.getElementById("typeText").innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        window.addEventListener("load", typeWriter);
+        // window.onload = typeWriter;
+    </script>
+
+    <!-- COUNTDOWN -->
+    <script>
+        function updateCountdown() {
+            const cards = document.querySelectorAll(".countdown");
+
+            cards.forEach(card => {
+                const eventTime = new Date(card.getAttribute("data-time")).getTime();
+                const now = new Date().getTime();
+                const diff = eventTime - now;
+
+                if (diff < 0) {
+                    card.innerHTML = "🎉 Started";
+                    return;
+                }
+
+                let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                let minutes = Math.floor((diff / (1000 * 60)) % 60);
+                let seconds = Math.floor((diff / 1000) % 60);
+
+                card.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            });
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+    <script>
+        function toggleHistory() {
+            let panel = document.getElementById("historyPanel");
+
+            if (panel.style.display === "flex") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "flex";
+            }
+        }
+    </script>
+    <script>
+        window.bookNow = function (type) {
+            payNow(type);
+        };
+    </script>
+    <script>
+        function openNews(text) {
+            document.getElementById("fullNewsText").innerText = text;
+            document.getElementById("newsModal").style.display = "flex";
+        }
+
+        function closeNews() {
+            document.getElementById("newsModal").style.display = "none";
+        }
+
+    </script>
+    <!-- ================= HISTORY PANEL ================= -->
+    <div id="historyPanel" class="history-panel">
+
+        <div class="history-box">
+
+            <span class="close-btn" onclick="toggleHistory()">❌</span>
+
+            <h2>📜 Culture History</h2>
+
+            <table class="table table-dark table-bordered">
+
+                <tr>
+                    <th>Santali Culture</th>
+                    <th>Bhumij Culture</th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <img src="" class="history-img">
+                        <p>
+                            Santali culture rich tribal tradition hai.
+                            Dance, music, festivals jaise Karam, Sohrai famous hai.
+                        </p>
+                        <p>Santali culture Bharat ke sabse purane aur samriddh tribal cultures me se ek hai, jo mainly
+                            Jharkhand, Odisha, West Bengal aur Bihar ke ilaakon me paya jata hai. Santali samaj prakriti
+                            se gahra juda hua hai, aur unki jeevan shailee forest, nadi, aur zameen ke aas-paas ghoomti
+                            hai. Unke paramparik tyohar jaise <b>KARAM</b>, <b>SOHRAI</b>, aur <b>BAHA</b> unki
+                            sanskriti ka
+                            mahatvapurn hissa hain, jahan gaon ke log ek saath milkar dance, music aur pooja karte hain.
+                            Santali dance aur music bahut hi energetic hote hain, jisme dhol, madal aur flute jaise
+                            traditional instruments ka use hota hai. Unki bhasha, Santali, apni alag pehchaan rakhti hai
+                            aur Ol Chiki script me likhi jati hai. Samaj me ek strong community system hota hai jahan
+                            sab log milkar faisle lete hain aur paramparaon ka palan karte hain. Santali log apni
+                            pehchaan aur virasat ko bahut mahatva dete hain, aur naye zamane ke saath judte hue bhi apni
+                            sanskriti ko sanrakshit rakhne ki koshish kar rahe hain. Yeh culture unity, nature respect
+                            aur traditional values ka ek sundar udaharan hai.
+                        </p>
+                    </td>
+
+                    <td>
+                        <img src="" class="history-img">
+                        <p>
+                            Bhumij culture nature based aur traditional hai.
+                            Festivals aur community dance iska main part hai.
+                        </p>
+                        <p>Bhumij culture ek prachin aur samriddh tribal culture hai jo mainly Jharkhand, West Bengal,
+                            Odisha aur Bihar ke kuch ilaakon me paya jata hai. Bhumij samaj ka jeevan prakriti se juda
+                            hota hai, jahan jungle, zameen aur jal unke jeevan ka important hissa hote hain. Unki
+                            sanskriti me parampara, samajik ekta aur prakriti ka samman sabse upar rakha jata hai.
+                            Bhumij log apne traditional festivals jaise <b>Karam</b>, <b>TUSU</b>, aur anya seasonal
+                            tyoharon
+                            ko bade utsah ke saath manate hain. In tyoharon me gaon ke log ek saath milkar dance, gaan
+                            aur pooja karte hain. Unka dance aur music bahut hi energetic hota hai, jisme dhol, nagara
+                            aur anya local instruments ka use hota hai. Bhumij samaj me ek strong community system hota
+                            hai jahan bade buzurg faisle lete hain aur sab log unka samman karte hain. Unki bhasha aur
+                            parampara unki pehchaan ko banaye rakhti hai. Aaj ke modern samay me bhi Bhumij log apni
+                            virasat aur parampara ko sambhal kar rakhe hue hain aur naye yug ke saath chalne ki koshish
+                            kar rahe hain. Yeh culture simplicity, unity aur nature ke prati gehra respect dikhata hai.
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+
+            <hr>
+
+            <h4>👤 Website Owner</h4>
+            <p>
+                Tribal Rhythm ek digital platform hai jo rural talent ko global stage deta hai.
+            </p>
+            <h2>RAHUL SARDAR</h2>
+
+        </div>
+
+    </div>
+    <a href="https://wa.me/917903946369?text=Hello%20Tribal%20Rhythm%20Team" target="_blank" class="whatsapp-float">
+        💬
+    </a>
+    <!-- ================= NEWS POPUP ================= -->
+    <div id="newsModal" class="news-modal">
+
+        <div class="news-box">
+
+            <span class="close-btn" onclick="closeNews()">❌</span>
+
+            <h3>📰 Full News</h3>
+
+            <p id="fullNewsText"></p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

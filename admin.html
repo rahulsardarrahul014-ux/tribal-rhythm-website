@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tribal Rhythm Admin PRO</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: Poppins;
+        }
+
+        /* SILVER CARD */
+        .card-pro {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid #c0c0c0;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-silver {
+            background: linear-gradient(45deg, #c0c0c0, #e6e6e6);
+            color: black;
+            font-weight: bold;
+        }
+
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            background: #111;
+            padding: 20px;
+        }
+
+        .main {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        /* LOGIN */
+        #login {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN -->
+    <div id="login">
+        <div class="card-pro" style="width:320px">
+            <h3>ADMIN LOGIN</h3>
+            <input id="email" class="form-control mb-2" placeholder="Email">
+            <input id="pass" type="password" class="form-control mb-2" placeholder="Password">
+            <button onclick="login()" class="btn btn-silver w-100">Login</button>
+            <p id="msg"></p>
+            <button onclick="resetPass()" class="btn btn-warning w-100 mt-2">
+                Forgot Password
+            </button>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="side" style="display:none;">
+        <h4 style="color:silver">ADMIN PANEL</h4>
+
+        <hr>
+
+        <button onclick="lock()" class="btn btn-danger w-100 mb-2">🔒 Lock</button>
+        <button onclick="unlock()" class="btn btn-success w-100">🔓 Unlock</button>
+
+        <hr>
+
+        <button onclick="logout()" class="btn btn-secondary w-100">Logout</button>
+        <a href="dashboard.html" class="btn btn-warning w-100 mb-2">📊 Dashboard</a>
+
+        <a href="prize.html" class="btn btn-warning w-100">🏆 Certificates</a>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main" id="main" style="display:none;">
+
+        <h2>👑 CONTROL PANEL</h2>
+
+        <!-- 🎯 JUDGE PANEL (LOGIN के बाद ही दिखेगा) -->
+        <div class="card-pro">
+            <h4>🎯 Judge Scoring Panel</h4>
+
+            <input id="pname" class="form-control mb-2" placeholder="Participant Name">
+            <input id="pcat" class="form-control mb-2" placeholder="Category">
+            <input id="pscore" type="number" class="form-control mb-2" placeholder="Score (0-100)">
+
+            <button onclick="submitScore()" class="btn btn-silver">Submit Score</button>
+        </div>
+
+        <!-- STATS -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card-pro stat">Users <h3 id="u">0</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-pro stat">Bookings <h3 id="b">0</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-pro stat">Revenue ₹ <h3 id="p">0</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-pro stat">Approved <h3 id="a">0</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- LIVE CONTROL -->
+        <div class="card-pro">
+            <h4>🎥 Live Control</h4>
+            <input id="yt" class="form-control mb-2" placeholder="YouTube Embed Link">
+            <button onclick="updateLive()" class="btn btn-silver">Update Stream</button>
+        </div>
+
+        <!-- TOPIC -->
+        <div class="card-pro">
+            <h4>🏆 Competition Topic</h4>
+            <input id="topic" class="form-control mb-2" placeholder="Enter Topic">
+            <button onclick="updateTopic()" class="btn btn-silver">Save Topic</button>
+        </div>
+
+        <!-- NEWS -->
+        <div class="card-pro">
+            <h4>📰 News</h4>
+            <input id="news" class="form-control mb-2" placeholder="Enter News">
+            <button onclick="addNews()" class="btn btn-silver">Add News</button>
+        </div>
+
+        <!-- EVENT TIME -->
+        <div class="card-pro">
+            <h4>⏰ Event Time</h4>
+            <input type="datetime-local" id="time" class="form-control mb-2">
+            <button onclick="setTime()" class="btn btn-silver">Set Time</button>
+        </div>
+
+        <!-- SCHEDULER -->
+        <div class="card-pro">
+            <h4>📅 Competition Scheduler</h4>
+
+            <input id="eventName" class="form-control mb-2" placeholder="Event Name">
+            <input type="datetime-local" id="startTime" class="form-control mb-2">
+            <input type="datetime-local" id="endTime" class="form-control mb-2">
+            <input id="location" class="form-control mb-2" placeholder="Location">
+
+            <button onclick="addEvent()" class="btn btn-silver">Add Event</button>
+
+            <div id="eventList"></div>
+        </div>
+
+        <!-- USERS -->
+        <div class="card-pro">
+            <h4>👥 Users Control</h4>
+            <div id="list"></div>
+        </div>
+
+        <!-- LEADERBOARD -->
+        <div class="card-pro">
+            <h4>🏆 Category Leaderboard</h4>
+            <div id="leaderboard"></div>
+        </div>
+
+        <button onclick="generateCertificate()" class="btn btn-silver mt-2">
+            🧾 Generate Certificate
+        </button>
+
+        <!-- PAYMENTS -->
+        <div class="card-pro">
+            <h4>💳 Payments</h4>
+            <div id="paymentList"></div>
+        </div>
+
+        <canvas id="bar"></canvas>
+
+
+    </div>
+
+
+
+    <!-- FIREBASE -->
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import {
+            getFirestore, collection, onSnapshot, updateDoc, deleteDoc, doc, addDoc
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            signOut,
+            sendPasswordResetEmail
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        /* 🔥 FIREBASE CONFIG */
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
+            authDomain: "tribalrhythm-486bd.firebaseapp.com",
+            projectId: "tribalrhythm-486bd",
+            storageBucket: "tribalrhythm-486bd.appspot.com",
+            messagingSenderId: "566528037279",
+            appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let chart;
+
+        /* ================= LOGIN ================= */
+
+        window.login = () => {
+            signInWithEmailAndPassword(auth, email.value, pass.value)
+                .then(u => {
+                    if (u.user.email !== "admin@gmail.com") {
+                        alert("Not Admin");
+                        signOut(auth);
+                        return;
+                    }
+                    start();
+                })
+                .catch(() => msg.innerText = "Login Failed");
+        };
+
+        window.logout = () => signOut(auth);
+
+        /* RESET PASSWORD */
+        window.resetPass = () => {
+            sendPasswordResetEmail(auth, email.value)
+                .then(() => alert("Reset link sent"))
+                .catch(err => alert(err.message));
+        };
+
+        /* ================= START ================= */
+
+        function start() {
+            login.style.display = "none";
+            side.style.display = "block";
+            main.style.display = "block";
+
+            loadData();
+            startScheduler(); // 🔥 important
+            loadLeaderboard();
+        }
+
+        /* ================= EVENT SCHEDULER ================= */
+
+        window.addEvent = async () => {
+            await addDoc(collection(db, "events"), {
+                name: eventName.value,
+                start: new Date(startTime.value),
+                end: new Date(endTime.value),
+                location: location.value,
+                status: "upcoming"
+            });
+
+            alert("Event Scheduled");
+        };
+
+        function startScheduler() {
+
+            onSnapshot(collection(db, "events"), async snap => {
+
+                let now = new Date();
+                let html = "";
+                let bookingOpen = false;
+
+                for (let d of snap.docs) {
+
+                    let e = d.data();
+                    let status = "upcoming";
+
+                    if (now >= e.start && now <= e.end) {
+                        status = "live";
+                        bookingOpen = true;
+                    }
+                    else if (now > e.end) {
+                        status = "completed";
+                    }
+
+                    if (e.status !== status) {
+                        await updateDoc(doc(db, "events", d.id), { status });
+                    }
+
+                    html += `
+            <div class="card-pro">
+                <b>${e.name}</b><br>
+                📍 ${e.location}<br>
+                ⏰ ${new Date(e.start).toLocaleString()}<br>
+                Status: <b>${status}</b>
+            </div>`;
+                }
+
+                // 🔥 AUTO BOOKING CONTROL
+                await updateDoc(doc(db, "settings", "competition"), {
+                    booking: bookingOpen ? "open" : "closed"
+                });
+
+                eventList.innerHTML = html;
+            });
+        }
+
+        /* ================= LIVE CONTROL ================= */
+        /* NEWS */
+        window.addNews = async () => {
+            await addDoc(collection(db, "news"), {
+                text: news.value,
+                time: Date.now()
+            });
+            alert("News Added");
+        };
+
+        /* 🎯 JUDGE SCORING */
+        //    import { query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        window.submitScore = async () => {
+
+            let judge = auth.currentUser?.email;
+
+            if (!judge) {
+                alert("Login required ❌");
+                return;
+            }
+
+            let name = pname.value.trim();
+            let category = pcat.value.trim();
+            let score = Number(pscore.value);
+
+            if (!name || !category) {
+                alert("Fill all fields ❌");
+                return;
+            }
+
+            if (score < 0 || score > 100) {
+                alert("Score must be 0-100 ❌");
+                return;
+            }
+
+            // 🔥 1. CHECK EVENT TIME (LIVE / CLOSED)
+            let now = new Date();
+            let isLive = false;
+
+            const eventSnap = await getDocs(collection(db, "events"));
+
+            eventSnap.forEach(d => {
+                let e = d.data();
+
+                let start = new Date(e.start);
+                let end = new Date(e.end);
+
+                if (now >= start && now <= end) {
+                    isLive = true;
+                }
+            });
+
+            if (!isLive) {
+                alert("⛔ Scoring Closed / Late Entry Rejected");
+                return;
+            }
+
+            // 🔥 2. SETTINGS CHECK (extra safety)
+            const settingsSnap = await getDoc(doc(db, "settings", "competition"));
+            const settings = settingsSnap.data();
+
+            if (settings?.booking === "closed") {
+                alert("⛔ Scoring Closed by Admin");
+                return;
+            }
+
+            // 🔥 3. DUPLICATE BLOCK
+            const q = query(
+                collection(db, "scores"),
+                where("name", "==", name),
+                where("category", "==", category),
+                where("judge", "==", judge)
+            );
+
+            const snap = await getDocs(q);
+
+            if (!snap.empty) {
+                alert("❌ You already scored this participant");
+                return;
+            }
+
+            // ✅ SAVE SCORE
+            await addDoc(collection(db, "scores"), {
+                name,
+                category,
+                score,
+                judge,
+                time: Date.now()
+            });
+
+            alert("✅ Score Submitted");
+        };
+        window.generateCertificate = async () => {
+
+            const { jsPDF } = window.jspdf;
+
+            // 🔥 scores से winner निकालो
+            const snap = await getDocs(collection(db, "scores"));
+
+            let map = {};
+
+            snap.forEach(d => {
+                let s = d.data();
+
+                if (!map[s.category]) map[s.category] = {};
+
+                if (!map[s.category][s.name]) {
+                    map[s.category][s.name] = 0;
+                }
+
+                map[s.category][s.name] += s.score;
+            });
+
+            // 👉 first category का winner निकाल रहे हैं (simple version)
+            let firstCat = Object.keys(map)[0];
+            let arr = [];
+
+            for (let name in map[firstCat]) {
+                arr.push({ name, score: map[firstCat][name] });
+            }
+
+            arr.sort((a, b) => b.score - a.score);
+
+            let winner = arr[0];
+
+            // 🎨 PDF बनाओ
+            const doc = new jsPDF();
+
+            doc.setFontSize(22);
+            doc.text("Certificate of Achievement", 50, 30);
+
+            doc.setFontSize(16);
+            doc.text(`This is awarded to`, 70, 60);
+
+            doc.setFontSize(20);
+            doc.text(`${winner.name}`, 80, 80);
+
+            doc.setFontSize(14);
+            doc.text(`For securing 1st position in ${firstCat}`, 40, 100);
+
+            doc.text("Tribal Rhythm Event", 70, 130);
+
+            doc.save("certificate.pdf");
+        };
+
+        window.updateLive = () => {
+            updateDoc(doc(db, "settings", "competition"), {
+                youtube: yt.value
+            });
+        };
+
+        window.updateTopic = () => {
+            updateDoc(doc(db, "settings", "competition"), {
+                topic: topic.value
+            });
+        };
+
+
+
+        window.setTime = () => {
+            updateDoc(doc(db, "settings", "competition"), {
+                time: new Date(time.value)
+            });
+        };
+
+        window.lock = () =>
+            updateDoc(doc(db, "settings", "competition"), { status: "locked" });
+
+        window.unlock = () =>
+            updateDoc(doc(db, "settings", "competition"), { status: "unlocked" });
+
+        /* ================= DATA ================= */
+
+        function loadData() {
+
+            onSnapshot(collection(db, "bookings"), snap => {
+
+                let users = 0, approved = 0, revenue = 0, html = "", pay = "";
+
+                snap.forEach(d => {
+
+                    let data = d.data();
+
+                    users++;
+
+                    if (data.status === "Approved") approved++;
+
+                    let amount = data.amount || 200;
+                    revenue += amount;
+
+                    pay += `<div class="card-pro">₹${amount} - ${data.name}</div>`;
+
+                    html += `
+            <div class="card-pro">
+                <b>${data.name}</b><br>
+                ${data.email}<br>
+                ${data.status || "Pending"}<br>
+                <button onclick="approve('${d.id}')">Approve</button>
+                <button onclick="remove('${d.id}')">Delete</button>
+            </div>`;
+                });
+
+                u.innerText = users;
+                b.innerText = users;
+                a.innerText = approved;
+                p.innerText = revenue;
+
+                list.innerHTML = html;
+                paymentList.innerHTML = pay;
+
+                if (chart) chart.destroy();
+
+                chart = new Chart(bar, {
+                    type: "bar",
+                    data: {
+                        labels: ["Users", "Approved", "Revenue"],
+                        datasets: [{ data: [users, approved, revenue] }]
+                    }
+                });
+            });
+        }
+        function loadLeaderboard() {
+
+            onSnapshot(collection(db, "scores"), snap => {
+
+                let map = {};
+
+                snap.forEach(d => {
+                    let s = d.data();
+
+                    if (!map[s.category]) map[s.category] = {};
+
+                    if (!map[s.category][s.name]) {
+                        map[s.category][s.name] = {
+                            total: 0,
+                            judges: {}
+                        };
+                    }
+
+                    map[s.category][s.name].total += s.score;
+
+                    // 🔥 judge-wise
+                    map[s.category][s.name].judges[s.judge] = s.score;
+                });
+
+                let html = "";
+
+                for (let cat in map) {
+
+                    let arr = [];
+
+                    for (let name in map[cat]) {
+                        arr.push({
+                            name: name,
+                            total: map[cat][name].total,
+                            judges: map[cat][name].judges
+                        });
+                    }
+
+                    arr.sort((a, b) => b.total - a.total);
+
+                    html += `<div class="card-pro"><h5>🏆 ${cat}</h5>`;
+
+                    arr.slice(0, 5).forEach((u, i) => {
+
+                        let judgeHTML = "";
+
+                        for (let j in u.judges) {
+                            judgeHTML += `<div style="font-size:12px">👨‍⚖️ ${j}: ${u.judges[j]}</div>`;
+                        }
+
+                        // 🥇 Winner
+                        if (i === 0) {
+                            html += `
+                    <div style="
+                        background: gold;
+                        color: black;
+                        padding: 10px;
+                        border-radius: 10px;
+                        margin-bottom:5px;
+                        box-shadow: 0 0 10px gold;
+                    ">
+                        👑 ${u.name} - ${u.total}
+                        ${judgeHTML}
+                    </div>`;
+                        }
+
+                        else {
+                            html += `
+                    <div>
+                        #${i + 1} ${u.name} - ${u.total}
+                        ${judgeHTML}
+                    </div>`;
+                        }
+
+                    });
+
+                    html += `</div>`;
+                }
+
+                leaderboard.innerHTML = html;
+            });
+        }
+
+        /* ================= ACTIONS ================= */
+
+        window.approve = id =>
+            updateDoc(doc(db, "bookings", id), { status: "Approved" });
+
+        window.remove = id =>
+            deleteDoc(doc(db, "bookings", id));
+
+    </script>
+
+</body>
+
+</html>

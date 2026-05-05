@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TribalRhythm Login</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* 🌌 BODY */
+        body {
+            margin: 0;
+            min-height: 100vh;
+            /* 🔥 important */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Arial;
+            background: linear-gradient(135deg, #000814, #001d3d, #003566);
+
+            overflow-y: auto;
+            /* ✅ scroll allow */
+            padding: 20px 0;
+            /* ✅ top-bottom spacing */
+        }
+
+        /* 🌟 BACKGROUND GLOW */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.2), transparent);
+            top: -100px;
+            left: -100px;
+            filter: blur(80px);
+            animation: moveGlow 10s infinite alternate;
+        }
+
+        @keyframes moveGlow {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(200px, 200px);
+            }
+        }
+
+        /* 💎 CARD */
+        .card-box {
+            width: 380px;
+            padding: 30px;
+            border-radius: 22px;
+            max-height: 90vh;
+            /* 🔥 screen ke andar fit */
+            overflow-y: auto;
+
+            /* 🔥 FIXED GRADIENT */
+            /* background: linear-gradient(135deg, #FFD700, #1E90FF); */
+
+            color: white;
+            text-align: center;
+            position: relative;
+
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+
+            /* 💎 CLEAN SHADOW */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+
+            transition: 0.4s;
+        }
+
+        .card-box::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .card-box::-webkit-scrollbar-thumb {
+            background: gold;
+            border-radius: 10px;
+        }
+
+        .card-box {
+            background: linear-gradient(135deg,
+                    rgba(255, 215, 0, 0.85),
+                    rgba(30, 144, 255, 0.85));
+        }
+
+        /* 🔥 GLOW BORDER (BEHIND CONTENT) */
+
+
+        @keyframes borderGlow {
+            0% {
+                background-position: 0%
+            }
+
+            100% {
+                background-position: 300%
+            }
+        }
+
+        /* 💡 SHINE EFFECT (BEHIND CONTENT) */
+
+
+        .card-box:hover::after {
+            left: 100%;
+            transition: 0.7s;
+        }
+
+        /* 🚀 HOVER */
+        .card-box:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6),
+                0 0 35px rgba(255, 215, 0, 0.8);
+        }
+
+        /* ✅ CONTENT ABOVE EFFECTS */
+        .card-box * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 🖼 LOGO (FIXED) */
+        .logo {
+            width: 70px;
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        /* 📝 INPUT */
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            margin-top: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(6px);
+            caret-color: #FFD700;
+        }
+
+        select option {
+            background: #001d3d;
+            color: #FFD700;
+            /* 🔥 golden text */
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ✨ INPUT FOCUS */
+        input:focus,
+        select:focus {
+            border-color: #FFD700;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.7),
+                0 0 25px rgba(255, 215, 0, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.03);
+        }
+
+        /* 🎯 HOVER */
+        input:hover,
+        select:hover {
+            border-color: #FFD700;
+        }
+
+        /* 🔘 BUTTON */
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 14px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+
+            background: linear-gradient(135deg, #FFD700, #FFC107);
+            color: #222;
+
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        /* 🚀 BUTTON HOVER */
+        button:hover {
+            transform: translateY(-3px) scale(1.03);
+            background: linear-gradient(135deg, #FFC107, #FFD700);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.7);
+        }
+
+        /* 💫 CLICK */
+        button:active {
+            transform: scale(0.96);
+        }
+
+        /* 🎨 VARIANTS */
+        .otp-btn {
+            background: linear-gradient(135deg, #FFD700, #FFB300);
+        }
+
+        .verify-btn {
+            background: linear-gradient(135deg, #E6C200, #FFD700);
+        }
+
+        .resend {
+            background: linear-gradient(135deg, #D4AF37, #FFC107);
+        }
+
+        /* 📱 MOBILE */
+        @media (max-width: 420px) {
+            .card-box {
+                width: 90%;
+                padding: 25px;
+            }
+
+            .logo {
+                width: 60px;
+            }
+        }
+
+        input[type="date"] {
+            color: white;
+        }
+
+        #otp {
+            display: none;
+        }
+
+        .verify-btn {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card-box">
+
+        <img src="tribalweblogo.png" class="logo">
+        <h4>Welcome to TribalRhythm</h4>
+
+        <input id="name" placeholder="Full Name">
+        <input id="age" placeholder="Age">
+        <input id="dob" type="date">
+        <input id="mobile" placeholder="Mobile Number">
+        <input id="email" placeholder="Email ID">
+        <input id="whatsapp" placeholder="whatsapp number">
+
+        <!-- STATE -->
+        <select id="state">
+            <option value="">Select State</option>
+            <option>Andhra Pradesh</option>
+            <option>Arunachal Pradesh</option>
+            <option>Assam</option>
+            <option>Bihar</option>
+            <option>Chhattisgarh</option>
+            <option>Goa</option>
+            <option>Gujarat</option>
+            <option>Haryana</option>
+            <option>Himachal Pradesh</option>
+            <option>Jharkhand</option>
+            <option>Karnataka</option>
+            <option>Kerala</option>
+            <option>Madhya Pradesh</option>
+            <option>Maharashtra</option>
+            <option>Manipur</option>
+            <option>Meghalaya</option>
+            <option>Mizoram</option>
+            <option>Nagaland</option>
+            <option>Odisha</option>
+            <option>Punjab</option>
+            <option>Rajasthan</option>
+            <option>Sikkim</option>
+            <option>Tamil Nadu</option>
+            <option>Telangana</option>
+            <option>Tripura</option>
+            <option>Uttar Pradesh</option>
+            <option>Uttarakhand</option>
+            <option>West Bengal</option>
+            <option>Delhi</option>
+            <option>Puducherry</option>
+            <option>Chandigarh</option>
+            <option>Andaman & Nicobar</option>
+            <option>Ladakh</option>
+            <option>Lakshadweep</option>
+        </select>
+
+        <!-- LANGUAGE -->
+        <select id="language">
+            <option value="">Select Language</option>
+            <option>Bhumij</option>
+            <option>Santali</option>
+        </select>
+
+        <!-- RULES -->
+        <div class="form-check mt-2 text-start">
+            <input class="form-check-input" type="checkbox" id="rulesCheck">
+            <label class="form-check-label">
+                I agree to
+                <a href="rules.html" target="_blank" style="color:yellow;">Rules & Regulations</a>
+            </label>
+        </div>
+
+        <div id="recaptcha-container"></div>
+
+        <button class="otp-btn" onclick="sendOTP()">Send OTP</button>
+
+        <input id="otp" placeholder="Enter OTP">
+
+        <button class="verify-btn" onclick="verifyOTP()">Verify OTP</button>
+
+        <button class="resend" id="resendBtn" onclick="sendOTP()" disabled>
+            Resend OTP (<span id="timer">60</span>)
+        </button>
+
+    </div>
+
+    <!-- EMAIL JS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // 🔥 FIREBASE CONFIG
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
+            authDomain: "tribalrhythm-486bd.firebaseapp.com",
+            projectId: "tribalrhythm-486bd",
+            storageBucket: "tribalrhythm-486bd.appspot.com",
+            messagingSenderId: "566528037279",
+            appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 🔥 EMAILJS INIT
+        (function () {
+            emailjs.init("FYCnHXj3AQZc52uq6"); // paste public key
+        })();
+
+        // 🔐 OTP VARIABLE
+        let generatedOTP = "";
+        let otpExpireTime = 0;   // ✅ ADD THIS
+        let time = 60;
+        let interval;
+
+
+        // ⏱ TIMER
+        function startTimer() {
+            clearInterval(interval); // ✅ reset old timer
+
+            time = 60;
+            document.getElementById("resendBtn").disabled = true;
+
+            interval = setInterval(() => {
+                time--;
+                document.getElementById("timer").innerText = time;
+
+                if (time <= 0) {
+                    clearInterval(interval);
+                    document.getElementById("resendBtn").disabled = false;
+                    document.querySelector(".otp-btn").disabled = false;
+                }
+            }, 1000);
+        }
+
+        // 📩 SEND OTP (EMAIL)
+        window.sendOTP = function () {
+
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+            let dob = document.getElementById("dob").value;
+            let mobile = document.getElementById("mobile").value;
+            let email = document.getElementById("email").value;
+            let state = document.getElementById("state").value;
+            let language = document.getElementById("language").value;
+            let rules = document.getElementById("rulesCheck").checked;
+
+            // 🔥 FULL VALIDATION
+            if (!name || !age || !dob || !mobile || !email || !state || !language) {
+                alert("⚠️ Please fill all details");
+                return;
+            }
+
+            if (!rules) {
+                alert("⚠️ Please accept Rules & Regulations");
+                return;
+            }
+
+            // 📱 Mobile validation (optional but pro)
+            if (mobile.length !== 10) {
+                alert("Enter valid 10 digit mobile number");
+                return;
+            }
+
+            // 📧 Email format basic check
+            if (!email.includes("@")) {
+                alert("Enter valid email");
+                return;
+            }
+
+            // 🔢 OTP GENERATE
+            generatedOTP = Math.floor(100000 + Math.random() * 900000);
+
+            otpExpireTime = Date.now() + 60000;
+
+            emailjs.send("service_ynim8tv", "template_87yxux8", {
+                name: name,
+                email: email,
+                otp: generatedOTP
+            })
+                .then(() => {
+                    alert("✅ OTP sent to email");
+                    startTimer();
+                    document.getElementById("otp").style.display = "block";
+                    document.querySelector(".verify-btn").style.display = "block";
+
+                })
+                .catch(() => {
+                    alert("❌ Failed to send OTP");
+                });
+        };
+
+        // ✅ VERIFY OTP
+        window.verifyOTP = async function () {
+
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+            let dob = document.getElementById("dob").value;
+            let mobile = document.getElementById("mobile").value;
+            let email = document.getElementById("email").value;
+            let state = document.getElementById("state").value;
+            let language = document.getElementById("language").value;
+            let otp = document.getElementById("otp").value;
+            let rules = document.getElementById("rulesCheck").checked;
+
+            // VALIDATION
+            if (!name || !email || !otp) {
+                alert("Fill all required fields");
+                return;
+            }
+
+            if (!rules) {
+                alert("Accept rules first");
+                return;
+            }
+
+
+            if (Date.now() > otpExpireTime) {
+                alert("OTP Expired ❌");
+                return;
+            }
+
+            if (otp != generatedOTP) {
+                alert("Wrong OTP ❌");
+                return;
+            }
+
+            // 🔐 SAVE USER IN FIREBASE
+            await setDoc(doc(db, "users", email), {
+                name,
+                age,
+                dob,
+                mobile,
+                email,
+                state,
+                language,
+                status: "pending",
+                createdAt: new Date()
+            });
+
+            // 💾 SAVE LOGIN
+            localStorage.setItem("email", email);
+
+            alert("Login Successful 🎉");
+
+            window.location.href = "index.html";
+        };
+
+
+    </script>
+
+</body>
+
+</html>

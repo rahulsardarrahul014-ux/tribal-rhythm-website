@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prizes & Certificates | Tribal Rhythm</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #0f172a;
+            color: white;
+            font-family: Arial;
+        }
+
+        .container {
+            margin-top: 40px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            background: #1e293b;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px #facc15;
+        }
+
+        h1,
+        h4 {
+            color: #facc15;
+            text-align: center;
+        }
+
+        .winner-box {
+            background: linear-gradient(45deg, #facc15, #f97316);
+            color: black;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .certificate {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .cert-bg {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .cert-content {
+            position: absolute;
+            top: 20%;
+            width: 100%;
+            text-align: center;
+            color: black;
+            font-weight: bold;
+        }
+
+        #certName {
+            font-size: 28px;
+        }
+
+        #positionText {
+            font-size: 22px;
+            margin-top: 10px;
+        }
+
+        #medal {
+            font-size: 40px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="text-center mb-3">
+        <a href="admin.html" class="btn btn-warning">⚙️ Admin</a>
+        <a href="dashboard.html" class="btn btn-warning">📊 Dashboard</a>
+    </div>
+
+    <div class="container">
+
+        <h1>🏆 Tribal Rhythm Prizes & Certificates</h1>
+
+        <div class="winner-box mt-4">
+            🎉 Live Winner Auto System 🎉
+        </div>
+
+        <div class="card p-4 mt-4 text-center">
+
+            <h4>🧾 Auto Certificates</h4>
+
+            <select id="userSelect" class="form-select mb-3"></select>
+
+            <div id="certificateBox" class="certificate">
+                <img src="certificatew.png" class="cert-bg">
+
+                <div class="cert-content">
+                    <h2>TRIBAL RHYTHM</h2>
+
+                    <p>This Certificate is Awarded to</p>
+                    <h2 id="certName">Loading...</h2>
+
+                    <p id="certCategory">Category</p>
+
+                    <h3 id="positionText">Participant</h3>
+
+                    <div id="medal">🎖️</div>
+                </div>
+            </div>
+
+            <button onclick="downloadCertificate()" class="btn btn-warning mt-3">
+                Download Certificate
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
+            authDomain: "tribalrhythm-486bd.firebaseapp.com",
+            projectId: "tribalrhythm-486bd",
+            storageBucket: "tribalrhythm-486bd.appspot.com",
+            messagingSenderId: "566528037279",
+            appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let participants = [];
+
+        onSnapshot(collection(db, "scores"), snap => {
+
+            let map = {};
+
+            snap.forEach(d => {
+                let s = d.data();
+
+                if (!map[s.category]) map[s.category] = {};
+                if (!map[s.category][s.name]) map[s.category][s.name] = 0;
+
+                map[s.category][s.name] += s.score;
+            });
+
+            let firstCat = Object.keys(map)[0];
+            if (!firstCat) return;
+
+            let arr = [];
+
+            for (let name in map[firstCat]) {
+                arr.push({ name, score: map[firstCat][name] });
+            }
+
+            arr.sort((a, b) => b.score - a.score);
+
+            participants = arr;
+
+            let select = document.getElementById("userSelect");
+            select.innerHTML = "";
+
+            arr.forEach((p, i) => {
+                let opt = document.createElement("option");
+                opt.value = i;
+                opt.textContent = p.name;
+                select.appendChild(opt);
+            });
+
+            updateCertificate(0, firstCat);
+        });
+
+        document.getElementById("userSelect").onchange = (e) => {
+            updateCertificate(e.target.value);
+        };
+
+        function updateCertificate(index, category = "Dance Category") {
+
+            let user = participants[index];
+            if (!user) return;
+
+            document.getElementById("certName").innerText = user.name;
+            document.getElementById("certCategory").innerText = category;
+
+            let positionText = "Participation Certificate";
+            let medal = "🎖️";
+
+            if (index == 0) {
+                positionText = "🥇 1st Place (Gold Winner)";
+                medal = "🥇";
+            } else if (index == 1) {
+                positionText = "🥈 2nd Place (Silver Winner)";
+                medal = "🥈";
+            } else if (index == 2) {
+                positionText = "🥉 3rd Place (Bronze Winner)";
+                medal = "🥉";
+            }
+
+            document.getElementById("positionText").innerText = positionText;
+            document.getElementById("medal").innerText = medal;
+        }
+
+        window.downloadCertificate = function () {
+
+            let box = document.getElementById("certificateBox");
+
+            html2canvas(box).then(canvas => {
+
+                let imgData = canvas.toDataURL("image/png");
+
+                // download
+                let link = document.createElement("a");
+                link.download = "certificate.png";
+                link.href = imgData;
+                link.click();
+
+                // WhatsApp message open
+                let user = participants[document.getElementById("userSelect").value];
+
+                let phone = user.phone || "91XXXXXXXXXX";
+
+                let message = `🎉 Congratulations ${user.name}!
+You have received your certificate in Tribal Rhythm 🏆`;
+
+                let whatsappURL = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+                window.open(whatsappURL, "_blank");
+
+            });
+        };
+
+    </script>
+
+</body>
+
+</html>

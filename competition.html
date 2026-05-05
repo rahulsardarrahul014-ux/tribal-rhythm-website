@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Competition Join Page</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #0b0b0b;
+            color: white;
+            font-family: Poppins;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 2px solid gold;
+        }
+
+        .card-box {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid gold;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .live-btn {
+            background: linear-gradient(45deg, gold, orange);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        iframe {
+            border-radius: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>🏆 TRIBAL COMPETITION</h2>
+        <p>Select & Join Competition</p>
+    </div>
+
+    <div class="container">
+
+        <!-- COMPETITION SELECT CARD -->
+        <div class="card-box">
+            <h4>🎯 Select Competition</h4>
+
+            <label><input type="radio" name="comp" value="dance"> Tribal Dance</label><br>
+            <label><input type="radio" name="comp" value="song"> Tribal Song</label><br>
+            <label><input type="radio" name="comp" value="essay"> Essay Writing</label><br>
+            <label><input type="radio" name="comp" value="baja"> Tribal Baja</label><br>
+            <label><input type="radio" name="comp" value="gk"> Tribal GK</label><br>
+            <label><input type="radio" name="comp" value="beauty"> Beauty Queen</label><br>
+            <label><input type="radio" name="comp" value="dialogue"> Tribal Dialogue</label><br>
+            <label><input type="radio" name="comp" value="poem"> Poem Writing</label><br>
+
+            <button class="live-btn mt-2" onclick="joinComp()">🚀 JOIN COMPETITION</button>
+            <button class="live-btn mt-2" onclick="watchComp()">👁 WATCH LIVE</button>
+
+            <p id="status"></p>
+        </div>
+
+        <!-- USER DETAILS -->
+        <div class="card-box">
+            <h4>👤 Participant Info</h4>
+
+            <input id="name" placeholder="Your Name">
+
+            <select id="language">
+                <option>Bhumij</option>
+                <option>Santali</option>
+            </select>
+
+            <select id="type">
+                <option>Solo</option>
+                <option>Duet</option>
+                <option>Group</option>
+            </select>
+
+            <button class="live-btn mt-2" onclick="saveUser()">SAVE & CONTINUE</button>
+
+        </div>
+
+        <!-- LIVE AREA -->
+        <div class="card-box">
+            <h4>🔴 LIVE STREAM</h4>
+
+            <div id="videoBox">
+                <iframe width="100%" height="300" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                    allowfullscreen></iframe>
+            </div>
+
+            <button class="live-btn mt-2" onclick="openZoom()">🎥 OPEN ZOOM</button>
+
+        </div>
+
+    </div>
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
+            authDomain: "tribalrhythm-486bd.firebaseapp.com",
+            projectId: "tribalrhythm-486bd",
+            storageBucket: "tribalrhythm-486bd.appspot.com",
+            messagingSenderId: "566528037279",
+            appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let selectedComp = "";
+        let entryFees = {
+            dance: 100,
+            song: 80,
+            essay: 50,
+            baja: 120,
+            gk: 30,
+            beauty: 150,
+            dialogue: 60,
+            poem: 40
+        };
+
+        /* 🎯 SELECT COMP */
+        window.joinComp = function () {
+
+            let c = document.querySelector('input[name="comp"]:checked');
+
+            if (!c) {
+                status.innerText = "❌ Select Competition";
+                return;
+            }
+
+            selectedComp = c.value;
+
+            let amount = entryFees[selectedComp] || 50;
+
+            status.innerText = "💰 Fee: ₹" + amount;
+
+            startPayment(amount);
+        };
+
+        /* 💾 SAVE USER */
+        window.saveUser = async function (paymentId) {
+
+            await addDoc(collection(db, "participants"), {
+                name: name.value,
+                category: selectedComp,
+                type: type.value,
+                paymentId: paymentId,
+                fee: entryFees[selectedComp],
+                time: new Date()
+            });
+
+            status.innerText = "✔ Joined Successfully";
+        };
+
+        /* 🔴 LIVE CONTROL FROM ADMIN */
+        onSnapshot(doc(db, "settings", "competition"), (snap) => {
+
+            let data = snap.data();
+
+            if (!data || data.live === false) {
+                document.getElementById("videoBox").innerHTML =
+                    "<h3 style='color:red'>⛔ Live Not Started</h3>";
+                return;
+            }
+
+            // YouTube
+            document.getElementById("videoBox").innerHTML =
+                `<iframe width="100%" height="300" src="${data.youtube}" allowfullscreen></iframe>`;
+
+            // Save zoom link
+            window.zoomLink = data.zoom;
+
+        });
+
+        /* 🎥 OPEN ZOOM */
+        window.openZoom = function () {
+            if (window.zoomLink) {
+                window.open(window.zoomLink);
+            } else {
+                alert("Zoom not available");
+            }
+        }
+        function startPayment(amount) {
+
+            let options = {
+                key: "YOUR_KEY",
+                amount: amount * 100,
+                currency: "INR",
+                name: "Tribal Competition",
+                description: selectedComp,
+
+                handler: async function (response) {
+
+                    await saveUser(response.razorpay_payment_id);
+                    alert("Payment Success");
+                }
+            };
+
+            let rzp = new Razorpay(options);
+            rzp.open();
+        }
+    </script>
+
+</body>
+
+</html>

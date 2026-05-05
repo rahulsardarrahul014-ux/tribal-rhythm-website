@@ -1,0 +1,988 @@
+/* ================= GLOBAL ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: Arial, sans-serif;
+    background: #000;
+    color: white;
+}
+
+/* ================= HEADER ================= */
+.header {
+    background: #6b8f71;
+}
+
+.logo-img {
+    height: 55px;
+    transition: 0.4s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.1) rotate(3deg);
+}
+
+.title-text {
+    color: gold;
+    font-weight: 600;
+}
+
+/* ================= NAVBAR ================= */
+.custom-nav {
+    background: linear-gradient(90deg, #0f2f24, #1b3a2f, #3e6b48);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.custom-nav.scrolled {
+    background: #0a1f18;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.8);
+}
+
+.nav-link {
+    color: #fff !important;
+    margin: 0 15px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: gold !important;
+}
+
+/* ================= HERO ================= */
+.hero-ultra {
+    position: relative;
+    height: 90vh;
+    overflow: hidden;
+}
+
+.hero-img {
+    height: 90vh;
+    object-fit: cover;
+}
+
+/* DARK OVERLAY */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+}
+
+/* CONTENT */
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    z-index: 2;
+    width: 90%;
+}
+
+/* GLOW TITLE */
+.glow-text {
+    font-size: 50px;
+    font-weight: 800;
+    color: gold;
+    text-shadow: 0 0 10px gold, 0 0 25px orange;
+}
+
+/* SUB TEXT */
+.sub-text {
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+/* TRIBAL LINE */
+.tribal-line {
+    color: #ccc;
+    margin-top: 10px;
+}
+
+/* BUTTONS */
+.hero-btns {
+    margin-top: 20px;
+}
+
+.btn-glow {
+    padding: 12px 25px;
+    background: gold;
+    color: black;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 10px;
+    box-shadow: 0 0 15px gold;
+}
+
+.btn-glow:hover {
+    background: orange;
+    color: white;
+}
+
+.btn-outline {
+    padding: 12px 25px;
+    border: 2px solid gold;
+    color: gold;
+    border-radius: 30px;
+    text-decoration: none;
+}
+
+.btn-outline:hover {
+    background: gold;
+    color: black;
+}
+
+/* ================= FEATURES ================= */
+/* ================= FEATURES ULTRA PRO ================= */
+
+.features-pro {
+    background: url("banner1.png") center/cover no-repeat;
+    position: relative;
+    padding: 80px 0;
+    overflow: hidden;
+}
+
+/* dark overlay */
+.features-pro::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+/* title */
+.feature-title {
+    position: relative;
+    color: gold;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-shadow: 0 0 15px gold;
+    animation: glowText 2s infinite alternate;
+}
+
+@keyframes glowText {
+    from {
+        text-shadow: 0 0 5px gold;
+    }
+
+    to {
+        text-shadow: 0 0 25px gold;
+    }
+}
+
+/* grid */
+.feature-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+/* CARD DESIGN */
+.feature-card {
+    background: linear-gradient(145deg, #111, #1a1a1a);
+    border: 1px solid gold;
+    border-radius: 20px;
+    padding: 25px;
+    color: white;
+    transition: 0.4s ease;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* hover effect */
+.feature-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 0 25px gold;
+}
+
+/* glow animation */
+.feature-card::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.2), transparent);
+    transform: rotate(25deg);
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.feature-card:hover::before {
+    opacity: 1;
+}
+
+/* ICON */
+.icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: gold;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* TEXT */
+.feature-card h4 {
+    color: gold;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #ddd;
+    font-size: 14px;
+}
+
+/* ================= BOOKING ================= */
+/* ================= GOLD PREMIUM CARD ================= */
+.gold-premium-card {
+    position: relative;
+    background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
+    border-radius: 18px;
+    padding: 20px;
+    color: white;
+    overflow: hidden;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+    transition: 0.4s ease;
+}
+
+/* GOLD GLOW BORDER ANIMATION */
+.gold-premium-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+            transparent,
+            gold,
+            transparent);
+    animation: goldMove 4s linear infinite;
+    opacity: 0.3;
+}
+
+@keyframes goldMove {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* CONTENT ABOVE EFFECT */
+.gold-premium-card h3,
+.gold-premium-card p,
+.gold-premium-card input,
+.gold-premium-card select,
+.gold-premium-card button,
+.pass-box {
+    position: relative;
+    z-index: 2;
+}
+
+/* IMAGE */
+.gold-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border: 1px solid gold;
+}
+
+/* INPUT STYLE */
+.gold-premium-card input,
+.gold-premium-card select {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+/* PASS BOX */
+.pass-box {
+    border: 1px solid gold;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.pass-box:hover {
+    background: rgba(255, 215, 0, 0.1);
+    transform: scale(1.02);
+}
+
+/* BUTTON */
+.gold-premium-card button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: gold;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.gold-premium-card button:hover {
+    background: #ffcc00;
+    transform: scale(1.05);
+}
+
+/* HOVER EFFECT CARD */
+.gold-premium-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.35);
+}
+
+/* ================= OTT SECTION ================= */
+.ott-live-section {
+    background: radial-gradient(circle at top, #111827, #000);
+    padding: 60px 0;
+}
+
+.ott-title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    color: gold;
+}
+
+.ott-subtitle {
+    text-align: center;
+    color: #ccc;
+    margin-bottom: 40px;
+}
+
+.ott-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.ott-card {
+    background: linear-gradient(145deg, #0f172a, #1e293b);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    border-radius: 16px;
+    padding: 15px;
+    position: relative;
+    transition: 0.3s;
+}
+
+.ott-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px gold;
+}
+
+.live-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: red;
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 20px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.event-id {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: gold;
+    font-size: 12px;
+}
+
+.ott-video iframe {
+    width: 100%;
+    height: 180px;
+    border-radius: 10px;
+    border: 2px solid gold;
+}
+
+.ott-btn {
+    margin-top: 12px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: gold;
+    color: black;
+    font-weight: bold;
+    border-radius: 25px;
+}
+
+/* ================= MODAL ================= */
+.live-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-box {
+    width: 90%;
+    max-width: 800px;
+    background: #111827;
+    border: 2px solid gold;
+    padding: 20px;
+    border-radius: 15px;
+    position: relative;
+}
+
+.modal-box iframe {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+}
+
+/* ================= FOOTER ================= */
+.footer-section {
+    background: #0b0b0b;
+    border-top: 2px solid gold;
+    padding: 15px 0;
+}
+
+.footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-logo {
+    width: 45px;
+}
+
+.footer-right p {
+    color: white;
+    margin: 0;
+    font-size: 14px;
+}
+
+/* ================= WHATSAPP FLOAT ================= */
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #25D366;
+    color: white;
+    font-size: 26px;
+    padding: 15px;
+    border-radius: 50%;
+    z-index: 999;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 #25D366;
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+
+    .hero-img {
+        height: 60vh;
+    }
+
+    .booking-card {
+        width: 90%;
+    }
+
+    .nav-link {
+        margin: 10px 0;
+    }
+
+    .ott-video iframe {
+        height: 200px;
+    }
+}
+
+.upload-wrapper {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.upload-card-pro {
+    width: 320px;
+    padding: 25px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #0f172a, #111827);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    transition: 0.3s ease;
+}
+
+.upload-card-pro:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px gold;
+}
+
+.card-header {
+    font-size: 18px;
+    font-weight: bold;
+    color: gold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.upload-card-pro input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: #1f2937;
+    color: white;
+}
+
+.upload-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* YouTube button */
+.youtube-btn {
+    background: linear-gradient(45deg, #ff0000, #ff4d4d);
+    color: white;
+}
+
+.youtube-btn:hover {
+    box-shadow: 0 0 15px red;
+}
+
+/* Firebase button */
+.firebase-btn {
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+}
+
+.firebase-btn:hover {
+    box-shadow: 0 0 15px #00c6ff;
+}
+
+.live-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.live-card {
+    background: linear-gradient(145deg, #0f172a, #111827);
+    padding: 20px;
+    border-radius: 20px;
+    color: white;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    transition: 0.3s;
+}
+
+.live-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px gold;
+}
+
+.live-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: red;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    animation: blink 1s infinite;
+}
+
+.zoom {
+    background: blue;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.live-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #ccc;
+    margin: 10px 0;
+}
+
+.live-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    background: gold;
+    font-weight: bold;
+}
+
+/* MODAL */
+.live-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-box {
+    width: 90%;
+    max-width: 800px;
+    background: #111827;
+    padding: 15px;
+    border-radius: 15px;
+    position: relative;
+}
+
+.modal-box iframe {
+    width: 100%;
+    height: 350px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    color: red;
+}
+
+.chat-box {
+    margin-top: 10px;
+    color: white;
+}
+
+.about-ultra {
+    background: radial-gradient(circle at top, #111827, #000);
+    color: white;
+}
+
+/* LEFT BOX */
+.about-box {
+    padding: 20px;
+}
+
+/* TITLE */
+.about-title {
+    font-size: 40px;
+    font-weight: 800;
+    color: gold;
+    text-shadow: 0 0 10px gold;
+    margin-bottom: 20px;
+}
+
+/* TEXT */
+.about-text {
+    font-size: 16px;
+    color: #ddd;
+    line-height: 1.8;
+}
+
+/* HIGHLIGHT LINE */
+.highlight {
+    color: gold;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* LOGO BOX */
+.about-logo-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* LOGO STYLE */
+.about-logo {
+    width: 250px;
+    max-width: 80%;
+    filter: drop-shadow(0 0 15px gold);
+    transition: 0.3s;
+}
+
+.about-logo:hover {
+    transform: scale(1.05);
+}
+
+
+/* SECTION */
+.upcoming-section {
+    padding: 40px;
+    text-align: center;
+}
+
+.title {
+    color: gold;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+/* CARD CONTAINER */
+.card-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* GOLD CARD */
+.gold-card {
+    width: 300px;
+    padding: 20px;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    border: 2px solid gold;
+    box-shadow: 0 0 15px gold;
+    transition: 0.3s;
+}
+
+.gold-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px gold;
+}
+
+.gold-card h2 {
+    color: gold;
+}
+
+/* COUNTDOWN */
+.countdown {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #00ffcc;
+}
+
+/* BUTTONS */
+.btn-group {
+    margin-top: 15px;
+}
+
+.btn-group button {
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    background: gold;
+    color: black;
+    transition: 0.2s;
+}
+
+.btn-group button:hover {
+    background: white;
+}
+
+.history-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+}
+
+.ticket-card {
+    background: #111;
+    color: white;
+    padding: 25px;
+    border-radius: 15px;
+    transition: 0.3s;
+    border: 1px solid gold;
+}
+
+.ticket-card:hover {
+    transform: scale(1.05);
+}
+
+.ticket-card button {
+    background: gold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.vip {
+    border: 2px solid red;
+}
+
+.group {
+    border: 2px solid cyan;
+}
+
+.contact-section {
+    background: #0b0b0b;
+    border-top: 2px solid gold;
+}
+
+.contact-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+.contact-icon {
+    width: 25px;
+}
+
+.social img {
+    width: 28px;
+    margin-left: 10px;
+    transition: 0.3s;
+}
+
+.social img:hover {
+    transform: scale(1.2);
+}
+
+.news-section {
+    background: #000;
+    border-top: 2px solid gold;
+    border-bottom: 2px solid gold;
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.news-label {
+    background: gold;
+    color: black;
+    padding: 5px 15px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.news-text {
+    color: gold;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.news-item {
+    cursor: pointer;
+    color:gold;
+    font-size:18px;
+}
+
+.news-item:hover {
+    text-decoration: underline;
+}
+
+.news-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.news-box {
+    background: #111;
+    padding: 20px;
+    color: white;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+}
+.watch-btn{
+    margin-top:10px;
+    background:#ff9800;
+    border:none;
+    padding:8px 15px;
+    color:white;
+    border-radius:5px;
+}
+#newsMarquee {
+    color: rgb(194, 16, 48);   /* 🔥 yaha apna color change karo */
+    font-weight: bold;
+    font-size: 18px;
+}

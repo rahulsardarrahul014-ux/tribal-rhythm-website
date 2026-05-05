@@ -1,0 +1,27 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Firebase admin SDK (VERY IMPORTANT)
+serviceAccountKey.json
+
+# Firebase private configs (only if sensitive)
+firebaseConfig.json
+firebaseConfig.js
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+
+# Editor files
+.vscode/
+
+# Build folders
+dist/
+build/
