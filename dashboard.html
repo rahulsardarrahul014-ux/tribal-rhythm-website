@@ -89,20 +89,18 @@
 
         /* USERS */
         onSnapshot(collection(db, "bookings"), snap => {
-            users.innerText = snap.size;
+            document.getElementById("users").innerText = snap.size;
             updateChart(snap.size);
         });
 
-        /* TICKETS */
         onSnapshot(collection(db, "tickets"), snap => {
-            tickets.innerText = snap.size;
+            document.getElementById("tickets").innerText = snap.size;
         });
 
-        /* REVENUE */
         onSnapshot(collection(db, "payments"), snap => {
             let total = 0;
             snap.forEach(d => total += Number(d.data().amount || 0));
-            revenue.innerText = total;
+            document.getElementById("revenue").innerText = total;
         });
 
         /* CHART */
