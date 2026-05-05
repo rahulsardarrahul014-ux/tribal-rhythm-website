@@ -17,7 +17,9 @@ app.use(express.json({
 app.use(cors());
 
 // ================= FIREBASE INIT =================
-const serviceAccount = JSON.parse(process.env.FIREBASE_KEY);
+const serviceAccount = JSON.parse(
+    process.env.FIREBASE_KEY.replace(/\\n/g, '\n')
+);
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
