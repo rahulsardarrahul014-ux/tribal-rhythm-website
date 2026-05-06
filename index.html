@@ -298,7 +298,7 @@
                             <option>5</option>
                         </select>
 
-                        <button>Send OTP</button>
+                        <button onclick="sendOTP()">Send OTP</button>
                         <button onclick="goToTicket()">Book Ticket</button>
 
                     </div>
@@ -586,6 +586,7 @@
 
 
     <script type="module">
+        const API_URL = "https://tribal-backend.onrender.com";
 
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -610,6 +611,27 @@
         import { getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { query, where }
             from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        // ================= SEND OTP =================
+        window.sendOTP = async function () {
+
+           let email = document.getElementById("email").value;
+
+            let res = await fetch(`${API_URL}/send-otp`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email })
+            });
+
+            let data = await res.json();
+
+            if (data.success) {
+                alert("OTP Sent ✅");
+            } else {
+                alert("Error ❌");
+            }
+        };
 
         async function loadUpcoming() {
             try {
@@ -868,7 +890,7 @@
                 return;
             }
 
-            let res = await fetch("https://your-backend-url/create-order", {
+            let res = await fetch("https://tribal-rhythm-backend.onrender.com", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -909,7 +931,7 @@
                     );
 
                     // ✅ 2. Backend verify + PDF
-                    fetch("https://your-backend-url/verify-payment", {
+                    fetch(`${API_URL}/verify-payment`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -950,19 +972,17 @@
             console.log(snapshot.exists());
             console.log(snapshot.val());
         });
-        function goCompetition() {
+        window.goCompetition = function () {
 
             let email = localStorage.getItem("email");
             let ticket = localStorage.getItem("ticket");
 
-            // ✅ Agar already registered + paid hai
             if (email && ticket) {
                 window.location.href = "competition.html";
             } else {
-                // ❌ Pehle register karna padega
                 window.location.href = "register.html";
             }
-        }
+        };
 
 
 
