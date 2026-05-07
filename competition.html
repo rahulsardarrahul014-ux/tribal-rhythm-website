@@ -119,12 +119,23 @@
         </div>
 
     </div>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <script type="module">
-        import { getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            onSnapshot,
+            doc,
+            getDoc
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        /* ================= FIREBASE CONFIG ================= */
         const firebaseConfig = {
             apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
             authDomain: "tribalrhythm-486bd.firebaseapp.com",
@@ -137,7 +148,25 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-        // 🔐 FIREBASE PAYMENT VERIFY
+
+        /* ================= GLOBAL VARIABLES ================= */
+        let selectedComp = "";
+
+        let entryFees = {
+            dance: 100,
+            song: 80,
+            essay: 50,
+            baja: 120,
+            gk: 30,
+            beauty: 150,
+            dialogue: 60,
+            poem: 40
+        };
+
+        /* ================= ELEMENTS ================= */
+        let statusEl = document.getElementById("status");
+
+        /* ================= USER VERIFY ================= */
         window.addEventListener("DOMContentLoaded", async () => {
 
             let email = localStorage.getItem("email");
@@ -166,61 +195,25 @@
                     return;
                 }
 
-                // ✅ SUCCESS → auto fill name
                 document.getElementById("name").value = data.name;
 
             } catch (err) {
                 console.error(err);
                 alert("⚠️ Error verifying user");
             }
-        });
-        window.addEventListener("DOMContentLoaded", () => {
 
+            // fallback localStorage
             let name = localStorage.getItem("name");
-
-            if (name) {
-                document.getElementById("name").value = name;
-            }
-        });
-        window.addEventListener("DOMContentLoaded", () => {
-
-            let email = localStorage.getItem("email");
-
-            if (email) {
-                document.getElementById("name").value = email;
-            }
+            if (name) document.getElementById("name").value = name;
         });
 
-        let selectedComp = "";
-        let entryFees = {
-            dance: 100,
-            song: 80,
-            essay: 50,
-            baja: 120,
-            gk: 30,
-            beauty: 150,
-            dialogue: 60,
-            poem: 40
-        };
-        // 🔐 CHECK PAYMENT ACCESS
-        window.addEventListener("DOMContentLoaded", () => {
-
-            let email = localStorage.getItem("email");
-            let ticket = localStorage.getItem("ticket");
-
-            if (!email || !ticket) {
-                alert("❌ Please register & pay first");
-                window.location.href = "register.html";
-            }
-        });
-
-        /* 🎯 SELECT COMP */
+        /* ================= COMPETITION SELECT ================= */
         window.joinComp = function () {
 
             let c = document.querySelector('input[name="comp"]:checked');
 
             if (!c) {
-                status.innerText = "❌ Select Competition";
+                statusEl.innerText = "❌ Select Competition";
                 return;
             }
 
@@ -228,27 +221,27 @@
 
             let amount = entryFees[selectedComp] || 50;
 
-            status.innerText = "💰 Fee: ₹" + amount;
+            statusEl.innerText = "💰 Fee: ₹" + amount;
 
             startPayment(amount);
         };
 
-        /* 💾 SAVE USER */
+        /* ================= SAVE USER ================= */
         window.saveUser = async function (paymentId) {
 
             await addDoc(collection(db, "participants"), {
-                name: name.value,
+                name: document.getElementById("name").value,
                 category: selectedComp,
-                type: type.value,
+                type: document.getElementById("type").value,
                 paymentId: paymentId,
                 fee: entryFees[selectedComp],
                 time: new Date()
             });
 
-            status.innerText = "✔ Joined Successfully";
+            statusEl.innerText = "✔ Joined Successfully";
         };
 
-        /* 🔴 LIVE CONTROL FROM ADMIN */
+        /* ================= LIVE STREAM ================= */
         onSnapshot(doc(db, "settings", "competition"), (snap) => {
 
             let data = snap.data();
@@ -259,23 +252,22 @@
                 return;
             }
 
-            // YouTube
             document.getElementById("videoBox").innerHTML =
                 `<iframe width="100%" height="300" src="${data.youtube}" allowfullscreen></iframe>`;
 
-            // Save zoom link
             window.zoomLink = data.zoom;
-
         });
 
-        /* 🎥 OPEN ZOOM */
+        /* ================= ZOOM ================= */
         window.openZoom = function () {
             if (window.zoomLink) {
                 window.open(window.zoomLink);
             } else {
                 alert("Zoom not available");
             }
-        }
+        };
+
+        /* ================= PAYMENT ================= */
         function startPayment(amount) {
 
             let options = {
@@ -286,7 +278,6 @@
                 description: selectedComp,
 
                 handler: async function (response) {
-
                     await saveUser(response.razorpay_payment_id);
                     alert("Payment Success");
                 }
@@ -295,6 +286,13 @@
             let rzp = new Razorpay(options);
             rzp.open();
         }
+
+        /* ================= WATCH LIVE ================= */
+        window.watchComp = function () {
+            document.getElementById("videoBox")
+                .scrollIntoView({ behavior: "smooth" });
+        };
+
     </script>
 
 </body>

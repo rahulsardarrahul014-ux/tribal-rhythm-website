@@ -35,7 +35,7 @@
 </head>
 
 <body>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
 
   <div class="box">
     <h1>🎉 Payment Successful</h1>
@@ -44,6 +44,7 @@
     <p id="reg"></p>
     <p id="pass"></p>
     <canvas id="qrcode"></canvas>
+    <p style="color:gold;">🎟 Show this QR at entry gate</p>
 
     <br><br>
 
@@ -61,16 +62,21 @@
     let reg = urlParams.get("reg_id");
     let pass = urlParams.get("pass");
 
+    if (!payment || !reg || !pass) {
+      document.body.innerHTML = "<h2>Invalid Access ❌</h2>";
+      throw new Error("Invalid URL");
+    }
+
     document.getElementById("pid").innerText = "Payment ID: " + payment;
     document.getElementById("reg").innerText = "Registration ID: " + reg;
     document.getElementById("pass").innerText = "Entry Password: " + pass;
 
-    let qrData = `
-Tribal Rhythm Entry Pass
-Reg ID: ${reg}
-Password: ${pass}
-Payment: ${payment}
-`;
+    let qrData = JSON.stringify({
+      event: "Tribal Rhythm",
+      regId: reg,
+      password: pass,
+      paymentId: payment
+    });
 
     QRCode.toCanvas(document.getElementById("qrcode"), qrData);
   </script>

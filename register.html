@@ -157,70 +157,66 @@
         });
 
         /* 💳 PAYMENT + REGISTER */
-       document.getElementById("bForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
+        document.getElementById("bForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
 
-    // ✅ pehle values lo
-    let name = document.getElementById("bname").value;
-    let email = document.getElementById("bemail").value;
-    let mobile = document.getElementById("bmobile").value;
+            // ✅ pehle values lo
+            let name = document.getElementById("bname").value;
+            let email = document.getElementById("bemail").value;
+            let mobile = document.getElementById("bmobile").value;
 
-    let ticket = genTicket();
+            let ticket = genTicket();
 
-    // ✅ backend call
-    let res = await fetch("https://tribal-backend.onrender.com/create-order", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            amount: 300,
-            email: email
-        })
-    });
-
-    let data = await res.json();
-
-    // ✅ Razorpay options
-    var options = {
-        key: data.key_id,
-        amount: data.amount,
-        currency: "INR",
-        name: "Tribal Rhythm",
-
-        order_id: data.id,
-
-        notes: {
-            email: email
-        },
-
-        // 🔥 PREFILL (correct place)
-        prefill: {
-            name: name,
-            email: email,
-            contact: mobile
-        },
-
-        handler: async function (response) {
-
-            alert("Payment Success!");
-
-            await setDoc(doc(db, "users", email), {
-                name,
-                email,
-                mobile,
-                payment: true,
-                ticket: ticket,
-                payment_id: response.razorpay_payment_id
+            // ✅ backend call
+            let res = await fetch("https://tribal-rhythm-backend.onrender.com/create-order", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    amount: 300,
+                    email: email
+                })
             });
 
-            window.location.href = "competition.html";
-        }
-    };
+            let data = await res.json();
 
-    var rzp = new Razorpay(options);
-    rzp.open();
-});
+            var options = {
+                key: "YOUR_RAZORPAY_KEY_ID",
+                amount: data.amount,
+                currency: "INR",
+                name: "Tribal Rhythm",
+                order_id: data.id,
+
+                notes: {
+                    email: email
+                },
+
+                prefill: {
+                    name: name,
+                    email: email,
+                    contact: mobile
+                },
+
+                handler: async function (response) {
+
+                    await setDoc(doc(db, "users", email), {
+                        name,
+                        email,
+                        mobile,
+                        payment: true,
+                        ticket: ticket,
+                        payment_id: response.razorpay_payment_id
+                    });
+
+                    alert("Payment Success!");
+                    window.location.href = "competition.html";
+                }
+            };
+
+            var rzp = new Razorpay(options);
+            rzp.open();
+        });
 
     </script>
 

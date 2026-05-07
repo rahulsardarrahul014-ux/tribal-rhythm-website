@@ -14,7 +14,12 @@ app.use(express.json({
         req.rawBody = buf;
     }
 }));
-app.use(cors());
+app.use(cors({
+    origin: [
+        "https://tribal-rhythm-frontend.onrender.com", // apna frontend URL
+        "http://127.0.0.1:5500" // local testing
+    ]
+}));
 
 // ================= FIREBASE INIT =================
 const serviceAccount = JSON.parse(
@@ -52,6 +57,15 @@ const transporter = nodemailer.createTransport({
 app.post("/send-otp", async (req, res) => {
     try {
         const { email } = req.body;
+        // 🔥 CHECK LAST OTP TIME
+        const recordDoc = await db.collection("otp").doc(email).get();
+        const record = recordDoc.exists ? recordDoc.data() : null;
+
+        const last = record?.time || 0;
+
+        if (Date.now() - last < 60000) {
+            return res.json({ success: false, message: "Wait 60 sec" });
+        }
 
         // ❌ Anti spam
         const existing = await db.collection("users").doc(email).get();
@@ -121,6 +135,32 @@ app.post("/verify-otp", async (req, res) => {
     }
 
     res.json({ success: false, message: "Wrong OTP" });
+});
+
+app.post("/verify-payment", (req, res) => {
+    try {
+        const {
+            razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature
+        } = req.body;
+
+        const body = razorpay_order_id + "|" + razorpay_payment_id;
+
+        const expected = crypto
+            .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+            .update(body.toString())
+            .digest("hex");
+
+        if (expected === razorpay_signature) {
+            return res.json({ success: true });
+        }
+
+        res.status(400).json({ success: false });
+
+    } catch (err) {
+        res.status(500).json({ error: "Verification failed" });
+    }
 });
 
 // ================= ENTRY CHECK =================
@@ -217,7 +257,12 @@ app.post("/razorpay-webhook", async (req, res) => {
         const payment = req.body.payload.payment.entity;
 
         // ✅ safer email source
-        const email = payment.notes?.email || payment.email;
+        const email = payment.notes?.email;
+
+        if (!email) {
+            console.log("❌ Email missing in payment");
+            return res.json({ success: false });
+        }
 
         await db.collection("payments").add({
             email,
@@ -232,10 +277,15 @@ app.post("/razorpay-webhook", async (req, res) => {
             time: new Date()
         });
 
-        await db.collection("users").doc(email).update({
-            paymentStatus: "paid",
-            status: "approved"
-        });
+        const userRef = db.collection("users").doc(email);
+        const userDoc = await userRef.get();
+
+        if (userDoc.exists) {
+            await userRef.update({
+                paymentStatus: "paid",
+                status: "approved"
+            });
+        }
 
         return res.json({ success: true });
     }
@@ -258,27 +308,36 @@ app.get("/notifications", checkAdmin, async (req, res) => {
 });
 // ================= CREATE ORDER =================
 app.post("/create-order", async (req, res) => {
-
     try {
-        const { amount, email } = req.body;
+        const { ticketType, email } = req.body;
 
-        const options = {
-            amount: amount * 100,
+        let amount = 0;
+
+        if (ticketType === "General") amount = 49900;
+        else if (ticketType === "VIP") amount = 99900;
+        else if (ticketType === "Group") amount = 39900;
+
+        const order = await razorpay.orders.create({
+            amount: amount,
             currency: "INR",
             receipt: "receipt_" + Date.now(),
-            notes: {
-                email: email
-            }
-        };
+            notes: { email }
+        });
 
-        const order = await razorpay.orders.create(options);
-
-        res.json(order);
+        res.json({
+            orderId: order.id,
+            amount: order.amount,
+            key: process.env.RAZORPAY_KEY_ID
+        });
 
     } catch (err) {
         console.log(err);
         res.status(500).send("Error creating order");
     }
+});
+// ================= SERVER TEST =================
+app.get("/", (req, res) => {
+    res.send("API Running 🚀");
 });
 
 // ================= SERVER =================

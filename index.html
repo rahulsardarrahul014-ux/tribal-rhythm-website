@@ -270,9 +270,9 @@
                         <img src="banner2.png" class="gold-img">
 
                         <div class="gold-content">
-                            <h3>Tribal Night Event</h3>
-                            <p>📍 mayurbhaj</p>
-                            <p>📅 25 May 2026</p>
+                            <h3> Night Event</h3>
+                            <p>📍 Neuti Play ground</p>
+                            <p>📅 update soon</p>
                             <p>💰 Starting ₹499</p>
                         </div>
 
@@ -586,7 +586,7 @@
 
 
     <script type="module">
-        const API_URL = "https://tribal-backend.onrender.com";
+        const API_URL = "https://tribal-rhythm-backend.onrender.com";
 
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -614,7 +614,7 @@
         // ================= SEND OTP =================
         window.sendOTP = async function () {
 
-           let email = document.getElementById("email").value;
+            let email = document.getElementById("email").value;
 
             let res = await fetch(`${API_URL}/send-otp`, {
                 method: "POST",
@@ -889,14 +889,14 @@
                 alert("You already booked ticket!");
                 return;
             }
-
-            let res = await fetch("https://tribal-rhythm-backend.onrender.com", {
+            let res = await fetch("https://tribal-rhythm-backend.onrender.com/create-order", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    ticketType: type
+                    amount: type === "VIP" ? 999 : 499,
+                    email: "test@gmail.com" // later dynamic karna
                 })
             });
 
