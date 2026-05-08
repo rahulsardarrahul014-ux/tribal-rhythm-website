@@ -287,7 +287,7 @@
 
                         <input type="text" id="name" placeholder="Full Name">
                         <input type="number" id="phone" placeholder="Mobile Number">
-                        <input type="email" placeholder="Email">
+                        <input type="email" id="email" placeholder="Email">
 
                         <select>
                             <option>Number of Tickets</option>
@@ -1155,6 +1155,21 @@
         </div>
 
     </div>
+    <script>
+    // 🔒 LOGIN CHECK
+    let userEmail = localStorage.getItem("email");
+
+    if (!userEmail) {
+        // login nahi hai
+        window.location.href = "login.html";
+    }
+</script>
+<script>
+window.logout = function () {
+    localStorage.removeItem("email");
+    window.location.href = "login.html";
+}
+</script>
 
 </body>
 
