@@ -23,13 +23,13 @@ app.use(cors({
 
 // ================= FIREBASE INIT =================
 const serviceAccount = {
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
 };
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert(serviceAccount)
 });
 
 const db = admin.firestore();
@@ -247,38 +247,70 @@ app.post("/toggle-lock", checkAdmin, async (req, res) => {
 
 // ================= RAZORPAY WEBHOOK =================
 app.post("/razorpay-webhook", async (req, res) => {
+    try {
 
-    const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
+        const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
-    const shasum = crypto.createHmac("sha256", secret);
-    shasum.update(req.rawBody);
-    const digest = shasum.digest("hex");
+        if (!secret) {
+            console.log("❌ Webhook secret missing");
+            return res.status(500).send("Webhook secret not set");
+        }
 
-    if (digest === req.headers["x-razorpay-signature"]) {
+        // 🔥 Signature generate
+        const shasum = crypto.createHmac("sha256", secret);
+        shasum.update(req.rawBody);
+        const digest = shasum.digest("hex");
 
-        const payment = req.body.payload.payment.entity;
+        const razorpaySignature = req.headers["x-razorpay-signature"];
 
-        // ✅ safer email source
+        if (!razorpaySignature) {
+            console.log("❌ Signature missing");
+            return res.status(400).send("Signature missing");
+        }
+
+        // 🔥 Secure compare
+        const isValid = crypto.timingSafeEqual(
+            Buffer.from(digest),
+            Buffer.from(razorpaySignature)
+        );
+
+        if (!isValid) {
+            console.log("❌ Invalid signature");
+            return res.status(400).send("Invalid signature");
+        }
+
+        // ================= PAYMENT DATA =================
+        const payment = req.body?.payload?.payment?.entity;
+
+        if (!payment) {
+            console.log("❌ Payment data missing");
+            return res.status(400).send("Invalid payload");
+        }
+
         const email = payment.notes?.email;
 
         if (!email) {
-            console.log("❌ Email missing in payment");
-            return res.json({ success: false });
+            console.log("❌ Email missing in payment notes");
+            return res.json({ success: false, message: "Email missing" });
         }
 
+        // ================= SAVE PAYMENT =================
         await db.collection("payments").add({
             email,
             amount: payment.amount / 100,
             status: "paid",
+            paymentId: payment.id,
             time: new Date()
         });
 
+        // ================= NOTIFICATION =================
         await db.collection("notifications").add({
             type: "payment",
             message: `Payment received from ${email}`,
             time: new Date()
         });
 
+        // ================= UPDATE USER =================
         const userRef = db.collection("users").doc(email);
         const userDoc = await userRef.get();
 
@@ -289,10 +321,14 @@ app.post("/razorpay-webhook", async (req, res) => {
             });
         }
 
-        return res.json({ success: true });
-    }
+        console.log("✅ Webhook processed successfully");
 
-    res.status(400).send("Invalid signature");
+        return res.json({ success: true });
+
+    } catch (err) {
+        console.log("❌ WEBHOOK ERROR:", err);
+        return res.status(500).json({ success: false });
+    }
 });
 
 // ================= NOTIFICATIONS =================

@@ -254,26 +254,23 @@
         /* ================= LOGIN ================= */
 
         window.login = () => {
-            signInWithEmailAndPassword(auth, email.value, pass.value)
-                .then(u => {
-                    if (u.user.email !== "admin@gmail.com") {
-                        alert("Not Admin");
-                        signOut(auth);
-                        return;
-                    }
-                    start();
-                })
-                .catch(() => msg.innerText = "Login Failed");
-        };
+    signInWithEmailAndPassword(auth, email.value, pass.value)
+        .then((u) => {
+            console.log("Login success:", u.user.email);
 
-        window.logout = () => signOut(auth);
+            if (u.user.email !== "admin@gmail.com") {
+                alert("Not Admin");
+                signOut(auth);
+                return;
+            }
 
-        /* RESET PASSWORD */
-        window.resetPass = () => {
-            sendPasswordResetEmail(auth, email.value)
-                .then(() => alert("Reset link sent"))
-                .catch(err => alert(err.message));
-        };
+            start();
+        })
+        .catch((error) => {
+            console.log(error.code, error.message);
+            msg.innerText = error.message;
+        });
+};
 
         /* ================= START ================= */
 
