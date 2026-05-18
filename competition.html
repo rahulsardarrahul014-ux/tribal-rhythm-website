@@ -3,9 +3,28 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Competition Join Page</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO META TAGS -->
+    <meta name="description"
+        content="Join Tribal Rhythm online dance, song, essay, tribal baja and cultural competitions. Participate in Santali and Bhumij talent events.">
+
+    <meta name="keywords"
+        content="Tribal Rhythm competition, dance competition, tribal song competition, Santali competition, Bhumij event, online cultural contest">
+
+    <meta name="author" content="Rahul Sardar">
+
+    <meta name="robots" content="index, follow">
+
+    <!-- SOCIAL SHARE -->
+    <meta property="og:title" content="Tribal Rhythm Competition">
+
+    <meta property="og:description" content="Join Tribal Rhythm online cultural competitions and showcase your talent">
+
+    <meta property="og:image" content="tribalweblogo.png">
+
+    <title>Tribal Rhythm Competition | Join Online Contest</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -43,10 +62,20 @@
         input,
         select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-top: 8px;
             border-radius: 10px;
-            border: none;
+            border: 1px solid #374151;
+            background: #111827;
+            color: white;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: gold;
+            box-shadow: 0 0 10px gold;
+            outline: none;
         }
 
         iframe {
@@ -100,9 +129,6 @@
                 <option>Duet</option>
                 <option>Group</option>
             </select>
-
-            <button class="live-btn mt-2" onclick="saveUser()">SAVE & CONTINUE</button>
-
         </div>
 
         <!-- LIVE AREA -->
@@ -129,7 +155,10 @@
             addDoc,
             onSnapshot,
             doc,
-            getDoc
+            getDoc,
+            query,
+            where,
+            getDocs
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -140,7 +169,7 @@
             apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
             authDomain: "tribalrhythm-486bd.firebaseapp.com",
             projectId: "tribalrhythm-486bd",
-            storageBucket: "tribalrhythm-486bd.appspot.com",
+            storageBucket:"tribalrhythm-486bd.firebasestorage.app",
             messagingSenderId: "566528037279",
             appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
         };
@@ -209,6 +238,13 @@
 
         /* ================= COMPETITION SELECT ================= */
         window.joinComp = function () {
+            let name =
+                document.getElementById("name").value.trim();
+
+            if (name.length < 3) {
+                alert("Invalid Name");
+                return;
+            }
 
             let c = document.querySelector('input[name="comp"]:checked');
 
@@ -229,16 +265,50 @@
         /* ================= SAVE USER ================= */
         window.saveUser = async function (paymentId) {
 
+            let email =
+                localStorage.getItem("email");
+
+            const q = query(
+                collection(db, "participants"),
+                where("email", "==", email),
+                where("category", "==", selectedComp)
+            );
+
+            const existing = await getDocs(q);
+
+            if (!existing.empty) {
+
+                alert("❌ Already Joined");
+
+                return;
+            }
+
             await addDoc(collection(db, "participants"), {
-                name: document.getElementById("name").value,
+
+                name:
+                    document.getElementById("name").value,
+
+                email: email,
+
+                language:
+                    document.getElementById("language").value,
+
                 category: selectedComp,
-                type: document.getElementById("type").value,
+
+                type:
+                    document.getElementById("type").value,
+
                 paymentId: paymentId,
+
                 fee: entryFees[selectedComp],
+
                 time: new Date()
+
             });
 
-            statusEl.innerText = "✔ Joined Successfully";
+            statusEl.innerText =
+                "✔ Joined Successfully";
+
         };
 
         /* ================= LIVE STREAM ================= */
@@ -253,7 +323,7 @@
             }
 
             document.getElementById("videoBox").innerHTML =
-                `<iframe width="100%" height="300" src="${data.youtube}" allowfullscreen></iframe>`;
+                `<iframe width="100%" height="300" src="${data.youtube.replace('watch?v=', 'embed/')}" allowfullscreen></iframe>`;
 
             window.zoomLink = data.zoom;
         });
@@ -268,22 +338,54 @@
         };
 
         /* ================= PAYMENT ================= */
-        function startPayment(amount) {
+        async function startPayment(amount) {
+
+            let email =
+                localStorage.getItem("email");
+
+            let res = await fetch(
+                "https://tribal-rhythm-backend.onrender.com/create-order",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        amount: amount,
+                        email: email
+                    })
+                });
+
+            let data = await res.json();
 
             let options = {
-                key: "rzp_test_xxxxxxxx",
-                amount: amount * 100,
+
+                key: data.key,
+
+                amount: data.amount,
+
                 currency: "INR",
+
                 name: "Tribal Competition",
+
                 description: selectedComp,
 
+                order_id: data.id,
+
                 handler: async function (response) {
-                    await saveUser(response.razorpay_payment_id);
+
+                    await saveUser(
+                        response.razorpay_payment_id);
+
                     alert("Payment Success");
+
                 }
             };
 
             let rzp = new Razorpay(options);
+
             rzp.open();
         }
 
@@ -292,6 +394,14 @@
             document.getElementById("videoBox")
                 .scrollIntoView({ behavior: "smooth" });
         };
+        setTimeout(() => {
+
+            localStorage.clear();
+
+            window.location.href =
+                "index.html";
+
+        }, 1000 * 60 * 30);
 
     </script>
 

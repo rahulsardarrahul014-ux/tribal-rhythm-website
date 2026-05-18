@@ -2,49 +2,92 @@
 <html lang="en">
 
 <head>
+
+    <!-- BASIC -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Prizes & Certificates | Tribal Rhythm</title>
 
+    <!-- SEO -->
+    <meta name="description"
+        content="View Tribal Rhythm competition prizes, winner rankings, medals, awards, and downloadable certificates for dance events and competitions.">
+
+    <meta name="keywords"
+        content="Tribal Rhythm, Dance Competition, Certificates, Prizes, Awards, Winners, Medals, Dance Event">
+
+    <meta name="author" content="Tribal Rhythm">
+
+    <!-- ROBOTS -->
+    <meta name="robots" content="index,follow">
+
+    <!-- THEME -->
+    <meta name="theme-color" content="#020617">
+
+    <!-- OPEN GRAPH -->
+    <meta property="og:title" content="Prizes & Certificates | Tribal Rhythm">
+    <meta property="og:description"
+        content="Explore winner prizes, medals, awards, and certificates from Tribal Rhythm dance competitions.">
+    <meta property="og:type" content="website">
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Prizes & Certificates | Tribal Rhythm">
+    <meta name="twitter:description" content="Official Tribal Rhythm certificates and competition rewards page.">
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- PERFORMANCE -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- SECURITY -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- STYLE -->
     <style>
-        body {
-            background: #0f172a;
-            color: white;
-            font-family: Arial;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .container {
-            margin-top: 40px;
+        body {
+            background: linear-gradient(135deg, #020617, #111827);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .card {
-            border: none;
-            border-radius: 12px;
-            background: #1e293b;
-            margin-bottom: 20px;
-            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            transition: 0.3s ease;
         }
 
         .card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 15px #facc15;
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
         }
 
-        h1,
-        h4 {
-            color: #facc15;
-            text-align: center;
-        }
-
-        .winner-box {
-            background: linear-gradient(45deg, #facc15, #f97316);
-            color: black;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: bold;
+        #certificateBox {
+            overflow: hidden;
+            border-radius: 20px;
         }
 
         .certificate {
@@ -56,24 +99,27 @@
 
         .cert-bg {
             width: 100%;
-            border-radius: 10px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 20px;
         }
 
         .cert-content {
             position: absolute;
-            top: 20%;
+            top: 18%;
             width: 100%;
             text-align: center;
             color: black;
-            font-weight: bold;
+            padding: 20px;
         }
 
         #certName {
-            font-size: 28px;
+            font-size: 32px;
+            font-weight: bold;
         }
 
         #positionText {
-            font-size: 22px;
+            font-size: 24px;
             margin-top: 10px;
         }
 
@@ -81,7 +127,47 @@
             font-size: 40px;
             margin-top: 10px;
         }
+
+        .winner-box {
+            background: linear-gradient(45deg, gold, orange);
+            color: black;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* MOBILE */
+        @media(max-width:768px) {
+
+            #certName {
+                font-size: 22px;
+            }
+
+            #positionText {
+                font-size: 18px;
+            }
+
+            #medal {
+                font-size: 28px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: gold;
+            border-radius: 10px;
+        }
     </style>
+
 </head>
 
 <body>
@@ -143,7 +229,7 @@
             apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
             authDomain: "tribalrhythm-486bd.firebaseapp.com",
             projectId: "tribalrhythm-486bd",
-            storageBucket: "tribalrhythm-486bd.appspot.com",
+            storageBucket: "tribalrhythm-486bd.firebasestorage.app",
             messagingSenderId: "566528037279",
             appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
         };
@@ -190,11 +276,16 @@
                 select.appendChild(opt);
             });
 
+            window.currentCategory = firstCat;
+
             updateCertificate(0, firstCat);
         });
 
         document.getElementById("userSelect").onchange = (e) => {
-            updateCertificate(e.target.value);
+            updateCertificate(
+                e.target.value,
+                window.currentCategory
+            );
         };
 
         function updateCertificate(index, category = "Dance Category") {
@@ -223,33 +314,56 @@
             document.getElementById("medal").innerText = medal;
         }
 
-        window.downloadCertificate = function () {
+        window.downloadCertificate = async function () {
 
-            let box = document.getElementById("certificateBox");
+            let box =
+                document.getElementById("certificateBox");
 
-            html2canvas(box).then(canvas => {
+            const canvas =
+                await html2canvas(box, {
+                    scale: 2
+                });
 
-                let imgData = canvas.toDataURL("image/png");
+            let link =
+                document.createElement("a");
 
-                let link = document.createElement("a");
-                link.download = "certificate.png";
-                link.href = imgData;
-                link.click();
+            link.download =
+                "TribalRhythmCertificate.png";
 
-                // WhatsApp message open
-                let user = participants[document.getElementById("userSelect").value];
+            link.href =
+                canvas.toDataURL("image/png");
 
-                let phone = user.phone || "91XXXXXXXXXX";
+            link.click();
 
-                let message = `🎉 Congratulations ${user.name}!
+            // ✅ Selected User
+            let selectedIndex =
+                document.getElementById("userSelect").value;
+
+            let user = participants[selectedIndex];
+
+            if (!user) return;
+
+            // ✅ Phone fallback
+            let phone = user.phone || "";
+
+            // ✅ WhatsApp Message
+            let message =
+                `🎉 Congratulations ${user.name}!
+
 You have received your certificate in Tribal Rhythm 🏆`;
 
-                let whatsappURL = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            // ✅ Open WhatsApp only if phone exists
+            if (phone) {
+
+                let whatsappURL =
+                    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
                 window.open(whatsappURL, "_blank");
 
-            });
-        };
+            }
+
+        }
+
 
     </script>
 

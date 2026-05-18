@@ -2,33 +2,132 @@
 <html>
 
 <head>
-  <title>Success</title>
 
+  <!-- BASIC -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Success | Tribal Rhythm</title>
+
+  <!-- SEO -->
+  <meta name="description"
+    content="Registration successful at Tribal Rhythm. View your confirmation, entry pass, ticket details, and event participation status.">
+
+  <meta name="keywords"
+    content="Tribal Rhythm Success, Registration Success, Dance Competition Pass, Event Confirmation, Ticket Success">
+
+  <meta name="author" content="Tribal Rhythm">
+
+  <!-- ROBOTS -->
+  <meta name="robots" content="noindex,nofollow">
+
+  <!-- THEME -->
+  <meta name="theme-color" content="#020617">
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:title" content="Success | Tribal Rhythm">
+  <meta property="og:description" content="Your registration has been completed successfully.">
+  <meta property="og:type" content="website">
+
+  <!-- TWITTER -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Success | Tribal Rhythm">
+  <meta name="twitter:description" content="Registration and ticket confirmation completed successfully.">
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <!-- PERFORMANCE -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- GOOGLE FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- SECURITY -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- STYLE -->
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background: #0f0f0f;
+      background:
+        linear-gradient(135deg, #020617, #111827);
+
       color: white;
+      font-family: 'Poppins', sans-serif;
+
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      font-family: Arial;
+
+      min-height: 100vh;
+      padding: 20px;
+
+      overflow-x: hidden;
     }
 
     .box {
-      text-align: center;
+      width: 100%;
+      max-width: 500px;
+
+      background:
+        rgba(255, 255, 255, 0.05);
+
+      border: 1px solid rgba(255, 215, 0, 0.3);
+
+      backdrop-filter: blur(10px);
+
       padding: 30px;
-      background: #1f1f1f;
-      border-radius: 15px;
-      box-shadow: 0 0 20px green;
+      border-radius: 25px;
+
+      text-align: center;
+
+      box-shadow:
+        0 0 25px rgba(255, 215, 0, 0.2);
     }
 
     h1 {
-      color: lightgreen;
+      color: #4ade80;
+      margin-bottom: 20px;
+      font-size: 34px;
+      font-weight: 700;
     }
 
-    p {
-      margin: 8px 0;
+    .pass-card {
+      background: #111827;
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* MOBILE */
+    @media(max-width:768px) {
+
+      .box {
+        padding: 22px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: gold;
+      border-radius: 10px;
     }
   </style>
 
@@ -63,7 +162,20 @@
     let pass = urlParams.get("pass");
 
     if (!payment || !reg || !pass) {
-      document.body.innerHTML = "<h2>Invalid Access ❌</h2>";
+      document.body.innerHTML = `
+<div style="
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+background:#000;
+color:red;
+font-size:24px;
+font-family:Poppins;
+">
+❌ Invalid Pass Access
+</div>
+`;
       throw new Error("Invalid URL");
     }
 
@@ -78,19 +190,38 @@
       paymentId: payment
     });
 
-    QRCode.toCanvas(document.getElementById("qrcode"), qrData);
+    QRCode.toCanvas(
+      document.getElementById("qrcode"),
+      qrData,
+      {
+        width: 220
+      }
+    );
   </script>
 
   <script>
     function downloadPass() {
 
-      let canvas = document.getElementById("qrcode");
+      html2canvas(document.querySelector(".box"))
+        .then(canvas => {
 
-      let link = document.createElement("a");
-      link.download = "TribalPass.png";
-      link.href = canvas.toDataURL();
-      link.click();
+          let link =
+            document.createElement("a");
+
+          link.download =
+            "TribalRhythmPass.png";
+
+          link.href =
+            canvas.toDataURL();
+
+          link.click();
+
+        });
+
     }
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1000 * 60 * 5);
   </script>
 
 </body>

@@ -2,68 +2,245 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- BASIC -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Tribal Rhythm Registration</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SEO -->
+    <meta name="description"
+        content="Register now for Tribal Rhythm dance competitions, workshops, studio classes, and special events. Join the ultimate dance experience.">
 
+    <meta name="keywords"
+        content="Tribal Rhythm Registration, Dance Competition Registration, Dance Studio, Event Registration, Dance Classes">
+
+    <meta name="author" content="Tribal Rhythm">
+
+    <!-- GOOGLE INDEX -->
+    <meta name="robots" content="index,follow">
+
+    <!-- THEME -->
+    <meta name="theme-color" content="#000000">
+
+    <!-- OPEN GRAPH -->
+    <meta property="og:title" content="Tribal Rhythm Registration">
+    <meta property="og:description"
+        content="Official registration page for Tribal Rhythm dance events and competitions.">
+    <meta property="og:type" content="website">
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tribal Rhythm Registration">
+    <meta name="twitter:description" content="Join Tribal Rhythm dance competitions and events online.">
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- PERFORMANCE -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- SECURITY -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- STYLE -->
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, #0b0b0b, #111827);
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.75),
+                    rgba(0, 0, 0, 0.8)),
+                url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200');
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
             color: white;
-            font-family: Poppins;
+            font-family: 'Poppins', sans-serif;
+
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .overlay {
+            min-height: 100vh;
+            backdrop-filter: blur(5px);
+            padding-bottom: 50px;
         }
 
         .header {
             text-align: center;
-            padding: 20px;
+            padding: 30px 15px;
             border-bottom: 2px solid gold;
+            background: rgba(0, 0, 0, 0.5);
         }
 
-        .section {
-            margin-top: 25px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid gold;
-            backdrop-filter: blur(10px);
+        .header h2 {
+            font-size: 38px;
+            font-weight: 700;
+            color: gold;
+            text-shadow: 0 0 15px gold;
         }
 
-        .section-header {
+        .header p {
+            color: #ddd;
+            margin-top: 5px;
+        }
+
+        .main-box {
+            max-width: 700px;
+            margin: auto;
+            margin-top: 30px;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 22px;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.15);
+        }
+
+        .card-header-custom {
             background: linear-gradient(135deg, gold, orange);
             color: black;
-            padding: 12px;
-            font-weight: bold;
-            border-radius: 12px 12px 0 0;
+            padding: 16px;
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
         }
 
-        .section-body {
-            padding: 20px;
+        .card-body-custom {
+            padding: 25px;
         }
 
         input,
         select,
         textarea {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
+            padding: 13px;
+            margin-top: 12px;
+
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+
             border: 1px solid rgba(255, 255, 255, 0.2);
-            color: rgb(167, 5, 5);
+            border-radius: 12px;
+
+            transition: 0.3s;
         }
 
-        button {
+        input::placeholder,
+        textarea::placeholder {
+            color: #bbb;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: gold;
+            box-shadow: 0 0 12px gold;
+        }
+
+        select option {
+            color: black;
+        }
+
+        .pay-btn {
             width: 100%;
-            padding: 12px;
-            background: gold;
+            padding: 14px;
+            margin-top: 20px;
+
             border: none;
-            border-radius: 10px;
+            border-radius: 14px;
+
+            background: linear-gradient(45deg, gold, orange);
+            color: black;
+
+            font-size: 17px;
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .pay-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px gold;
+        }
+
+        .pay-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .ticket-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px dashed gold;
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 12px;
+            text-align: center;
+            color: gold;
             font-weight: bold;
         }
 
-        button:hover {
-            background: orange;
+        .footer-note {
+            text-align: center;
+            margin-top: 20px;
+            color: #bbb;
+            font-size: 14px;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+            color: gold;
+            font-weight: bold;
+        }
+
+        /* MOBILE */
+        @media(max-width:768px) {
+
+            .header h2 {
+                font-size: 28px;
+            }
+
+            .card-body-custom {
+                padding: 18px;
+            }
+
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: gold;
+            border-radius: 10px;
         }
     </style>
 
@@ -71,57 +248,76 @@
 
 <body>
 
-    <div class="header">
-        <h2>🏹 TRIBAL RHYTHM REGISTRATION</h2>
-        <p>Wel Come To Tribal Rhythm Registration Form</p>
-        <p>See ruls before register</p>
-    </div>
+    <div class="overlay">
 
-    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h2>🏹 TRIBAL RHYTHM</h2>
+            <p>Official Competition Registration Portal</p>
+            <p>Please read all rules carefully before registration.</p>
+        </div>
 
-        <!-- 🏹 BHUMIJ FORM -->
-        <div class="section">
+        <!-- MAIN -->
+        <div class="container main-box">
 
-            <div class="section-header">
-                🏹 Bhumij Competition Registration
-            </div>
+            <div class="glass-card">
 
-            <div class="section-body">
+                <div class="card-header-custom">
+                    🏆 Competition Registration
+                </div>
 
-                <form id="bForm">
+                <div class="card-body-custom">
 
-                    <input id="bname" placeholder="Full Name" required>
-                    <input placeholder="Father / Guardian Name" required>
-                    <input type="number" placeholder="Age" required>
+                    <form id="bForm">
 
-                    <select required>
-                        <option value="">Select Gender</option>
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
-                    </select>
+                        <input id="bname" type="text" placeholder="Full Name" required>
 
-                    <input id="bmobile" placeholder="Mobile Number" required>
-                    <input id="bemail" placeholder="Email ID" required>
+                        <input id="guardian" type="text" placeholder="Father / Guardian Name" required>
 
-                    <textarea placeholder="Address (Village, District, State)" required></textarea>
+                        <input id="age" type="number" placeholder="Age" required>
 
-                    <input id="ticket" placeholder="Ticket ID" disabled>
+                        <select id="gender" required>
+                            <option value="">Select Gender</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+                        </select>
 
-                    <select required>
-                        <option value="">Select Tribe</option>
-                        <option>Bhumij</option>
-                        <option>Santali</option>
-                        <option>Ho</option>
-                        <option>Munda</option>
-                        <option>Others</option>
-                    </select>
+                        <input id="bmobile" type="tel" placeholder="Mobile Number" required>
 
+                        <input id="bemail" type="email" placeholder="Email Address" required>
 
+                        <textarea id="address" rows="3" placeholder="Village, District, State"></textarea>
 
-                    <button type="submit" id="btn">Pay ₹300 & Register</button>
+                        <select id="tribe" required>
+                            <option value="">Select Tribe</option>
+                            <option>Bhumij</option>
+                            <option>Santali</option>
+                            <option>Ho</option>
+                            <option>Munda</option>
+                            <option>Others</option>
+                        </select>
 
-                </form>
+                        <div class="ticket-box">
+                            🎫 Ticket ID:
+                            <span id="ticketText"></span>
+                        </div>
+
+                        <button type="submit" id="btn" class="pay-btn">
+                            Pay ₹300 & Register
+                        </button>
+
+                        <div class="loader" id="loader">
+                            Processing Payment...
+                        </div>
+
+                    </form>
+
+                    <div class="footer-note">
+                        Powered By Tribal Rhythm
+                    </div>
+
+                </div>
 
             </div>
 
@@ -129,98 +325,311 @@
 
     </div>
 
-    <!-- FIREBASE + RAZORPAY -->
+    <!-- RAZORPAY -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- FIREBASE -->
     <script type="module">
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initializeApp }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+        import {
+            getFirestore,
+            doc,
+            setDoc
+        }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        /* FIREBASE CONFIG */
 
         const firebaseConfig = {
+
             apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
+
             authDomain: "tribalrhythm-486bd.firebaseapp.com",
+
             projectId: "tribalrhythm-486bd",
-            storageBucket: "tribalrhythm-486bd.appspot.com",
+
+            storageBucket: "tribalrhythm-486bd.firebasestorage.app",
+
             messagingSenderId: "566528037279",
+
             appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
+
         };
 
         const app = initializeApp(firebaseConfig);
+
         const db = getFirestore(app);
 
-        /* 🎫 TICKET GENERATOR */
-        function genTicket() {
-            return "TR-" + Math.floor(100000 + Math.random() * 900000);
-        }
-        window.addEventListener("DOMContentLoaded", () => {
-            let ticket = genTicket();
-            document.getElementById("ticket").value = ticket;
-        });
+        /* ELEMENTS */
 
-        /* 💳 PAYMENT + REGISTER */
-        document.getElementById("bForm").addEventListener("submit", async function (e) {
+        const form = document.getElementById("bForm");
+
+        const btn = document.getElementById("btn");
+
+        const loader = document.getElementById("loader");
+
+        const ticketText = document.getElementById("ticketText");
+
+        /* TICKET GENERATOR */
+
+        function genTicket() {
+
+            return "TR-" +
+                crypto.randomUUID()
+                    .slice(0, 8)
+                    .toUpperCase();
+
+        }
+
+        let finalTicket = genTicket();
+
+        ticketText.innerText = finalTicket;
+
+        /* FORM SUBMIT */
+
+        form.addEventListener("submit", async function (e) {
+
             e.preventDefault();
 
-            // ✅ pehle values lo
-            let name = document.getElementById("bname").value;
-            let email = document.getElementById("bemail").value;
-            let mobile = document.getElementById("bmobile").value;
+            /* VALUES */
 
-            let ticket = genTicket();
+            let name =
+                document.getElementById("bname")
+                    .value
+                    .trim();
 
-            // ✅ backend call
-            let res = await fetch("https://tribal-rhythm-backend.onrender.com/create-order", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    amount: 300,
-                    email: email
-                })
-            });
+            let guardian =
+                document.getElementById("guardian")
+                    .value
+                    .trim();
 
-            let data = await res.json();
+            let age =
+                document.getElementById("age")
+                    .value
+                    .trim();
 
-            var options = {
-                key: "YOUR_RAZORPAY_KEY_ID",
-                amount: data.amount,
-                currency: "INR",
-                name: "Tribal Rhythm",
-                order_id: data.id,
+            let gender =
+                document.getElementById("gender")
+                    .value;
 
-                notes: {
-                    email: email
-                },
+            let mobile =
+                document.getElementById("bmobile")
+                    .value
+                    .trim();
 
-                prefill: {
-                    name: name,
-                    email: email,
-                    contact: mobile
-                },
+            let email =
+                document.getElementById("bemail")
+                    .value
+                    .trim();
 
-                handler: async function (response) {
+            let address =
+                document.getElementById("address")
+                    .value
+                    .trim();
 
-                    await setDoc(doc(db, "users", email), {
-                        name,
-                        email,
-                        mobile,
-                        payment: true,
-                        ticket: ticket,
-                        payment_id: response.razorpay_payment_id
-                    });
+            let tribe =
+                document.getElementById("tribe")
+                    .value;
 
-                    alert("Payment Success!");
-                    window.location.href = "competition.html";
-                }
-            };
+            /* VALIDATION */
 
-            var rzp = new Razorpay(options);
-            rzp.open();
+            if (name.length < 3) {
+
+                alert("Invalid Name ❌");
+                return;
+
+            }
+
+            if (mobile.length < 10) {
+
+                alert("Invalid Mobile Number ❌");
+                return;
+
+            }
+
+            if (!email.includes("@")) {
+
+                alert("Invalid Email ❌");
+                return;
+
+            }
+
+            /* LOADING */
+
+            btn.disabled = true;
+
+            btn.innerText = "Processing...";
+
+            loader.style.display = "block";
+
+            try {
+
+                /* BACKEND ORDER */
+
+                const res = await fetch(
+                    "https://tribal-rhythm-backend.onrender.com/create-order",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            amount: 300,
+
+                            email: email
+
+                        })
+                    }
+                );
+
+                const data = await res.json();
+
+                /* PAYMENT */
+
+                const options = {
+
+                    key: "YOUR_RAZORPAY_KEY",
+
+                    amount: data.amount,
+
+                    currency: "INR",
+
+                    name: "Tribal Rhythm",
+
+                    description: "Competition Registration",
+
+                    order_id: data.id,
+
+                    theme: {
+                        color: "#FFD700"
+                    },
+
+                    prefill: {
+
+                        name: name,
+
+                        email: email,
+
+                        contact: mobile
+
+                    },
+
+                    notes: {
+
+                        tribe: tribe,
+
+                        ticket: finalTicket
+
+                    },
+
+                    handler: async function (response) {
+
+                        /* SAVE FIREBASE */
+
+                        await setDoc(
+                            doc(db, "users", email),
+                            {
+
+                                name,
+
+                                guardian,
+
+                                age,
+
+                                gender,
+
+                                mobile,
+
+                                email,
+
+                                address,
+
+                                tribe,
+
+                                ticket: finalTicket,
+
+                                payment: true,
+
+                                payment_id:
+                                    response
+                                        .razorpay_payment_id,
+
+                                createdAt:
+                                    new Date()
+                                        .toISOString()
+
+                            }
+                        );
+
+                        alert(
+                            "Registration Successful ✅"
+                        );
+
+                        localStorage.setItem(
+                            "email",
+                            email
+                        );
+
+                        localStorage.setItem(
+                            "name",
+                            name
+                        );
+
+                        window.location.href =
+                            "competition.html";
+
+                    },
+
+                    modal: {
+
+                        ondismiss: function () {
+
+                            btn.disabled = false;
+
+                            btn.innerText =
+                                "Pay ₹300 & Register";
+
+                            loader.style.display = "none";
+
+                        }
+
+                    }
+
+                };
+
+                const rzp =
+                    new Razorpay(options);
+
+                rzp.open();
+
+            }
+
+            catch (err) {
+
+                console.log(err);
+
+                alert(
+                    "Server Error ❌"
+                );
+
+                btn.disabled = false;
+
+                btn.innerText =
+                    "Pay ₹300 & Register";
+
+                loader.style.display = "none";
+
+            }
+
         });
 
     </script>
-
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 </body>
 

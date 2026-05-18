@@ -2,19 +2,72 @@
 <html lang="en">
 
 <head>
+    <!-- BASIC -->
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Tribal Rhythm Admin PRO</title>
 
+    <!-- SEO -->
+    <meta name="description"
+        content="Tribal Rhythm Admin PRO dashboard for managing students, events, competitions, attendance, QR scan, analytics, and reports.">
+
+    <meta name="keywords"
+        content="Tribal Rhythm Admin, Dance Studio Dashboard, Event Management, QR Attendance, Admin Panel">
+
+    <meta name="author" content="Tribal Rhythm">
+
+    <!-- ROBOTS -->
+    <!-- Admin pages ko Google index na kare -->
+    <meta name="robots" content="noindex,nofollow">
+
+    <!-- THEME -->
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- SECURITY -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval';">
+
+    <!-- OPEN GRAPH -->
+    <meta property="og:title" content="Tribal Rhythm Admin PRO">
+    <meta property="og:description" content="Professional admin dashboard for Tribal Rhythm management system.">
+    <meta property="og:type" content="website">
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CHART -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- QR SCANNER -->
     <script src="https://unpkg.com/html5-qrcode"></script>
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background: #0a0a0a;
             color: white;
-            font-family: Poppins;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
         }
 
         /* SILVER CARD */
@@ -25,12 +78,18 @@
             padding: 15px;
             margin-top: 15px;
             backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
         }
 
         .btn-silver {
             background: linear-gradient(45deg, #c0c0c0, #e6e6e6);
             color: black;
             font-weight: bold;
+            border: none;
+        }
+
+        .btn-silver:hover {
+            opacity: 0.9;
         }
 
         .sidebar {
@@ -39,6 +98,7 @@
             position: fixed;
             background: #111;
             padding: 20px;
+            border-right: 1px solid #333;
         }
 
         .main {
@@ -59,6 +119,20 @@
             justify-content: center;
             align-items: center;
             background: #000;
+            z-index: 9999;
+        }
+
+        /* MOBILE */
+        @media(max-width:768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
@@ -67,18 +141,41 @@
 
     <!-- LOGIN -->
     <div id="login">
-        <div class="card-pro" style="width:320px">
-            <h3>ADMIN LOGIN</h3>
-            <input id="email" class="form-control mb-2" placeholder="Email">
-            <input id="pass" type="password" class="form-control mb-2" placeholder="Password">
-            <button onclick="login()" class="btn btn-silver w-100">Login</button>
-            <p id="msg"></p>
-            <button onclick="resetPass()" class="btn btn-warning w-100 mt-2">
-                Forgot Password
-            </button>
-        </div>
-    </div>
 
+        <div class="card-pro" style="width:320px">
+
+            <h3>ADMIN LOGIN</h3>
+
+            <input id="email" class="form-control mb-2" placeholder="Email">
+
+            <input id="pass" type="password" class="form-control mb-2" placeholder="Password">
+
+            <!-- LOGIN -->
+            <button onclick="login()" type="button" class="btn btn-silver w-100">
+
+                Login
+
+            </button>
+
+            <p id="msg"></p>
+
+            <!-- SIGNUP -->
+            <button onclick="signup()" type="button" class="btn btn-success w-100 mt-2">
+
+                Create Admin
+
+            </button>
+
+            <!-- RESET -->
+            <button onclick="resetPass()" type="button" class="btn btn-warning w-100 mt-2">
+
+                Forgot Password
+
+            </button>
+
+        </div>
+
+    </div>
     <!-- SIDEBAR -->
     <div class="sidebar" id="side" style="display:none;">
         <h4 style="color:silver">ADMIN PANEL</h4>
@@ -231,46 +328,202 @@
             getAuth,
             signInWithEmailAndPassword,
             signOut,
-            sendPasswordResetEmail
+            sendPasswordResetEmail,
+            createUserWithEmailAndPassword
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import {
+            onAuthStateChanged
+        } from
+            "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         /* 🔥 FIREBASE CONFIG */
         const firebaseConfig = {
             apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
             authDomain: "tribalrhythm-486bd.firebaseapp.com",
             projectId: "tribalrhythm-486bd",
-            storageBucket: "tribalrhythm-486bd.appspot.com",
+            storageBucket: "tribalrhythm-486bd.firebasestorage.app",
             messagingSenderId: "566528037279",
             appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
         };
 
         const app = initializeApp(firebaseConfig);
+
         const db = getFirestore(app);
+
         const auth = getAuth(app);
+
+        /* ✅ AUTH STATE */
+        onAuthStateChanged(auth, (user) => {
+
+            if (
+                user &&
+                user.email ===
+                "rahulsardarrahul014@gmail.com"
+            ) {
+
+                start();
+
+            }
+
+        });
 
         let chart;
 
         /* ================= LOGIN ================= */
 
-        window.login = () => {
-    signInWithEmailAndPassword(auth, email.value, pass.value)
-        .then((u) => {
-            console.log("Login success:", u.user.email);
+        window.login = async () => {
 
-            if (u.user.email !== "admin@gmail.com") {
-                alert("Not Admin");
-                signOut(auth);
+            const emailValue =
+                document.getElementById("email").value.trim();
+
+            const passValue =
+                document.getElementById("pass").value.trim();
+
+            if (!emailValue || !passValue) {
+
+                msg.innerText = "Fill all fields";
                 return;
+
             }
 
-            start();
-        })
-        .catch((error) => {
-            console.log(error.code, error.message);
-            msg.innerText = error.message;
-        });
-};
+            try {
+
+                const userCredential =
+                    await signInWithEmailAndPassword(
+                        auth,
+                        emailValue,
+                        passValue
+                    );
+
+                const user = userCredential.user;
+
+                console.log("Login success:", user.email);
+
+                // 🔒 ADMIN CHECK
+                if (
+                    user.email !==
+                    "rahulsardarrahul014@gmail.com"
+                ) {
+
+                    alert("Access Denied");
+
+                    await signOut(auth);
+
+                    return;
+                }
+
+                start();
+
+            }
+
+            catch (error) {
+
+                console.log(error);
+
+                if (error.code === "auth/invalid-credential") {
+
+                    msg.innerText =
+                        "Wrong Email or Password";
+
+                }
+
+                else if (
+                    error.code === "auth/user-not-found"
+                ) {
+
+                    msg.innerText =
+                        "Admin not found";
+
+                }
+
+                else {
+
+                    msg.innerText =
+                        error.message;
+
+                }
+
+            }
+
+        };
+        window.resetPass = () => {
+
+            const emailValue =
+                document.getElementById("email")
+                    .value
+                    .trim();
+
+            if (!emailValue) {
+
+                alert("Enter Email ❌");
+                return;
+
+            }
+
+            sendPasswordResetEmail(auth, emailValue)
+
+                .then(() => {
+
+                    alert("Reset Email Sent ✅");
+
+                })
+
+                .catch((e) => {
+
+                    alert(e.message);
+
+                });
+
+        };
+        window.signup = async () => {
+
+            const emailValue =
+                document.getElementById("email")
+                    .value
+                    .trim();
+
+            const passValue =
+                document.getElementById("pass")
+                    .value
+                    .trim();
+
+            if (!emailValue || !passValue) {
+
+                alert("Fill all fields ❌");
+                return;
+
+            }
+
+            try {
+
+                await createUserWithEmailAndPassword(
+                    auth,
+                    emailValue,
+                    passValue
+                );
+
+                alert("Admin Created ✅");
+
+            }
+
+            catch (e) {
+
+                alert(e.message);
+
+            }
+
+        };
+        window.logout = () => {
+
+            signOut(auth)
+                .then(() => {
+
+                    location.reload();
+
+                });
+
+        };
 
         /* ================= START ================= */
 
@@ -686,7 +939,7 @@
 
             scanResult.innerText = "✅ Entry Allowed";
         };
-        function startScanner() {
+        window.startScanner = function () {
             const scanner = new Html5Qrcode("reader");
 
             scanner.start(
