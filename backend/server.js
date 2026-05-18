@@ -359,7 +359,10 @@ app.post("/create-order", async (req, res) => {
             amount: amount,
             currency: "INR",
             receipt: "receipt_" + Date.now(),
-            notes: { email }
+            notes: {
+                email: email,
+                ticketType: ticketType
+            }
         });
 
         res.json({

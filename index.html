@@ -734,6 +734,14 @@
         window.sendOTP = async function () {
 
             let email = document.getElementById("email").value;
+            if (!email) {
+                alert("Email required");
+                return;
+            }
+            if (!pass) {
+                alert("Password required");
+                return;
+            }
 
             let res = await fetch(`${API_URL}/send-otp`, {
                 method: "POST",
@@ -1035,8 +1043,8 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    amount: type === "VIP" ? 999 : 499,
-                    email: "test@gmail.com" // later dynamic karna
+                    ticketType: type,
+                    email: email
                 })
             });
 
