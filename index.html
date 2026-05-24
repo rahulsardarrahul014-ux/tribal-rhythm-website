@@ -172,7 +172,7 @@
         </div>
 
     </section>
-    <!-- ================= ABOUT US ULTRA PRO BILINGUAL ================= -->
+    
     <section id="about" class="about-ultra py-5">
 
         <div class="container">
@@ -763,7 +763,7 @@
         async function loadUpcoming() {
             try {
                 const snap = await getDocs(collection(db, "upcoming"));
-
+                console.log(snap)
                 let html = "";
 
                 snap.forEach((doc) => {
@@ -869,8 +869,8 @@
 
         /* ================= FIRESTORE ================= */
 
-        import { initializeFirestore }
-            from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        // import { initializeFirestore }
+        //     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const db = initializeFirestore(app, {
             experimentalForceLongPolling: true,
@@ -1043,8 +1043,8 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    ticketType: type,
-                    email: email
+                    amount: 300,
+                    email: email.trim()
                 })
             });
 
