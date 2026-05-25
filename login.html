@@ -434,7 +434,8 @@
             }
 
             // 🔢 OTP GENERATE
-            generatedOTP = Math.floor(100000 + Math.random() * 900000);
+            // generatedOTP = Math.floor(100000 + Math.random() * 900000);
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
 
             otpExpireTime = Date.now() + 60000;
 
@@ -455,65 +456,73 @@
                 });
         };
 
-        // ✅ VERIFY OTP
-        window.verifyOTP = async function () {
+           // ✅ VERIFY OTP
+window.verifyOTP = async function () {
 
-            let name = document.getElementById("name").value;
-            let age = document.getElementById("age").value;
-            let dob = document.getElementById("dob").value;
-            let mobile = document.getElementById("mobile").value;
-            let email = document.getElementById("email").value;
-            let state = document.getElementById("state").value;
-            let language = document.getElementById("language").value;
-            let otp = document.getElementById("otp").value;
-            let rules = document.getElementById("rulesCheck").checked;
+    let name = document.getElementById("name").value.trim();
+    let age = document.getElementById("age").value.trim();
+    let dob = document.getElementById("dob").value.trim();
+    let mobile = document.getElementById("mobile").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let state = document.getElementById("state").value.trim();
+    let language = document.getElementById("language").value.trim();
+    let otp = document.getElementById("otp").value.trim();
+    let rules = document.getElementById("rulesCheck").checked;
 
-            // VALIDATION
-            if (!name || !email || !otp) {
-                alert("Fill all required fields");
-                return;
-            }
+    // ✅ VALIDATION
+    if (!name || !email || !otp) {
+        alert("Fill all required fields");
+        return;
+    }
 
-            if (!rules) {
-                alert("Accept rules first");
-                return;
-            }
+    if (!rules) {
+        alert("Accept rules first");
+        return;
+    }
 
+    // ✅ OTP Expired
+    if (Date.now() > otpExpireTime) {
+        alert("OTP Expired ❌");
+        return;
+    }
 
-            if (Date.now() > otpExpireTime) {
-                alert("OTP Expired ❌");
-                return;
-            }
+    // ✅ OTP MATCH
+    if (String(otp) !== String(generatedOTP)) {
+        alert("Wrong OTP ❌");
+        return;
+    }
 
-            if (otp != generatedOTP) {
-                alert("Wrong OTP ❌");
-                return;
-            }
+    try {
 
-            // 🔐 SAVE USER IN FIREBASE
-            await setDoc(doc(db, "users", email), {
-                name,
-                age,
-                dob,
-                mobile,
-                email,
-                whatsapp: mobile,
-                state,
-                language,
-                status: "pending",
-                createdAt: new Date()
-            });
+        // 🔥 FIREBASE SAVE
+        await setDoc(doc(db, "users", email), {
+            name,
+            age,
+            dob,
+            mobile,
+            email,
+            whatsapp: mobile,
+            state,
+            language,
+            status: "pending",
+            createdAt: new Date()
+        });
 
-            // 💾 SAVE LOGIN
-            localStorage.setItem("email", email);
+        localStorage.setItem("email", email);
 
-            alert("Login Successful 🎉");
+        alert("Login Successful 🎉");
 
-            window.location.href = "index.html";
-        };
+        window.location.href = "index.html";
 
+    } catch (error) {
 
-    </script>
+        console.log(error);
+        alert("Firebase Error ❌");
+
+    }
+};
+
+</script>
 
 </body>
 
