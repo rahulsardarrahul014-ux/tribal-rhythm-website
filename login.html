@@ -422,19 +422,31 @@
             }
 
             if (!rules) {
-                alert("⚠️ Please accept Rules & Regulations");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Please accept Rules & Regulations",
+                    icon: "warning"
+                });
                 return;
             }
 
-            // 📱 Mobile validation (optional but pro)
+            // 📱 Mobile validation
             if (mobile.length !== 10) {
-                alert("Enter valid 10 digit mobile number");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Enter valid 10 digit mobile number",
+                    icon: "warning"
+                });
                 return;
             }
 
-            // 📧 Email format basic check
+            // 📧 Email validation
             if (!email.includes("@")) {
-                alert("Enter valid email");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Enter valid email address",
+                    icon: "warning"
+                });
                 return;
             }
 
