@@ -172,7 +172,7 @@
         </div>
 
     </section>
-    
+
     <section id="about" class="about-ultra py-5">
 
         <div class="container">
@@ -694,6 +694,7 @@
     </footer>
 
     <!-- ================= SCRIPTS ================= -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -733,30 +734,63 @@
         // ================= SEND OTP =================
         window.sendOTP = async function () {
 
-            let email = document.getElementById("email").value;
+            let email = document.getElementById("email").value.trim();
+            // let pass = document.getElementById("password").value.trim();
+
             if (!email) {
-                alert("Email required");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Email Required",
+                    icon: "warning"
+                });
                 return;
             }
-            if (!pass) {
-                alert("Password required");
-                return;
-            }
 
-            let res = await fetch(`${API_URL}/send-otp`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email })
-            });
+            // if (!pass) {
+            //     Swal.fire({
+            //         title: "Tribal Rhythm",
+            //         text: "Password Required",
+            //         icon: "warning",
+            //         confirmButtonText: "OK"
+            //     });
+            //     return;
+            // }
 
-            let data = await res.json();
+            try {
 
-            if (data.success) {
-                alert("OTP Sent ✅");
-            } else {
-                alert("Error ❌");
+                let res = await fetch(`${API_URL}/send-otp`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                let data = await res.json();
+
+                if (data.success) {
+                    Swal.fire({
+                        title: "Tribal Rhythm",
+                        text: "OTP Sent Successfully",
+                        icon: "success"
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Tribal Rhythm",
+                        text: "Failed to Send OTP",
+                        icon: "error"
+                    });
+                }
+
+            } catch (error) {
+
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Server Error. Please Try Again",
+                    icon: "error"
+                });
+
+                console.error(error);
             }
         };
 
@@ -814,26 +848,32 @@
 
         async function loadNews() {
 
-            let snapshot = await getDocs(collection(db, "news"));
+            try {
 
-            let newsHTML = "";
+                let snapshot = await getDocs(collection(db, "news"));
 
-            snapshot.forEach(doc => {
+                let newsHTML = "";
 
-                let data = doc.data();
+                snapshot.forEach(doc => {
+                    let data = doc.data();
 
-                newsHTML += `
-        <span class="news-item" onclick='openNews(${JSON.stringify(data.text)})'>
-            🔥 ${data.text} • 
-        </span>
-        `;
-            });
-            if (newsHTML === "") {
-                newsHTML = "No news available right now ***************************";
+                    newsHTML += `
+            <span class="news-item">
+            🔥 ${data.text}
+            </span>
+            `;
+                });
+
+                document.getElementById("newsMarquee").innerHTML =
+                    newsHTML || "No News Available";
+
+            } catch (error) {
+
+                console.log(error);
+
+                document.getElementById("newsMarquee").innerHTML =
+                    "Failed To Load News";
             }
-
-
-            document.getElementById("newsMarquee").innerHTML = newsHTML;
         }
 
 
@@ -855,16 +895,13 @@
 
         /* ================= AUTH ================= */
 
-        const auth = getAuth(app);
+        // const auth = getAuth(app);
+        window.auth = getAuth(app);
 
         onAuthStateChanged(auth, (user) => {
-
             if (user) {
                 console.log("Logged in");
-            } else {
-                window.location.href = "login.html";
             }
-
         });
 
         /* ================= FIRESTORE ================= */
@@ -918,23 +955,53 @@
 
         /* ================= YOUTUBE UPLOAD ================= */
         window.uploadYouTube = async function () {
+
             let t = document.getElementById("ytTitle").value;
             let l = document.getElementById("ytLink").value;
 
-            await addDoc(collection(db, "youtube"), {
-                title: t,
-                link: l
-            });
+            if (!t || !l) {
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Please fill all details",
+                    icon: "warning"
+                });
+                return;
+            }
 
-            alert("Uploaded YouTube");
+            try {
+
+                await addDoc(collection(db, "youtube"), {
+                    title: t,
+                    link: l
+                });
+
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "YouTube Video Uploaded Successfully",
+                    icon: "success"
+                });
+
+            } catch (error) {
+
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Upload Failed",
+                    icon: "error"
+                });
+
+                console.error(error);
+            }
         };
-
         /* ================= FIREBASE UPLOAD ================= */
         window.uploadFirebase = async function () {
             let file = document.getElementById("fbFile").files[0];
             let title = document.getElementById("fbTitle").value;
 
             if (!file) return alert("Select file first!");
+            if (!file.type.startsWith("video/")) {
+                alert("Please select video file");
+                return;
+            }
 
             let fileRef = storageRef(storage, "videos/" + file.name);
 
@@ -947,20 +1014,52 @@
                 videoUrl: url
             });
 
-            alert("Uploaded Successfully");
+            // alert("Uploaded Successfully");
+            Swal.fire({
+                title: "Tribal Rhythm",
+                text: "Uploaded Successfully",
+                icon: "success"
+            });
         };
 
         /* ================= WATCH VIDEO ================= */
         window.watchYouTube = function () {
-            let link = document.getElementById("ytLink").value;
 
-            if (!link) return alert("Enter YouTube link first!");
+            let link = document.getElementById("ytLink").value.trim();
 
-            let videoId = link.split("v=")[1];
-            let embed = "https://www.youtube.com/embed/" + videoId;
+            if (!link) {
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Enter YouTube Link First",
+                    icon: "warning"
+                });
+                return;
+            }
 
-            openLive(embed);
+            let videoId = "";
+
+            if (link.includes("watch?v=")) {
+                videoId = link.split("v=")[1].split("&")[0];
+            } else if (link.includes("youtu.be/")) {
+                videoId = link.split("youtu.be/")[1];
+            }
+
+            if (!videoId) {
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Invalid YouTube Link",
+                    icon: "error"
+                });
+                return;
+            }
+
+            openLive(`https://www.youtube.com/embed/${videoId}`);
         };
+
+
+
+
+
 
         window.watchFirebase = async function () {
 
@@ -977,6 +1076,10 @@
             openLive(lastVideo);
         };
 
+
+
+
+
         /* ================= SAVE TICKET ================= */
         window.saveTicket = function () {
 
@@ -991,7 +1094,12 @@
                 time: Date.now()
             });
 
-            alert("Ticket Booked Successfully!");
+            // alert("Ticket Booked Successfully!");
+            Swal.fire({
+                title: "Tribal Rhythm",
+                text: "Ticket Booked Successfully!",
+                icon: "success"
+            });
         };
         /* ================= GO TO TICKET ================= */
         window.goToTicket = function () {
@@ -1012,39 +1120,37 @@
 
         /* ================= PAYMENT ================= */
         window.payNow = async function (type) {
-            // 🔥 GET USER INPUT
+
             let name = document.getElementById("name").value;
             let phone = document.getElementById("phone").value;
+            let email = document.getElementById("email").value.trim();
 
-            // 🔥 VALIDATION
             if (!name || name.length < 3) {
-                alert("Enter valid name");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Enter Valid Name",
+                    icon: "warning"
+                });
                 return;
             }
 
             if (!/^[6-9]\d{9}$/.test(phone)) {
-                alert("Invalid phone number");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Invalid Phone Number",
+                    icon: "warning"
+                });
                 return;
             }
-            const q = query(
-                collection(db, "bookings"),
-                where("phone", "==", phone)
-            );
 
-            const snap = await getDocs(q);
-
-            if (!snap.empty) {
-                alert("You already booked ticket!");
-                return;
-            }
-            let res = await fetch("https://tribal-rhythm-backend.onrender.com/create-order", {
+            let res = await fetch(`${API_URL}/create-order`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     amount: 300,
-                    email: email.trim()
+                    email: email
                 })
             });
 
@@ -1056,13 +1162,10 @@
                 currency: "INR",
                 name: "Tribal Rhythm",
                 description: type + " Ticket",
-
                 order_id: data.orderId,
 
                 handler: async function (response) {
-                    alert("Payment Success!");
 
-                    // ✅ 1. Firebase में booking save
                     await addDoc(collection(db, "bookings"), {
                         ticketType: type,
                         paymentId: response.razorpay_payment_id,
@@ -1070,29 +1173,19 @@
                         status: "success",
                         createdAt: new Date()
                     });
-                    // 🎟 PDF DOWNLOAD
+
                     generateTicketPDF(
                         name,
                         phone,
                         type,
                         response.razorpay_payment_id
                     );
-
-                    // ✅ 2. Backend verify + PDF
-                    fetch(`${API_URL}/verify-payment`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(response)
-                    });
-
                 }
             };
 
             let rzp = new Razorpay(options);
             rzp.open();
-        };
+        }
         window.generateTicketPDF = function (name, phone, type, paymentId) {
 
             const { jsPDF } = window.jspdf;
@@ -1329,7 +1422,7 @@
         }
 
     </script>
-    <script>
+    <!-- <script>
         window.goCompetition = function () {
 
             let email = localStorage.getItem("email");
@@ -1345,7 +1438,9 @@
                 window.location.href = "register.html";
             }
         }
-    </script>
+    </script> -->
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
 
 </body>
 
