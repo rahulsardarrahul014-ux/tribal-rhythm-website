@@ -359,7 +359,7 @@
             apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
             authDomain: "tribalrhythm-486bd.firebaseapp.com",
             projectId: "tribalrhythm-486bd",
-            storageBucket:"tribalrhythm-486bd.firebasestorage.app",
+            storageBucket: "tribalrhythm-486bd.firebasestorage.app",
             messagingSenderId: "566528037279",
             appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
         };
@@ -412,7 +412,12 @@
 
             // 🔥 FULL VALIDATION
             if (!name || !age || !dob || !mobile || !email || !state || !language) {
-                alert("⚠️ Please fill all details");
+                // alert("⚠️ Please fill all details");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Please fill all details",
+                    icon: "warning"
+                });
                 return;
             }
 
@@ -445,84 +450,117 @@
                 otp: generatedOTP
             })
                 .then(() => {
-                    alert("✅ OTP sent to email");
+                    // alert("✅ OTP sent to email");
+                    Swal.fire({
+                        title: "Tribal Rhythm",
+                        text: "OTP sent to email",
+                        icon: "success"
+                    });
                     startTimer();
                     document.getElementById("otp").style.display = "block";
                     document.querySelector(".verify-btn").style.display = "block";
 
                 })
                 .catch(() => {
-                    alert("❌ Failed to send OTP");
+                    // alert("❌ Failed to send OTP");
+                    Swal.fire({
+                        title: "Tribal Rhythm",
+                        text: "Failed to send OTP",
+                        icon: "error"
+                    });
                 });
         };
 
-           // ✅ VERIFY OTP
-window.verifyOTP = async function () {
+        // ✅ VERIFY OTP
+        window.verifyOTP = async function () {
 
-    let name = document.getElementById("name").value.trim();
-    let age = document.getElementById("age").value.trim();
-    let dob = document.getElementById("dob").value.trim();
-    let mobile = document.getElementById("mobile").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let state = document.getElementById("state").value.trim();
-    let language = document.getElementById("language").value.trim();
-    let otp = document.getElementById("otp").value.trim();
-    let rules = document.getElementById("rulesCheck").checked;
+            let name = document.getElementById("name").value.trim();
+            let age = document.getElementById("age").value.trim();
+            let dob = document.getElementById("dob").value.trim();
+            let mobile = document.getElementById("mobile").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let state = document.getElementById("state").value.trim();
+            let language = document.getElementById("language").value.trim();
+            let otp = document.getElementById("otp").value.trim();
+            let rules = document.getElementById("rulesCheck").checked;
 
-    // ✅ VALIDATION
-    if (!name || !email || !otp) {
-        alert("Fill all required fields");
-        return;
-    }
+            // ✅ VALIDATION
+            if (!name || !email || !otp) {
+                alert("Fill all required fields");
+                return;
+            }
 
-    if (!rules) {
-        alert("Accept rules first");
-        return;
-    }
+            if (!rules) {
+                alert("Accept rules first");
+                return;
+            }
 
-    // ✅ OTP Expired
-    if (Date.now() > otpExpireTime) {
-        alert("OTP Expired ❌");
-        return;
-    }
+            // ✅ OTP Expired
+            if (Date.now() > otpExpireTime) {
+                // alert("OTP Expired ❌");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "OTP Expired",
+                    icon: "error"
+                });
+                return;
+            }
 
-    // ✅ OTP MATCH
-    if (String(otp) !== String(generatedOTP)) {
-        alert("Wrong OTP ❌");
-        return;
-    }
+            // ✅ OTP MATCH
+            if (String(otp) !== String(generatedOTP)) {
+                // alert("Wrong OTP ❌");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Wrong OTP",
+                    icon: "error"
+                });
+                return;
+            }
 
-    try {
+            try {
 
-        // 🔥 FIREBASE SAVE
-        await setDoc(doc(db, "users", email), {
-            name,
-            age,
-            dob,
-            mobile,
-            email,
-            whatsapp: mobile,
-            state,
-            language,
-            status: "pending",
-            createdAt: new Date()
-        });
+                // 🔥 FIREBASE SAVE
+                await setDoc(doc(db, "users", email), {
+                    name,
+                    age,
+                    dob,
+                    mobile,
+                    email,
+                    whatsapp: mobile,
+                    state,
+                    language,
+                    status: "pending",
+                    createdAt: new Date()
+                });
 
-        localStorage.setItem("email", email);
+                localStorage.setItem("email", email);
 
-        alert("Login Successful 🎉");
+                // alert("Login Successful 🎉");
 
-        window.location.href = "index.html";
+                // window.location.href = "index.html";
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Login Successful",
+                    icon: "success"
+                }).then(() => {
+                    window.location.href = "index.html";
+                });
 
-    } catch (error) {
+            } catch (error) {
 
-        console.log(error);
-        alert("Firebase Error ❌");
+                console.log(error);
+                // alert("Firebase Error ❌");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Firebase Error",
+                    icon: "error"
+                });
 
-    }
-};
+            }
+        };
 
-</script>
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 
