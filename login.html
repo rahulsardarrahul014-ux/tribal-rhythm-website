@@ -486,12 +486,20 @@
 
             // ✅ VALIDATION
             if (!name || !email || !otp) {
-                alert("Fill all required fields");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Fill all required fields",
+                    icon: "warning"
+                });
                 return;
             }
 
             if (!rules) {
-                alert("Accept rules first");
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Accept Rules & Regulations first",
+                    icon: "warning"
+                });
                 return;
             }
 
