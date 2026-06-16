@@ -96,6 +96,21 @@
                     </li>
 
                 </ul>
+                <div id="authButtons" class="d-flex gap-2">
+                    <a href="login.html" class="btn btn-outline-light">
+                        Sign In
+                    </a>
+
+                    <a href="login.html" class="btn btn-warning">
+                        Sign Up
+                    </a>
+                </div>
+
+                <div id="userBox" style="display:none;">
+                    <a href="dashboard.html" class="btn btn-success">
+                        Dashboard
+                    </a>
+                </div>
 
             </div>
 
@@ -1022,6 +1037,9 @@
             });
         };
 
+
+
+
         /* ================= WATCH VIDEO ================= */
         window.watchYouTube = function () {
 
@@ -1062,18 +1080,34 @@
 
 
         window.watchFirebase = async function () {
+            try {
+                const snap = await getDocs(collection(db, "videos"));
 
-            const snap = await getDocs(collection(db, "videos"));
+                let lastVideo = null;
 
-            let lastVideo = null;
+                snap.forEach(doc => {
+                    lastVideo = doc.data().videoUrl;
+                });
 
-            snap.forEach(doc => {
-                lastVideo = doc.data().videoUrl;
-            });
+                if (!lastVideo) {
+                    Swal.fire({
+                        title: "Tribal Rhythm",
+                        text: "No Video Found In Firebase",
+                        icon: "warning"
+                    });
+                    return;
+                }
 
-            if (!lastVideo) return alert("No video found!");
+                openLive(lastVideo);
 
-            openLive(lastVideo);
+            } catch (error) {
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Failed To Load Video",
+                    icon: "error"
+                });
+                console.error(error);
+            }
         };
 
 
@@ -1421,6 +1455,20 @@
             document.getElementById("galleryModal").style.display = "none";
         }
 
+    </script>
+    <script>
+        window.addEventListener("load", () => {
+
+            let email = localStorage.getItem("email");
+
+            if (email) {
+
+                document.getElementById("authButtons").style.display = "none";
+                document.getElementById("userBox").style.display = "block";
+
+            }
+
+        });
     </script>
     <!-- <script>
         window.goCompetition = function () {
