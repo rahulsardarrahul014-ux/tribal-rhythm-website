@@ -490,6 +490,7 @@
             let age = document.getElementById("age").value.trim();
             let dob = document.getElementById("dob").value.trim();
             let mobile = document.getElementById("mobile").value.trim();
+            let whatsapp = document.getElementById("whatsapp").value.trim();
             let email = document.getElementById("email").value.trim();
             let state = document.getElementById("state").value.trim();
             let language = document.getElementById("language").value.trim();
@@ -546,7 +547,7 @@
                     dob,
                     mobile,
                     email,
-                    whatsapp: mobile,
+                    whatsapp,
                     state,
                     language,
                     status: "pending",
@@ -578,8 +579,7 @@
 
             }
         };
-        localStorage.setItem("email", email);
-        window.location.href = "index.html";
+
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
