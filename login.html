@@ -544,9 +544,9 @@
             //     icon: "success"
             // });
 
-            try {
+          try {
 
-                ```
+
 await setDoc(doc(db, "users", email), {
     name,
     age,
@@ -578,11 +578,11 @@ Swal.fire({
 }).then(() => {
     window.location.href = "index.html";
 });
-```
 
-            } catch (error) {
 
-                ```
+} catch (error) {
+
+
 console.error("Code:", error.code);
 console.error("Message:", error.message);
 
@@ -591,10 +591,11 @@ Swal.fire({
     text: error.message,
     icon: "error"
 });
-```
 
-            }
-        };
+
+}
+};
+
 
 
 
