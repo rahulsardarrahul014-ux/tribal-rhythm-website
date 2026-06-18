@@ -536,17 +536,29 @@
 
         };
 
-        /* ================= START ================= */
+        
 
-        function start() {
-            login.style.display = "none";
-            side.style.display = "block";
-            main.style.display = "block";
+       /* ================= START ================= */
 
-            loadData();
-            startScheduler(); // 🔥 important
-            loadLeaderboard();
-        }
+function start() {
+
+    const loginDiv = document.getElementById("login");
+    const sideDiv = document.getElementById("side");
+    const mainDiv = document.getElementById("main");
+
+    if (loginDiv) loginDiv.style.display = "none";
+    if (sideDiv) sideDiv.style.display = "block";
+    if (mainDiv) mainDiv.style.display = "block";
+
+    loadData();
+    startScheduler();
+    loadLeaderboard();
+}
+
+
+
+
+
 
         /* ================= EVENT SCHEDULER ================= */
 
