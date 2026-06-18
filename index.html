@@ -811,37 +811,29 @@
 
         async function loadUpcoming() {
             try {
-                const snap = await getDocs(collection(db, "upcoming"));
-                console.log(snap)
+                const snap = await getDocs(collection(window.db, "upcoming"));
+
                 let html = "";
 
                 snap.forEach((doc) => {
                     const data = doc.data();
 
-                    // SAFE DATE HANDLING
-                    let dateText = "No Date";
-
-                    if (data.date) {
-                        const d = new Date(data.date);
-
-                        if (!isNaN(d)) {
-                            dateText = d.toLocaleString("en-IN", {
-                                dateStyle: "medium",
-                                timeStyle: "short"
-                            });
-                        }
-                    }
-
                     html += `
             <div class="col-md-4 mb-4">
                 <div class="gold-card">
-                    <h2>${data.title || "No Title"}</h2>
+                    <h4 style="color:gold;">12345 says HOT KAR</h4>
+<p style="color:#00ffcc;">Tribal Rhythm Says: SHOW HOGA 🔥</p>
+
+                    <h2>🔥 ${data.title || "Tribal Rhythm Event"}</h2>
+
+                    <p>🎭 Tribal Rhythm Says: SHOW HOGA</p>
 
                     <div class="countdown" data-time="${data.date || ""}"></div>
 
-                    <p>📍 ${data.place || "No Place"}</p>
+                    <p>📍 ${data.place || "Tribal Rhythm Stage"}</p>
 
-                    <p>⏰ ${dateText}</p>
+                    <p>⏰ ${data.date ? new Date(data.date).toLocaleString() : "Coming Soon"}</p>
+
                 </div>
             </div>
             `;
@@ -850,10 +842,10 @@
                 document.querySelector(".card-container").innerHTML = html;
 
             } catch (error) {
-                console.log("Upcoming Load Error:", error);
+                console.log(error);
 
                 document.querySelector(".card-container").innerHTML =
-                    `<p style="color:red;text-align:center;">❌ Failed to load programs</p>`;
+                    `<p style="color:red">❌ Firebase Load Failed</p>`;
             }
         }
         window.loadUpcoming = loadUpcoming;
@@ -1263,9 +1255,7 @@
 
     </script>
     <script>
-        window.addEventListener("load", () => {
-            loadUpcoming(); // ✅ NOW WORKS
-        });
+        window.addEventListener("DOMContentLoaded", loadUpcoming);
     </script>
 
     <!-- TYPE WRITER -->
