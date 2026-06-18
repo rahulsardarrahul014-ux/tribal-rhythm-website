@@ -35,7 +35,7 @@
     <meta property="og:type" content="website">
 
     <!-- FAVICON -->
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" type="image/png" href="tribalweblogo.png">
 
     <!-- GOOGLE FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -190,7 +190,7 @@
         <button onclick="logout()" class="btn btn-secondary w-100">Logout</button>
         <a href="dashboard.html" class="btn btn-warning w-100 mb-2">📊 Dashboard</a>
 
-        <a href="prize.html" class="btn btn-warning w-100">🏆 Certificates</a>
+        <a href="prizes.html" class="btn btn-warning w-100">🏆 Certificates</a>
     </div>
 
 
@@ -372,7 +372,7 @@
 
 
 
-        
+
 
         /* ================= LOGIN ================= */
 
@@ -499,6 +499,11 @@
 
             }
 
+            if (emailValue !== "rahulsardarrahul014@gmail.com") {
+                alert("Only owner can create admin");
+                return;
+            }
+
             try {
 
                 await createUserWithEmailAndPassword(
@@ -509,13 +514,15 @@
 
                 alert("Admin Created ✅");
 
-            }
+            } catch (e) {
 
-            catch (e) {
+                console.error("Code:", e.code);
+                console.error("Message:", e.message);
 
                 alert(e.message);
 
             }
+
 
         };
         window.logout = () => {
@@ -714,6 +721,12 @@
 
             // 👉 first category का winner निकाल रहे हैं (simple version)
             let firstCat = Object.keys(map)[0];
+
+            if (!firstCat) {
+                alert("No category found");
+                return;
+            }
+
             let arr = [];
 
             for (let name in map[firstCat]) {
@@ -721,6 +734,11 @@
             }
 
             arr.sort((a, b) => b.score - a.score);
+
+            if (arr.length === 0) {
+                alert("No scores found");
+                return;
+            }
 
             let winner = arr[0];
 
