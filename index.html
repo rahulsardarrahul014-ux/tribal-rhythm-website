@@ -811,41 +811,46 @@
 
         async function loadUpcoming() {
             try {
-                const snap = await getDocs(collection(window.db, "upcoming"));
+                console.log("Loading upcoming...");
+
+                const snap = await getDocs(collection(db, "upcoming"));
+
+                console.log("Docs found:", snap.size);
 
                 let html = "";
+
+                if (snap.empty) {
+                    document.querySelector(".card-container").innerHTML =
+                        `<p style="color:yellow;text-align:center;">No Upcoming Programs Found</p>`;
+                    return;
+                }
 
                 snap.forEach((doc) => {
                     const data = doc.data();
 
                     html += `
-            <div class="col-md-4 mb-4">
-                <div class="gold-card">
-                    <h4 style="color:gold;">12345 says HOT KAR</h4>
-<p style="color:#00ffcc;">Tribal Rhythm Says: SHOW HOGA 🔥</p>
+                <div class="col-md-4 mb-4">
+                    <div class="gold-card">
+                        <h4 style="color:gold;">${data.title || "No Title"}</h4>
+                        <p style="color:#00ffcc;">
+                            ${data.note || "Tribal Rhythm Says: SHOW HOGA 🔥"}
+                        </p>
 
-                    <h2>🔥 ${data.title || "Tribal Rhythm Event"}</h2>
+                        <div class="countdown" data-time="${data.date || ""}"></div>
 
-                    <p>🎭 Tribal Rhythm Says: SHOW HOGA</p>
-
-                    <div class="countdown" data-time="${data.date || ""}"></div>
-
-                    <p>📍 ${data.place || "Tribal Rhythm Stage"}</p>
-
-                    <p>⏰ ${data.date ? new Date(data.date).toLocaleString() : "Coming Soon"}</p>
-
+                        <p>📍 ${data.place || "No Place"}</p>
+                    </div>
                 </div>
-            </div>
             `;
                 });
 
                 document.querySelector(".card-container").innerHTML = html;
 
             } catch (error) {
-                console.log(error);
+                console.log("ERROR:", error);
 
                 document.querySelector(".card-container").innerHTML =
-                    `<p style="color:red">❌ Firebase Load Failed</p>`;
+                    `<p style="color:red;text-align:center;">❌ Firestore Error</p>`;
             }
         }
         window.loadUpcoming = loadUpcoming;
