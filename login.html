@@ -546,55 +546,59 @@
 
             try {
 
-                // 🔥 FIREBASE SAVE
-                await setDoc(doc(db, "users", email), {
-                    name,
-                    age,
-                    dob,
-                    mobile,
-                    email,
-                    whatsapp,
-                    state,
-                    language,
-                    status: "pending",
-                    createdAt: new Date()
-                });
+                ```
+await setDoc(doc(db, "users", email), {
+    name,
+    age,
+    dob,
+    mobile,
+    email,
+    whatsapp,
+    state,
+    language,
+    status: "pending",
+    createdAt: new Date()
+});
 
-                // Welcome Email
-                await emailjs.send(
-                    "service_ynim8tv",
-                    "WELCOME_template_56i8whi",
-                    {
-                        name: name,
-                        email: email
-                    }
-                );
+await emailjs.send(
+    "service_ynim8tv",
+    "WELCOME_template_56i8whi",
+    {
+        name: name,
+        email: email
+    }
+);
 
-                localStorage.setItem("email", email);
+localStorage.setItem("email", email);
 
-                // alert("Login Successful 🎉");
-
-                // window.location.href = "index.html";
-                Swal.fire({
-                    title: "Welcome to Tribal Rhythm! 🎉",
-                    text: "Registration & Login Successful",
-                    icon: "success"
-                }).then(() => {
-                    window.location.href = "index.html";
-                });
+Swal.fire({
+    title: "Welcome to Tribal Rhythm! 🎉",
+    text: "Registration & Login Successful",
+    icon: "success"
+}).then(() => {
+    window.location.href = "index.html";
+});
+```
 
             } catch (error) {
 
-                console.log(error);
-                // alert("Firebase Error ❌");
-                Swal.fire({
-                    title: "Tribal Rhythm",
-                    text: "Firebase Error",
-                    icon: "error"
-                });
+                ```
+console.error("Code:", error.code);
+console.error("Message:", error.message);
+
+Swal.fire({
+    title: "Firebase Error",
+    text: error.message,
+    icon: "error"
+});
+```
 
             }
         };
+
+
+
+
 
 
     </script>
