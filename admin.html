@@ -536,24 +536,24 @@
 
         };
 
-        
 
-       /* ================= START ================= */
 
-function start() {
+        /* ================= START ================= */
 
-    const loginDiv = document.getElementById("login");
-    const sideDiv = document.getElementById("side");
-    const mainDiv = document.getElementById("main");
+        function start() {
 
-    if (loginDiv) loginDiv.style.display = "none";
-    if (sideDiv) sideDiv.style.display = "block";
-    if (mainDiv) mainDiv.style.display = "block";
+            const loginDiv = document.getElementById("login");
+            const sideDiv = document.getElementById("side");
+            const mainDiv = document.getElementById("main");
 
-    loadData();
-    startScheduler();
-    loadLeaderboard();
-}
+            if (loginDiv) loginDiv.style.display = "none";
+            if (sideDiv) sideDiv.style.display = "block";
+            if (mainDiv) mainDiv.style.display = "block";
+
+            loadData();
+            startScheduler();
+            loadLeaderboard();
+        }
 
 
 
@@ -934,6 +934,14 @@ function start() {
         }
 
         /* ================= ACTIONS ================= */
+
+        window.approveUser = async (uid) => {
+            await updateDoc(doc(db, "users", uid), {
+                status: "approved"
+            });
+
+            alert("User Approved ✅");
+        };
 
         window.approve = id =>
             updateDoc(doc(db, "bookings", id), { status: "Approved" });
