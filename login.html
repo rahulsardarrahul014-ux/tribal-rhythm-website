@@ -538,11 +538,7 @@
                 return;
             }
 
-            // Swal.fire({
-            //     title: "Login Successful 🎉",
-            //     text: "Welcome to Tribal Rhythm - Competition & Talent Platform",
-            //     icon: "success"
-            // });
+          
 
           try {
 
@@ -562,7 +558,7 @@ await setDoc(doc(db, "users", email), {
 
 await emailjs.send(
     "service_ynim8tv",
-    "WELCOME_template_56i8whi",
+    "template_56i8whi",
     {
         name: name,
         email: email
