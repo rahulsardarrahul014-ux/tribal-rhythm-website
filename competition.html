@@ -29,58 +29,87 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        body {
-            background: #0b0b0b;
-            color: white;
-            font-family: Poppins;
-        }
+        body{
+    background:#0b0b0b;
+    font-family:Poppins,sans-serif;
+}
 
-        .header {
-            text-align: center;
-            padding: 20px;
-            border-bottom: 2px solid gold;
-        }
+.competition-section{
+    padding:60px 20px;
+}
 
-        .card-box {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid gold;
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 15px;
-        }
+.title{
+    text-align:center;
+    color:#ffd700;
+    margin-bottom:40px;
+    font-size:38px;
+}
 
-        .live-btn {
-            background: linear-gradient(45deg, gold, orange);
-            border: none;
-            padding: 10px 15px;
-            border-radius: 25px;
-            font-weight: bold;
-            margin: 5px;
-            cursor: pointer;
-        }
+.competition-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+}
 
-        input,
-        select {
-            width: 100%;
-            padding: 12px;
-            margin-top: 8px;
-            border-radius: 10px;
-            border: 1px solid #374151;
-            background: #111827;
-            color: white;
-            transition: 0.3s;
-        }
+.competition-card{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,215,0,.3);
+    border-radius:20px;
+    padding:25px;
+    position:relative;
+    transition:.4s;
+    backdrop-filter:blur(10px);
+}
 
-        input:focus,
-        select:focus {
-            border-color: gold;
-            box-shadow: 0 0 10px gold;
-            outline: none;
-        }
+.competition-card:hover{
+    transform:translateY(-8px);
+    border-color:#ffd700;
+    box-shadow:0 0 25px rgba(255,215,0,.4);
+}
 
-        iframe {
-            border-radius: 10px;
-        }
+.badge{
+    position:absolute;
+    top:15px;
+    right:15px;
+    background:linear-gradient(45deg,#ffd700,#ff8c00);
+    color:#000;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.competition-card h3{
+    color:#fff;
+    margin-bottom:10px;
+}
+
+.competition-card p{
+    color:#cfcfcf;
+}
+
+.info{
+    display:flex;
+    justify-content:space-between;
+    margin:20px 0;
+    color:#ffd700;
+    font-weight:600;
+}
+
+button{
+    width:100%;
+    border:none;
+    padding:12px;
+    border-radius:30px;
+    background:linear-gradient(45deg,#ffd700,#ff8c00);
+    color:#000;
+    font-weight:700;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.9;
+}
     </style>
 
 </head>
@@ -130,6 +159,93 @@
                 <option>Group</option>
             </select>
         </div>
+        <section class="competition-section">
+
+<h2 class="title">🏆 Tribal Rhythm Competitions</h2>
+
+<div class="competition-grid">
+
+    <div class="competition-card">
+        <div class="badge">LIVE</div>
+        <h3>💃 Tribal Dance Competition</h3>
+        <p>Solo / Group Dance Performance</p>
+
+        <div class="info">
+            <span>⏱ 3-5 Min</span>
+            <span>💰 ₹100</span>
+        </div>
+
+        <button>Register Now</button>
+    </div>
+
+    <div class="competition-card">
+        <div class="badge">POPULAR</div>
+        <h3>🎤 Tribal Singing</h3>
+        <p>Santali, Bhumij & Tribal Songs</p>
+
+        <div class="info">
+            <span>⏱ 4 Min</span>
+            <span>💰 ₹80</span>
+        </div>
+
+        <button>Register Now</button>
+    </div>
+
+    <div class="competition-card">
+        <div class="badge">NEW</div>
+        <h3>🥁 Madal / Baja Competition</h3>
+        <p>Traditional Tribal Instrument Contest</p>
+
+        <div class="info">
+            <span>⏱ 5 Min</span>
+            <span>💰 ₹120</span>
+        </div>
+
+        <button>Register Now</button>
+    </div>
+
+    <div class="competition-card">
+        <div class="badge">HOT</div>
+        <h3>👑 Tribal Beauty Queen</h3>
+        <p>Traditional Dress & Talent Round</p>
+
+        <div class="info">
+            <span>⏱ 5 Min</span>
+            <span>💰 ₹150</span>
+        </div>
+
+        <button>Register Now</button>
+    </div>
+
+    <div class="competition-card">
+        <div class="badge">GK</div>
+        <h3>📚 Tribal GK Quiz</h3>
+        <p>History, Culture & Heritage Quiz</p>
+
+        <div class="info">
+            <span>⏱ 20 Min</span>
+            <span>💰 ₹30</span>
+        </div>
+
+        <button>Register Now</button>
+    </div>
+
+    <div class="competition-card">
+        <div class="badge">ESSAY</div>
+        <h3>✍ Essay Writing</h3>
+        <p>Tribal Culture Based Topics</p>
+
+        <div class="info">
+            <span>⏱ 30 Min</span>
+            <span>💰 ₹50</span>
+        </div>
+
+        <button>Register Now</button>
+    </div>
+
+</div>
+
+</section>
 
         <!-- LIVE AREA -->
         <div class="card-box">
