@@ -302,6 +302,12 @@
             <input maxlength="1" class="phone-otp">
             <input maxlength="1" class="phone-otp">
         </div>
+        <div style="margin-top:10px;">
+            <span id="phoneTimerText" style="color:red;">(60)</span>
+            <a href="javascript:void(0)" id="phoneResendBtn" onclick="sendPhoneOTP()" style="color:gold;">
+                Resend Phone OTP
+            </a>
+        </div>
 
         <button id="phoneVerifyBtn" class="verify-btn" onclick="verifyPhoneOTP()" style="display:none;">
             ✔ Verify Phone OTP </button>
@@ -311,6 +317,12 @@
         <button class="otp-btn mt-2" onclick="sendOTP()">
             📧 Send Email OTP
         </button>
+        <div style="margin-top:10px;">
+            <span id="emailTimerText" style="color:red;">(60)</span>
+            <a href="javascript:void(0)" id="emailResendBtn" onclick="sendOTP()" style="color:gold;">
+                Resend Email OTP
+            </a>
+        </div>
 
         <div id="emailOtpBox" class="otp-container" style="display:none;">
             <input maxlength="1" class="email-otp">
@@ -384,9 +396,7 @@
 
         <div id="recaptcha-container"></div>
 
-       <button class="resend" id="resendBtn" onclick="sendOTP()" disabled>
-            Resend OTP (<span id="timer">60</span>)
-        </button>
+
 
 
     </div>
@@ -395,6 +405,13 @@
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
     <script type="module">
+
+        let emailTime = 60;
+        let phoneTime = 60;
+        let emailInterval;
+        let phoneInterval;
+        let emailVerified = false;
+        let phoneVerified = false;
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -416,6 +433,47 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
+
+
+        function startEmailTimer() {
+            clearInterval(emailInterval);
+            emailTime = 60;
+
+            document.getElementById("emailResendBtn").style.pointerEvents = "none";
+
+            emailInterval = setInterval(() => {
+                emailTime--;
+
+                document.getElementById("emailTimerText").innerText = `(${emailTime})`;
+
+                if (emailTime <= 0) {
+                    clearInterval(emailInterval);
+                    document.getElementById("emailResendBtn").style.pointerEvents = "auto";
+                    document.getElementById("emailTimerText").innerText = "(0)";
+
+                }
+            }, 1000);
+        }
+
+
+        function startPhoneTimer() {
+            clearInterval(phoneInterval);
+            phoneTime = 60;
+
+            document.getElementById("phoneResendBtn").style.pointerEvents = "none";
+
+            phoneInterval = setInterval(() => {
+                phoneTime--;
+
+                document.getElementById("phoneTimerText").innerText = `(${phoneTime})`;
+
+                if (phoneTime <= 0) {
+                    clearInterval(phoneInterval);
+                    document.getElementById("phoneResendBtn").style.pointerEvents = "auto";
+                    document.getElementById("phoneTimerText").innerText = "(0)";
+                }
+            }, 1000);
+        }
 
         window.recaptchaVerifier = new RecaptchaVerifier(
             auth,
@@ -461,22 +519,7 @@
         let interval;
 
         // ⏱ TIMER
-        function startTimer() {
-            clearInterval(interval);
 
-            time = 60;
-            document.getElementById("resendBtn").disabled = true;
-
-            interval = setInterval(() => {
-                time--;
-                document.getElementById("timer").innerText = time;
-
-                if (time <= 0) {
-                    clearInterval(interval);
-                    document.getElementById("resendBtn").disabled = false;
-                }
-            }, 1000);
-        }
 
         // 📧 SEND EMAIL OTP
         window.sendOTP = function () {
@@ -516,7 +559,7 @@
                         "success"
                     );
 
-                    startTimer();
+                    startEmailTimer();
 
                     document.getElementById(
                         "emailOtpBox"
@@ -539,15 +582,22 @@
                 });
         };
 
+
+
         // ✅ VERIFY EMAIL OTP
         window.verifyOTP = async function () {
 
             let otp = "";
 
-           document.querySelectorAll(".email-otp")
+            document.querySelectorAll(".email-otp")
                 .forEach(input => {
                     otp += input.value;
                 });
+
+            if (otp.length !== 6) {
+                Swal.fire("Error", "Enter full OTP", "warning");
+                return;
+            }
 
             if (Date.now() > otpExpireTime) {
 
@@ -605,6 +655,10 @@
                 );
 
                 localStorage.setItem("email", email);
+
+                emailVerified = true;
+
+                checkFinalSuccess();
 
                 Swal.fire({
                     title: "Welcome to Tribal Rhythm 🎉",
@@ -672,6 +726,8 @@
                     "success"
                 );
 
+                startPhoneTimer();
+
             } catch (error) {
 
                 console.log(error);
@@ -685,19 +741,28 @@
             }
         };
 
+
+
         // 📱 VERIFY PHONE OTP
         window.verifyPhoneOTP = async function () {
 
             let otp = "";
 
-           document.querySelectorAll(".phone-otp")
-                .forEach(input => {
-                    otp += input.value;
-                });
+            document.querySelectorAll(".phone-otp").forEach(input => {
+                otp += input.value;
+            });
+
+            if (otp.length !== 6) {
+                Swal.fire("Error", "Enter full OTP", "warning");
+                return;
+            }
 
             try {
-
                 await window.confirmationResult.confirm(otp);
+
+                phoneVerified = true;
+                document.getElementById("phoneVerifyBtn").disabled = true;
+                checkFinalSuccess();
 
                 Swal.fire({
                     title: "Success",
@@ -705,16 +770,26 @@
                     icon: "success"
                 });
 
+                // checkFinalSuccess();
+
             } catch (error) {
+                Swal.fire("Error", "Invalid OTP", "error");
+            }
+        };
+
+        function checkFinalSuccess() {
+            if (emailVerified && phoneVerified) {
 
                 Swal.fire({
-                    title: "Error",
-                    text: "Invalid OTP",
-                    icon: "error"
+                    title: "🎉 Registration Complete",
+                    text: "Email + Phone both verified successfully",
+                    icon: "success"
+                }).then(() => {
+                    window.location.href = "index.html";
                 });
 
             }
-        };
+        }
 
 
 
