@@ -384,14 +384,7 @@
 
         <div id="recaptcha-container"></div>
 
-        <button class="otp-btn" onclick="sendOTP()">Send OTP</button>
-        <button onclick="sendPhoneOTP()">
-            📱 Send Phone OTP
-        </button>
-
-
-
-        <button class="resend" id="resendBtn" onclick="sendOTP()" disabled>
+       <button class="resend" id="resendBtn" onclick="sendOTP()" disabled>
             Resend OTP (<span id="timer">60</span>)
         </button>
 
@@ -551,8 +544,7 @@
 
             let otp = "";
 
-            document
-               document.querySelectorAll(".email-otp")
+           document.querySelectorAll(".email-otp")
                 .forEach(input => {
                     otp += input.value;
                 });
@@ -698,8 +690,7 @@
 
             let otp = "";
 
-            document
-               document.querySelectorAll(".phone-otp")
+           document.querySelectorAll(".phone-otp")
                 .forEach(input => {
                     otp += input.value;
                 });

@@ -688,57 +688,134 @@
         // ================= SEND OTP =================
         window.sendOTP = async function () {
 
-            let email = document.getElementById("ticketEmail").value.trim();
-            // let pass = document.getElementById("password").value.trim();
+            let email =
+                document.getElementById("ticketEmail")
+                    .value.trim();
+
+            console.log("Email:", email);
 
             if (!email) {
-                Swal.fire({
-                    title: "Tribal Rhythm",
-                    text: "Email Required",
-                    icon: "warning"
-                });
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Email Required",
+                    "warning"
+                );
                 return;
             }
 
+            try {
 
+                let res = await fetch(
+                    `${API_URL}/send-otp`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body: JSON.stringify({
+                            email: email
+                        })
+                    }
+                );
+
+                console.log("Response:", res);
+
+                let data = await res.json();
+
+                console.log(data);
+
+                if (data.success) {
+
+                    Swal.fire(
+                        "Tribal Rhythm",
+                        "OTP Sent Successfully",
+                        "success"
+                    );
+
+                } else {
+
+                    Swal.fire(
+                        "Tribal Rhythm",
+                        data.message ||
+                        "Failed To Send OTP",
+                        "error"
+                    );
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                Swal.fire(
+                    "Tribal Rhythm",
+                    error.message,
+                    "error"
+                );
+            }
+        };
+
+
+        // ================= VERIFY OTP =================
+        window.verifyOTP = async function () {
+
+            let email = document.getElementById("ticketEmail").value.trim();
+            let otp = document.getElementById("ticketOTP").value.trim();
+            let name = document.getElementById("ticketName").value.trim();
+            let mobile = document.getElementById("ticketPhone").value.trim();
 
             try {
 
-                let res = await fetch(`${API_URL}/send-otp`, {
+                let res = await fetch(`${API_URL}/verify-otp`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ email })
+                    body: JSON.stringify({
+                        email,
+                        otp,
+                        name,
+                        mobile
+                    })
                 });
 
                 let data = await res.json();
 
                 if (data.success) {
-                    Swal.fire({
-                        title: "Tribal Rhythm",
-                        text: "OTP Sent Successfully",
-                        icon: "success"
-                    });
+
+                    localStorage.setItem("ticketVerified", "true");
+                    localStorage.setItem("ticketId", data.ticketId);
+
+                    Swal.fire(
+                        "Tribal Rhythm",
+                        `OTP Verified ✅ Ticket ID: ${data.ticketId}`,
+                        "success"
+                    );
+
                 } else {
-                    Swal.fire({
-                        title: "Tribal Rhythm",
-                        text: "Failed to Send OTP",
-                        icon: "error"
-                    });
+
+                    Swal.fire(
+                        "Tribal Rhythm",
+                        data.message || "Invalid OTP",
+                        "error"
+                    );
                 }
 
-            } catch (error) {
+            } catch (err) {
 
-                Swal.fire({
-                    title: "Tribal Rhythm",
-                    text: "Server Error. Please Try Again",
-                    icon: "error"
-                });
+                console.log(err);
 
-                console.error(error);
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Verification Failed",
+                    "error"
+                );
             }
         };
+
+
+        // load up coming section
 
         async function loadUpcoming() {
             try {
@@ -1078,16 +1155,30 @@
                 icon: "success"
             });
         };
+
+
         /* ================= GO TO TICKET ================= */
         window.goToTicket = function () {
 
-            // scroll to ticket section
+            let verified = localStorage.getItem("ticketVerified");
+
+            if (verified !== "true") {
+
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Please Verify OTP First",
+                    "warning"
+                );
+
+                return;
+            }
+
             document.getElementById("ticket").scrollIntoView({
                 behavior: "smooth"
             });
 
-            // highlight effect
             let section = document.getElementById("ticket");
+
             section.style.border = "2px solid gold";
 
             setTimeout(() => {
@@ -1139,7 +1230,7 @@
                 currency: "INR",
                 name: "Tribal Rhythm",
                 description: type + " Ticket",
-                order_id: data.orderId,
+                order_id: data.id,  
 
                 handler: async function (response) {
 
