@@ -29,87 +29,82 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        body{
-    background:#0b0b0b;
-    font-family:Poppins,sans-serif;
-}
+        body {
+            background: #0b0b0b;
+            font-family: Poppins, sans-serif;
+        }
 
-.competition-section{
-    padding:60px 20px;
-}
+        .competition-section {
+            padding: 60px 20px;
+        }
 
-.title{
-    text-align:center;
-    color:#ffd700;
-    margin-bottom:40px;
-    font-size:38px;
-}
+        .title {
+            text-align: center;
+            color: #ffd700;
+            margin-bottom: 40px;
+            font-size: 40px;
+        }
 
-.competition-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:25px;
-}
+        .competition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
 
-.competition-card{
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,215,0,.3);
-    border-radius:20px;
-    padding:25px;
-    position:relative;
-    transition:.4s;
-    backdrop-filter:blur(10px);
-}
+        .competition-card {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 215, 0, .3);
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            backdrop-filter: blur(12px);
+            transition: .4s;
+        }
 
-.competition-card:hover{
-    transform:translateY(-8px);
-    border-color:#ffd700;
-    box-shadow:0 0 25px rgba(255,215,0,.4);
-}
+        .competition-card:hover {
+            transform: translateY(-8px);
+            border-color: #ffd700;
+            box-shadow: 0 0 25px rgba(255, 215, 0, .4);
+        }
 
-.badge{
-    position:absolute;
-    top:15px;
-    right:15px;
-    background:linear-gradient(45deg,#ffd700,#ff8c00);
-    color:#000;
-    padding:6px 12px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:bold;
-}
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: #000;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
 
-.competition-card h3{
-    color:#fff;
-    margin-bottom:10px;
-}
+        .competition-card h3 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
 
-.competition-card p{
-    color:#cfcfcf;
-}
+        .competition-card p {
+            color: #cfcfcf;
+        }
 
-.info{
-    display:flex;
-    justify-content:space-between;
-    margin:20px 0;
-    color:#ffd700;
-    font-weight:600;
-}
+        .info {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            color: #ffd700;
+            font-weight: 600;
+        }
 
-button{
-    width:100%;
-    border:none;
-    padding:12px;
-    border-radius:30px;
-    background:linear-gradient(45deg,#ffd700,#ff8c00);
-    color:#000;
-    font-weight:700;
-    cursor:pointer;
-}
-
-button:hover{
-    opacity:.9;
-}
+        button {
+            width: 100%;
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            font-weight: 700;
+            cursor: pointer;
+        }
     </style>
 
 </head>
@@ -159,93 +154,90 @@ button:hover{
                 <option>Group</option>
             </select>
         </div>
+        <!-- Competition Card Example -->
+
         <section class="competition-section">
 
-<h2 class="title">🏆 Tribal Rhythm Competitions</h2>
+            <h2 class="title">🏆 Tribal Rhythm Competitions</h2>
 
-<div class="competition-grid">
+            <div class="competition-grid">
 
-    <div class="competition-card">
-        <div class="badge">LIVE</div>
-        <h3>💃 Tribal Dance Competition</h3>
-        <p>Solo / Group Dance Performance</p>
+                <div class="competition-card">
+                    <div class="badge">LIVE</div>
 
-        <div class="info">
-            <span>⏱ 3-5 Min</span>
-            <span>💰 ₹100</span>
-        </div>
+                    <h3>💃 Tribal Dance Competition</h3>
 
-        <button>Register Now</button>
-    </div>
+                    <p>Solo / Group Dance Performance</p>
 
-    <div class="competition-card">
-        <div class="badge">POPULAR</div>
-        <h3>🎤 Tribal Singing</h3>
-        <p>Santali, Bhumij & Tribal Songs</p>
+                    <div class="info">
+                        <span>⏱ 3-5 Min</span>
+                        <span>💰 ₹100</span>
+                    </div>
 
-        <div class="info">
-            <span>⏱ 4 Min</span>
-            <span>💰 ₹80</span>
-        </div>
+                    <button onclick="joinCompetition('Tribal Dance',100)">
+                        Join Competition
+                    </button>
 
-        <button>Register Now</button>
-    </div>
+                </div>
 
-    <div class="competition-card">
-        <div class="badge">NEW</div>
-        <h3>🥁 Madal / Baja Competition</h3>
-        <p>Traditional Tribal Instrument Contest</p>
+                <div class="competition-card">
+                    <div class="badge">POPULAR</div>
 
-        <div class="info">
-            <span>⏱ 5 Min</span>
-            <span>💰 ₹120</span>
-        </div>
+                    <h3>🎤 Tribal Singing Competition</h3>
 
-        <button>Register Now</button>
-    </div>
+                    <p>Santali & Bhumij Songs</p>
 
-    <div class="competition-card">
-        <div class="badge">HOT</div>
-        <h3>👑 Tribal Beauty Queen</h3>
-        <p>Traditional Dress & Talent Round</p>
+                    <div class="info">
+                        <span>⏱ 4 Min</span>
+                        <span>💰 ₹120</span>
+                    </div>
 
-        <div class="info">
-            <span>⏱ 5 Min</span>
-            <span>💰 ₹150</span>
-        </div>
+                    <button onclick="joinCompetition('Tribal Singing',120)">
+                        Join Competition
+                    </button>
 
-        <button>Register Now</button>
-    </div>
+                </div>
 
-    <div class="competition-card">
-        <div class="badge">GK</div>
-        <h3>📚 Tribal GK Quiz</h3>
-        <p>History, Culture & Heritage Quiz</p>
+                <div class="competition-card">
+                    <div class="badge">HOT</div>
 
-        <div class="info">
-            <span>⏱ 20 Min</span>
-            <span>💰 ₹30</span>
-        </div>
+                    <h3>🥁 Tribal Baja Competition</h3>
 
-        <button>Register Now</button>
-    </div>
+                    <p>Madal, Dhamsa & Traditional Instruments</p>
 
-    <div class="competition-card">
-        <div class="badge">ESSAY</div>
-        <h3>✍ Essay Writing</h3>
-        <p>Tribal Culture Based Topics</p>
+                    <div class="info">
+                        <span>⏱ 5 Min</span>
+                        <span>💰 ₹150</span>
+                    </div>
 
-        <div class="info">
-            <span>⏱ 30 Min</span>
-            <span>💰 ₹50</span>
-        </div>
+                    <button onclick="joinCompetition('Tribal Baja',150)">
+                        Join Competition
+                    </button>
 
-        <button>Register Now</button>
-    </div>
+                </div>
 
-</div>
+                <div class="competition-card">
+                    <div class="badge">QUEEN</div>
 
-</section>
+                    <h3>👑 Beauty Queen Competition</h3>
+
+                    <p>Traditional Dress & Talent Round</p>
+
+                    <div class="info">
+                        <span>⏱ 5 Min</span>
+                        <span>💰 ₹200</span>
+                    </div>
+
+                    <button onclick="joinCompetition('Beauty Queen',200)">
+                        Join Competition
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
 
         <!-- LIVE AREA -->
         <div class="card-box">
@@ -285,7 +277,7 @@ button:hover{
             apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
             authDomain: "tribalrhythm-486bd.firebaseapp.com",
             projectId: "tribalrhythm-486bd",
-            storageBucket:"tribalrhythm-486bd.firebasestorage.app",
+            storageBucket: "tribalrhythm-486bd.firebasestorage.app",
             messagingSenderId: "566528037279",
             appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
         };
@@ -520,6 +512,38 @@ button:hover{
         }, 1000 * 60 * 30);
 
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function joinCompetition(name, fee) {
+
+            Swal.fire({
+                title: "🏆 Tribal Rhythm",
+                html: `
+<h3>${name}</h3>
+<p>Competition Fee: ₹${fee}</p>
+<p>Do you want to join this competition?</p>
+`,
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Join Now"
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    Swal.fire(
+                        "Success",
+                        "Registration Started",
+                        "success"
+                    );
+
+                }
+            });
+
+        }
+    </script>
+
 
 </body>
 

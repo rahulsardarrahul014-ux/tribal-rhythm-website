@@ -260,6 +260,21 @@
         .verify-btn {
             display: none;
         }
+
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .otp-container input {
+            width: 45px;
+            height: 50px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -274,8 +289,43 @@
         <input id="age" placeholder="Age">
         <input id="dob" type="date">
         <input id="mobile" placeholder="Mobile Number">
+
+        <button class="otp-btn mt-2" onclick="sendPhoneOTP()">
+            📱 Send Phone OTP
+        </button>
+
+        <div id="phoneOtpBox" class="otp-container" style="display:none;">
+            <input maxlength="1" class="phone-otp">
+            <input maxlength="1" class="phone-otp">
+            <input maxlength="1" class="phone-otp">
+            <input maxlength="1" class="phone-otp">
+            <input maxlength="1" class="phone-otp">
+            <input maxlength="1" class="phone-otp">
+        </div>
+
+        <button id="phoneVerifyBtn" class="verify-btn" onclick="verifyPhoneOTP()" style="display:none;">
+            ✔ Verify Phone OTP </button>
+
         <input id="email" placeholder="Email">
-        <input id="whatsapp" placeholder="whatsapp number">
+
+        <button class="otp-btn mt-2" onclick="sendOTP()">
+            📧 Send Email OTP
+        </button>
+
+        <div id="emailOtpBox" class="otp-container" style="display:none;">
+            <input maxlength="1" class="email-otp">
+            <input maxlength="1" class="email-otp">
+            <input maxlength="1" class="email-otp">
+            <input maxlength="1" class="email-otp">
+            <input maxlength="1" class="email-otp">
+            <input maxlength="1" class="email-otp">
+        </div>
+
+        <button id="emailVerifyBtn" class="verify-btn" onclick="verifyOTP()" style="display:none;">
+            ✅ Verify Email OTP </button>
+
+        <input id="whatsapp" placeholder="Whatsapp Number">
+
 
         <!-- STATE -->
         <select id="state">
@@ -339,21 +389,7 @@
             📱 Send Phone OTP
         </button>
 
-        <div id="otpBox" style="display:none;">
-            <div class="otp-container">
-                <input maxlength="1" class="otp-digit">
-                <input maxlength="1" class="otp-digit">
-                <input maxlength="1" class="otp-digit">
-                <input maxlength="1" class="otp-digit">
-                <input maxlength="1" class="otp-digit">
-                <input maxlength="1" class="otp-digit">
-            </div>
-        </div>
 
-        <button class="verify-btn" onclick="verifyOTP()">Verify OTP</button>
-        <button onclick="verifyPhoneOTP()">
-            Verify Phone OTP
-        </button>
 
         <button class="resend" id="resendBtn" onclick="sendOTP()" disabled>
             Resend OTP (<span id="timer">60</span>)
@@ -396,263 +432,298 @@
             }
         );
 
+        const setupOTPBoxes = () => {
+
+            document.querySelectorAll(
+                '.email-otp,.phone-otp'
+            ).forEach((box, index, arr) => {
+
+                box.addEventListener('input', () => {
+
+                    if (
+                        box.value.length === 1 &&
+                        index < arr.length - 1
+                    ) {
+                        arr[index + 1].focus();
+                    }
+
+                });
+
+            });
+
+        };
+
+        setTimeout(setupOTPBoxes, 500);
+
+
         // 🔥 EMAILJS INIT
         (function () {
             emailjs.init("FYCnHXj3AQZc52uq6"); // paste public key
         })();
 
-       // 🔐 OTP VARIABLES
-let generatedOTP = "";
-let otpExpireTime = 0;
-let time = 60;
-let interval;
+        // 🔐 OTP VARIABLES
+        let generatedOTP = "";
+        let otpExpireTime = 0;
+        let time = 60;
+        let interval;
 
-// ⏱ TIMER
-function startTimer() {
-    clearInterval(interval);
-
-    time = 60;
-    document.getElementById("resendBtn").disabled = true;
-
-    interval = setInterval(() => {
-        time--;
-        document.getElementById("timer").innerText = time;
-
-        if (time <= 0) {
+        // ⏱ TIMER
+        function startTimer() {
             clearInterval(interval);
-            document.getElementById("resendBtn").disabled = false;
+
+            time = 60;
+            document.getElementById("resendBtn").disabled = true;
+
+            interval = setInterval(() => {
+                time--;
+                document.getElementById("timer").innerText = time;
+
+                if (time <= 0) {
+                    clearInterval(interval);
+                    document.getElementById("resendBtn").disabled = false;
+                }
+            }, 1000);
         }
-    }, 1000);
-}
 
-// 📧 SEND EMAIL OTP
-window.sendOTP = function () {
+        // 📧 SEND EMAIL OTP
+        window.sendOTP = function () {
 
-    let name = document.getElementById("name").value;
-    let age = document.getElementById("age").value;
-    let dob = document.getElementById("dob").value;
-    let mobile = document.getElementById("mobile").value;
-    let email = document.getElementById("email").value;
-    let state = document.getElementById("state").value;
-    let language = document.getElementById("language").value;
-    let rules = document.getElementById("rulesCheck").checked;
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+            let dob = document.getElementById("dob").value;
+            let mobile = document.getElementById("mobile").value;
+            let email = document.getElementById("email").value;
+            let state = document.getElementById("state").value;
+            let language = document.getElementById("language").value;
+            let rules = document.getElementById("rulesCheck").checked;
 
-    if (!name || !age || !dob || !mobile || !email || !state || !language) {
-        Swal.fire("Tribal Rhythm", "Please fill all details", "warning");
-        return;
-    }
-
-    if (!rules) {
-        Swal.fire("Tribal Rhythm", "Please accept Rules & Regulations", "warning");
-        return;
-    }
-
-    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-    otpExpireTime = Date.now() + 60000;
-
-    emailjs.send("service_ynim8tv", "template_87yxux8", {
-        name: name,
-        email: email,
-        otp: generatedOTP
-    })
-        .then(() => {
-
-            Swal.fire(
-                "Tribal Rhythm",
-                "OTP sent to Email",
-                "success"
-            );
-
-            startTimer();
-
-            document.getElementById("otpBox").style.display = "block";
-            document.querySelector(".verify-btn").style.display = "block";
-
-        })
-        .catch(() => {
-
-            Swal.fire(
-                "Tribal Rhythm",
-                "Failed to send OTP",
-                "error"
-            );
-
-        });
-};
-
-// ✅ VERIFY EMAIL OTP
-window.verifyOTP = async function () {
-
-    let otp = "";
-
-    document
-        .querySelectorAll(".otp-digit")
-        .forEach(input => {
-            otp += input.value;
-        });
-
-    if (Date.now() > otpExpireTime) {
-
-        Swal.fire(
-            "Tribal Rhythm",
-            "OTP Expired",
-            "error"
-        );
-
-        return;
-    }
-
-    if (otp !== generatedOTP) {
-
-        Swal.fire(
-            "Tribal Rhythm",
-            "Wrong OTP",
-            "error"
-        );
-
-        return;
-    }
-
-    try {
-
-        let name = document.getElementById("name").value.trim();
-        let age = document.getElementById("age").value.trim();
-        let dob = document.getElementById("dob").value.trim();
-        let mobile = document.getElementById("mobile").value.trim();
-        let whatsapp = document.getElementById("whatsapp").value.trim();
-        let email = document.getElementById("email").value.trim();
-        let state = document.getElementById("state").value.trim();
-        let language = document.getElementById("language").value.trim();
-
-        await setDoc(doc(db, "users", email), {
-            name,
-            age,
-            dob,
-            mobile,
-            whatsapp,
-            email,
-            state,
-            language,
-            status: "pending",
-            createdAt: new Date()
-        });
-
-        await emailjs.send(
-            "service_ynim8tv",
-            "template_56i8whi",
-            {
-                name,
-                email
+            if (!name || !age || !dob || !mobile || !email || !state || !language) {
+                Swal.fire("Tribal Rhythm", "Please fill all details", "warning");
+                return;
             }
-        );
 
-        localStorage.setItem("email", email);
+            if (!rules) {
+                Swal.fire("Tribal Rhythm", "Please accept Rules & Regulations", "warning");
+                return;
+            }
 
-        Swal.fire({
-            title: "Welcome to Tribal Rhythm 🎉",
-            text: "Registration Successful",
-            icon: "success"
-        }).then(() => {
-            window.location.href = "index.html";
-        });
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            otpExpireTime = Date.now() + 60000;
 
-    } catch (error) {
+            emailjs.send("service_ynim8tv", "template_87yxux8", {
+                name: name,
+                email: email,
+                otp: generatedOTP
+            })
+                .then(() => {
 
-        console.log(error);
+                    Swal.fire(
+                        "Tribal Rhythm",
+                        "OTP sent to Email",
+                        "success"
+                    );
 
-        Swal.fire(
-            "Firebase Error",
-            error.message,
-            "error"
-        );
-    }
-};
+                    startTimer();
 
-// 📱 SEND PHONE OTP
-window.sendPhoneOTP = async function () {
+                    document.getElementById(
+                        "emailOtpBox"
+                    ).style.display = "flex";
 
-    let mobile =
-        document.getElementById("mobile").value;
+                    document.getElementById(
+                        "emailVerifyBtn"
+                    ).style.display = "block";
 
-    if (mobile.length !== 10) {
 
-        Swal.fire(
-            "Tribal Rhythm",
-            "Enter valid mobile number",
-            "warning"
-        );
+                })
+                .catch(() => {
 
-        return;
-    }
+                    Swal.fire(
+                        "Tribal Rhythm",
+                        "Failed to send OTP",
+                        "error"
+                    );
 
-    const phoneNumber = "+91" + mobile;
+                });
+        };
 
-    try {
+        // ✅ VERIFY EMAIL OTP
+        window.verifyOTP = async function () {
 
-        const confirmationResult =
-            await signInWithPhoneNumber(
-                auth,
-                phoneNumber,
-                window.recaptchaVerifier
-            );
+            let otp = "";
 
-        window.confirmationResult =
-            confirmationResult;
+            document
+               document.querySelectorAll(".email-otp")
+                .forEach(input => {
+                    otp += input.value;
+                });
 
-        document.getElementById(
-            "otpBox"
-        ).style.display = "block";
+            if (Date.now() > otpExpireTime) {
 
-        Swal.fire(
-            "Success",
-            "OTP Sent To Mobile",
-            "success"
-        );
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "OTP Expired",
+                    "error"
+                );
 
-    } catch (error) {
+                return;
+            }
 
-        console.log(error);
+            if (otp !== generatedOTP) {
 
-        Swal.fire(
-            "Error",
-            error.message,
-            "error"
-        );
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Wrong OTP",
+                    "error"
+                );
 
-    }
-};
+                return;
+            }
 
-// 📱 VERIFY PHONE OTP
-window.verifyPhoneOTP = async function () {
+            try {
 
-    let otp = "";
+                let name = document.getElementById("name").value.trim();
+                let age = document.getElementById("age").value.trim();
+                let dob = document.getElementById("dob").value.trim();
+                let mobile = document.getElementById("mobile").value.trim();
+                let whatsapp = document.getElementById("whatsapp").value.trim();
+                let email = document.getElementById("email").value.trim();
+                let state = document.getElementById("state").value.trim();
+                let language = document.getElementById("language").value.trim();
 
-    document
-        .querySelectorAll(".otp-digit")
-        .forEach(input => {
-            otp += input.value;
-        });
+                await setDoc(doc(db, "users", email), {
+                    name,
+                    age,
+                    dob,
+                    mobile,
+                    whatsapp,
+                    email,
+                    state,
+                    language,
+                    status: "pending",
+                    createdAt: new Date()
+                });
 
-    try {
+                await emailjs.send(
+                    "service_ynim8tv",
+                    "template_56i8whi",
+                    {
+                        name,
+                        email
+                    }
+                );
 
-        await window.confirmationResult.confirm(otp);
+                localStorage.setItem("email", email);
 
-        Swal.fire({
-            title: "Success",
-            text: "Phone Verified Successfully",
-            icon: "success"
-        });
+                Swal.fire({
+                    title: "Welcome to Tribal Rhythm 🎉",
+                    text: "Registration Successful",
+                    icon: "success"
+                }).then(() => {
+                    window.location.href = "index.html";
+                });
 
-    } catch (error) {
+            } catch (error) {
 
-        Swal.fire({
-            title: "Error",
-            text: "Invalid OTP",
-            icon: "error"
-        });
+                console.log(error);
 
-    }
-};
+                Swal.fire(
+                    "Firebase Error",
+                    error.message,
+                    "error"
+                );
+            }
+        };
+
+        // 📱 SEND PHONE OTP
+        window.sendPhoneOTP = async function () {
+
+            let mobile =
+                document.getElementById("mobile").value;
+
+            if (mobile.length !== 10) {
+
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Enter valid mobile number",
+                    "warning"
+                );
+
+                return;
+            }
+
+            const phoneNumber = "+91" + mobile;
+
+            try {
+
+                const confirmationResult =
+                    await signInWithPhoneNumber(
+                        auth,
+                        phoneNumber,
+                        window.recaptchaVerifier
+                    );
+
+                window.confirmationResult =
+                    confirmationResult;
+
+                document.getElementById(
+                    "phoneOtpBox"
+                ).style.display = "flex";
+
+                document.getElementById(
+                    "phoneVerifyBtn"
+                ).style.display = "block";
+
+
+                Swal.fire(
+                    "Success",
+                    "OTP Sent To Mobile",
+                    "success"
+                );
+
+            } catch (error) {
+
+                console.log(error);
+
+                Swal.fire(
+                    "Error",
+                    error.message,
+                    "error"
+                );
+
+            }
+        };
+
+        // 📱 VERIFY PHONE OTP
+        window.verifyPhoneOTP = async function () {
+
+            let otp = "";
+
+            document
+               document.querySelectorAll(".phone-otp")
+                .forEach(input => {
+                    otp += input.value;
+                });
+
+            try {
+
+                await window.confirmationResult.confirm(otp);
+
+                Swal.fire({
+                    title: "Success",
+                    text: "Phone Verified Successfully",
+                    icon: "success"
+                });
+
+            } catch (error) {
+
+                Swal.fire({
+                    title: "Error",
+                    text: "Invalid OTP",
+                    icon: "error"
+                });
+
+            }
+        };
 
 
 

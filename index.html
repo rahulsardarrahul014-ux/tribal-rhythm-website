@@ -15,7 +15,7 @@
     <meta name="author" content="Rahul Sardar">
 
     <meta name="robots" content="index, follow">
-    <img src="tribalweblogo.png" alt="Tribal Rhythm Logo" class="logo-img me-2">
+    <!-- <img src="tribalweblogo.png" alt="Tribal Rhythm Logo" class="logo-img me-2"> -->
 
     <!-- SOCIAL SHARE -->
     <meta property="og:title" content="Tribal Rhythm">
@@ -23,7 +23,8 @@
     <meta property="og:image" content="tribalweblogo.png">
 
     <title>Tribal Rhythm | Official Cultural Platform</title>
-    <link rel="icon" type="image/png" href="tribalweblogo.png">
+    <!-- <link rel="icon" type="image/png" href="tribalweblogo.png"> -->
+    <link rel="icon" href="tribalweblogo.png">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -348,6 +349,8 @@
                         </select>
 
                         <button onclick="sendOTP()">Send OTP</button>
+                        <input type="text" id="ticketOTP" placeholder="Enter OTP">
+                        <button onclick="verifyOTP()">Verify OTP</button>
                         <button onclick="goToTicket()">Book Ticket</button>
 
                     </div>
@@ -563,7 +566,7 @@
 
     </section>
 
-    
+
 
     <!-- ================= GALLERY MODAL ================= -->
 
@@ -933,33 +936,49 @@
         };
         /* ================= FIREBASE UPLOAD ================= */
         window.uploadFirebase = async function () {
-            let file = document.getElementById("fbFile").files[0];
-            let title = document.getElementById("fbTitle").value;
 
-            if (!file) return alert("Select file first!");
-            if (!file.type.startsWith("video/")) {
-                alert("Please select video file");
-                return;
+            try {
+
+                let file = document.getElementById("fbFile").files[0];
+                let title = document.getElementById("fbTitle").value;
+
+                if (!file) {
+                    Swal.fire("Tribal Rhythm", "Select Video First", "warning");
+                    return;
+                }
+
+                let fileRef = storageRef(storage, "videos/" + file.name);
+
+                await uploadBytes(fileRef, file);
+
+                let url = await getDownloadURL(fileRef);
+
+                await addDoc(collection(db, "videos"), {
+                    title,
+                    videoUrl: url,
+                    createdAt: new Date()
+                });
+
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Video Uploaded Successfully 🎉",
+                    icon: "success"
+                });
+
+            } catch (error) {
+
+                console.error(error);
+
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Upload Failed",
+                    icon: "error"
+                });
             }
 
-            let fileRef = storageRef(storage, "videos/" + file.name);
-
-            await uploadBytes(fileRef, file);
-
-            let url = await getDownloadURL(fileRef);
-
-            await addDoc(collection(db, "videos"), {
-                title: title,
-                videoUrl: url
-            });
-
-            // alert("Uploaded Successfully");
-            Swal.fire({
-                title: "Tribal Rhythm",
-                text: "Uploaded Successfully",
-                icon: "success"
-            });
         };
+
+
 
 
 
@@ -1079,9 +1098,9 @@
         /* ================= PAYMENT ================= */
         window.payNow = async function (type) {
 
-            let name = document.getElementById("name").value;
-            let phone = document.getElementById("phone").value;
-            let email = document.getElementById("email").value.trim();
+            let name = document.getElementById("ticketName").value;
+            let phone = document.getElementById("ticketPhone").value;
+            let email = document.getElementById("ticketEmail").value.trim();
 
             if (!name || name.length < 3) {
                 Swal.fire({
@@ -1186,7 +1205,7 @@
 
 
     </script>
-   
+
 
     <!-- TYPE WRITER -->
     <script>
@@ -1245,11 +1264,11 @@
     <script>
         window.bookNow = function (type) {
             payNow(type);
-           let name = document.getElementById("ticketName").value;
+            let name = document.getElementById("ticketName").value;
 
-           let phone = document.getElementById("ticketPhone").value;
+            let phone = document.getElementById("ticketPhone").value;
 
-           let email = document.getElementById("ticketEmail").value;
+            let email = document.getElementById("ticketEmail").value;
         };
     </script>
     <script>
