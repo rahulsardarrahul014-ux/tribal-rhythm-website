@@ -654,12 +654,7 @@
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-        import {
-            getFirestore,
-            collection,
-            addDoc,
-            getDocs
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
         import {
             getStorage,
@@ -991,8 +986,8 @@
         /* ================= YOUTUBE UPLOAD ================= */
         window.uploadYouTube = async function () {
 
-            let t = document.getElementById("ytTitle").value;
-            let l = document.getElementById("ytLink").value;
+            let t = document.getElementById("ytTitle").value.trim();
+            let l = document.getElementById("ytLink").value.trim();
 
             if (!t || !l) {
                 Swal.fire({
@@ -1004,10 +999,10 @@
             }
 
             try {
-
                 await addDoc(collection(db, "youtube"), {
                     title: t,
-                    link: l
+                    link: l,
+                    createdAt: new Date()
                 });
 
                 Swal.fire({
@@ -1017,14 +1012,13 @@
                 });
 
             } catch (error) {
+                console.error(error);
 
                 Swal.fire({
                     title: "Tribal Rhythm",
                     text: "Upload Failed",
                     icon: "error"
                 });
-
-                console.error(error);
             }
         };
         /* ================= FIREBASE UPLOAD ================= */
@@ -1033,21 +1027,24 @@
             try {
 
                 let file = document.getElementById("fbFile").files[0];
-                let title = document.getElementById("fbTitle").value;
+                let title = document.getElementById("fbTitle").value.trim();
 
                 if (!file) {
                     Swal.fire("Tribal Rhythm", "Select Video First", "warning");
                     return;
                 }
 
-                const fileRef = storageRef(storage, "videos/" + Date.now() + "_" + file.name);
+                const fileRef = storageRef(
+                    storage,
+                    "videos/" + Date.now() + "_" + file.name
+                );
 
                 await uploadBytes(fileRef, file);
 
                 let url = await getDownloadURL(fileRef);
 
                 await addDoc(collection(db, "videos"), {
-                    title,
+                    title: title || "Untitled",
                     videoUrl: url,
                     createdAt: new Date()
                 });
@@ -1059,7 +1056,6 @@
                 });
 
             } catch (error) {
-
                 console.error(error);
 
                 Swal.fire({
@@ -1068,7 +1064,6 @@
                     icon: "error"
                 });
             }
-
         };
 
 
@@ -1128,7 +1123,7 @@
                 if (!lastVideo) {
                     Swal.fire({
                         title: "Tribal Rhythm",
-                        text: "No Video Found In Firebase",
+                        text: " Video  Not Found I",
                         icon: "warning"
                     });
                     return;
