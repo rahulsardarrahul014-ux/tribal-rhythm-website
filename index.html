@@ -652,33 +652,42 @@
         const API_URL = "https://tribal-rhythm-backend.onrender.com";
 
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-        import { getFirestore, addDoc, collection }
-            from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        // import { getFirestore, addDoc, collection }
+        //     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+
+        // import {
+        //     getStorage,
+        //     ref as storageRef,
+        //     uploadBytes,
+        //     getDownloadURL
+        // } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+        // import {
+        //     getDatabase,
+        //     ref as dbRef,
+        //     push,
+        //     onValue
+        // } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        // import { getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        // import { query, where }
+        //     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        // import {
+        //     getAuth,
+        //     onAuthStateChanged,
+        //     signOut
+        // } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
         import {
-            getStorage,
-            ref as storageRef,
-            uploadBytes,
-            getDownloadURL
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-
-        import {
-            getDatabase,
-            ref as dbRef,
-            push,
-            onValue
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-        import { getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        import { query, where }
-            from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        import {
-            getAuth,
-            onAuthStateChanged,
-            signOut
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+            getFirestore,
+            collection,
+            addDoc,
+            getDocs,
+            query,
+            where
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
@@ -782,7 +791,8 @@
 
                 if (data.success) {
 
-                    localStorage.setItem("ticketVerified", "true");
+                    // localStorage.setItem("ticketVerified", "true");
+                    localStorage.setItem("ticketEmail", email);
                     localStorage.setItem("ticketId", data.ticketId);
 
                     Swal.fire(
@@ -883,7 +893,7 @@
                 });
 
                 document.getElementById("newsMarquee").innerHTML =
-                    newsHTML || "No News Available";
+                    newsHTML || "🔥 No News Available 🔥";
 
             } catch (error) {
 
@@ -907,7 +917,11 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        import { initializeFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        const db = initializeFirestore(app, {
+            experimentalForceLongPolling: true,
+            useFetchStreams: false
+        });
+        // import { initializeFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
@@ -922,18 +936,15 @@
             }
         });
 
-        onAuthStateChanged(window.auth, (user) => {
-            console.log("Auth Checked");
-        });
+        // onAuthStateChanged(window.auth, (user) => {
+        //     console.log("Auth Checked");
+        // });
 
         /* ================= FIRESTORE ================= */
 
 
 
-        const db = initializeFirestore(app, {
-            experimentalForceLongPolling: true,
-            useFetchStreams: false
-        });
+
 
         // const db = getFirestore(app);
         const storage = getStorage(app);
@@ -1026,7 +1037,7 @@
                     return;
                 }
 
-                let fileRef = storageRef(storage, "videos/" + file.name);
+                const fileRef = storageRef(storage, "videos/" + Date.now() + "_" + file.name);
 
                 await uploadBytes(fileRef, file);
 
@@ -1195,6 +1206,7 @@
             let phone = document.getElementById("ticketPhone").value;
             let email = document.getElementById("ticketEmail").value.trim();
 
+            // ---------------- VALIDATION ----------------
             if (!name || name.length < 3) {
                 Swal.fire({
                     title: "Tribal Rhythm",
@@ -1213,49 +1225,101 @@
                 return;
             }
 
-            let res = await fetch(`${API_URL}/create-order`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    amount: 300,
-                    email: email
-                })
-            });
+            if (!email) {
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Enter Email",
+                    icon: "warning"
+                });
+                return;
+            }
 
-            let data = await res.json();
-
-            let options = {
-                key: data.key,
-                amount: data.amount,
-                currency: "INR",
-                name: "Tribal Rhythm",
-                description: type + " Ticket",
-                order_id: data.id,
-
-                handler: async function (response) {
-
-                    await addDoc(collection(db, "bookings"), {
-                        ticketType: type,
-                        paymentId: response.razorpay_payment_id,
-                        orderId: response.razorpay_order_id,
-                        status: "success",
-                        createdAt: new Date()
-                    });
-
-                    generateTicketPDF(
-                        name,
-                        phone,
-                        type,
-                        response.razorpay_payment_id
-                    );
-                }
+            // ---------------- PRICE MAP ----------------
+            let amountMap = {
+                "General": 49900,
+                "VIP": 99900,
+                "Group": 39900
             };
 
-            let rzp = new Razorpay(options);
-            rzp.open();
-        }
+            let amount = amountMap[type] || 30000;
+
+            try {
+
+                // ---------------- CREATE ORDER ----------------
+                let res = await fetch(`${API_URL}/create-order`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        amount: amount,
+                        email: email
+                    })
+                });
+
+                let data = await res.json();
+
+                if (!data || !data.id) {
+                    Swal.fire({
+                        title: "Tribal Rhythm",
+                        text: "Order Creation Failed",
+                        icon: "error"
+                    });
+                    return;
+                }
+
+                // ---------------- RAZORPAY OPTIONS ----------------
+                let options = {
+                    key: data.key,
+                    amount: data.amount,
+                    currency: "INR",
+                    name: "Tribal Rhythm",
+                    description: type + " Ticket",
+                    order_id: data.id,
+
+                    handler: async function (response) {
+
+                        try {
+
+                            await addDoc(collection(db, "bookings"), {
+                                ticketType: type,
+                                name: name,
+                                phone: phone,
+                                email: email,
+                                paymentId: response.razorpay_payment_id,
+                                orderId: response.razorpay_order_id,
+                                status: "success",
+                                createdAt: new Date()
+                            });
+
+                            generateTicketPDF(
+                                name,
+                                phone,
+                                type,
+                                response.razorpay_payment_id
+                            );
+
+                        } catch (err) {
+                            console.log(err);
+                            Swal.fire("Error", "Payment saved failed", "error");
+                        }
+                    }
+                };
+
+                let rzp = new Razorpay(options);
+                rzp.open();
+
+            } catch (error) {
+                console.log(error);
+                Swal.fire({
+                    title: "Tribal Rhythm",
+                    text: "Payment Failed",
+                    icon: "error"
+                });
+            }
+        };
+
+
         window.generateTicketPDF = function (name, phone, type, paymentId) {
 
             const { jsPDF } = window.jspdf;
@@ -1357,11 +1421,6 @@
     <script>
         window.bookNow = function (type) {
             payNow(type);
-            let name = document.getElementById("ticketName").value;
-
-            let phone = document.getElementById("ticketPhone").value;
-
-            let email = document.getElementById("ticketEmail").value;
         };
     </script>
     <script>
@@ -1376,7 +1435,7 @@
 
     </script>
     <!-- ================= HISTORY PANEL ================= -->
-    <div id="historyPanel" class="history-panel">
+    <div id="historyPanel" class="history-panel" style="display:none;">
 
         <div class="history-box">
 
