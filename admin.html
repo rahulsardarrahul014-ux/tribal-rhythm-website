@@ -280,6 +280,25 @@
         </div>
 
         <div class="form-row">
+            <label></label>
+
+            <div>
+                <a href="#" onclick="sendOTP()">
+                    Send OTP
+                </a>
+
+                |
+
+                <a href="#" id="resendOtpLink" onclick="resendOTP()" style="display:none;">
+                    Resend OTP
+                </a>
+
+                <span id="otpTimer" style="color:red;font-weight:bold;">
+                </span>
+            </div>
+        </div>
+
+        <div class="form-row">
             <label>Email OTP</label>
 
             <input class="otp-box" maxlength="1">
@@ -288,6 +307,19 @@
             <input class="otp-box" maxlength="1">
             <input class="otp-box" maxlength="1">
             <input class="otp-box" maxlength="1">
+        </div>
+
+        <div class="form-row">
+            <label></label>
+
+            <div>
+                <a href="#" onclick="verifyOTP()">
+                    Verify OTP
+                </a>
+
+                <span id="verifyTimer" style="color:red;font-weight:bold;">
+                </span>
+            </div>
         </div>
 
         <div class="form-row">
@@ -306,22 +338,65 @@
         </div>
 
         <div class="form-row">
-            <label>ID Proof Verified</label>
+            <label>ID Proof Type</label>
+
+            <select id="idType">
+                <option value="">Select ID Proof</option>
+                <option value="Aadhaar Card">Aadhaar Card</option>
+                <option value="PAN Card">PAN Card</option>
+                <option value="Voter ID Card">Voter ID Card</option>
+                <option value="10th Certificate">10th Certificate</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label>ID Proof Number</label>
+
+            <input type="text" id="idNumber" placeholder="Enter ID Number">
+        </div>
+
+        <div class="form-row">
+            <label>ID Verification Status</label>
 
             <div class="check-group">
-                <label><input type="radio" name="idverify"> Yes</label>
-                <label><input type="radio" name="idverify"> No</label>
+                <label>
+                    <input type="radio" name="idverify" value="Pending" checked>
+                    Pending
+                </label>
+
+                <label>
+                    <input type="radio" name="idverify" value="Verified">
+                    Verified
+                </label>
+
+                <label>
+                    <input type="radio" name="idverify" value="Rejected">
+                    Rejected
+                </label>
             </div>
         </div>
 
         <div class="form-row">
             <label>ID Proof Upload</label>
             <input id="idProof" type="file">
+            <small style="color:#ffd700">
+                Supported:
+                Aadhaar, PAN, Voter ID,
+                10th Certificate (JPG, PNG, PDF)
+            </small>
+
+            <a href="#" onclick="document.getElementById('idProof').click()">
+                Upload
+            </a>
         </div>
 
         <div class="form-row">
             <label>Profile Photo (Optional)</label>
             <input id="profilePhoto" type="file">
+
+            <a href="#" onclick="document.getElementById('profilePhoto').click()">
+                Upload
+            </a>
         </div>
 
         <div class="form-row">
@@ -341,7 +416,11 @@
 
         <div class="form-row">
             <label>Signature Upload</label>
-            <input type="file">
+            <input id="signature" type="file">
+
+            <a href="#" onclick="document.getElementById('signature').click()">
+                Upload
+            </a>
         </div>
 
         <div class="form-row">
@@ -385,7 +464,7 @@
 
         <br>
 
-        <button class="btn btn-warning">
+        <button class="btn btn-warning" onclick="signup()">
             Create Admin Account
         </button>
 
@@ -703,6 +782,24 @@
                 const adminSnap =
                     await getDoc(doc(db, "admins", user.uid));
 
+
+                const adminData =
+                    adminSnap.data();
+
+                if (
+                    adminData.approvalStatus !==
+                    "Approved"
+                ) {
+
+                    alert(
+                        "Admin approval pending"
+                    );
+
+                    await signOut(auth);
+
+                    return;
+                }
+
                 if (
                     !adminSnap.exists() ||
                     adminSnap.data().status !== "Active"
@@ -831,6 +928,24 @@
             const photoURL =
                 await getDownloadURL(photoRef);
 
+            let idProofURL = "";
+
+            if (idFile) {
+
+                const idRef = ref(
+                    storage,
+                    "admins/idproof/" +
+                    Date.now() +
+                    "_" +
+                    idFile.name
+                );
+
+                await uploadBytes(idRef, idFile);
+
+                idProofURL =
+                    await getDownloadURL(idRef);
+            }
+
 
 
             if (!emailValue || !passValue) {
@@ -858,19 +973,62 @@
                 await setDoc(
                     doc(db, "admins", user.uid),
                     {
-                        adminName: document.getElementById("adminName").value,
+                        adminName:
+                            document.getElementById("adminName").value,
+
                         email: user.email,
-                        mobile: document.getElementById("mobile").value,
-                        whatsapp: document.getElementById("whatsapp").value,
-                        role: document.getElementById("role").value,
-                        status: "Active",
+
+                        mobile:
+                            document.getElementById("mobile").value,
+
+                        whatsapp:
+                            document.getElementById("whatsapp").value,
+
+                        role:
+                            document.getElementById("role").value,
+
+                        idType:
+                            document.getElementById("idType").value,
+
+                        idNumber:
+                            document.getElementById("idNumber").value,
+
+                        idProofURL: idProofURL,
+
+                        approvalStatus: "Pending",
+
+                        emailVerified: false,
+
+                        status: "Pending",
+
                         profilePhotoURL: photoURL,
-                        createdAt: new Date(),
-                        lastLogin: new Date()
+
+                        createdAt: new Date()
                     }
                 );
 
                 await sendEmailVerification(auth.currentUser);
+
+                emailjs.send(
+                    "YOUR_SERVICE_ID",
+                    "YOUR_TEMPLATE_ID",
+                    {
+                        admin_name:
+                            document.getElementById("adminName").value,
+
+                        admin_email:
+                            user.email,
+
+                        mobile:
+                            document.getElementById("mobile").value,
+
+                        role:
+                            document.getElementById("role").value,
+
+                        approval_status:
+                            "Pending"
+                    }
+                );
 
                 alert("Admin Created ✅");
 
@@ -1340,6 +1498,30 @@ ${new Date(admin.lastLogin?.seconds * 1000).toLocaleString()}
                 status: "approved"
             });
 
+
+            const adminDoc =
+                await getDoc(
+                    doc(db, "admins", uid)
+                );
+
+            const admin =
+                adminDoc.data();
+
+            emailjs.send(
+                "YOUR_SERVICE_ID",
+                "APPROVAL_TEMPLATE",
+                {
+                    admin_name:
+                        admin.adminName,
+
+                    admin_email:
+                        admin.email,
+
+                    status:
+                        "Approved"
+                }
+            );
+
             alert("User Approved ✅");
         };
 
@@ -1394,6 +1576,74 @@ ${new Date(admin.lastLogin?.seconds * 1000).toLocaleString()}
                 }
             );
         }
+
+        let otpTime = 60;
+        let otpInterval;
+
+        window.sendOTP = function () {
+
+            alert("OTP Sent");
+
+            document.getElementById("resendOtpLink").style.display = "inline";
+
+            otpTime = 60;
+
+            otpInterval = setInterval(() => {
+
+                document.getElementById("otpTimer").innerHTML =
+                    otpTime + " sec";
+
+                otpTime--;
+
+                if (otpTime < 0) {
+
+                    clearInterval(otpInterval);
+
+                    document.getElementById("otpTimer").innerHTML =
+                        "";
+
+                }
+
+            }, 1000);
+        };
+
+        window.resendOTP = function () {
+
+            sendOTP();
+
+        };
+
+        window.verifyOTP = function () {
+
+            alert("OTP Verified");
+
+        };
+
+
+        window.approveAdmin =
+            async (uid) => {
+
+                await updateDoc(
+                    doc(db, "admins", uid),
+                    {
+                        approvalStatus:
+                            "Approved",
+
+                        status:
+                            "Active",
+
+                        approvedAt:
+                            new Date(),
+
+                        approvedBy:
+                            auth.currentUser.email
+                    }
+                );
+
+                alert(
+                    "Admin Approved"
+                );
+            };
 
     </script>
 
