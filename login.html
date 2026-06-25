@@ -336,7 +336,20 @@
         <button id="emailVerifyBtn" class="verify-btn" onclick="verifyOTP()" style="display:none;">
             ✅ Verify Email OTP </button>
 
+        <button id="editBtn" style="display:none;" onclick="enableEdit()">
+            ✏️ Edit Details
+        </button>
+
         <input id="whatsapp" placeholder="Whatsapp Number">
+
+        <div class="otp-container">
+            <input maxlength="1" class="pincode">
+            <input maxlength="1" class="pincode">
+            <input maxlength="1" class="pincode">
+            <input maxlength="1" class="pincode">
+            <input maxlength="1" class="pincode">
+            <input maxlength="1" class="pincode">
+        </div>
 
 
         <!-- STATE -->
@@ -414,7 +427,7 @@
         let phoneVerified = false;
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import {
             getAuth,
             RecaptchaVerifier,
@@ -433,6 +446,19 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
+
+
+        // 🔥 CHECK EXISTING USER (by email or mobile)
+        window.checkExistingUser = async function (email) {
+            const docRef = doc(db, "users", email);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                return docSnap.data();
+            } else {
+                return null;
+            }
+        };
 
 
         function startEmailTimer() {
@@ -485,8 +511,7 @@
 
         const setupOTPBoxes = () => {
 
-            document.querySelectorAll(
-                '.email-otp,.phone-otp'
+            document.querySelectorAll('.email-otp,.phone-otp,.pincode'
             ).forEach((box, index, arr) => {
 
                 box.addEventListener('input', () => {
@@ -503,6 +528,29 @@
             });
 
         };
+
+        document.getElementById("email").addEventListener("blur", async function () {
+            let email = this.value.trim();
+            if (!email) return;
+
+            let userData = await checkExistingUser(email);
+
+            if (userData) {
+                Swal.fire("Welcome Back", "User already registered", "success");
+
+                // AUTO FILL
+                document.getElementById("name").value = userData.name;
+                document.getElementById("age").value = userData.age;
+                document.getElementById("dob").value = userData.dob;
+                document.getElementById("mobile").value = userData.mobile;
+                document.getElementById("whatsapp").value = userData.whatsapp;
+                document.getElementById("state").value = userData.state;
+                document.getElementById("language").value = userData.language;
+
+                // SHOW EDIT BUTTON
+                document.getElementById("editBtn").style.display = "block";
+            }
+        });
 
         setTimeout(setupOTPBoxes, 500);
 
@@ -522,17 +570,18 @@
 
 
         // 📧 SEND EMAIL OTP
-        window.sendOTP = function () {
+        window.sendOTP = async function () {
 
             let name = document.getElementById("name").value;
             let age = document.getElementById("age").value;
             let dob = document.getElementById("dob").value;
             let mobile = document.getElementById("mobile").value;
-            let email = document.getElementById("email").value;
+            let email = document.getElementById("email").value.trim();
             let state = document.getElementById("state").value;
             let language = document.getElementById("language").value;
             let rules = document.getElementById("rulesCheck").checked;
 
+            // 🔥 validation first
             if (!name || !age || !dob || !mobile || !email || !state || !language) {
                 Swal.fire("Tribal Rhythm", "Please fill all details", "warning");
                 return;
@@ -543,42 +592,44 @@
                 return;
             }
 
+            // 🔥 duplicate check
+            let existing = await checkExistingUser(email);
+
+            if (existing) {
+                Swal.fire("Already Registered", "You cannot register again", "error");
+
+                // auto fill
+                document.getElementById("name").value = existing.name;
+                document.getElementById("age").value = existing.age;
+                document.getElementById("dob").value = existing.dob;
+                document.getElementById("mobile").value = existing.mobile;
+                document.getElementById("whatsapp").value = existing.whatsapp;
+                document.getElementById("state").value = existing.state;
+                document.getElementById("language").value = existing.language;
+
+                document.getElementById("editBtn").style.display = "block";
+
+                return;
+            }
+
+            // OTP generate
             generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
             otpExpireTime = Date.now() + 60000;
 
             emailjs.send("service_ynim8tv", "template_87yxux8", {
-                name: name,
-                email: email,
+                name,
+                email,
                 otp: generatedOTP
             })
                 .then(() => {
-
-                    Swal.fire(
-                        "Tribal Rhythm",
-                        "OTP sent to Email",
-                        "success"
-                    );
-
+                    Swal.fire("Tribal Rhythm", "OTP sent to Email", "success");
                     startEmailTimer();
 
-                    document.getElementById(
-                        "emailOtpBox"
-                    ).style.display = "flex";
-
-                    document.getElementById(
-                        "emailVerifyBtn"
-                    ).style.display = "block";
-
-
+                    document.getElementById("emailOtpBox").style.display = "flex";
+                    document.getElementById("emailVerifyBtn").style.display = "block";
                 })
                 .catch(() => {
-
-                    Swal.fire(
-                        "Tribal Rhythm",
-                        "Failed to send OTP",
-                        "error"
-                    );
-
+                    Swal.fire("Tribal Rhythm", "Failed to send OTP", "error");
                 });
         };
 
@@ -631,6 +682,8 @@
                 let email = document.getElementById("email").value.trim();
                 let state = document.getElementById("state").value.trim();
                 let language = document.getElementById("language").value.trim();
+                let pincode = "";
+                document.querySelectorAll(".pincode").forEach(i => pincode += i.value);
 
                 await setDoc(doc(db, "users", email), {
                     name,
@@ -640,6 +693,7 @@
                     whatsapp,
                     email,
                     state,
+                    pincode,
                     language,
                     status: "pending",
                     createdAt: new Date()
@@ -790,6 +844,14 @@
 
             }
         }
+
+        window.enableEdit = function () {
+            document.querySelectorAll("input, select").forEach(el => {
+                el.disabled = false;
+            });
+
+            Swal.fire("Edit Mode", "You can now update your details", "info");
+        };
 
 
 
