@@ -172,10 +172,46 @@
                 Forgot Password
 
             </button>
+            <div class="card-pro">
+
+                <h4>Change Password</h4>
+
+                <input id="newPassword" type="password" class="form-control mb-2">
+
+                <button onclick="changePassword()" class="btn btn-warning">
+
+                    Update Password
+
+                </button>
+
+            </div>
 
         </div>
 
     </div>
+
+    <input id="adminName" class="form-control mb-2" placeholder="Admin Name">
+
+    <input id="mobile" maxlength="10" class="form-control mb-2" placeholder="Mobile Number">
+
+    <input id="whatsapp" maxlength="10" class="form-control mb-2" placeholder="WhatsApp Number">
+
+    <select id="role" class="form-control mb-2">
+        <option value="Manager">Manager</option>
+        <option value="Admin">Admin</option>
+        <option value="Super Admin">Super Admin</option>
+    </select>
+
+    <select id="idType" class="form-control mb-2">
+        <option>Aadhaar</option>
+        <option>PAN</option>
+        <option>Voter ID</option>
+        <option>Driving Licence</option>
+    </select>
+
+    <input type="file" id="idProof" class="form-control mb-2">
+
+    <input type="file" id="profilePhoto" class="form-control mb-2">
     <!-- SIDEBAR -->
     <div class="sidebar" id="side" style="display:none;">
         <h4 style="color:silver">ADMIN PANEL</h4>
@@ -192,11 +228,34 @@
 
         <a href="prizes.html" class="btn btn-warning w-100">🏆 Certificates</a>
     </div>
+    <div class="card-pro">
+
+        <h4>Admin Rules</h4>
+
+        <ul>
+            <li>Never share password.</li>
+            <li>All actions are logged.</li>
+            <li>Only verified admins allowed.</li>
+            <li>ID proof mandatory.</li>
+            <li>Unauthorized access blocked.</li>
+        </ul>
+
+    </div>
 
 
 
     <!-- MAIN -->
     <div class="main" id="main" style="display:none;">
+
+        <div class="card-pro">
+
+            <img id="adminPhoto" width="80" height="80" style="border-radius:50%;">
+
+            <h4 id="adminWelcome"></h4>
+
+            <p id="adminInfo"></p>
+
+        </div>
 
         <h2>👑 CONTROL PANEL</h2>
 
@@ -318,6 +377,7 @@
 
     <!-- FIREBASE -->
     <script type="module">
+        window.login = async () => { }
 
         import { initializeApp }
             from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -328,6 +388,7 @@
             onSnapshot,
             updateDoc,
             deleteDoc,
+            setDoc,
             doc,
             addDoc,
             getDoc,
@@ -343,9 +404,22 @@
             signOut,
             sendPasswordResetEmail,
             createUserWithEmailAndPassword,
-            onAuthStateChanged
+            onAuthStateChanged,
+
         }
             from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        import {
+            sendEmailVerification,
+            updatePassword
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        import {
+            getStorage,
+            ref,
+            uploadBytes,
+            getDownloadURL
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         /* 🔥 FIREBASE CONFIG */
         const firebaseConfig = {
@@ -362,6 +436,7 @@
         const db = getFirestore(app);
 
         const auth = getAuth(app);
+        const storage = getStorage(app);
 
         /* ✅ AUTH STATE */
         onAuthStateChanged(auth, (user) => {
@@ -388,6 +463,8 @@
 
 
 
+
+
         /* ================= LOGIN ================= */
 
         window.login = async () => {
@@ -406,6 +483,8 @@
 
             }
 
+
+
             try {
 
                 const userCredential =
@@ -417,18 +496,34 @@
 
                 const user = userCredential.user;
 
+                if (!user.emailVerified) {
+                    alert("Verify Email First");
+                    await signOut(auth);
+                    return;
+                }
+
                 console.log("Login success:", user.email);
 
+                const adminRef =
+                    await getDoc(doc(db, "admins", user.uid));
+
+                await updateDoc(
+                    doc(db, "admins", user.uid),
+                    {
+                        lastLogin: new Date()
+                    }
+                );
+
                 // 🔒 ADMIN CHECK
+                const adminSnap =
+                    await getDoc(doc(db, "admins", user.uid));
+
                 if (
-                    user.email !==
-                    "rahulsardarrahul014@gmail.com"
+                    !adminSnap.exists() ||
+                    adminSnap.data().status !== "Active"
                 ) {
-
                     alert("Access Denied");
-
                     await signOut(auth);
-
                     return;
                 }
 
@@ -466,6 +561,28 @@
             }
 
         };
+
+
+
+
+
+
+        if (!adminRef.exists()) {
+            alert("Admin Record Missing");
+            return;
+        }
+
+        const admin = adminRef.data();
+
+        if (admin.status !== "Active") {
+            alert("Account Disabled");
+            await signOut(auth);
+            return;
+        }
+
+        alert(
+            "Verification email sent. Verify first."
+        );
         window.resetPass = () => {
 
             const emailValue =
@@ -497,6 +614,31 @@
         };
         window.signup = async () => {
 
+            const passwordRegex =
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+            if (!passwordRegex.test(passValue)) {
+                alert(
+                    "Password must contain uppercase, lowercase, number and special character"
+                );
+                return;
+            }
+
+            const photoFile =
+                document.getElementById("profilePhoto").files[0];
+
+            const idFile =
+                document.getElementById("idProof").files[0];
+
+            const photoRef =
+                ref(storage,
+                    "admins/profile/" + Date.now());
+
+            await uploadBytes(photoRef, photoFile);
+
+            const photoURL =
+                await getDownloadURL(photoRef);
+
             const emailValue =
                 document.getElementById("email")
                     .value
@@ -527,6 +669,8 @@
                     passValue
                 );
 
+                await sendEmailVerification(auth.currentUser);
+
                 alert("Admin Created ✅");
 
             } catch (e) {
@@ -537,6 +681,38 @@
                 alert(e.message);
 
             }
+            await sendEmailVerification(auth.currentUser);
+
+            alert(
+                "Verification email sent. Verify first."
+            );
+
+            await setDoc(
+                doc(db, "admins", user.uid),
+                {
+                    adminName:
+                        document.getElementById("adminName").value,
+
+                    email: user.email,
+
+                    mobile:
+                        document.getElementById("mobile").value,
+
+                    whatsapp:
+                        document.getElementById("whatsapp").value,
+
+                    role:
+                        document.getElementById("role").value,
+
+                    status: "Active",
+
+                    profilePhotoURL: photoURL,
+
+                    createdAt: new Date(),
+
+                    lastLogin: new Date()
+                }
+            );
 
 
         };
@@ -551,15 +727,48 @@
 
         };
 
+        window.changePassword = async () => {
+
+            const newPass =
+                newPassword.value.trim();
+
+            await updatePassword(
+                auth.currentUser,
+                newPass
+            );
+
+            alert("Password Updated");
+        }
+
 
 
         /* ================= START ================= */
 
-        function start() {
+        async function start() {
 
             const loginDiv = document.getElementById("login");
             const sideDiv = document.getElementById("side");
             const mainDiv = document.getElementById("main");
+            const snap =
+                await getDoc(
+                    doc(db, "admins", auth.currentUser.uid)
+                );
+
+            const admin = snap.data();
+
+            adminWelcome.innerHTML =
+                `Welcome ${admin.adminName}`;
+
+            adminInfo.innerHTML =
+                `
+${admin.email}<br>
+Role: ${admin.role}<br>
+Last Login:
+${new Date(admin.lastLogin?.seconds * 1000).toLocaleString()}
+`;
+
+            adminPhoto.src =
+                admin.profilePhotoURL || "user.png";
 
             if (loginDiv) loginDiv.style.display = "none";
             if (sideDiv) sideDiv.style.display = "block";
