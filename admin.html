@@ -150,20 +150,35 @@
 
             <input id="pass" type="password" class="form-control mb-2" placeholder="Password">
 
-            <!-- LOGIN -->
-            <button onclick="login()" type="button" class="btn btn-silver w-100">
+            <input id="adminName" class="form-control mb-2" placeholder="Admin Name">
 
+            <input id="mobile" maxlength="10" class="form-control mb-2" placeholder="Mobile Number">
+
+            <input id="whatsapp" maxlength="10" class="form-control mb-2" placeholder="WhatsApp Number">
+
+            <select id="role" class="form-control mb-2">
+                <option value="Manager">Manager</option>
+                <option value="Admin">Admin</option>
+                <option value="Super Admin">Super Admin</option>
+            </select>
+
+            <select id="idType" class="form-control mb-2">
+                <option>Aadhaar</option>
+                <option>PAN</option>
+                <option>Voter ID</option>
+                <option>Driving Licence</option>
+            </select>
+
+            <input type="file" id="idProof" class="form-control mb-2">
+
+            <input type="file" id="profilePhoto" class="form-control mb-2">
+
+            <button onclick="login()" class="btn btn-silver w-100">
                 Login
-
             </button>
 
-            <p id="msg"></p>
-
-            <!-- SIGNUP -->
-            <button onclick="signup()" type="button" class="btn btn-success w-100 mt-2">
-
+            <button onclick="signup()" class="btn btn-success w-100 mt-2">
                 Create Admin
-
             </button>
 
             <!-- RESET -->
@@ -580,6 +595,8 @@
             return;
         }
 
+
+
         alert(
             "Verification email sent. Verify first."
         );
@@ -614,15 +631,20 @@
         };
         window.signup = async () => {
 
+            const emailValue =
+                document.getElementById("email").value.trim();
+
+            const passValue =
+                document.getElementById("pass").value.trim();
+
             const passwordRegex =
                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
             if (!passwordRegex.test(passValue)) {
-                alert(
-                    "Password must contain uppercase, lowercase, number and special character"
-                );
+                alert("Password must contain uppercase, lowercase, number and special character");
                 return;
             }
+
 
             const photoFile =
                 document.getElementById("profilePhoto").files[0];
@@ -639,15 +661,7 @@
             const photoURL =
                 await getDownloadURL(photoRef);
 
-            const emailValue =
-                document.getElementById("email")
-                    .value
-                    .trim();
 
-            const passValue =
-                document.getElementById("pass")
-                    .value
-                    .trim();
 
             if (!emailValue || !passValue) {
 
@@ -667,6 +681,23 @@
                     auth,
                     emailValue,
                     passValue
+                );
+
+                const user = auth.currentUser;
+
+                await setDoc(
+                    doc(db, "admins", user.uid),
+                    {
+                        adminName: document.getElementById("adminName").value,
+                        email: user.email,
+                        mobile: document.getElementById("mobile").value,
+                        whatsapp: document.getElementById("whatsapp").value,
+                        role: document.getElementById("role").value,
+                        status: "Active",
+                        profilePhotoURL: photoURL,
+                        createdAt: new Date(),
+                        lastLogin: new Date()
+                    }
                 );
 
                 await sendEmailVerification(auth.currentUser);
