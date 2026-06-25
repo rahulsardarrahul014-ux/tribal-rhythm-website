@@ -314,6 +314,26 @@
 
         <input id="email" placeholder="Email">
 
+        <input type="password" id="password" placeholder="Create Password" minlength="8">
+
+        <small style="color:white;">
+            Password must contain:
+            1 Capital Letter,
+            1 Small Letter,
+            1 Number,
+            1 Special Character,
+            Minimum 8 Characters
+        </small>
+
+        <input type="password" id="confirmPassword" placeholder="Confirm Password">
+
+        <div style="text-align:right;margin-top:8px;">
+            <a href="javascript:void(0)" onclick="forgotPassword()"
+                style="color:gold;text-decoration:none;font-size:14px;">
+                Forgot Password?
+            </a>
+        </div>
+
         <button class="otp-btn mt-2" onclick="sendOTP()">
             📧 Send Email OTP
         </button>
@@ -343,7 +363,7 @@
         <input id="whatsapp" placeholder="Whatsapp Number">
 
 
-            <label>Enter Pincode</label>
+        <label>Enter Pincode</label>
         <div class="otp-container">
             <input maxlength="1" class="pincode">
             <input maxlength="1" class="pincode">
@@ -410,6 +430,12 @@
         </div>
 
         <div id="recaptcha-container"></div>
+        <button onclick="registerUser()">
+            Register New User
+        </button>
+        <button onclick="loginUser()">
+            Sign In
+        </button>
 
 
 
@@ -433,8 +459,12 @@
         import {
             getAuth,
             RecaptchaVerifier,
-            signInWithPhoneNumber
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+            signInWithPhoneNumber,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            sendPasswordResetEmail
+        }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         // 🔥 FIREBASE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
@@ -570,7 +600,13 @@
 
         // ⏱ TIMER
 
+        function validatePassword(password) {
 
+            const regex =
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+            return regex.test(password);
+        }
         // 📧 SEND EMAIL OTP
         window.sendOTP = async function () {
 
@@ -854,6 +890,134 @@
 
             Swal.fire("Edit Mode", "You can now update your details", "info");
         };
+
+        window.registerUser = async function () {
+
+            let email =
+                document.getElementById("email").value;
+
+            let password =
+                document.getElementById("password").value;
+
+            let confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+            if (!validatePassword(password)) {
+
+                Swal.fire(
+                    "Error",
+                    "Password not strong enough",
+                    "error"
+                );
+
+                return;
+            }
+
+            if (password !== confirmPassword) {
+
+                Swal.fire(
+                    "Error",
+                    "Passwords do not match",
+                    "error"
+                );
+
+                return;
+            }
+
+            try {
+
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+                Swal.fire(
+                    "Success",
+                    "Account Created",
+                    "success"
+                );
+
+            } catch (error) {
+
+                Swal.fire(
+                    "Error",
+                    error.message,
+                    "error"
+                );
+
+            }
+        };
+
+        window.loginUser = async function () {
+
+    let email =
+        document.getElementById("email").value;
+
+    let password =
+        document.getElementById("password").value;
+
+    try {
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        window.location.href =
+            "index.html";
+
+    } catch (error) {
+
+        Swal.fire(
+            "Login Failed",
+            error.message,
+            "error"
+        );
+
+    }
+};
+
+window.forgotPassword = async function () {
+
+    let email =
+        document.getElementById("email").value;
+
+    if (!email) {
+
+        Swal.fire(
+            "Error",
+            "Enter Email First",
+            "warning"
+        );
+
+        return;
+    }
+
+    try {
+
+        await sendPasswordResetEmail(
+            auth,
+            email
+        );
+
+        Swal.fire(
+            "Success",
+            "Password Reset Link Sent To Email",
+            "success"
+        );
+
+    } catch (error) {
+
+        Swal.fire(
+            "Error",
+            error.message,
+            "error"
+        );
+
+    }
+};
 
 
 
