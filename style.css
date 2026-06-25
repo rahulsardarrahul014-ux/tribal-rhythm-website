@@ -60,6 +60,12 @@ body {
     color: gold !important;
 }
 
+.custom-nav{
+    position: sticky;
+    top: 0;
+    z-index: 99999 !important;
+}
+
 
 @media (max-width:768px){
 
@@ -1123,4 +1129,54 @@ border-radius:10px;
     text-align: center;
     font-size: 18px;
     font-weight: bold;
+}
+
+
+@media (max-width:768px){
+
+    .navbar-collapse{
+        background:#0f2f24;
+        padding:15px;
+        border-radius:10px;
+    }
+
+    .nav-link{
+        display:block;
+        padding:12px;
+        width:100%;
+    }
+}
+
+
+.custom-nav{
+    z-index:99999 !important;
+}
+
+.navbar-collapse{
+    z-index:99999 !important;
+}
+
+.hero-overlay{
+    pointer-events:none;
+}
+
+
+@media (max-width:768px){
+
+    .dropdown-menu{
+        position: static !important;
+        width:100%;
+        background:#1b3a2f;
+        border:none;
+    }
+
+    .dropdown-item{
+        color:white;
+        padding:12px;
+    }
+
+    .dropdown-item:hover{
+        background:#0f2f24;
+        color:gold;
+    }
 }

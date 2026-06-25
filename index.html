@@ -52,7 +52,7 @@
 
             <!-- TOGGLER -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-                ☰
+                <span class="navbar-toggler-icon"></span>
             </button>
 
             <!-- MENU -->
@@ -74,11 +74,7 @@
                     <li class="nav-item"><a class="nav-link" href="#upcoming">Upcoming Program</a></li>
                     <li class="nav-item"><a class="nav-link" href="#ticket">Ticket Booking</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#gallery">
-                            Gallery
-                        </a>
-                    </li>
+
 
                     <!-- ACCOUNT -->
                     <li class="nav-item dropdown">
@@ -341,6 +337,7 @@
 
                         <select>
                             <option>Number of Tickets</option>
+                            <option>NONE</option>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -682,25 +679,7 @@
             onAuthStateChanged,
             signOut
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import {
-    onAuthStateChanged
-}
-from
-"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-onAuthStateChanged(
-    auth,
-    (user) => {
-
-        if (!user) {
-
-            window.location.href =
-                "login.html";
-
-        }
-
-    }
-);
 
 
 
@@ -941,6 +920,10 @@ onAuthStateChanged(
             if (user) {
                 console.log("Logged in");
             }
+        });
+
+        onAuthStateChanged(window.auth, (user) => {
+            console.log("Auth Checked");
         });
 
         /* ================= FIRESTORE ================= */
@@ -1249,7 +1232,7 @@ onAuthStateChanged(
                 currency: "INR",
                 name: "Tribal Rhythm",
                 description: type + " Ticket",
-                order_id: data.id,  
+                order_id: data.id,
 
                 handler: async function (response) {
 
@@ -1519,7 +1502,20 @@ onAuthStateChanged(
         });
     </script>
 
+    <script>
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const nav = document.querySelector('.navbar-collapse');
+                const bsCollapse = bootstrap.Collapse.getInstance(nav);
 
+                if (bsCollapse) {
+                    bsCollapse.hide();
+                }
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
