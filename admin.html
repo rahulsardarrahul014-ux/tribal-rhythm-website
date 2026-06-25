@@ -319,26 +319,33 @@
     <!-- FIREBASE -->
     <script type="module">
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { initializeApp }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
         import {
-            getFirestore, collection, onSnapshot, updateDoc, deleteDoc, doc, addDoc
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+            getFirestore,
+            collection,
+            onSnapshot,
+            updateDoc,
+            deleteDoc,
+            doc,
+            addDoc,
+            getDoc,
+            getDocs,
+            query,
+            where
+        }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         import {
             getAuth,
             signInWithEmailAndPassword,
             signOut,
             sendPasswordResetEmail,
-            createUserWithEmailAndPassword
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import {
+            createUserWithEmailAndPassword,
             onAuthStateChanged
-        } from
-            "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import {
-            getFirestore, collection, onSnapshot, updateDoc, deleteDoc, doc, addDoc, getDoc
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         /* 🔥 FIREBASE CONFIG */
         const firebaseConfig = {
@@ -393,7 +400,8 @@
 
             if (!emailValue || !passValue) {
 
-                msg.innerText = "Fill all fields";
+                document.getElementById("msg").innerText =
+                    "Fill all fields";
                 return;
 
             }
