@@ -122,6 +122,88 @@
             z-index: 9999;
         }
 
+        .admin-form {
+            background: linear-gradient(135deg, #001f4d, #003b8e, #d4af37);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid gold;
+            box-shadow: 0 0 25px rgba(212, 175, 55, .5);
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-row label {
+            width: 250px;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .form-row input,
+        .form-row select {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid gold;
+        }
+
+        .otp-box {
+            width: 50px !important;
+            text-align: center;
+            font-size: 20px;
+            margin-right: 5px;
+        }
+
+        .section-title {
+            background: gold;
+            color: #001f4d;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .check-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .check-group label {
+            width: auto;
+            color: white;
+        }
+
+        .rule-box {
+            background: rgba(255, 255, 255, .08);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid gold;
+        }
+
+
+        .website-logo {
+            width: 120px;
+            height: 120px;
+            display: block;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            border: 3px solid gold;
+            box-shadow: 0 0 20px gold;
+        }
+
+        @media (max-width:768px) {
+            .website-logo {
+                width: 90px;
+                height: 90px;
+            }
+        }
+
         /* MOBILE */
         @media(max-width:768px) {
             .sidebar {
@@ -134,99 +216,182 @@
                 margin-left: 0;
             }
         }
+
+        @media(max-width:768px) {
+
+            .admin-form {
+                padding: 15px;
+                width: 95%;
+            }
+
+            .form-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-row label {
+                width: 100%;
+                margin-bottom: 6px;
+            }
+
+            .form-row input,
+            .form-row select {
+                width: 100%;
+            }
+
+            .otp-box {
+                width: 40px !important;
+            }
+        }
     </style>
 </head>
 
 <body>
 
     <!-- LOGIN -->
-    <div id="login">
+    <div id="admin-form">
 
-        <div class="card-pro" style="width:320px">
+        <img src="tribalweblogo.png" alt="Tribal Rhythm Logo" class="website-logo">
 
-            <h3>ADMIN LOGIN</h3>
+        <div class="section-title">
+            1. ADMIN REGISTRATION DETAILS
+        </div>
 
-            <input id="email" class="form-control mb-2" placeholder="Email">
 
-            <input id="pass" type="password" class="form-control mb-2" placeholder="Password">
 
-            <input id="adminName" class="form-control mb-2" placeholder="Admin Name">
+        <div class="form-row">
+            <label>Admin Name</label>
+            <input id="adminName" type="text">
+        </div>
 
-            <input id="mobile" maxlength="10" class="form-control mb-2" placeholder="Mobile Number">
+        <div class="form-row">
+            <label>Mobile Number</label>
+            <input id="mobile" type="tel">
+        </div>
 
-            <input id="whatsapp" maxlength="10" class="form-control mb-2" placeholder="WhatsApp Number">
+        <div class="form-row">
+            <label>WhatsApp Number</label>
+            <input id="whatsapp" type="tel">
+        </div>
 
-            <select id="role" class="form-control mb-2">
-                <option value="Manager">Manager</option>
-                <option value="Admin">Admin</option>
-                <option value="Super Admin">Super Admin</option>
-            </select>
+        <div class="form-row">
+            <label>Email ID</label>
+            <input id="email" type="email">
+        </div>
 
-            <select id="idType" class="form-control mb-2">
-                <option>Aadhaar</option>
-                <option>PAN</option>
-                <option>Voter ID</option>
-                <option>Driving Licence</option>
-            </select>
+        <div class="form-row">
+            <label>Email OTP</label>
 
-            <input type="file" id="idProof" class="form-control mb-2">
+            <input class="otp-box" maxlength="1">
+            <input class="otp-box" maxlength="1">
+            <input class="otp-box" maxlength="1">
+            <input class="otp-box" maxlength="1">
+            <input class="otp-box" maxlength="1">
+            <input class="otp-box" maxlength="1">
+        </div>
 
-            <input type="file" id="profilePhoto" class="form-control mb-2">
+        <div class="form-row">
+            <label>Create Password</label>
+            <input type="password" placeholder="Upper + Lower + Number + Special Character">
+        </div>
 
-            <button onclick="login()" class="btn btn-silver w-100">
-                Login
-            </button>
+        <div class="form-row">
+            <label>Confirm Password</label>
+            <input id="pass" type="password">
+        </div>
 
-            <button onclick="signup()" class="btn btn-success w-100 mt-2">
-                Create Admin
-            </button>
+        <div class="form-row">
+            <label>Reset Password</label>
+            <input type="email" placeholder="Enter Email">
+        </div>
 
-            <!-- RESET -->
-            <button onclick="resetPass()" type="button" class="btn btn-warning w-100 mt-2">
+        <div class="form-row">
+            <label>ID Proof Verified</label>
 
-                Forgot Password
-
-            </button>
-            <div class="card-pro">
-
-                <h4>Change Password</h4>
-
-                <input id="newPassword" type="password" class="form-control mb-2">
-
-                <button onclick="changePassword()" class="btn btn-warning">
-
-                    Update Password
-
-                </button>
-
+            <div class="check-group">
+                <label><input type="radio" name="idverify"> Yes</label>
+                <label><input type="radio" name="idverify"> No</label>
             </div>
+        </div>
+
+        <div class="form-row">
+            <label>ID Proof Upload</label>
+            <input id="idProof" type="file">
+        </div>
+
+        <div class="form-row">
+            <label>Profile Photo (Optional)</label>
+            <input id="profilePhoto" type="file">
+        </div>
+
+        <div class="form-row">
+            <label>Role</label>
+
+            <select id="role">
+                <option value="Super Admin">Super Admin</option>
+                <option value="Admin">Admin</option>
+                <option value="Manager">Manager</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label>Create Date</label>
+            <input type="date">
+        </div>
+
+        <div class="form-row">
+            <label>Signature Upload</label>
+            <input type="file">
+        </div>
+
+        <div class="form-row">
+            <label>Gender</label>
+
+            <div class="check-group">
+                <label><input type="radio" name="gender"> Male</label>
+                <label><input type="radio" name="gender"> Female</label>
+                <label><input type="radio" name="gender"> Other</label>
+            </div>
+        </div>
+
+        <div class="section-title">
+            2. ADMIN RULES & REGULATIONS
+        </div>
+
+        <div class="rule-box">
+
+            <p>
+                <label>
+                    <input type="checkbox" required>
+                    I Accept All Admin Rules & Regulations
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    <input type="checkbox">
+                    Admin Fee Applicable
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    <input type="checkbox">
+                    Manager Entry Free
+                </label>
+            </p>
 
         </div>
 
+        <br>
+
+        <button class="btn btn-warning">
+            Create Admin Account
+        </button>
+
     </div>
 
-    <input id="adminName" class="form-control mb-2" placeholder="Admin Name">
 
-    <input id="mobile" maxlength="10" class="form-control mb-2" placeholder="Mobile Number">
-
-    <input id="whatsapp" maxlength="10" class="form-control mb-2" placeholder="WhatsApp Number">
-
-    <select id="role" class="form-control mb-2">
-        <option value="Manager">Manager</option>
-        <option value="Admin">Admin</option>
-        <option value="Super Admin">Super Admin</option>
-    </select>
-
-    <select id="idType" class="form-control mb-2">
-        <option>Aadhaar</option>
-        <option>PAN</option>
-        <option>Voter ID</option>
-        <option>Driving Licence</option>
-    </select>
-
-    <input type="file" id="idProof" class="form-control mb-2">
-
-    <input type="file" id="profilePhoto" class="form-control mb-2">
     <!-- SIDEBAR -->
     <div class="sidebar" id="side" style="display:none;">
         <h4 style="color:silver">ADMIN PANEL</h4>
@@ -484,6 +649,11 @@
 
         window.login = async () => {
 
+            if (!adminRef.exists()) {
+                alert("Admin Record Missing");
+                return;
+            }
+
             const emailValue =
                 document.getElementById("email").value.trim();
 
@@ -582,10 +752,10 @@
 
 
 
-        if (!adminRef.exists()) {
-            alert("Admin Record Missing");
-            return;
-        }
+        // if (!adminRef.exists()) {
+        //     alert("Admin Record Missing");
+        //     return;
+        // }
 
         const admin = adminRef.data();
 
@@ -718,32 +888,7 @@
                 "Verification email sent. Verify first."
             );
 
-            await setDoc(
-                doc(db, "admins", user.uid),
-                {
-                    adminName:
-                        document.getElementById("adminName").value,
 
-                    email: user.email,
-
-                    mobile:
-                        document.getElementById("mobile").value,
-
-                    whatsapp:
-                        document.getElementById("whatsapp").value,
-
-                    role:
-                        document.getElementById("role").value,
-
-                    status: "Active",
-
-                    profilePhotoURL: photoURL,
-
-                    createdAt: new Date(),
-
-                    lastLogin: new Date()
-                }
-            );
 
 
         };
