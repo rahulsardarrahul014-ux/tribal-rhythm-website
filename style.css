@@ -1138,7 +1138,10 @@ border-radius:10px;
         background:#0f2f24;
         padding:15px;
         border-radius:10px;
+        max-height:80vh;
+        overflow-y:auto;
     }
+
 
     .nav-link{
         display:block;
