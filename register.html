@@ -242,6 +242,78 @@
             background: gold;
             border-radius: 10px;
         }
+
+        .ticket-note {
+            color: red;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .site-logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .form-label-custom {
+            display: block;
+            margin-top: 15px;
+            color: gold;
+            font-weight: 600;
+        }
+
+
+        .radio-box {
+            margin-top: 15px;
+        }
+
+        .radio-box label {
+            display: block;
+            margin: 10px 0;
+            color: white;
+            cursor: pointer;
+        }
+
+        .radio-box input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .upload-wrapper {
+            margin-top: 15px;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: linear-gradient(45deg, gold, orange);
+            color: black;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .upload-btn:hover {
+            background: red;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px red;
+        }
+
+        .hidden-file {
+            display: none;
+        }
+
+        .file-name {
+            display: block;
+            margin-top: 8px;
+            color: #ddd;
+            font-size: 14px;
+        }
     </style>
 
 </head>
@@ -252,9 +324,14 @@
 
         <!-- HEADER -->
         <div class="header">
-            <h2>🏹 TRIBAL RHYTHM</h2>
+
+            <img src="tribalweblogo.png" alt="Tribal Rhythm Logo" class="site-logo">
+
+            <h2>TRIBAL RHYTHM</h2>
+
             <p>Official Competition Registration Portal</p>
             <p>Please read all rules carefully before registration.</p>
+
         </div>
 
         <!-- MAIN -->
@@ -298,10 +375,88 @@
                             <option>Others</option>
                         </select>
 
+                        <label class="form-label-custom">
+                            Upload Your Photo
+                        </label>
+
+                        <div class="upload-wrapper">
+
+                            <label for="photo" class="upload-btn">
+                                📸 Upload Your Photo
+                            </label>
+
+                            <input type="file" id="photo" class="hidden-file" accept="image/*" required>
+
+                            <span id="photoName" class="file-name">
+                                No file selected
+                            </span>
+
+                        </div>
+
+                        <img id="photoPreview" style="width:120px;
+     margin-top:10px;
+     display:none;
+     border-radius:10px;">
+
+                        <label class="form-label-custom">
+                            Select ID Proof
+                        </label>
+
+                        <div class="radio-box">
+
+                            <label>
+                                <input type="radio" name="idproof" value="Aadhaar" required>
+                                Aadhaar Card
+                            </label>
+
+                            <label>
+                                <input type="radio" name="idproof" value="PAN">
+                                PAN Card
+                            </label>
+
+                            <label>
+                                <input type="radio" name="idproof" value="Driving Licence">
+                                Driving Licence
+                            </label>
+
+                            <label>
+                                <input type="radio" name="idproof" value="Voter Card">
+                                Voter Card
+                            </label>
+
+                            <label class="form-label-custom">
+                                Upload ID Proof Photo
+                            </label>
+
+                            <div class="upload-wrapper">
+
+                                <label for="idPhoto" class="upload-btn">
+                                    🪪 Upload ID Proof
+                                </label>
+
+                                <input type="file" id="idPhoto" class="hidden-file" accept="image/*" required>
+
+                                <span id="idPhotoName" class="file-name">
+                                    No file selected
+                                </span>
+
+                            </div>
+
+                            <img id="idPreview" style="width:120px;
+     margin-top:10px;
+     display:none;
+     border-radius:10px;">
+
+                        </div>
+
                         <div class="ticket-box">
                             🎫 Ticket ID:
                             <span id="ticketText"></span>
                         </div>
+                        <p class="ticket-note">
+                            ⚠️ Before Register, Write Your Ticket ID. Ticket ID is Required at the Time of Joining
+                            Competition.
+                        </p>
 
                         <button type="submit" id="btn" class="pay-btn">
                             Pay ₹300 & Register
@@ -341,6 +496,14 @@
         }
             from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+        import {
+            getStorage,
+            ref,
+            uploadBytes,
+            getDownloadURL
+        }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
         /* FIREBASE CONFIG */
 
         const firebaseConfig = {
@@ -362,6 +525,7 @@
         const app = initializeApp(firebaseConfig);
 
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
         /* ELEMENTS */
 
@@ -433,6 +597,17 @@
             let tribe =
                 document.getElementById("tribe")
                     .value;
+
+            let photoFile =
+                document.getElementById("photo").files[0];
+
+            let idPhotoFile =
+                document.getElementById("idPhoto").files[0];
+
+            let idProof =
+                document.querySelector(
+                    'input[name="idproof"]:checked'
+                )?.value;
 
             /* VALIDATION */
 
@@ -530,6 +705,37 @@
 
                     handler: async function (response) {
 
+
+                        /* PHOTO UPLOAD */
+
+                        const photoRef = ref(
+                            storage,
+                            `users/${email}/photo.jpg`
+                        );
+
+                        await uploadBytes(
+                            photoRef,
+                            photoFile
+                        );
+
+                        const photoURL =
+                            await getDownloadURL(photoRef);
+
+                        /* ID PHOTO UPLOAD */
+
+                        const idRef = ref(
+                            storage,
+                            `users/${email}/idproof.jpg`
+                        );
+
+                        await uploadBytes(
+                            idRef,
+                            idPhotoFile
+                        );
+
+                        const idURL =
+                            await getDownloadURL(idRef);
+
                         /* SAVE FIREBASE */
 
                         await setDoc(
@@ -551,6 +757,12 @@
                                 address,
 
                                 tribe,
+
+                                idProof,
+
+                                photoURL,
+
+                                idProofURL: idURL,
 
                                 ticket: finalTicket,
 
@@ -628,6 +840,49 @@
             }
 
         });
+
+
+        document
+            .getElementById("photo")
+            .addEventListener("change", e => {
+
+                const file = e.target.files[0];
+
+                if (file) {
+
+                    document.getElementById(
+                        "photoName"
+                    ).innerText = file.name;
+
+                    photoPreview.src =
+                        URL.createObjectURL(file);
+
+                    photoPreview.style.display =
+                        "block";
+                }
+
+            });
+
+        document
+            .getElementById("idPhoto")
+            .addEventListener("change", e => {
+
+                const file = e.target.files[0];
+
+                if (file) {
+
+                    document.getElementById(
+                        "idPhotoName"
+                    ).innerText = file.name;
+
+                    idPreview.src =
+                        URL.createObjectURL(file);
+
+                    idPreview.style.display =
+                        "block";
+                }
+
+            });
 
     </script>
 
