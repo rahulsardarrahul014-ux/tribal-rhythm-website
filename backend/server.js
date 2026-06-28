@@ -164,13 +164,20 @@ app.post("/verify-otp", async (req, res) => {
 app.post("/create-order", async (req, res) => {
     try {
         const { amount, email } = req.body;
+        console .log("Amount received:" ,amount);
+        console.log("Amount type:",typeof amount);
+        console.log("Amount sent to Razorpay:",amount*100);
 
         if (!amount || !email || !isValidEmail(email)) {
             return res.status(400).json({ message: "Invalid request" });
         }
 
+        const finalAmount =Number (amount)*100;
+        console.log(finalAmount);
+
         const order = await razorpay.orders.create({
-            amount: amount * 100, // rupees → paise
+            // amount: amount * 100, // rupees → paise
+            amount:finalAmount,
             currency: "INR",
             receipt: "receipt_" + Date.now(),
             notes: {
