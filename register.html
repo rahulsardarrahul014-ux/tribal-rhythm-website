@@ -36,7 +36,7 @@
     <meta name="twitter:description" content="Join Tribal Rhythm dance competitions and events online.">
 
     <!-- FAVICON -->
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" type="png" href="tribalweblogo.png">
 
     <!-- PERFORMANCE -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -305,7 +305,10 @@
         }
 
         .hidden-file {
-            display: none;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+            position: absolute;
         }
 
         .file-name {
@@ -398,6 +401,16 @@
      display:none;
      border-radius:10px;">
 
+                        <img id="photoPreview" style="width:120px;
+display:none;
+margin-top:10px;
+border-radius:10px;">
+
+                        <button id="deletePhotoBtn" type="button" style="display:none"
+                            class="btn btn-danger btn-sm mt-2">
+                            Delete Photo
+                        </button>
+
                         <label class="form-label-custom">
                             Select ID Proof
                         </label>
@@ -446,6 +459,16 @@
      margin-top:10px;
      display:none;
      border-radius:10px;">
+
+                            <img id="idPreview" style="width:120px;
+display:none;
+margin-top:10px;
+border-radius:10px;">
+
+                            <button id="deleteIdBtn" type="button" style="display:none"
+                                class="btn btn-danger btn-sm mt-2">
+                                Delete ID Proof
+                            </button>
 
                         </div>
 
@@ -630,6 +653,20 @@
                 alert("Invalid Email ❌");
                 return;
 
+            }
+            if (!photoFile) {
+                alert("Please upload your photo.");
+                return;
+            }
+
+            if (!idPhotoFile) {
+                alert("Please upload your ID Proof.");
+                return;
+            }
+
+            if (!idProof) {
+                alert("Please select ID Proof.");
+                return;
             }
 
             /* LOADING */
@@ -859,6 +896,7 @@
 
                     photoPreview.style.display =
                         "block";
+                        document.getElementById("deletePhotoBtn").style.display="inline-block";
                 }
 
             });
@@ -880,9 +918,40 @@
 
                     idPreview.style.display =
                         "block";
+                        document.getElementById("deleteIdBtn").style.display="inline-block";
                 }
 
             });
+
+            document.getElementById("deletePhotoBtn")
+.addEventListener("click",()=>{
+
+document.getElementById("photo").value="";
+
+photoPreview.src="";
+
+photoPreview.style.display="none";
+
+photoName.innerText="No file selected";
+
+document.getElementById("deletePhotoBtn").style.display="none";
+
+});
+
+document.getElementById("deleteIdBtn")
+.addEventListener("click",()=>{
+
+document.getElementById("idPhoto").value="";
+
+idPreview.src="";
+
+idPreview.style.display="none";
+
+idPhotoName.innerText="No file selected";
+
+document.getElementById("deleteIdBtn").style.display="none";
+
+});
 
     </script>
 
