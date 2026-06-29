@@ -203,6 +203,84 @@
             background: gold;
             border-radius: 10px;
         }
+
+        /* ===== LOGO ===== */
+        .logo {
+            width: 110px;
+            height: auto;
+            display: block;
+            margin: 0 auto 12px;
+        }
+
+        /* ===== WELCOME ===== */
+        .welcome-text {
+            text-align: center;
+            color: gold;
+            font-size: 30px;
+            font-weight: 700;
+            margin: 15px 0;
+            animation: welcome 2s infinite alternate;
+            text-shadow: 0 0 15px gold;
+        }
+
+        @keyframes welcome {
+            from {
+                opacity: .5;
+                letter-spacing: 1px;
+            }
+
+            to {
+                opacity: 1;
+                letter-spacing: 5px;
+            }
+        }
+
+        /* ===== MARQUEE ===== */
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            background: #111;
+            border-top: 2px solid gold;
+            border-bottom: 2px solid gold;
+            padding: 10px 0;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            color: gold;
+            font-weight: bold;
+            font-size: 17px;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* MOBILE */
+        @media(max-width:768px) {
+
+            .logo {
+                width: 80px;
+            }
+
+            .welcome-text {
+                font-size: 22px;
+            }
+
+            .marquee-content {
+                font-size: 14px;
+            }
+
+        }
     </style>
 
 </head>
@@ -210,9 +288,32 @@
 <body>
 
     <div class="header">
-        <h2>🏹 Tribal Rhythm</h2>
-        <p>नियम एवं शर्तें (Rules & Regulations)</p>
+
+        <img src="tribalweblogo.png" class="logo" alt="Tribal Rhythm Logo">
+
+        <h1>Welcome To Tribal Rhythm</h1>
+
+        <p>Rules & Regulations</p>
+
     </div>
+    <div class="welcome-text">
+
+        Welcome To Tribal Rhythm
+
+    </div>
+
+    <div class="marquee">
+
+        <div class="marquee-content">
+
+            🏹 Welcome To Tribal Rhythm • Rules & Regulations • All Dance Institute Students • Dance Teachers • Solo
+            Dance • Duo Dance • Group Dance • Tribal Dance • Registration Open • Register Now
+
+        </div>
+
+    </div>
+
+    
     <div class="text-center mt-3 mb-4">
         <span style="
         background:rgba(255,215,0,0.1);
@@ -329,6 +430,64 @@
             <p class="note">🎖 सभी को सम्मान मिलेगा।</p>
         </div>
 
+        <div class="card-box">
+
+            <h4>11. Eligibility</h4>
+
+            <ul>
+
+                <li>All Dance Institutes are eligible.</li>
+
+                <li>Dance Teachers can participate.</li>
+
+                <li>Students can participate.</li>
+
+                <li>Solo, Duo and Group Dance are allowed.</li>
+
+            </ul>
+
+            <p class="note">
+                ✅ Institute, School, College and Academy participants are welcome.
+            </p>
+
+        </div>
+
+        <div class="card-box">
+
+<h4>12. Dress Code</h4>
+
+<ul>
+
+<li>Traditional Tribal Dress is preferred.</li>
+
+<li>Decent Costume is mandatory.</li>
+
+</ul>
+
+<p class="note">
+👕 Respect Tribal Culture.
+</p>
+
+</div>
+
+<div class="card-box">
+
+<h4>13. Fair Competition</h4>
+
+<ul>
+
+<li>Judges' decision will be final.</li>
+
+<li>No argument will be accepted.</li>
+
+</ul>
+
+<p class="note">
+🏆 Fair judgement for every participant.
+</p>
+
+</div>
+
         <!-- PROMOTION SECTION -->
         <div class="card-box">
             <h4>📢 Tribal Promotion System</h4>
@@ -407,14 +566,14 @@
                 localStorage.setItem("rulesAccepted", "yes");
 
                 // smooth redirect
-                window.location.href = "competition.html";
+                window.location.href = "register.html";
             }
 
 
             // 🔥 OPTIONAL UX UPGRADE (BUTTON LOCK SYSTEM)
             document.getElementById("agree").addEventListener("change", function () {
 
-                let nextBtn = document.querySelector(".btn-success");
+                let nextBtn = document.querySelector(".btn-next");
 
                 if (this.checked) {
                     nextBtn.style.opacity = "1";
@@ -427,10 +586,20 @@
 
             // default disabled feel
             window.onload = function () {
-                document.querySelector(".btn-success").style.opacity = "0.5";
-                document.querySelector(".btn-success").style.pointerEvents = "none";
+                document.querySelector(".btn-next").style.opacity = "0.5";
+                document.querySelector(".btn-next").style.pointerEvents = "none";
             }
         </script>
+
+        <footer style="text-align:center;padding:30px;color:gold;border-top:1px solid gold;margin-top:40px;">
+
+<h5>🏹 Tribal Rhythm</h5>
+
+<p>Preserving Tribal Culture Through Dance</p>
+
+<p>© 2026 Tribal Rhythm | All Rights Reserved</p>
+
+</footer>
 
 </body>
 
