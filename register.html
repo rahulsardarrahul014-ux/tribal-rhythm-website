@@ -322,7 +322,7 @@
 </head>
 
 <body>
-    <div id="loader" style="display:none;"></div>
+
 
     <div class="overlay">
 
@@ -402,10 +402,7 @@
      display:none;
      border-radius:10px;">
 
-                        <img id="photoPreview" style="width:120px;
-display:none;
-margin-top:10px;
-border-radius:10px;">
+
 
                         <button id="deletePhotoBtn" type="button" style="display:none"
                             class="btn btn-danger btn-sm mt-2">
@@ -461,10 +458,7 @@ border-radius:10px;">
      display:none;
      border-radius:10px;">
 
-                            <img id="idPreview" style="width:120px;
-display:none;
-margin-top:10px;
-border-radius:10px;">
+
 
                             <button id="deleteIdBtn" type="button" style="display:none"
                                 class="btn btn-danger btn-sm mt-2">
@@ -561,6 +555,13 @@ border-radius:10px;">
 
         const ticketText = document.getElementById("ticketText");
 
+        const photoPreview = document.getElementById("photopreview");
+
+        const idPreview = document.getElementById("idpreview");
+
+        const photoName = document.getElementById("photoname");
+
+        const idPhotoName = document.getElementById("idphotoname");
         /* TICKET GENERATOR */
 
         function genTicket() {
@@ -700,7 +701,7 @@ border-radius:10px;">
                         })
                     }
                 );
-                console.log("after fetch",res.status);
+                console.log("after fetch", res.status);
 
                 const data = await res.json();
 
@@ -873,12 +874,12 @@ border-radius:10px;">
 
                 btn.innerText =
                     "Pay ₹300 & Register";
-                    const loader=document.getElementById("loader");
-                    if (loader){
-                        loader.style.display="none"
-                    }
+                const loader = document.getElementById("loader");
+                if (loader) {
+                    loader.style.display = "none"
+                }
 
-                loader.style.display = "none";
+                // loader.style.display = "none";
 
             }
 
@@ -902,7 +903,7 @@ border-radius:10px;">
 
                     photoPreview.style.display =
                         "block";
-                        document.getElementById("deletePhotoBtn").style.display="inline-block";
+                    document.getElementById("deletePhotoBtn").style.display = "inline-block";
                 }
 
             });
@@ -924,40 +925,40 @@ border-radius:10px;">
 
                     idPreview.style.display =
                         "block";
-                        document.getElementById("deleteIdBtn").style.display="inline-block";
+                    document.getElementById("deleteIdBtn").style.display = "inline-block";
                 }
 
             });
 
-            document.getElementById("deletePhotoBtn")
-.addEventListener("click",()=>{
+        document.getElementById("deletePhotoBtn")
+            .addEventListener("click", () => {
 
-document.getElementById("photo").value="";
+                document.getElementById("photo").value = "";
 
-photoPreview.src="";
+                photoPreview.src = "";
 
-photoPreview.style.display="none";
+                photoPreview.style.display = "none";
 
-photoName.innerText="No file selected";
+                photoName.innerText = "No file selected";
 
-document.getElementById("deletePhotoBtn").style.display="none";
+                document.getElementById("deletePhotoBtn").style.display = "none";
 
-});
+            });
 
-document.getElementById("deleteIdBtn")
-.addEventListener("click",()=>{
+        document.getElementById("deleteIdBtn")
+            .addEventListener("click", () => {
 
-document.getElementById("idPhoto").value="";
+                document.getElementById("idPhoto").value = "";
 
-idPreview.src="";
+                idPreview.src = "";
 
-idPreview.style.display="none";
+                idPreview.style.display = "none";
 
-idPhotoName.innerText="No file selected";
+                idPhotoName.innerText = "No file selected";
 
-document.getElementById("deleteIdBtn").style.display="none";
+                document.getElementById("deleteIdBtn").style.display = "none";
 
-});
+            });
 
     </script>
 
