@@ -329,6 +329,20 @@ app.get("/", (req, res) => {
     res.send("Tribal Rhythm API Running 🚀");
 });
 
+
+// ================= GLOBAL ERROR HANDLER =================
+app.use((err, req, res, next) => {
+    console.error("Global Error:", err);
+
+    if (res.headersSent) {
+        return next(err);
+    }
+
+    return res.status(500).json({
+        success: false,
+        message: err.message || "Internal Server Error"
+    });
+});
 // ================= START =================
 const PORT = process.env.PORT || 5000;
 
