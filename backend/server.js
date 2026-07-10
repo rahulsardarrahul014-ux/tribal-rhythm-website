@@ -23,16 +23,16 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-    origin: function (origin, callback) {
-
-        if (!origin) return callback(null, true);
-
-        if (allowedOrigins.includes(origin)) {
-            callback(null, true);
+    origin: (origin, callback) => {
+        if (!origin) {
+            return callback(null, true);
         }
 
-        callback(new Error("Not allowed by CORS"));
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
 
+        return callback(new Error("Not allowed by CORS"));
     },
     credentials: true
 }));
@@ -236,7 +236,7 @@ app.post("/verify-payment", (req, res) => {
             return res.json({ success: true });
         }
 
-        res.status(400).json({ success: false });
+        return res.status(400).json({ success: false });
 
     } catch (err) {
         res.status(500).json({ success: false });
@@ -314,10 +314,13 @@ app.post("/check-entry", async (req, res) => {
             return res.json({ allowed: false, reason: "Not approved" });
         }
 
-        res.json({ allowed: true, ticketId: user.ticketId });
+        return res.json({
+            allowed: true,
+            ticketId: user.ticketId
+        });
 
     } catch (err) {
-        res.status(500).json({ allowed: false });
+        return res.status(500).json({ allowed: false });
     }
 });
 
