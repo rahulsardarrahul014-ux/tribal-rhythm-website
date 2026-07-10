@@ -904,9 +904,20 @@
 
                 rzp.on("payment.failed", function (response) {
 
-                    console.log("Payment Failed:", response.error);
+                    console.log("FULL RESPONSE:", response);
 
-                    alert(response.error.description);
+                    console.log("Error Code:", response.error.code);
+                    console.log("Description:", response.error.description);
+                    console.log("Reason:", response.error.reason);
+                    console.log("Source:", response.error.source);
+                    console.log("Step:", response.error.step);
+                    console.log("Metadata:", response.error.metadata);
+
+                    alert(
+                        "Code: " + response.error.code +
+                        "\nDescription: " + response.error.description +
+                        "\nReason: " + response.error.reason
+                    );
 
                 });
 
