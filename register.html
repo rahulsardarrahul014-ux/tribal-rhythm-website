@@ -702,6 +702,7 @@
                 console.log("after fetch", res.status);
 
                 const data = await res.json();
+                console.log("Order Response:", data);
 
                 if (!data.success) {
                     alert(data.message);
