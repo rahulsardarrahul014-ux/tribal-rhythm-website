@@ -70,6 +70,11 @@ const razorpay = new Razorpay({
     key_secret: process.env.RAZORPAY_KEY_SECRET
 });
 
+
+// ================= CHECK RAZORPAY KEYS =================
+console.log("KEY ID :", process.env.RAZORPAY_KEY_ID);
+console.log("SECRET :", process.env.RAZORPAY_KEY_SECRET ? "Loaded" : "Missing");
+
 // ================= EMAIL =================
 const transporter = nodemailer.createTransport({
     service: "gmail",

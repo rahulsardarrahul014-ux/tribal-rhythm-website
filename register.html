@@ -729,7 +729,7 @@
 
                 const options = {
 
-                    key: "rzp_test_Sivw7RBeLznDJc",
+                    key: data.key,
 
                     amount: data.amount,
 
@@ -901,6 +901,14 @@
 
                 const rzp =
                     new Razorpay(options);
+
+                rzp.on("payment.failed", function (response) {
+
+                    console.log("Payment Failed:", response.error);
+
+                    alert(response.error.description);
+
+                });
 
                 rzp.open();
 
