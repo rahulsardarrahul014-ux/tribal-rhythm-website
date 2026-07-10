@@ -181,36 +181,42 @@ app.post("/verify-otp", async (req, res) => {
 app.post("/create-order", async (req, res) => {
     try {
         const { amount, email } = req.body;
-        console.log("Amount received:", amount);
-        console.log("Amount type:", typeof amount);
-        console.log("Amount sent to Razorpay:", amount * 100);
+
+        console.log("Request Body:", req.body);
 
         if (!amount || !email || !isValidEmail(email)) {
-            return res.status(400).json({ message: "Invalid request" });
+            return res.status(400).json({
+                success: false,
+                message: "Invalid request"
+            });
         }
 
         const finalAmount = Number(amount) * 100;
-        console.log(finalAmount);
 
         const order = await razorpay.orders.create({
-            // amount: amount * 100, // rupees → paise
             amount: finalAmount,
             currency: "INR",
-            receipt: "receipt_" + Date.now(),
+            receipt: `receipt_${Date.now()}`,
             notes: {
                 email
             }
         });
 
-        res.json({
+        return res.status(200).json({
+            success: true,
             id: order.id,
             amount: order.amount,
+            currency: order.currency,
             key: process.env.RAZORPAY_KEY_ID
         });
 
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Order failed" });
+        console.error("Create Order Error:", err);
+
+        return res.status(500).json({
+            success: false,
+            message: err.message || "Order creation failed"
+        });
     }
 });
 
