@@ -364,7 +364,14 @@
                             <option>Other</option>
                         </select>
 
-                        <input id="bmobile" type="tel" placeholder="Mobile Number" required>
+                        <input type="tel" id="mobile" name="mobile" placeholder="Enter 10-digit Mobile Number"
+                            maxlength="10" pattern="[0-9]{10}" inputmode="numeric" required>
+
+                        <small id="mobileNotice"
+                            style="color:#d32f2f; display:block; margin-top:5px; font-size:13px; font-weight:600;">
+                            ⚠ Notice: Enter only a valid 10-digit mobile number. Do not use 0, +91, spaces or more than
+                            10 digits.
+                        </small>
 
                         <input id="bemail" type="email" placeholder="Email Address" required>
 
@@ -603,7 +610,7 @@
                     .value;
 
             let mobile =
-                document.getElementById("bmobile")
+                document.getElementById("mobile")
                     .value
                     .trim();
 
@@ -633,6 +640,15 @@
                 )?.value;
 
             /* VALIDATION */
+
+            // Mobile Number Validation
+            if (!/^[6-9][0-9]{9}$/.test(mobile)) {
+
+                alert("Please enter a valid 10-digit mobile number.");
+
+                return;
+
+            }
 
             if (name.length < 3) {
 
