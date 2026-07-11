@@ -511,7 +511,7 @@
     <!-- FIREBASE -->
     <script type="module">
 
-        emailjs.init("YOUR_PUBLIC_KEY");
+        // emailjs.init("YOUR_PUBLIC_KEY");
 
         import { initializeApp }
             from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -871,75 +871,116 @@
                             }
                         );
 
-                        await emailjs.send(
-                            "YOUR_SERVICE_ID",
-                            "YOUR_TEMPLATE_ID",
-                            {
-                                name: name,
-                                email: email,
-                                ticket: finalTicket
-                            }
-                        );
+                        // await emailjs.send(
+                        //     "YOUR_SERVICE_ID",
+                        //     "YOUR_TEMPLATE_ID",
+                        //     {
+                        //         name: name,
+                        //         email: email,
+                        //         ticket: finalTicket
+                        //     }
+                        // );
 
-                        await fetch(
-                            "https://tribal-rhythm-backend.onrender.com/send-registration-email",
-                            {
+                        // await fetch(
+                        //     "https://tribal-rhythm-backend.onrender.com/send-registration-email",
+                        //     {
+                        //         method: "POST",
+
+                        //         headers: {
+                        //             "Content-Type": "application/json"
+                        //         },
+
+                        //         body: JSON.stringify({
+
+                        //             name: name,
+
+                        //             email: email,
+
+                        //             ticketId: finalTicket
+
+                        //         })
+                        //     });
+
+
+                        // await fetch(
+                        //     "https://tribal-rhythm-backend.onrender.com/send-registration-sms",
+                        //     {
+
+                        //         method: "POST",
+
+                        //         headers: {
+                        //             "Content-Type": "application/json"
+                        //         },
+
+                        //         body: JSON.stringify({
+
+                        //             name,
+
+                        //             mobile,
+
+                        //             ticketId: finalTicket
+
+                        //         })
+
+                        //     });
+
+                        try {
+                            await fetch("https://tribal-rhythm-backend.onrender.com/send-registration-email", {
                                 method: "POST",
-
                                 headers: {
                                     "Content-Type": "application/json"
                                 },
-
                                 body: JSON.stringify({
-
-                                    name: name,
-
-                                    email: email,
-
-                                    ticketId: finalTicket
-
-                                })
-                            });
-
-
-                        await fetch(
-                            "https://tribal-rhythm-backend.onrender.com/send-registration-sms",
-                            {
-
-                                method: "POST",
-
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-
-                                body: JSON.stringify({
-
                                     name,
-
-                                    mobile,
-
+                                    email,
                                     ticketId: finalTicket
-
                                 })
-
                             });
+                        } catch (e) {
+                            console.error("Email Error:", e);
+                        }
 
-                        alert(
-                            "Registration Successful ✅"
-                        );
+                        try {
+                            await fetch("https://tribal-rhythm-backend.onrender.com/send-registration-sms", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    name,
+                                    mobile,
+                                    ticketId: finalTicket
+                                })
+                            });
+                        } catch (e) {
+                            console.error("SMS Error:", e);
+                        }
 
-                        localStorage.setItem(
-                            "email",
-                            email
-                        );
+                        // alert(
+                        //     "Registration Successful ✅"
+                        // );
 
-                        localStorage.setItem(
-                            "name",
-                            name
-                        );
+                        // localStorage.setItem(
+                        //     "email",
+                        //     email
+                        // );
 
-                        window.location.href =
-                            "competition.html";
+                        // localStorage.setItem(
+                        //     "name",
+                        //     name
+                        // );
+
+                        // window.location.href =
+                        //     "competition.html";
+
+                        alert("Registration Successful ✅");
+
+                        localStorage.setItem("email", email);
+                        localStorage.setItem("name", name);
+
+                        console.log("Redirecting to competition page...");
+
+                        window.location.href = "competition.html";
 
                     },
 
