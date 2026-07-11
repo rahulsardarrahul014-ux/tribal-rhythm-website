@@ -52,6 +52,10 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 
+admin.auth().listUsers(1)
+    .then(() => console.log("Firebase Admin Connected ✅"))
+    .catch(err => console.error("Firebase Admin Error:", err));
+
 const db = admin.firestore();
 // ================= ADMIN SECURITY =================
 const checkAdmin = async (req, res, next) => {
