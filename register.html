@@ -829,6 +829,7 @@
                         const idURL = "";
 
                         /* SAVE FIREBASE */
+                        console.log("1. Payment Verified");
 
                         await setDoc(
                             doc(db, "users", email),
@@ -870,6 +871,8 @@
 
                             }
                         );
+
+
 
                         // await emailjs.send(
                         //     "YOUR_SERVICE_ID",
@@ -925,6 +928,9 @@
                         //     });
 
                         try {
+                            console.log("2. Firestore Saved");
+
+                            console.log("3. Before Email API");
                             await fetch("https://tribal-rhythm-backend.onrender.com/send-registration-email", {
                                 method: "POST",
                                 headers: {
@@ -941,6 +947,7 @@
                         }
 
                         try {
+                            console.log("4. Email Sent");
                             await fetch("https://tribal-rhythm-backend.onrender.com/send-registration-sms", {
                                 method: "POST",
                                 headers: {
@@ -979,6 +986,10 @@
                         localStorage.setItem("name", name);
 
                         console.log("Redirecting to competition page...");
+
+                        console.log("5. SMS Sent");
+
+                        console.log("6. Redirecting");
 
                         window.location.href = "competition.html";
 
