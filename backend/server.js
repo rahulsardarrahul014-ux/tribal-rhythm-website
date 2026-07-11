@@ -85,23 +85,24 @@ console.log("KEY ID :", process.env.RAZORPAY_KEY_ID);
 console.log("SECRET :", process.env.RAZORPAY_KEY_SECRET ? "Loaded" : "Missing");
 
 // ================= EMAIL =================
-// ================= EMAIL =================
+
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
+    service: "gmail",
+
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     }
 });
 
-transporter.verify((err, success) => {
+transporter.verify((err) => {
+
     if (err) {
         console.log("SMTP ERROR:", err);
     } else {
         console.log("SMTP Connected ✅");
     }
+
 });
 
 // ================= RATE LIMIT =================
