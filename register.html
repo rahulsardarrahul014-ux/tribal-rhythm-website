@@ -871,7 +871,7 @@
 
                             }
                         );
-
+                            console.log("✅ Firestore Saved");
 
 
                         // await emailjs.send(
@@ -931,6 +931,7 @@
                             console.log("2. Firestore Saved");
 
                             console.log("3. Before Email API");
+                            console.log("➡ Calling Email API");
                             await fetch("https://tribal-rhythm-backend.onrender.com/send-registration-email", {
                                 method: "POST",
                                 headers: {
@@ -945,9 +946,11 @@
                         } catch (e) {
                             console.error("Email Error:", e);
                         }
+                        console.log("✅ Email API Finished");
 
                         try {
                             console.log("4. Email Sent");
+                            console.log("➡ Calling SMS API");
                             await fetch("https://tribal-rhythm-backend.onrender.com/send-registration-sms", {
                                 method: "POST",
                                 headers: {
@@ -962,6 +965,7 @@
                         } catch (e) {
                             console.error("SMS Error:", e);
                         }
+                        console.log("✅ SMS API Finished");
 
                         // alert(
                         //     "Registration Successful ✅"
@@ -990,6 +994,7 @@
                         console.log("5. SMS Sent");
 
                         console.log("6. Redirecting");
+                        console.log("➡ Redirect");
 
                         window.location.href = "competition.html";
 
