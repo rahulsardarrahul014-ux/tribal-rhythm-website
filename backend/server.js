@@ -9,6 +9,7 @@ const rateLimit = require("express-rate-limit");
 const axios = require("axios");
 
 const app = express();
+app.set("trust proxy", 1);
 
 // ================= MIDDLEWARE =================
 app.use(express.json({
@@ -84,11 +85,22 @@ console.log("KEY ID :", process.env.RAZORPAY_KEY_ID);
 console.log("SECRET :", process.env.RAZORPAY_KEY_SECRET ? "Loaded" : "Missing");
 
 // ================= EMAIL =================
+// ================= EMAIL =================
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
+    }
+});
+
+transporter.verify((err, success) => {
+    if (err) {
+        console.log("SMTP ERROR:", err);
+    } else {
+        console.log("SMTP Connected ✅");
     }
 });
 
