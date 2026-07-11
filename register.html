@@ -794,33 +794,39 @@
 
                         /* PHOTO UPLOAD */
 
-                        const photoRef = ref(
-                            storage,
-                            `users/${email}/photo.jpg`
-                        );
+                        // const photoRef = ref(
+                        //     storage,
+                        //     `users/${email}/photo.jpg`
+                        // );
 
-                        await uploadBytes(
-                            photoRef,
-                            photoFile
-                        );
+                        // await uploadBytes(
+                        //     photoRef,
+                        //     photoFile
+                        // );
 
-                        const photoURL =
-                            await getDownloadURL(photoRef);
+                        // const photoURL =
+                        //     await getDownloadURL(photoRef);
 
-                        /* ID PHOTO UPLOAD */
+                        // /* ID PHOTO UPLOAD */
 
-                        const idRef = ref(
-                            storage,
-                            `users/${email}/idproof.jpg`
-                        );
+                        // const idRef = ref(
+                        //     storage,
+                        //     `users/${email}/idproof.jpg`
+                        // );
 
-                        await uploadBytes(
-                            idRef,
-                            idPhotoFile
-                        );
+                        // await uploadBytes(
+                        //     idRef,
+                        //     idPhotoFile
+                        // );
 
-                        const idURL =
-                            await getDownloadURL(idRef);
+                        // const idURL =
+                        //     await getDownloadURL(idRef);
+
+                        // Temporary: Firebase Storage disabled (Spark Plan)
+                        // TODO: Restore Firebase Storage upload after upgrading to Blaze Plan.
+
+                        const photoURL = "";
+                        const idURL = "";
 
                         /* SAVE FIREBASE */
 
