@@ -729,49 +729,44 @@
         // ================= SEND OTP =================
         window.sendOTP = async function () {
 
-            let email =
-                document.getElementById("ticketEmail")
-                    .value.trim();
+            const name = document.getElementById("ticketName").value.trim();
+            const mobile = document.getElementById("ticketPhone").value.trim();
+            const email = document.getElementById("ticketEmail").value.trim();
 
-            console.log("Email:", email);
+            if (name.length < 3) {
+                Swal.fire("Tribal Rhythm", "Please enter your full name", "warning");
+                return;
+            }
 
-            if (!email) {
-                Swal.fire(
-                    "Tribal Rhythm",
-                    "Email Required",
-                    "warning"
-                );
+            if (!/^[6-9]\d{9}$/.test(mobile)) {
+                Swal.fire("Tribal Rhythm", "Enter valid 10 digit mobile number", "warning");
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                Swal.fire("Tribal Rhythm", "Enter valid email", "warning");
                 return;
             }
 
             try {
 
-                let res = await fetch(
-                    `${API_URL}/send-otp`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-                        body: JSON.stringify({
-                            email: email
-                        })
-                    }
-                );
+                const res = await fetch(`${API_URL}/send-otp`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ email })
+                });
 
-                console.log("Response:", res);
-
-                let data = await res.json();
-
-                console.log(data);
+                const data = await res.json();
 
                 if (data.success) {
+
                     document.getElementById("otpSection").style.display = "block";
 
                     Swal.fire(
                         "Tribal Rhythm",
-                        "OTP Sent Successfully",
+                        "OTP sent successfully",
                         "success"
                     );
 
@@ -779,24 +774,23 @@
 
                     Swal.fire(
                         "Tribal Rhythm",
-                        data.message ||
-                        "Failed To Send OTP",
+                        data.message,
                         "error"
                     );
-
                 }
 
-            } catch (error) {
+            } catch (err) {
 
-                console.error(error);
+                console.log(err);
 
                 Swal.fire(
                     "Tribal Rhythm",
-                    error.message,
+                    "Unable to send OTP",
                     "error"
                 );
             }
-        };
+
+        }
 
 
         // ================= VERIFY OTP =================
@@ -804,6 +798,15 @@
 
             let email = document.getElementById("ticketEmail").value.trim();
             let otp = document.getElementById("ticketOTP").value.trim();
+
+            if (otp.length !== 6) {
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Enter valid 6 digit OTP",
+                    "warning"
+                );
+                return;
+            }
             let name = document.getElementById("ticketName").value.trim();
             let mobile = document.getElementById("ticketPhone").value.trim();
 
@@ -1235,8 +1238,9 @@
         };
 
         /* ================= PAYMENT ================= */
-        window.payNow = async function (type) {
+        window.payNow = async function () {
 
+            // Selected Pass
             const selected = document.querySelector('input[name="ticketType"]:checked');
 
             if (!selected) {
@@ -1248,134 +1252,158 @@
                 return;
             }
 
-            type = selected.value;
+            const type = selected.value;
+
+            // User Details
+            const name = document.getElementById("ticketName").value.trim();
+            const phone = document.getElementById("ticketPhone").value.trim();
+            const email = document.getElementById("ticketEmail").value.trim();
+
+            // OTP Verification
             if (localStorage.getItem("ticketVerified") !== "true") {
-
                 Swal.fire(
-
                     "Tribal Rhythm",
-
                     "Please Verify OTP First",
-
                     "warning"
-
                 );
-
                 return;
-
             }
 
-            let name = document.getElementById("ticketName").value;
-            let phone = document.getElementById("ticketPhone").value;
-            let email = document.getElementById("ticketEmail").value.trim();
+            // Firestore User Check
+            const userDoc = await getDocs(
+                query(
+                    collection(db, "users"),
+                    where("email", "==", email)
+                )
+            );
 
-            // ---------------- VALIDATION ----------------
-            if (!name || name.length < 3) {
-                Swal.fire({
-                    title: "Tribal Rhythm",
-                    text: "Enter Valid Name",
-                    icon: "warning"
-                });
+            if (userDoc.empty) {
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "User not found. Verify OTP again.",
+                    "warning"
+                );
+                return;
+            }
+
+            // Validation
+            if (name.length < 3) {
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Enter Valid Name",
+                    "warning"
+                );
                 return;
             }
 
             if (!/^[6-9]\d{9}$/.test(phone)) {
-                Swal.fire({
-                    title: "Tribal Rhythm",
-                    text: "Invalid Phone Number",
-                    icon: "warning"
-                });
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Invalid Mobile Number",
+                    "warning"
+                );
                 return;
             }
 
-            if (!name) {
-
-                Swal.fire("Enter Name");
-
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Invalid Email",
+                    "warning"
+                );
                 return;
-
             }
 
-            if (!phone) {
-
-                Swal.fire("Enter Mobile");
-
-                return;
-
-            }
-
-            if (!email) {
-
-                Swal.fire("Enter Email");
-
-                return;
-
-            }
-
-            sendOTP();
-
-            // ---------------- PRICE MAP ----------------
-            let amountMap = {
-
+            // Price
+            const amountMap = {
                 General: 499,
-
                 VIP: 999,
-
                 Group: 399
-
             };
 
-            let amount = amountMap[type] || 30000;
+            const amount = amountMap[type];
 
             try {
 
-                // ---------------- CREATE ORDER ----------------
-                let res = await fetch(`${API_URL}/create-order`, {
+                // Create Razorpay Order
+                const res = await fetch(`${API_URL}/create-order`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        amount: amount,
-                        email: email
+                        amount,
+                        email
                     })
                 });
 
-                let data = await res.json();
+                const data = await res.json();
 
-                if (!data || !data.id) {
-                    Swal.fire({
-                        title: "Tribal Rhythm",
-                        text: "Order Creation Failed",
-                        icon: "error"
-                    });
+                if (!data.success) {
+                    Swal.fire(
+                        "Tribal Rhythm",
+                        data.message,
+                        "error"
+                    );
                     return;
                 }
 
-                // ---------------- RAZORPAY OPTIONS ----------------
-                let options = {
+                // Razorpay
+                const options = {
+
                     key: data.key,
                     amount: data.amount,
-                    currency: "INR",
-                    name: "Tribal Rhythm",
-                    description: type + " Ticket",
+                    currency: data.currency,
                     order_id: data.id,
+
+                    name: "Tribal Rhythm",
+
+                    description: type + " Ticket",
 
                     handler: async function (response) {
 
                         try {
 
-                            await addDoc(collection(db, "bookings"), {
-                                ticketType: type,
-                                name: name,
-                                phone: phone,
-                                email: email,
-                                paymentId: response.razorpay_payment_id,
-                                orderId: response.razorpay_order_id,
-                                status: "success",
-                                createdAt: new Date()
+                            // Verify Payment
+                            const verify = await fetch(`${API_URL}/verify-payment`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(response)
                             });
 
+                            const result = await verify.json();
+
+                            if (!result.success) {
+
+                                Swal.fire(
+                                    "Payment Verification Failed",
+                                    "",
+                                    "error"
+                                );
+
+                                return;
+                            }
+
+                            // Save Booking
+                            await addDoc(collection(db, "bookings"), {
+
+                                name,
+                                phone,
+                                email,
+                                ticketType: type,
+
+                                paymentId: response.razorpay_payment_id,
+                                orderId: response.razorpay_order_id,
+
+                                status: "success",
+
+                                createdAt: new Date()
+
+                            });
+
+                            // Generate Ticket
                             generateTicketPDF(
                                 name,
                                 phone,
@@ -1383,24 +1411,44 @@
                                 response.razorpay_payment_id
                             );
 
+                            Swal.fire(
+                                "Success",
+                                "Payment Verified Successfully",
+                                "success"
+                            );
+
                         } catch (err) {
+
                             console.log(err);
-                            Swal.fire("Error", "Payment saved failed", "error");
+
+                            Swal.fire(
+                                "Error",
+                                "Payment verification failed",
+                                "error"
+                            );
+
                         }
+
                     }
+
                 };
 
-                let rzp = new Razorpay(options);
+                const rzp = new Razorpay(options);
+
                 rzp.open();
 
-            } catch (error) {
-                console.log(error);
-                Swal.fire({
-                    title: "Tribal Rhythm",
-                    text: "Payment Failed",
-                    icon: "error"
-                });
+            } catch (err) {
+
+                console.log(err);
+
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Payment Failed",
+                    "error"
+                );
+
             }
+
         };
 
 

@@ -166,13 +166,21 @@ app.post("/verify-otp", async (req, res) => {
         const ticketId = "TR-" + crypto.randomBytes(4).toString("hex").toUpperCase();
 
         await db.collection("users").doc(email).set({
+
             email,
-            name: name || "",
-            mobile: mobile || "",
+            name,
+            mobile,
+
+            verified: true,
+
             ticketId,
+
             paymentStatus: "pending",
+
             status: "pending",
+
             createdAt: new Date()
+
         });
 
         res.json({ success: true, ticketId });
@@ -190,7 +198,17 @@ app.post("/create-order", async (req, res) => {
 
         console.log("Request Body:", req.body);
 
-        if (!amount || !email || !isValidEmail(email)) {
+        if (
+
+            !amount ||
+
+            Number(amount) <= 0 ||
+
+            !email ||
+
+            !isValidEmail(email)
+
+        ) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid request"
