@@ -571,7 +571,7 @@
                         <h3>🎫 General</h3>
                         <p>Entry Pass</p>
                         <h4>₹499</h4>
-                       <button onclick="bookNow()">Book Now</button>
+                        <button onclick="bookNow()">Book Now</button>
                     </div>
                 </div>
 
@@ -581,7 +581,7 @@
                         <h3>👑 VIP</h3>
                         <p>Front Seat + Special Entry</p>
                         <h4>₹999</h4>
-                       <button onclick="bookNow()">Book Now</button>
+                        <button onclick="bookNow()">Book Now</button>
                     </div>
                 </div>
 
@@ -591,7 +591,7 @@
                         <h3>👥 Group</h3>
                         <p>Minimum 5 People</p>
                         <h4>₹399</h4>
-                       <button onclick="bookNow()">Book Now</button>
+                        <button onclick="bookNow()">Book Now</button>
                     </div>
                 </div>
 
@@ -1288,14 +1288,31 @@
                 return;
             }
 
-            if (!email) {
-                Swal.fire({
-                    title: "Tribal Rhythm",
-                    text: "Enter Email",
-                    icon: "warning"
-                });
+            if (!name) {
+
+                Swal.fire("Enter Name");
+
                 return;
+
             }
+
+            if (!phone) {
+
+                Swal.fire("Enter Mobile");
+
+                return;
+
+            }
+
+            if (!email) {
+
+                Swal.fire("Enter Email");
+
+                return;
+
+            }
+
+            sendOTP();
 
             // ---------------- PRICE MAP ----------------
             let amountMap = {
@@ -1510,9 +1527,9 @@
         }
     </script>
     <script>
-       window.bookNow = function () {
-    payNow();
-};
+        window.bookNow = function () {
+            payNow();
+        };
     </script>
     <script>
         function openNews(text) {
