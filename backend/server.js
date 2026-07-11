@@ -118,7 +118,15 @@ app.post("/send-otp", async (req, res) => {
         const userSnap = await userRef.get();
 
         if (userSnap.exists) {
-            return res.json({ success: false, message: "Already registered" });
+
+            const user = userSnap.data();
+
+            if (user.paymentStatus === "success") {
+                return res.json({
+                    success: false,
+                    message: "Ticket already purchased"
+                });
+            }
         }
 
         const otp = Math.floor(100000 + Math.random() * 900000);
