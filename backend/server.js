@@ -6,6 +6,7 @@ const cors = require("cors");
 const crypto = require("crypto");
 const Razorpay = require("razorpay");
 const rateLimit = require("express-rate-limit");
+const axios = require("axios");
 
 const app = express();
 
@@ -327,6 +328,108 @@ app.post("/check-entry", async (req, res) => {
     } catch (err) {
         return res.status(500).json({ allowed: false });
     }
+});
+
+
+// ================= REGISTRATION CONFIRMATION EMAIL =================
+app.post("/send-registration-email", async (req, res) => {
+    try {
+
+        const { name, email, ticketId } = req.body;
+
+        await transporter.sendMail({
+            from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: "Registration Successful - Tribal Rhythm",
+
+            html: `
+            <h2>🎉 Registration Successful</h2>
+
+            <p>Dear <b>${name}</b>,</p>
+
+            <p>Your registration has been completed successfully.</p>
+
+            <p><b>Ticket ID:</b> ${ticketId}</p>
+
+            <p>
+                You can view your ticket here:
+                <br>
+                <a href="https://rahulsardarrahul014-ux.github.io/Tribal-Rhythm/competition.html">
+                    Open Ticket
+                </a>
+            </p>
+
+            <br>
+
+            <p>Thank you for participating.</p>
+
+            <h3>Team Tribal Rhythm</h3>
+            `
+        });
+
+        res.json({
+            success: true
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            success: false
+        });
+
+    }
+});
+
+
+// ================= SEND MSG91 SMS =================
+app.post("/send-registration-sms", async (req, res) => {
+
+    try {
+
+        const { name, mobile, ticketId } = req.body;
+
+        await axios.post(
+            "https://control.msg91.com/api/v5/flow/",
+            {
+
+                flow_id: process.env.MSG91_FLOW_ID,
+
+                sender: process.env.MSG91_SENDER_ID,
+
+                mobiles: "91" + mobile,
+
+                name: name,
+
+                ticketId: ticketId
+
+            },
+            {
+
+                headers: {
+
+                    authkey: process.env.MSG91_AUTH_KEY,
+
+                    "Content-Type": "application/json"
+
+                }
+
+            }
+        );
+
+        res.json({ success: true });
+
+    } catch (err) {
+
+        console.log(err.response?.data || err);
+
+        res.status(500).json({
+            success: false
+        });
+
+    }
+
 });
 
 // ================= ROOT =================

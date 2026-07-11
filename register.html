@@ -511,6 +511,8 @@
     <!-- FIREBASE -->
     <script type="module">
 
+        emailjs.init("YOUR_PUBLIC_KEY");
+
         import { initializeApp }
             from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
@@ -863,6 +865,59 @@
                             }
                         );
 
+                        await emailjs.send(
+                            "YOUR_SERVICE_ID",
+                            "YOUR_TEMPLATE_ID",
+                            {
+                                name: name,
+                                email: email,
+                                ticket: finalTicket
+                            }
+                        );
+
+                        await fetch(
+                            "https://tribal-rhythm-backend.onrender.com/send-registration-email",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    name: name,
+
+                                    email: email,
+
+                                    ticketId: finalTicket
+
+                                })
+                            });
+
+
+                        await fetch(
+                            "https://tribal-rhythm-backend.onrender.com/send-registration-sms",
+                            {
+
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    name,
+
+                                    mobile,
+
+                                    ticketId: finalTicket
+
+                                })
+
+                            });
+
                         alert(
                             "Registration Successful ✅"
                         );
@@ -1024,6 +1079,7 @@
             });
 
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 </body>
 

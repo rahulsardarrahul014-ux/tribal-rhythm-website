@@ -313,10 +313,10 @@
                         <img src="banner2.png" class="gold-img">
 
                         <div class="gold-content">
-                            <h3> Night Event</h3>
-                            <p>📍 Neuti Play ground</p>
-                            <p>📅 update soon</p>
-                            <p>💰 Starting ₹499</p>
+                            <h3> RATHA YATRA</h3>
+                            <p>📍 RAIRANGPUR BLOCK PADIA</p>
+                            <p>📅 JULY 16 2026 TO 24 JULY 2026</p>
+                            <p>💰 FREE</p>
                         </div>
 
                     </div>
@@ -330,14 +330,21 @@
 
                         <input type="text" id="ticketName" placeholder="Full Name">
 
+                        <!-- <input type="number" id="ticketPhone" placeholder="Mobile Number"> -->
                         <input type="number" id="ticketPhone" placeholder="Mobile Number">
+
+                        <small id="phoneWarning" style="color:red;display:none;">
+
+                            Only 10 digit mobile number allowed
+
+                        </small>
 
 
                         <input type="email" id="ticketEmail" placeholder="Email">
 
                         <select>
                             <option>Number of Tickets</option>
-                            <option>NONE</option>
+
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -346,8 +353,18 @@
                         </select>
 
                         <button onclick="sendOTP()">Send OTP</button>
-                        <input type="text" id="ticketOTP" placeholder="Enter OTP">
-                        <button onclick="verifyOTP()">Verify OTP</button>
+                        <div id="otpSection" style="display:none;">
+
+                            <input type="text" id="ticketOTP" maxlength="6" placeholder="Enter 6 Digit OTP"
+                                class="form-control mb-2">
+
+                            <button class="btn btn-success w-100" onclick="verifyOTP()">
+
+                                Verify OTP
+
+                            </button>
+
+                        </div>
                         <button onclick="goToTicket()">Book Ticket</button>
 
                     </div>
@@ -359,11 +376,31 @@
 
                         <h3>👑 Choose Pass</h3>
 
-                        <div class="pass-box">🎫 General Pass - ₹499</div>
-                        <div class="pass-box">👑 VIP Pass - ₹999</div>
-                        <div class="pass-box">👥 Group Pass - ₹399/person</div>
+                        <label class="pass-box">
 
-                        <button onclick="payNow('VIP')">Confirm & Pay</button>
+                            <input type="radio" name="ticketType" value="General">
+
+                            🎫 General Pass - ₹499
+
+                        </label>
+
+                        <label class="pass-box">
+
+                            <input type="radio" name="ticketType" value="VIP">
+
+                            👑 VIP Pass - ₹999
+
+                        </label>
+
+                        <label class="pass-box">
+
+                            <input type="radio" name="ticketType" value="Group">
+
+                            👥 Group Pass - ₹399 / Person
+
+                        </label>
+
+                        <button onclick="payNow()">Confirm & Pay</button>
 
                     </div>
                 </div>
@@ -387,11 +424,12 @@
                 <div class="live-card">
                     <div class="live-badge">LIVE</div>
                     <h4>YouTube Live Concert</h4>
-                    <p>Dance Festival</p>
+                    <p>RATHA YATRA 2026</p>
+                    <p>RAIRANGPUR, ODISHA</p>
 
                     <div class="live-info">
-                        <span>📅 update</span>
-                        <span>⏰ 00 PM</span>
+                        <span>📅 16 JULY 2026</span>
+                        <span>⏰ 03 PM</span>
                     </div>
 
                     <button class="live-btn" onclick="openLive('https://www.youtube.com/embed/dQw4w9WgXcQ')">
@@ -403,10 +441,10 @@
                 <div class="live-card">
                     <div class="live-badge">LIVE</div>
                     <h4>Instagram Live</h4>
-                    <p>Music Show</p>
+                    <p>@@@@@@@</p>
 
                     <div class="live-info">
-                        <span>📅 Today</span>
+                        <span>📅 not</span>
                         <span>⏰ 00 PM</span>
                     </div>
 
@@ -419,10 +457,10 @@
                 <div class="live-card">
                     <div class="live-badge">LIVE</div>
                     <h4>Facebook Live</h4>
-                    <p>Dance Battle</p>
+                    <p>update</p>
 
                     <div class="live-info">
-                        <span>📅 Tomorrow</span>
+                        <span>📅 update soon</span>
                         <span>⏰ 00 PM</span>
                     </div>
 
@@ -533,7 +571,7 @@
                         <h3>🎫 General</h3>
                         <p>Entry Pass</p>
                         <h4>₹499</h4>
-                        <button onclick="bookNow('General')">Book Now</button>
+                       <button onclick="bookNow()">Book Now</button>
                     </div>
                 </div>
 
@@ -543,7 +581,7 @@
                         <h3>👑 VIP</h3>
                         <p>Front Seat + Special Entry</p>
                         <h4>₹999</h4>
-                        <button onclick="bookNow('VIP')">Book Now</button>
+                       <button onclick="bookNow()">Book Now</button>
                     </div>
                 </div>
 
@@ -553,7 +591,7 @@
                         <h3>👥 Group</h3>
                         <p>Minimum 5 People</p>
                         <h4>₹399</h4>
-                        <button onclick="bookNow('Group')">Book Now</button>
+                       <button onclick="bookNow()">Book Now</button>
                     </div>
                 </div>
 
@@ -729,6 +767,7 @@
                 console.log(data);
 
                 if (data.success) {
+                    document.getElementById("otpSection").style.display = "block";
 
                     Swal.fire(
                         "Tribal Rhythm",
@@ -787,7 +826,7 @@
 
                 if (data.success) {
 
-                    // localStorage.setItem("ticketVerified", "true");
+                    localStorage.setItem("ticketVerified", "true");
                     localStorage.setItem("ticketEmail", email);
                     localStorage.setItem("ticketId", data.ticketId);
 
@@ -1198,6 +1237,34 @@
         /* ================= PAYMENT ================= */
         window.payNow = async function (type) {
 
+            const selected = document.querySelector('input[name="ticketType"]:checked');
+
+            if (!selected) {
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Please Select a Pass",
+                    "warning"
+                );
+                return;
+            }
+
+            type = selected.value;
+            if (localStorage.getItem("ticketVerified") !== "true") {
+
+                Swal.fire(
+
+                    "Tribal Rhythm",
+
+                    "Please Verify OTP First",
+
+                    "warning"
+
+                );
+
+                return;
+
+            }
+
             let name = document.getElementById("ticketName").value;
             let phone = document.getElementById("ticketPhone").value;
             let email = document.getElementById("ticketEmail").value.trim();
@@ -1232,9 +1299,13 @@
 
             // ---------------- PRICE MAP ----------------
             let amountMap = {
-                "General": 49900,
-                "VIP": 99900,
-                "Group": 39900
+
+                General: 499,
+
+                VIP: 999,
+
+                Group: 399
+
             };
 
             let amount = amountMap[type] || 30000;
@@ -1355,6 +1426,30 @@
             }
         };
 
+        document
+            .getElementById("ticketPhone")
+            .addEventListener("input", function () {
+
+                if (this.value.length > 10) {
+
+                    this.value = this.value.slice(0, 10);
+
+                }
+
+                document.getElementById("phoneWarning").style.display =
+
+                    this.value.length == 10
+
+                        ?
+
+                        "none"
+
+                        :
+
+                        "block";
+
+            });
+
 
 
     </script>
@@ -1415,9 +1510,9 @@
         }
     </script>
     <script>
-        window.bookNow = function (type) {
-            payNow(type);
-        };
+       window.bookNow = function () {
+    payNow();
+};
     </script>
     <script>
         function openNews(text) {
