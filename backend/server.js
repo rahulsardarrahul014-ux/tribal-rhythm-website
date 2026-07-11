@@ -151,12 +151,12 @@ app.post("/send-otp", async (req, res) => {
             time: Date.now()
         });
 
-        await transporter.sendMail({
-            from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
-            to: email,
-            subject: "OTP Verification",
-            text: `Your OTP is: ${otp}`
-        });
+        // await transporter.sendMail({
+        //     from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+        //     to: email,
+        //     subject: "OTP Verification",
+        //     text: `Your OTP is: ${otp}`
+        // });
 
         res.json({ success: true });
 
