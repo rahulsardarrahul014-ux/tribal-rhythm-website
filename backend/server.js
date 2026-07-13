@@ -123,7 +123,7 @@ const isValidEmail = (email) => {
 // ================= SEND OTP =================
 app.post("/send-otp", async (req, res) => {
     try {
-        const { email } = req.body;
+       const { name, email } = req.body;
 
         if (!email || !isValidEmail(email)) {
             return res.status(400).json({ success: false, message: "Invalid email" });
@@ -151,12 +151,63 @@ app.post("/send-otp", async (req, res) => {
             time: Date.now()
         });
 
-        // await transporter.sendMail({
-        //     from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
-        //     to: email,
-        //     subject: "OTP Verification",
-        //     text: `Your OTP is: ${otp}`
-        // });
+       await transporter.sendMail({
+    from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: "🔐 Tribal Rhythm - OTP Verification",
+
+    html: `
+    <div style="max-width:600px;margin:auto;font-family:Arial,sans-serif;background:#ffffff;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden">
+
+        <div style="background:#0d6efd;color:#fff;padding:20px;text-align:center;">
+            <h2 style="margin:0;">🎭 Tribal Rhythm</h2>
+            <p style="margin-top:8px;">OTP Verification</p>
+        </div>
+
+        <div style="padding:30px;">
+
+            <p>Hello <b>${name || "User"}</b>,</p>
+
+            <p>
+                Thank you for choosing <b>Tribal Rhythm</b>.
+                Please use the OTP below to complete your verification.
+            </p>
+
+            <div style="text-align:center;margin:30px 0;">
+                <span style="display:inline-block;font-size:34px;font-weight:bold;letter-spacing:8px;background:#f5f5f5;padding:15px 35px;border-radius:8px;color:#0d6efd;">
+                    ${otp}
+                </span>
+            </div>
+
+            <p>
+                This OTP is valid for <b>5 minutes</b>.
+            </p>
+
+            <div style="background:#fff4e5;border-left:5px solid #ff9800;padding:15px;margin-top:25px;">
+                <b>🔒 Security Notice</b>
+                <ul style="margin-top:10px;padding-left:18px;">
+                    <li>Tribal Rhythm will <b>NEVER</b> ask for your OTP.</li>
+                    <li>Do <b>NOT</b> share this OTP with anyone.</li>
+                    <li>If you did not request this OTP, please ignore this email.</li>
+                </ul>
+            </div>
+
+            <br>
+
+            <p>
+                Regards,<br>
+                <b>Team Tribal Rhythm</b>
+            </p>
+
+        </div>
+
+        <div style="background:#f5f5f5;padding:15px;text-align:center;font-size:12px;color:#666;">
+            © 2026 Tribal Rhythm. All Rights Reserved.
+        </div>
+
+    </div>
+    `
+});
 
         res.json({ success: true });
 
