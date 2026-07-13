@@ -766,11 +766,21 @@
 
                     document.getElementById("otpSection").style.display = "block";
 
-                    Swal.fire(
-                        "Tribal Rhythm",
-                        "OTP sent successfully",
-                        "success"
-                    );
+                    // Email Mask
+                    const [username, domain] = email.split("@");
+                    const maskedEmail = "******" + username.slice(-4) + "@" + domain;
+
+                    Swal.fire({
+                        icon: "success",
+                        title: "OTP Sent Successfully",
+                        html: `
+            <b>Your OTP has been sent to your Email ID.</b><br><br>
+            <span style="color:#0d6efd;font-size:16px;">
+                ${maskedEmail}
+            </span>
+        `,
+                        confirmButtonText: "OK"
+                    });
 
                 } else {
 
