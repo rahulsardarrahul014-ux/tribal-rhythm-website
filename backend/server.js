@@ -122,8 +122,12 @@ const isValidEmail = (email) => {
 
 // ================= SEND OTP =================
 app.post("/send-otp", async (req, res) => {
+
+    console.log("BODY:", req.body);
+    console.log("EMAIL_USER:", process.env.EMAIL_USER);
+    console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "Loaded" : "Missing");
     try {
-       const { name, email } = req.body;
+        const { name, email } = req.body;
 
         if (!email || !isValidEmail(email)) {
             return res.status(400).json({ success: false, message: "Invalid email" });
@@ -131,6 +135,8 @@ app.post("/send-otp", async (req, res) => {
 
         const userRef = db.collection("users").doc(email);
         const userSnap = await userRef.get();
+
+        console.log("Firestore Connected");
 
         if (userSnap.exists) {
 
@@ -151,12 +157,14 @@ app.post("/send-otp", async (req, res) => {
             time: Date.now()
         });
 
-       await transporter.sendMail({
-    from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: "🔐 Tribal Rhythm - OTP Verification",
+        console.log("OTP Saved");
 
-    html: `
+        await transporter.sendMail({
+            from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: "🔐 Tribal Rhythm - OTP Verification",
+
+            html: `
     <div style="max-width:600px;margin:auto;font-family:Arial,sans-serif;background:#ffffff;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden">
 
         <div style="background:#0d6efd;color:#fff;padding:20px;text-align:center;">
@@ -207,13 +215,17 @@ app.post("/send-otp", async (req, res) => {
 
     </div>
     `
-});
+        });
 
         res.json({ success: true });
 
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ success: false });
+        console.error("SEND OTP ERROR:", err);
+
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 });
 
