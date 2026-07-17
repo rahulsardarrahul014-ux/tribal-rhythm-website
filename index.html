@@ -31,6 +31,17 @@
     <link rel="stylesheet" href="style.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script>
+        (function () {
+            emailjs.init({
+                publicKey: "FYCnHXj3AQZc52uq6"
+            });
+        })();
+    </script>
 </head>
 
 <body>
@@ -749,47 +760,38 @@
 
             try {
 
-                const res = await fetch(`${API_URL}/send-otp`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        name,
-                        email
-                    })
+                // Generate OTP
+                const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+                // Save OTP temporarily
+                localStorage.setItem("emailOTP", otp);
+
+                await emailjs.send(
+                    "service_ynim8tv",
+                    "template_87yxux8",
+                    {
+                        name: name,
+                        email: email,
+                        otp: otp
+                    }
+                );
+
+                document.getElementById("otpSection").style.display = "block";
+
+                const [username, domain] = email.split("@");
+                const maskedEmail = "******" + username.slice(-4) + "@" + domain;
+
+                Swal.fire({
+                    icon: "success",
+                    title: "OTP Sent Successfully",
+                    html: `
+    <b>Your OTP has been sent to your Email ID.</b><br><br>
+    <span style="color:#0d6efd;font-size:16px;">
+        ${maskedEmail}
+    </span>
+    `,
+                    confirmButtonText: "OK"
                 });
-
-                const data = await res.json();
-
-                if (data.success) {
-
-                    document.getElementById("otpSection").style.display = "block";
-
-                    // Email Mask
-                    const [username, domain] = email.split("@");
-                    const maskedEmail = "******" + username.slice(-4) + "@" + domain;
-
-                    Swal.fire({
-                        icon: "success",
-                        title: "OTP Sent Successfully",
-                        html: `
-            <b>Your OTP has been sent to your Email ID.</b><br><br>
-            <span style="color:#0d6efd;font-size:16px;">
-                ${maskedEmail}
-            </span>
-        `,
-                        confirmButtonText: "OK"
-                    });
-
-                } else {
-
-                    Swal.fire(
-                        "Tribal Rhythm",
-                        data.message,
-                        "error"
-                    );
-                }
 
             } catch (err) {
 
@@ -806,10 +808,10 @@
 
 
         // ================= VERIFY OTP =================
-        window.verifyOTP = async function () {
+        window.verifyOTP = function () {
 
-            let email = document.getElementById("ticketEmail").value.trim();
-            let otp = document.getElementById("ticketOTP").value.trim();
+            const email = document.getElementById("ticketEmail").value.trim();
+            const otp = document.getElementById("ticketOTP").value.trim();
 
             if (otp.length !== 6) {
                 Swal.fire(
@@ -819,58 +821,41 @@
                 );
                 return;
             }
-            let name = document.getElementById("ticketName").value.trim();
-            let mobile = document.getElementById("ticketPhone").value.trim();
 
-            try {
+            const savedOTP = localStorage.getItem("emailOTP");
 
-                let res = await fetch(`${API_URL}/verify-otp`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        email,
-                        otp,
-                        name,
-                        mobile
-                    })
-                });
+            if (otp === savedOTP) {
 
-                let data = await res.json();
+                const ticketId = "TR-" + Math.random().toString(36).substr(2, 8).toUpperCase();
 
-                if (data.success) {
+                localStorage.setItem("ticketVerified", "true");
+                localStorage.setItem("ticketEmail", email);
+                localStorage.setItem("ticketId", ticketId);
 
-                    localStorage.setItem("ticketVerified", "true");
-                    localStorage.setItem("ticketEmail", email);
-                    localStorage.setItem("ticketId", data.ticketId);
-
-                    Swal.fire(
-                        "Tribal Rhythm",
-                        `OTP Verified ✅ Ticket ID: ${data.ticketId}`,
-                        "success"
-                    );
-
-                } else {
-
-                    Swal.fire(
-                        "Tribal Rhythm",
-                        data.message || "Invalid OTP",
-                        "error"
-                    );
-                }
-
-            } catch (err) {
-
-                console.log(err);
+                // OTP remove after successful verification
+                localStorage.removeItem("emailOTP");
 
                 Swal.fire(
                     "Tribal Rhythm",
-                    "Verification Failed",
+                    `OTP Verified ✅ Ticket ID: ${ticketId}`,
+                    "success"
+                );
+
+            } else {
+
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Invalid OTP",
                     "error"
                 );
+
             }
+
         };
+
+
+
+
 
 
         // load up coming section
