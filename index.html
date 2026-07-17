@@ -826,18 +826,18 @@
 
             if (otp === savedOTP) {
 
-                const ticketId = "TR-" + Math.random().toString(36).substr(2, 8).toUpperCase();
+
 
                 localStorage.setItem("ticketVerified", "true");
                 localStorage.setItem("ticketEmail", email);
-                localStorage.setItem("ticketId", ticketId);
+
 
                 // OTP remove after successful verification
                 localStorage.removeItem("emailOTP");
 
                 Swal.fire(
-                    "Tribal Rhythm",
-                    `OTP Verified ✅ Ticket ID: ${ticketId}`,
+                    "OTP Verified",
+                    "Email verification completed successfully.",
                     "success"
                 );
 
@@ -1377,7 +1377,11 @@
                                 headers: {
                                     "Content-Type": "application/json"
                                 },
-                                body: JSON.stringify(response)
+                                // body: JSON.stringify(response)
+                                body: JSON.stringify({
+                                    ...response,
+                                    email
+                                })
                             });
 
                             const result = await verify.json();
@@ -1393,9 +1397,17 @@
                                 return;
                             }
 
+                            const now = new Date();
+
+                            const random =
+                                Math.random().toString(36).substring(2, 8).toUpperCase();
+
+                            const ticketId =
+                                `TR-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${random}`;
+
                             // Save Booking
                             await addDoc(collection(db, "bookings"), {
-
+                                ticketId,
                                 name,
                                 phone,
                                 email,
@@ -1410,12 +1422,27 @@
 
                             });
 
+
+                            // ⭐⭐⭐ YAHAN PASTE KARNA HAI ⭐⭐⭐
+                            await fetch(`${API_URL}/send-registration-email`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    name,
+                                    email,
+                                    ticketId
+                                })
+                            });
+
                             // Generate Ticket
                             generateTicketPDF(
                                 name,
                                 phone,
                                 type,
-                                response.razorpay_payment_id
+                                response.razorpay_payment_id,
+                                ticketId
                             );
 
                             Swal.fire(
@@ -1625,9 +1652,9 @@
             // UNIQUE TICKET ID
             // ----------------------------
 
-            const ticketId =
-                "TR-" +
-                Date.now();
+            // const ticketId =
+            //     "TR-" +
+            //     Date.now();
 
             doc.text(
                 "Ticket ID : " + ticketId,

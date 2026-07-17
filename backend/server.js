@@ -266,9 +266,9 @@ app.post("/verify-otp", async (req, res) => {
 
             verified: true,
 
-            ticketId,
 
-            paymentStatus: "pending",
+
+            paymentStatus: "paid",
 
             status: "pending",
 
@@ -340,7 +340,7 @@ app.post("/create-order", async (req, res) => {
 // ================= VERIFY PAYMENT =================
 app.post("/verify-payment", (req, res) => {
     try {
-        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature, email } = req.body;
 
         const body = razorpay_order_id + "|" + razorpay_payment_id;
 
@@ -350,6 +350,11 @@ app.post("/verify-payment", (req, res) => {
             .digest("hex");
 
         if (expected === razorpay_signature) {
+
+            await db.collection("users").doc(email).update({
+                paymentStatus: "paid",
+                status: "approved"
+            });
             return res.json({ success: true });
         }
 
@@ -447,6 +452,25 @@ app.post("/send-registration-email", async (req, res) => {
     try {
 
         const { name, email, ticketId } = req.body;
+
+        // 👇 ADD THIS HERE
+        const userDoc = await db.collection("users").doc(email).get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        const user = userDoc.data();
+
+        if (user.paymentStatus !== "paid") {
+            return res.status(400).json({
+                success: false,
+                message: "Payment not completed"
+            });
+        }
 
         await transporter.sendMail({
             from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
