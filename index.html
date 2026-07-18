@@ -393,40 +393,42 @@
                             <input type="text" id="ticketOTP" maxlength="6" placeholder="Enter 6 Digit OTP"
                                 class="form-control mb-2">
 
-
                             <button id="verifyOtpBtn" class="btn btn-success w-100" onclick="verifyOTP()">
-                                Verify OTP
-                            </button>
 
+                                Verify OTP
+
+                            </button>
 
                             <!-- RESEND OTP -->
                             <div class="text-center mt-2">
 
                                 <span id="otpTimer" style="color:white;"></span>
 
-
                                 <a href="javascript:void(0)" id="resendOtpLink" onclick="resendOTP()" style="
-                                    color:#ffc107;
-                                    text-decoration:none;
-                                    display:none;
-                                    cursor:pointer;
-                                    margin-left:8px;
-                                ">
+                color:#ffc107;
+                text-decoration:none;
+                display:none;
+                cursor:pointer;
+                margin-left:8px;
+            ">
+
                                     Resend OTP
+
                                 </a>
 
                             </div>
 
-
                             <!-- VERIFIED MESSAGE -->
                             <div id="otpVerifiedMessage" style="
-                                display:none;
-                                color:#00ff88;
-                                text-align:center;
-                                margin-top:10px;
-                                font-weight:bold;
-                            ">
+            display:none;
+            color:#00ff88;
+            text-align:center;
+            margin-top:10px;
+            font-weight:bold;
+        ">
+
                                 ✓ OTP Verified Successfully
+
                             </div>
 
                         </div>
@@ -809,11 +811,50 @@
             where
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+        // ================= OTP SECURITY SETTINGS =================
+
+        // let otpTimerInterval;
+
+        // OTP validity: 5 minutes
+        let otpTimeLeft = 300;
+
+        // Resend security
+        let resendCooldown = 60; // 60 seconds
+        let resendCooldownInterval;
+
+        // Maximum resend attempts
+        let resendAttempts = 0;
+        const MAX_RESEND_ATTEMPTS = 5;
+
+        // Last resend time
+        let lastResendTime = 0;
+
 
 
 
         // ================= SEND OTP =================
         window.sendOTP = async function () {
+
+            const now = Date.now();
+
+            if (
+                lastResendTime !== 0 &&
+                now - lastResendTime < resendCooldown * 1000
+            ) {
+
+                const remaining = Math.ceil(
+                    (resendCooldown * 1000 -
+                        (now - lastResendTime)) / 1000
+                );
+
+                Swal.fire(
+                    "Please Wait",
+                    `Please wait ${remaining} seconds before requesting another OTP.`,
+                    "warning"
+                );
+
+                return;
+            }
 
             // ===============================
             // RESET PREVIOUS OTP VERIFICATION
@@ -872,6 +913,17 @@
                 // Save OTP temporarily
                 localStorage.setItem("emailOTP", otp);
 
+                // OTP expiry timestamp
+                localStorage.setItem(
+                    "otpExpiry",
+                    Date.now() + (5 * 60 * 1000)
+                );
+                // Current email save
+                localStorage.setItem(
+                    "otpEmail",
+                    email
+                );
+
                 await emailjs.send(
                     "service_ynim8tv",
                     "template_87yxux8",
@@ -881,9 +933,30 @@
                         otp: otp
                     }
                 );
+                // Initial OTP successful send ke baad
+                lastResendTime = Date.now();
+
+                // ================= SHOW OTP SECTION =================
 
                 document.getElementById("otpSection").style.display = "block";
+
+
+                // Reset OTP UI
+
+                document.getElementById("ticketOTP").style.display = "block";
+
+                document.getElementById("verifyOtpBtn").style.display = "block";
+
+                document.getElementById("otpTimer").style.display = "inline";
+
+                document.getElementById("otpVerifiedMessage").style.display = "none";
+
+
+                // Start OTP timer
+
                 startOtpTimer();
+
+
 
                 const [username, domain] = email.split("@");
                 const maskedEmail = "******" + username.slice(-4) + "@" + domain;
@@ -915,39 +988,57 @@
 
         // ================= OTP TIMER =================
 
-        let otpTimerInterval;
-        let otpTimeLeft = 300; // 5 minutes
-
         function startOtpTimer() {
 
             clearInterval(otpTimerInterval);
 
             otpTimeLeft = 300;
 
-            const timer = document.getElementById("otpTimer");
-            const resendLink = document.getElementById("resendOtpLink");
+            const timer =
+                document.getElementById("otpTimer");
+
+            const resendLink =
+                document.getElementById("resendOtpLink");
+
 
             resendLink.style.display = "none";
 
+            timer.style.display = "inline";
+
+
             otpTimerInterval = setInterval(() => {
 
-                let minutes = Math.floor(otpTimeLeft / 60);
-                let seconds = otpTimeLeft % 60;
+                let minutes =
+                    Math.floor(otpTimeLeft / 60);
 
-                seconds = seconds < 10 ? "0" + seconds : seconds;
+                let seconds =
+                    otpTimeLeft % 60;
+
+
+                seconds =
+                    seconds < 10
+                        ? "0" + seconds
+                        : seconds;
+
 
                 timer.innerText =
                     `OTP valid for ${minutes}:${seconds}`;
 
+
                 otpTimeLeft--;
+
 
                 if (otpTimeLeft < 0) {
 
                     clearInterval(otpTimerInterval);
 
-                    timer.innerText = "OTP expired";
 
-                    resendLink.style.display = "inline";
+                    timer.innerText =
+                        "OTP expired";
+
+
+                    resendLink.style.display =
+                        "inline";
 
                 }
 
@@ -957,11 +1048,202 @@
 
         // ================= RESEND OTP =================
 
-        window.resendOTP = function () {
+        window.resendOTP = async function () {
 
-            document.getElementById("ticketOTP").value = "";
 
-            sendOTP();
+            // ================= RATE LIMIT =================
+
+            const now = Date.now();
+
+            const timePassed =
+                now - lastResendTime;
+
+
+            // 60 seconds ke andar resend block
+
+            if (
+                lastResendTime !== 0 &&
+                timePassed < resendCooldown * 1000
+            ) {
+
+                const remaining =
+                    Math.ceil(
+                        (resendCooldown * 1000 - timePassed) / 1000
+                    );
+
+
+                Swal.fire(
+                    "Tribal Rhythm",
+                    `Please wait ${remaining} seconds before requesting another OTP.`,
+                    "warning"
+                );
+
+                return;
+
+            }
+
+
+            // ================= MAXIMUM ATTEMPTS =================
+
+            if (
+                resendAttempts >= MAX_RESEND_ATTEMPTS
+            ) {
+
+                Swal.fire(
+                    "Too Many Requests",
+                    "Maximum OTP resend limit reached. Please try again later.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            // ================= EMAIL CHECK =================
+
+            const email =
+                document
+                    .getElementById("ticketEmail")
+                    .value
+                    .trim();
+
+
+            if (!email) {
+
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Please enter your email first.",
+                    "warning"
+                );
+
+                return;
+
+            }
+
+
+
+
+
+
+
+            // Clear old OTP
+
+            localStorage.removeItem("emailOTP");
+
+            localStorage.removeItem("otpExpiry");
+
+
+            // Clear old input
+
+            document
+                .getElementById("ticketOTP")
+                .value = "";
+
+
+            // Hide resend link
+
+            document
+                .getElementById("resendOtpLink")
+                .style.display = "none";
+
+
+            // Generate new OTP
+
+            const newOTP =
+                Math.floor(
+                    100000 +
+                    Math.random() * 900000
+                ).toString();
+
+
+            // Save new OTP
+
+            localStorage.setItem(
+                "emailOTP",
+                newOTP
+            );
+
+
+            // New expiry
+
+            localStorage.setItem(
+                "otpExpiry",
+                Date.now() + (5 * 60 * 1000)
+            );
+
+
+            try {
+
+
+                const name =
+                    document
+                        .getElementById("ticketName")
+                        .value
+                        .trim();
+
+
+                await emailjs.send(
+
+                    "service_ynim8tv",
+
+                    "template_87yxux8",
+
+                    {
+
+                        name: name,
+
+                        email: email,
+
+                        otp: newOTP
+
+                    }
+
+                );
+
+                // ================= UPDATE SECURITY =================
+
+                lastResendTime = Date.now();
+
+                resendAttempts++;
+
+
+                // Restart 5 minute timer
+
+                startOtpTimer();
+
+
+                Swal.fire(
+
+                    "OTP Resent",
+
+                    "A new OTP has been sent to your email.",
+
+                    "success"
+
+                );
+
+
+            } catch (error) {
+
+
+                console.error(
+                    "Resend OTP Error:",
+                    error
+                );
+
+
+                Swal.fire(
+
+                    "Tribal Rhythm",
+
+                    "Unable to resend OTP.",
+
+                    "error"
+
+                );
+
+            }
 
         };
 
@@ -982,6 +1264,31 @@
             }
 
             const savedOTP = localStorage.getItem("emailOTP");
+
+            // ================= CHECK OTP EXPIRY =================
+
+            const otpExpiry =
+                localStorage.getItem("otpExpiry");
+
+
+            if (
+                !otpExpiry ||
+                Date.now() > Number(otpExpiry)
+            ) {
+
+                Swal.fire(
+
+                    "OTP Expired",
+
+                    "Your OTP has expired. Please request a new OTP.",
+
+                    "warning"
+
+                );
+
+                return;
+
+            }
 
             if (otp === savedOTP) {
 
