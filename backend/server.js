@@ -268,7 +268,7 @@ app.post("/verify-otp", async (req, res) => {
 
 
 
-            paymentStatus: "paid",
+          paymentStatus: "pending",
 
             status: "pending",
 
@@ -338,7 +338,7 @@ app.post("/create-order", async (req, res) => {
 });
 
 // ================= VERIFY PAYMENT =================
-app.post("/verify-payment", (req, res) => {
+app.post("/verify-payment", async (req, res) => {
     try {
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature, email } = req.body;
 

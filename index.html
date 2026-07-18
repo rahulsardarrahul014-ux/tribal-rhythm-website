@@ -349,70 +349,99 @@
 
                         <input type="email" id="ticketEmail" placeholder="Email">
 
-                        <select>
-                            <option>Number of Tickets</option>
+                        <select id="ticketQuantity">
+                            <option value="">Number of Tickets</option>
 
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
                         </select>
 
                         <button onclick="sendOTP()">Send OTP</button>
                         <div id="otpSection" style="display:none;">
 
+                            <!-- OTP INPUT -->
                             <input type="text" id="ticketOTP" maxlength="6" placeholder="Enter 6 Digit OTP"
                                 class="form-control mb-2">
 
-                            <button class="btn btn-success w-100" onclick="verifyOTP()">
-
+                            <!-- VERIFY BUTTON -->
+                            <button id="verifyOtpBtn" class="btn btn-success w-100" onclick="verifyOTP()">
                                 Verify OTP
-
                             </button>
 
+                            <!-- RESEND OTP -->
+                            <div class="text-center mt-2">
+
+                                <a href="javascript:void(0)" id="resendOtpLink" onclick="resendOTP()" style="
+                color:#ffc107;
+                text-decoration:none;
+                display:none;
+                cursor:pointer;
+            ">
+                                    Resend OTP
+                                </a>
+
+                                <span id="otpTimer" style="color:white; margin-left:8px;"></span>
+
+                            </div>
+
+                            <!-- OTP VERIFIED MESSAGE -->
+                            <div id="otpVerifiedMessage" style="
+            display:none;
+            color:#00ff88;
+            text-align:center;
+            margin-top:10px;
+            font-weight:bold;
+        ">
+                                ✓ OTP Verified Successfully
+                            </div>
+
                         </div>
-                        <button onclick="goToTicket()">Book Ticket</button>
 
                     </div>
+                    <button onclick="goToTicket()">Book Ticket</button>
+
                 </div>
-
-                <!-- PASS CARD -->
-                <div class="col-md-4">
-                    <div class="gold-premium-card">
-
-                        <h3>👑 Choose Pass</h3>
-
-                        <label class="pass-box">
-
-                            <input type="radio" name="ticketType" value="General">
-
-                            🎫 General Pass - ₹499
-
-                        </label>
-
-                        <label class="pass-box">
-
-                            <input type="radio" name="ticketType" value="VIP">
-
-                            👑 VIP Pass - ₹999
-
-                        </label>
-
-                        <label class="pass-box">
-
-                            <input type="radio" name="ticketType" value="Group">
-
-                            👥 Group Pass - ₹399 / Person
-
-                        </label>
-
-                        <button onclick="payNow()">Confirm & Pay</button>
-
-                    </div>
-                </div>
-
             </div>
+
+            <!-- PASS CARD -->
+            <div class="col-md-4">
+                <div class="gold-premium-card">
+
+                    <h3>👑 Choose Pass</h3>
+
+                    <label class="pass-box">
+
+                        <input type="radio" name="ticketType" value="General">
+
+                        🎫 General Pass - ₹499
+
+                    </label>
+
+                    <label class="pass-box">
+
+                        <input type="radio" name="ticketType" value="VIP">
+
+                        👑 VIP Pass - ₹999
+
+                    </label>
+
+                    <label class="pass-box">
+
+                        <input type="radio" name="ticketType" value="Group">
+
+                        👥 Group Pass - ₹399 / Person
+
+                    </label>
+
+                    <button onclick="payNow()">Confirm & Pay</button>
+
+                </div>
+            </div>
+
+        </div>
         </div>
 
     </section>
@@ -777,6 +806,7 @@
                 );
 
                 document.getElementById("otpSection").style.display = "block";
+                startOtpTimer();
 
                 const [username, domain] = email.split("@");
                 const maskedEmail = "******" + username.slice(-4) + "@" + domain;
@@ -806,6 +836,58 @@
 
         }
 
+        // ================= OTP TIMER =================
+
+        let otpTimerInterval;
+        let otpTimeLeft = 300; // 5 minutes
+
+        function startOtpTimer() {
+
+            clearInterval(otpTimerInterval);
+
+            otpTimeLeft = 300;
+
+            const timer = document.getElementById("otpTimer");
+            const resendLink = document.getElementById("resendOtpLink");
+
+            resendLink.style.display = "none";
+
+            otpTimerInterval = setInterval(() => {
+
+                let minutes = Math.floor(otpTimeLeft / 60);
+                let seconds = otpTimeLeft % 60;
+
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                timer.innerText =
+                    `OTP valid for ${minutes}:${seconds}`;
+
+                otpTimeLeft--;
+
+                if (otpTimeLeft < 0) {
+
+                    clearInterval(otpTimerInterval);
+
+                    timer.innerText = "OTP expired";
+
+                    resendLink.style.display = "inline";
+
+                }
+
+            }, 1000);
+
+        }
+
+        // ================= RESEND OTP =================
+
+        window.resendOTP = function () {
+
+            document.getElementById("ticketOTP").value = "";
+
+            sendOTP();
+
+        };
+
 
         // ================= VERIFY OTP =================
         window.verifyOTP = function () {
@@ -826,14 +908,29 @@
 
             if (otp === savedOTP) {
 
-
-
                 localStorage.setItem("ticketVerified", "true");
                 localStorage.setItem("ticketEmail", email);
 
-
                 // OTP remove after successful verification
                 localStorage.removeItem("emailOTP");
+
+                // STOP TIMER
+                clearInterval(otpTimerInterval);
+
+                // HIDE OTP INPUT
+                document.getElementById("ticketOTP").style.display = "none";
+
+                // HIDE VERIFY BUTTON
+                document.getElementById("verifyOtpBtn").style.display = "none";
+
+                // HIDE TIMER
+                document.getElementById("otpTimer").style.display = "none";
+
+                // HIDE RESEND LINK
+                document.getElementById("resendOtpLink").style.display = "none";
+
+                // SHOW VERIFIED MESSAGE
+                document.getElementById("otpVerifiedMessage").style.display = "block";
 
                 Swal.fire(
                     "OTP Verified",
@@ -1261,6 +1358,21 @@
 
             const type = selected.value;
 
+            // Ticket Quantity Check
+            const ticketQuantity =
+                document.getElementById("ticketQuantity").value;
+
+            if (!ticketQuantity) {
+
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Please Select Number of Tickets First",
+                    "warning"
+                );
+
+                return;
+            }
+
             // User Details
             const name = document.getElementById("ticketName").value.trim();
             const phone = document.getElementById("ticketPhone").value.trim();
@@ -1328,7 +1440,7 @@
                 Group: 399
             };
 
-            const amount = amountMap[type];
+           const amount = amountMap[type] * Number(ticketQuantity);
 
             try {
 
@@ -1412,6 +1524,7 @@
                                 phone,
                                 email,
                                 ticketType: type,
+                                ticketQuantity: Number(ticketQuantity),
 
                                 paymentId: response.razorpay_payment_id,
                                 orderId: response.razorpay_order_id,
