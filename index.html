@@ -1406,24 +1406,40 @@
             }, 2000);
         };
 
+
         /* ================= PAYMENT ================= */
         window.payNow = async function () {
 
-            // Selected Pass
-            const selected = document.querySelector('input[name="ticketType"]:checked');
+            // ================= OTP VERIFICATION FIRST =================
+            if (localStorage.getItem("ticketVerified") !== "true") {
+
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Please Verify OTP First",
+                    "warning"
+                );
+
+                return;
+            }
+
+            // ================= SELECTED PASS =================
+            const selected =
+                document.querySelector('input[name="ticketType"]:checked');
 
             if (!selected) {
+
                 Swal.fire(
                     "Tribal Rhythm",
                     "Please Select a Pass",
                     "warning"
                 );
+
                 return;
             }
 
             const type = selected.value;
 
-            // Ticket Quantity Check
+            // ================= TICKET QUANTITY =================
             const ticketQuantity =
                 document.getElementById("ticketQuantity").value;
 
@@ -1438,22 +1454,18 @@
                 return;
             }
 
-            // User Details
-            const name = document.getElementById("ticketName").value.trim();
-            const phone = document.getElementById("ticketPhone").value.trim();
-            const email = document.getElementById("ticketEmail").value.trim();
+            // ================= USER DETAILS =================
+            const name =
+                document.getElementById("ticketName").value.trim();
 
-            // OTP Verification
-            if (localStorage.getItem("ticketVerified") !== "true") {
-                Swal.fire(
-                    "Tribal Rhythm",
-                    "Please Verify OTP First",
-                    "warning"
-                );
-                return;
-            }
+            const phone =
+                document.getElementById("ticketPhone").value.trim();
 
-            // Firestore User Check
+            const email =
+                document.getElementById("ticketEmail").value.trim();
+
+
+            // ================= FIRESTORE USER CHECK =================
             const userDoc = await getDocs(
                 query(
                     collection(db, "users"),
@@ -1462,77 +1474,96 @@
             );
 
             if (userDoc.empty) {
+
                 Swal.fire(
                     "Tribal Rhythm",
                     "User not found. Verify OTP again.",
                     "warning"
                 );
+
                 return;
             }
 
-            // Validation
+
+            // ================= VALIDATION =================
             if (name.length < 3) {
+
                 Swal.fire(
                     "Tribal Rhythm",
                     "Enter Valid Name",
                     "warning"
                 );
+
                 return;
             }
 
             if (!/^[6-9]\d{9}$/.test(phone)) {
+
                 Swal.fire(
                     "Tribal Rhythm",
                     "Invalid Mobile Number",
                     "warning"
                 );
+
                 return;
             }
 
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+
                 Swal.fire(
                     "Tribal Rhythm",
                     "Invalid Email",
                     "warning"
                 );
+
                 return;
             }
 
-            // Price
+
+            // ================= PRICE =================
             const amountMap = {
                 General: 499,
                 VIP: 999,
                 Group: 399
             };
 
-            const amount = amountMap[type] * Number(ticketQuantity);
+            const amount =
+                amountMap[type] * Number(ticketQuantity);
+
 
             try {
 
-                // Create Razorpay Order
+                // ================= CREATE RAZORPAY ORDER =================
                 const res = await fetch(`${API_URL}/create-order`, {
+
                     method: "POST",
+
                     headers: {
                         "Content-Type": "application/json"
                     },
+
                     body: JSON.stringify({
                         amount,
                         email
                     })
+
                 });
 
                 const data = await res.json();
 
                 if (!data.success) {
+
                     Swal.fire(
                         "Tribal Rhythm",
                         data.message,
                         "error"
                     );
+
                     return;
                 }
 
-                // Razorpay
+
+                // ================= RAZORPAY =================
                 const options = {
 
                     key: data.key,
@@ -1548,20 +1579,26 @@
 
                         try {
 
-                            // Verify Payment
-                            const verify = await fetch(`${API_URL}/verify-payment`, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                // body: JSON.stringify(response)
-                                body: JSON.stringify({
-                                    ...response,
-                                    email
-                                })
-                            });
+                            // ================= VERIFY PAYMENT =================
+                            const verify = await fetch(
+                                `${API_URL}/verify-payment`,
+                                {
+                                    method: "POST",
 
-                            const result = await verify.json();
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body: JSON.stringify({
+                                        ...response,
+                                        email
+                                    })
+                                }
+                            );
+
+                            const result =
+                                await verify.json();
 
                             if (!result.success) {
 
@@ -1574,47 +1611,79 @@
                                 return;
                             }
 
+
+                            // ================= TICKET ID =================
                             const now = new Date();
 
                             const random =
-                                Math.random().toString(36).substring(2, 8).toUpperCase();
+                                Math.random()
+                                    .toString(36)
+                                    .substring(2, 8)
+                                    .toUpperCase();
 
                             const ticketId =
-                                `TR-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${random}`;
-
-                            // Save Booking
-                            await addDoc(collection(db, "bookings"), {
-                                ticketId,
-                                name,
-                                phone,
-                                email,
-                                ticketType: type,
-                                ticketQuantity: Number(ticketQuantity),
-
-                                paymentId: response.razorpay_payment_id,
-                                orderId: response.razorpay_order_id,
-
-                                status: "success",
-
-                                createdAt: new Date()
-
-                            });
+                                `TR-${now.getFullYear()}${String(
+                                    now.getMonth() + 1
+                                ).padStart(2, "0")}${String(
+                                    now.getDate()
+                                ).padStart(2, "0")}-${random}`;
 
 
-                            // ⭐⭐⭐ YAHAN PASTE KARNA HAI ⭐⭐⭐
-                            await fetch(`${API_URL}/send-registration-email`, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify({
+                            // ================= SAVE BOOKING =================
+                            await addDoc(
+                                collection(db, "bookings"),
+                                {
+
+                                    ticketId,
+
                                     name,
+                                    phone,
                                     email,
-                                    ticketId
-                                })
-                            });
 
-                            // Generate Ticket
+                                    ticketType: type,
+
+                                    ticketQuantity:
+                                        Number(ticketQuantity),
+
+                                    paymentId:
+                                        response.razorpay_payment_id,
+
+                                    orderId:
+                                        response.razorpay_order_id,
+
+                                    status: "success",
+
+                                    createdAt: new Date()
+
+                                }
+                            );
+
+
+                            // ================= SEND EMAIL =================
+                            await fetch(
+                                `${API_URL}/send-registration-email`,
+                                {
+
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body: JSON.stringify({
+
+                                        name,
+                                        email,
+                                        ticketId
+
+                                    })
+
+                                }
+                            );
+
+
+                            // ================= GENERATE TICKET =================
                             generateTicketPDF(
                                 name,
                                 phone,
@@ -1622,6 +1691,7 @@
                                 response.razorpay_payment_id,
                                 ticketId
                             );
+
 
                             Swal.fire(
                                 "Success",
@@ -1649,13 +1719,13 @@
 
                 rzp.open();
 
-            } catch (err) {
+            } catch (error) {
 
-                console.log(err);
+                console.log(error);
 
                 Swal.fire(
-                    "Tribal Rhythm",
-                    "Payment Failed",
+                    "Error",
+                    "Something went wrong",
                     "error"
                 );
 
