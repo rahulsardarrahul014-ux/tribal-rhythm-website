@@ -1681,28 +1681,47 @@
                             );
 
 
-                            // ================= SEND EMAIL =================
-                            await fetch(
+                            // ================= SEND SUCCESS EMAIL =================
+
+                            const emailResponse = await fetch(
                                 `${API_URL}/send-registration-email`,
                                 {
-
                                     method: "POST",
 
                                     headers: {
-                                        "Content-Type":
-                                            "application/json"
+                                        "Content-Type": "application/json"
                                     },
 
                                     body: JSON.stringify({
-
                                         name,
                                         email,
                                         ticketId
-
                                     })
-
                                 }
                             );
+
+                            const emailResult = await emailResponse.json();
+
+                            console.log("EMAIL RESPONSE:", emailResult);
+
+                            if (!emailResponse.ok || !emailResult.success) {
+
+                                console.error(
+                                    "Email sending failed:",
+                                    emailResult
+                                );
+
+                                Swal.fire(
+                                    "Payment Successful",
+                                    "Payment successful, but confirmation email could not be sent.",
+                                    "warning"
+                                );
+
+                            } else {
+
+                                console.log("Success email sent successfully");
+
+                            }
 
 
                             // ================= GENERATE TICKET =================
@@ -1717,7 +1736,7 @@
 
                             Swal.fire(
                                 "Success",
-                                "Payment Verified Successfully",
+                                "Payment Verified Successfully. Confirmation email sent successfully.",
                                 "success"
                             );
 

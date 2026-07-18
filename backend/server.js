@@ -268,7 +268,7 @@ app.post("/verify-otp", async (req, res) => {
 
 
 
-          paymentStatus: "pending",
+            paymentStatus: "pending",
 
             status: "pending",
 
@@ -448,73 +448,72 @@ app.post("/check-entry", async (req, res) => {
 
 
 // ================= REGISTRATION CONFIRMATION EMAIL =================
+
 app.post("/send-registration-email", async (req, res) => {
+
     try {
 
         const { name, email, ticketId } = req.body;
 
-        // 👇 ADD THIS HERE
-        const userDoc = await db.collection("users").doc(email).get();
-
-        if (!userDoc.exists) {
-            return res.status(404).json({
-                success: false,
-                message: "User not found"
-            });
-        }
-
-        const user = userDoc.data();
-
-        if (user.paymentStatus !== "paid") {
-            return res.status(400).json({
-                success: false,
-                message: "Payment not completed"
-            });
-        }
-
         await transporter.sendMail({
+
             from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+
             to: email,
-            subject: "Registration Successful - Tribal Rhythm",
+
+            subject: "🎟️ Tribal Rhythm Ticket Booking Successful",
 
             html: `
-            <h2>🎉 Registration Successful</h2>
+                <h2>Payment Successful 🎉</h2>
 
-            <p>Dear <b>${name}</b>,</p>
+                <p>Hello <b>${name}</b>,</p>
 
-            <p>Your registration has been completed successfully.</p>
+                <p>
+                    Your ticket booking has been successfully completed.
+                </p>
 
-            <p><b>Ticket ID:</b> ${ticketId}</p>
+                <p>
+                    <b>Ticket ID:</b> ${ticketId}
+                </p>
 
-            <p>
-                You can view your ticket here:
-                <br>
-                <a href="https://rahulsardarrahul014-ux.github.io/Tribal-Rhythm/competition.html">
-                    Open Ticket
-                </a>
-            </p>
+                <p>
+                    Thank you for booking with Tribal Rhythm.
+                </p>
 
-            <br>
-
-            <p>Thank you for participating.</p>
-
-            <h3>Team Tribal Rhythm</h3>
+                <h3>Team Tribal Rhythm</h3>
             `
+
         });
+
+        console.log("✅ Confirmation email sent to:", email);
 
         res.json({
-            success: true
+
+            success: true,
+
+            message: "Email sent successfully"
+
         });
 
-    } catch (err) {
+    } catch (error) {
 
-        console.log(err);
+        console.error(
+            "EMAIL ERROR:",
+            error
+        );
 
         res.status(500).json({
-            success: false
+
+            success: false,
+
+            message: "Email sending failed",
+
+            error: error.message
+
         });
 
     }
+
 });
 
 
