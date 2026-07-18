@@ -815,6 +815,24 @@
         // ================= SEND OTP =================
         window.sendOTP = async function () {
 
+            // ===============================
+            // TICKET NUMBER CHECK
+            // ===============================
+
+            const ticketQuantity =
+                document.getElementById("ticketQuantity").value;
+
+            if (!ticketQuantity) {
+
+                Swal.fire(
+                    "Tribal Rhythm",
+                    "Please Select Number of Tickets First",
+                    "warning"
+                );
+
+                return;
+            }
+
             const name = document.getElementById("ticketName").value.trim();
             const mobile = document.getElementById("ticketPhone").value.trim();
             const email = document.getElementById("ticketEmail").value.trim();
