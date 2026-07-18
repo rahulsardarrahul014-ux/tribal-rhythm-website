@@ -813,14 +813,14 @@
 
         // ================= OTP SECURITY SETTINGS =================
 
-        // let otpTimerInterval;
+        let otpTimerInterval;
 
         // OTP validity: 5 minutes
         let otpTimeLeft = 300;
 
         // Resend security
         let resendCooldown = 60; // 60 seconds
-        let resendCooldownInterval;
+        // let resendCooldownInterval;
 
         // Maximum resend attempts
         let resendAttempts = 0;
@@ -910,19 +910,7 @@
                 // Generate OTP
                 const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-                // Save OTP temporarily
-                localStorage.setItem("emailOTP", otp);
-
-                // OTP expiry timestamp
-                localStorage.setItem(
-                    "otpExpiry",
-                    Date.now() + (5 * 60 * 1000)
-                );
-                // Current email save
-                localStorage.setItem(
-                    "otpEmail",
-                    email
-                );
+               
 
                 await emailjs.send(
                     "service_ynim8tv",
@@ -932,6 +920,20 @@
                         email: email,
                         otp: otp
                     }
+                );
+
+                // Email successful hone ke baad hi OTP save karein
+
+                localStorage.setItem("emailOTP", otp);
+
+                localStorage.setItem(
+                    "otpExpiry",
+                    Date.now() + (5 * 60 * 1000)
+                );
+
+                localStorage.setItem(
+                    "otpEmail",
+                    email
                 );
                 // Initial OTP successful send ke baad
                 lastResendTime = Date.now();
