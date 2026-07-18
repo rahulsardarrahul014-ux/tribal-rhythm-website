@@ -308,140 +308,187 @@
 
         <div class="container">
 
-            <h2 class="text-center text-warning mb-4">🎫 BOOK YOUR SPOT</h2>
-            <p class="text-center text-light mb-5">Feel the Rhythm. Live the Culture.</p>
+            <h2 class="text-center text-warning mb-4">
+                🎫 BOOK YOUR SPOT
+            </h2>
 
+            <p class="text-center text-light mb-5">
+                Feel the Rhythm. Live the Culture.
+            </p>
+
+
+            <!-- ================= ROW START ================= -->
             <div class="row g-4">
 
-                <!-- EVENT CARD -->
+
+                <!-- ================= EVENT CARD ================= -->
                 <div class="col-md-4">
+
                     <div class="gold-premium-card">
 
                         <img src="banner2.png" class="gold-img">
 
                         <div class="gold-content">
-                            <h3> RATHA YATRA</h3>
+
+                            <h3>RATHA YATRA</h3>
+
                             <p>📍 RAIRANGPUR BLOCK PADIA</p>
+
                             <p>📅 JULY 16 2026 TO 24 JULY 2026</p>
+
                             <p>💰 FREE</p>
+
                         </div>
 
                     </div>
+
                 </div>
 
-                <!-- USER DETAILS -->
+
+                <!-- ================= USER DETAILS ================= -->
                 <div class="col-md-4">
+
                     <div class="gold-premium-card">
 
                         <h3>👤 Your Details</h3>
 
+
                         <input type="text" id="ticketName" placeholder="Full Name">
 
-                        <!-- <input type="number" id="ticketPhone" placeholder="Mobile Number"> -->
+
                         <input type="number" id="ticketPhone" placeholder="Mobile Number">
 
+
                         <small id="phoneWarning" style="color:red;display:none;">
-
                             Only 10 digit mobile number allowed
-
                         </small>
 
 
                         <input type="email" id="ticketEmail" placeholder="Email">
 
+
                         <select id="ticketQuantity">
-                            <option value="">Number of Tickets</option>
+
+                            <option value="">
+                                Number of Tickets
+                            </option>
 
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
                             <option value="5">5</option>
+
                         </select>
 
-                        <button onclick="sendOTP()">Send OTP</button>
+
+                        <button onclick="sendOTP()">
+                            Send OTP
+                        </button>
+
+
+                        <!-- ================= OTP SECTION ================= -->
                         <div id="otpSection" style="display:none;">
 
-                            <!-- OTP INPUT -->
                             <input type="text" id="ticketOTP" maxlength="6" placeholder="Enter 6 Digit OTP"
                                 class="form-control mb-2">
 
-                            <!-- VERIFY BUTTON -->
+
                             <button id="verifyOtpBtn" class="btn btn-success w-100" onclick="verifyOTP()">
                                 Verify OTP
                             </button>
 
+
                             <!-- RESEND OTP -->
                             <div class="text-center mt-2">
 
+                                <span id="otpTimer" style="color:white;"></span>
+
+
                                 <a href="javascript:void(0)" id="resendOtpLink" onclick="resendOTP()" style="
-                color:#ffc107;
-                text-decoration:none;
-                display:none;
-                cursor:pointer;
-            ">
+                                    color:#ffc107;
+                                    text-decoration:none;
+                                    display:none;
+                                    cursor:pointer;
+                                    margin-left:8px;
+                                ">
                                     Resend OTP
                                 </a>
 
-                                <span id="otpTimer" style="color:white; margin-left:8px;"></span>
-
                             </div>
 
-                            <!-- OTP VERIFIED MESSAGE -->
+
+                            <!-- VERIFIED MESSAGE -->
                             <div id="otpVerifiedMessage" style="
-            display:none;
-            color:#00ff88;
-            text-align:center;
-            margin-top:10px;
-            font-weight:bold;
-        ">
+                                display:none;
+                                color:#00ff88;
+                                text-align:center;
+                                margin-top:10px;
+                                font-weight:bold;
+                            ">
                                 ✓ OTP Verified Successfully
                             </div>
 
                         </div>
 
                     </div>
-                    <button onclick="goToTicket()">Book Ticket</button>
+
+
+                    <!-- BOOK TICKET BUTTON -->
+                    <button onclick="goToTicket()">
+                        Book Ticket
+                    </button>
 
                 </div>
-            </div>
 
-            <!-- PASS CARD -->
-            <div class="col-md-4">
-                <div class="gold-premium-card">
 
-                    <h3>👑 Choose Pass</h3>
+                <!-- ================= PASS CARD ================= -->
+                <div class="col-md-4">
 
-                    <label class="pass-box">
+                    <div class="gold-premium-card">
 
-                        <input type="radio" name="ticketType" value="General">
+                        <h3>👑 Choose Pass</h3>
 
-                        🎫 General Pass - ₹499
 
-                    </label>
+                        <label class="pass-box">
 
-                    <label class="pass-box">
+                            <input type="radio" name="ticketType" value="General">
 
-                        <input type="radio" name="ticketType" value="VIP">
+                            🎫 General Pass - ₹499
 
-                        👑 VIP Pass - ₹999
+                        </label>
 
-                    </label>
 
-                    <label class="pass-box">
+                        <label class="pass-box">
 
-                        <input type="radio" name="ticketType" value="Group">
+                            <input type="radio" name="ticketType" value="VIP">
 
-                        👥 Group Pass - ₹399 / Person
+                            👑 VIP Pass - ₹999
 
-                    </label>
+                        </label>
 
-                    <button onclick="payNow()">Confirm & Pay</button>
+
+                        <label class="pass-box">
+
+                            <input type="radio" name="ticketType" value="Group">
+
+                            👥 Group Pass - ₹399 / Person
+
+                        </label>
+
+
+                        <button onclick="payNow()">
+                            Confirm & Pay
+                        </button>
+
+                    </div>
 
                 </div>
+
+
+                <!-- ================= ROW END ================= -->
             </div>
 
-        </div>
         </div>
 
     </section>
@@ -1440,7 +1487,7 @@
                 Group: 399
             };
 
-           const amount = amountMap[type] * Number(ticketQuantity);
+            const amount = amountMap[type] * Number(ticketQuantity);
 
             try {
 

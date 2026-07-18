@@ -1256,3 +1256,31 @@ transform:scale(1.4);
     transform:scale(1.4);
     accent-color:#28a745;
 }
+
+#booking .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+#booking .col-md-4 {
+    width: 33.333333%;
+}
+@media (max-width: 768px) {
+
+    #booking .col-md-4 {
+        width: 100%;
+    }
+
+}
+#booking button {
+    width: 100%;
+    background: #ffd000;
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
