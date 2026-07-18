@@ -816,6 +816,13 @@
         window.sendOTP = async function () {
 
             // ===============================
+            // RESET PREVIOUS OTP VERIFICATION
+            // ===============================
+            localStorage.removeItem("ticketVerified");
+            localStorage.removeItem("ticketEmail");
+
+
+            // ===============================
             // TICKET NUMBER CHECK
             // ===============================
 
@@ -853,6 +860,11 @@
             }
 
             try {
+
+                // New OTP bhejne se pehle old verification reset
+                localStorage.removeItem("ticketVerified");
+                localStorage.removeItem("ticketEmail");
+
 
                 // Generate OTP
                 const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -1410,8 +1422,18 @@
         /* ================= PAYMENT ================= */
         window.payNow = async function () {
 
-            // ================= OTP VERIFICATION FIRST =================
-            if (localStorage.getItem("ticketVerified") !== "true") {
+            // ================= OTP + EMAIL VERIFICATION =================
+
+            const verifiedEmail =
+                localStorage.getItem("ticketEmail");
+
+            const currentEmail =
+                document.getElementById("ticketEmail").value.trim();
+
+            if (
+                localStorage.getItem("ticketVerified") !== "true" ||
+                verifiedEmail !== currentEmail
+            ) {
 
                 Swal.fire(
                     "Tribal Rhythm",
