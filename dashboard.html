@@ -124,20 +124,38 @@
 
         <h3>👑 Tribal Rhythm Live Dashboard</h3>
 
+        <!-- ================= MAIN STATS ================= -->
+
         <div class="row g-3 mt-2">
 
-            <div class="col-md-4">
-                <div class="glass">👥 Users <div class="stat" id="users">0</div>
+            <div class="col-6 col-lg-3">
+                <div class="glass">
+                    👥 Total Users
+                    <div class="stat" id="users">0</div>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="glass">🎟️ Tickets <div class="stat" id="tickets">0</div>
+            <div class="col-6 col-lg-3">
+                <div class="glass">
+                    🎟️ Participants
+                    <div class="stat" id="tickets">0</div>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="glass">💰 Revenue ₹<span id="revenue">0</span></div>
+            <div class="col-6 col-lg-3">
+                <div class="glass">
+                    🏆 Competition
+                    <div class="stat" id="competitionParticipants">0</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="glass">
+                    💰 Revenue
+                    <div class="stat">
+                        ₹<span id="revenue">0</span>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -145,6 +163,67 @@
         <div class="glass mt-3">
             <h5>📈 Live Analytics</h5>
             <canvas id="chart"></canvas>
+        </div>
+
+        <!-- ================= COMPETITION ANALYTICS ================= -->
+
+        <div class="row g-3 mt-3">
+
+            <div class="col-md-6">
+
+                <div class="glass">
+
+                    <h5>🏆 Competition Analytics</h5>
+
+                    <hr>
+
+                    <p>
+                        🎭 Total Participants:
+                        <b id="totalParticipants">0</b>
+                    </p>
+
+                    <p>
+                        📤 Total Videos:
+                        <b id="totalVideos">0</b>
+                    </p>
+
+                    <p>
+                        🏅 Winners:
+                        <b id="totalWinners">0</b>
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <div class="glass">
+
+                    <h5>💰 Revenue Analytics</h5>
+
+                    <hr>
+
+                    <p>
+                        🎟️ Participant Revenue:
+                        ₹<b id="participantRevenue">0</b>
+                    </p>
+
+                    <p>
+                        🏆 Competition Revenue:
+                        ₹<b id="competitionRevenue">0</b>
+                    </p>
+
+                    <p>
+                        💰 Total Revenue:
+                        ₹<b id="totalRevenue">0</b>
+                    </p>
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>
@@ -169,61 +248,178 @@
 
         /* USERS */
         onSnapshot(collection(db, "users"), snap => {
-            document.getElementById("users").innerText = snap.size;
-            updateChart(snap.size);
+
+            document.getElementById("users").innerText =
+                snap.size;
+
+            refreshChart();
+
         });
 
-        onSnapshot(collection(db, "participants"), snap => {
-            document.getElementById("tickets").innerText = snap.size;
+        // ================= VIDEOS =================
+
+        onSnapshot(collection(db, "videos"), snap => {
+
+            document.getElementById("totalVideos").innerText =
+                snap.size;
+
+            refreshChart();
+
         });
 
+        // ================= WINNERS =================
+
+        onSnapshot(collection(db, "winners"), snap => {
+
+            document.getElementById("totalWinners").innerText =
+                snap.size;
+
+            refreshChart();
+
+        });
+
+        // ================= PARTICIPANTS =================
+
         onSnapshot(collection(db, "participants"), snap => {
 
-            let total = 0;
+            const totalParticipants = snap.size;
+
+            document.getElementById("tickets").innerText =
+                totalParticipants;
+
+            document.getElementById("competitionParticipants").innerText =
+                totalParticipants;
+
+            document.getElementById("totalParticipants").innerText =
+                totalParticipants;
+
+            refreshChart();
+
+        });
+
+        // ================= REVENUE =================
+
+        onSnapshot(collection(db, "participants"), snap => {
+
+            let participantRevenue = 0;
 
             snap.forEach(d => {
-                total += Number(d.data().fee || 0);
+
+                const data = d.data();
+
+                participantRevenue +=
+                    Number(data.fee || 0);
+
             });
 
-            document.getElementById("revenue").innerText = total;
+            document.getElementById("revenue").innerText =
+                participantRevenue;
+
+            document.getElementById("participantRevenue").innerText =
+                participantRevenue;
+
+            document.getElementById("totalRevenue").innerText =
+                participantRevenue;
 
         });
 
         /* CHART */
         let chart;
 
-        function updateChart(v) {
+        // ================= REFRESH CHART =================
+
+        function refreshChart() {
+
+            const users =
+                Number(document.getElementById("users").innerText);
+
+            const participants =
+                Number(document.getElementById("totalParticipants").innerText);
+
+            const videos =
+                Number(document.getElementById("totalVideos").innerText);
+
+            const winners =
+                Number(document.getElementById("totalWinners").innerText);
+
+            updateChart(
+                users,
+                participants,
+                videos,
+                winners
+            );
+
+        }
+
+        function updateChart(
+            users,
+            participants,
+            videos,
+            winners
+        ) {
 
             if (!chart) {
 
                 chart = new Chart(
                     document.getElementById("chart"),
                     {
-                        type: "line",
+
+                        type: "bar",
 
                         data: {
-                            labels: ["Users"],
+
+                            labels: [
+                                "Users",
+                                "Participants",
+                                "Videos",
+                                "Winners"
+                            ],
 
                             datasets: [{
-                                label: "Live Users",
-                                data: [v],
-                                borderColor: "gold",
-                                tension: 0.4
+
+                                label: "Tribal Rhythm Analytics",
+
+                                data: [
+                                    users,
+                                    participants,
+                                    videos,
+                                    winners
+                                ]
+
                             }]
+
                         },
 
                         options: {
-                            responsive: true
+                            responsive: true,
+
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+
                         }
+
                     }
+
                 );
 
             } else {
 
-                chart.data.datasets[0].data = [v];
+                chart.data.datasets[0].data = [
+
+                    users,
+                    participants,
+                    videos,
+                    winners
+
+                ];
+
                 chart.update();
 
             }
+
         }
         setTimeout(() => {
             location.reload();
