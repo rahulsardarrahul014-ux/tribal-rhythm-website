@@ -910,7 +910,7 @@
                 // Generate OTP
                 const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-               
+
 
                 await emailjs.send(
                     "service_ynim8tv",
@@ -1253,7 +1253,11 @@
         // ================= VERIFY OTP =================
         window.verifyOTP = function () {
 
-            const email = document.getElementById("ticketEmail").value.trim();
+            const email = document
+                .getElementById("ticketEmail")
+                .value
+                .trim()
+                .toLowerCase();
             const otp = document.getElementById("ticketOTP").value.trim();
 
             if (otp.length !== 6) {
@@ -1296,6 +1300,18 @@
 
                 localStorage.setItem("ticketVerified", "true");
                 localStorage.setItem("ticketEmail", email);
+
+                // ================= DEBUG =================
+                console.log(
+                    "VERIFIED SUCCESS:",
+                    localStorage.getItem("ticketVerified")
+                );
+
+                console.log(
+                    "VERIFIED EMAIL:",
+                    localStorage.getItem("ticketEmail")
+                );
+
 
                 // OTP remove after successful verification
                 localStorage.removeItem("emailOTP");
@@ -1731,16 +1747,39 @@
         /* ================= PAYMENT ================= */
         window.payNow = async function () {
 
+            // ================= DEBUG =================
+
+            console.log(
+                "BOOK NOW CHECK:",
+                localStorage.getItem("ticketVerified"),
+                localStorage.getItem("ticketEmail"),
+                document.getElementById("ticketEmail").value
+            );
+
             // ================= OTP + EMAIL VERIFICATION =================
 
+            const verified =
+                localStorage.getItem("ticketVerified");
+
             const verifiedEmail =
-                localStorage.getItem("ticketEmail");
+                (localStorage.getItem("ticketEmail") || "")
+                    .trim()
+                    .toLowerCase();
 
             const currentEmail =
-                document.getElementById("ticketEmail").value.trim();
+                document
+                    .getElementById("ticketEmail")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+            console.log("OTP STATUS:", verified);
+            console.log("VERIFIED EMAIL:", verifiedEmail);
+            console.log("CURRENT EMAIL:", currentEmail);
 
             if (
-                localStorage.getItem("ticketVerified") !== "true" ||
+                verified !== "true" ||
+                !verifiedEmail ||
                 verifiedEmail !== currentEmail
             ) {
 
@@ -2086,7 +2125,13 @@
 
 
 
-        window.generateTicketPDF = function (name, phone, type, paymentId) {
+        window.generateTicketPDF = function (
+            name,
+            phone,
+            type,
+            paymentId,
+            ticketId
+        ) {
 
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -2523,6 +2568,39 @@ Payment : ${paymentId}`;
                         :
 
                         "block";
+
+            });
+
+        // ================= EMAIL CHANGE SECURITY =================
+
+        document
+            .getElementById("ticketEmail")
+            .addEventListener("input", function () {
+
+                const verifiedEmail =
+                    localStorage.getItem("ticketEmail");
+
+                const currentEmail =
+                    this.value.trim().toLowerCase();
+
+                if (
+                    verifiedEmail &&
+                    verifiedEmail !== currentEmail
+                ) {
+
+                    localStorage.removeItem("ticketVerified");
+                    localStorage.removeItem("ticketEmail");
+
+                    document.getElementById(
+                        "otpVerifiedMessage"
+                    ).style.display = "none";
+
+                    Swal.fire(
+                        "Tribal Rhythm",
+                        "Email changed. Please verify OTP again.",
+                        "warning"
+                    );
+                }
 
             });
 
