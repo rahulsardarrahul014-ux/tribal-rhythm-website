@@ -425,11 +425,11 @@
 
             let email = localStorage.getItem("email");
 
-            if (!email) {
-                alert("❌ पहले register karo");
-                window.location.href = "register.html";
-                return;
-            }
+            Swal.fire({
+                icon: "warning",
+                title: "Registration Required",
+                text: "❌ पहले register karo"
+            });
 
             try {
                 const ref = doc(db, "users", email);
@@ -663,6 +663,8 @@
 
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert.js"></script>
 
 
 </body>
