@@ -301,25 +301,29 @@
 
         onSnapshot(collection(db, "participants"), snap => {
 
-            let participantRevenue = 0;
+            let competitionRevenue = 0;
 
             snap.forEach(d => {
 
                 const data = d.data();
 
-                participantRevenue +=
-                    Number(data.fee || 0);
+                if (data.paymentStatus === "success") {
+
+                    competitionRevenue +=
+                        Number(data.fee || 0);
+
+                }
 
             });
 
             document.getElementById("revenue").innerText =
-                participantRevenue;
+                competitionRevenue;
 
-            document.getElementById("participantRevenue").innerText =
-                participantRevenue;
+            document.getElementById("competitionRevenue").innerText =
+                competitionRevenue;
 
             document.getElementById("totalRevenue").innerText =
-                participantRevenue;
+                competitionRevenue;
 
         });
 
