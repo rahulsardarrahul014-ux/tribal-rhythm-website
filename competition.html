@@ -209,6 +209,26 @@
             font-size: 28px;
             letter-spacing: 2px;
         }
+
+        .welcome-box {
+            max-width: 900px;
+            margin: 25px auto;
+            background: #111;
+            border: 2px solid gold;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .welcome-box h2 {
+            color: gold;
+            font-weight: 700;
+        }
+
+        .welcome-box p {
+            color: white;
+            margin-top: 10px;
+        }
     </style>
 
 </head>
@@ -266,14 +286,20 @@
             ❌ No Ticket ID = No Entry
         </p>
     </div>
-
-    <div class="ticket-box">
-        <h4>🎫 Your Ticket ID</h4>
-        <h2 id="ticketId">Loading...</h2>
-        <p style="color:red;font-weight:bold;">
-            ❌ No Ticket ID = No Entry
+    <div class="welcome-box">
+        <h2>🎉 Welcome to Tribal Rhythm Competition</h2>
+        <p>
+            Select your favorite competition and click <b>Join Now</b> to participate.
         </p>
     </div>
+    <div id="status" style="margin-top:15px;
+            text-align:center;
+            color:gold;
+            font-weight:bold;
+            font-size:18px;">
+    </div>
+
+
 
     <div class="competition-card">
 
@@ -296,10 +322,10 @@
 
         <div class="buttons">
 
-            <button class="register-btn">
+            <button class="register-btn" onclick="window.location.href='register.html'">
                 Register
             </button>
-            <p><b>Name:</b> <span id="userName">Loading...</span></p>
+
             <input type="hidden" id="name">
 
             <select id="language" class="form-control mb-3">
@@ -313,13 +339,18 @@
                 <option value="Group">Group</option>
             </select>
 
-            <button class="join-btn">
+            <button class="join-btn" onclick="joinComp()">
                 Join Now
             </button>
-            <button class="ticket-btn">
+            <button class="ticket-btn" onclick="window.location.href='registration.html'">
                 🎫 My Ticket
             </button>
 
+        </div>
+        <div id="status" style="margin-top:12px;
+            color:gold;
+            font-weight:bold;
+            text-align:center;">
         </div>
 
     </div>
@@ -372,6 +403,7 @@
         const auth = getAuth(app);
 
         /* ================= GLOBAL VARIABLES ================= */
+        let currentUser = {};
         let selectedComp = "";
 
         let entryFees = {
@@ -410,12 +442,29 @@
                 }
 
                 let data = snap.data();
+                currentUser = data;
 
                 if (data.payment !== true) {
                     alert("❌ Payment not completed");
                     window.location.href = "register.html";
                     return;
                 }
+
+                // Ticket Check
+                if (!data.ticket) {
+                    alert("❌ Ticket ID not found");
+                    window.location.href = "register.html";
+                    return;
+                }
+
+                // Hidden input
+                document.getElementById("name").value = data.name;
+
+                // Show User Details
+                document.getElementById("userName").innerText = data.name;
+                document.getElementById("userEmail").innerText = data.email;
+                document.getElementById("userTribe").innerText = data.tribe;
+                document.getElementById("ticketId").innerText = data.ticket;
 
                 document.getElementById("name").value = data.name;
 
@@ -439,14 +488,7 @@
                 return;
             }
 
-            let c = document.querySelector('input[name="comp"]:checked');
-
-            if (!c) {
-                statusEl.innerText = "❌ Select Competition";
-                return;
-            }
-
-            selectedComp = c.value;
+            selectedComp = "dance";
 
             let amount = entryFees[selectedComp] || 50;
 
@@ -458,8 +500,7 @@
         /* ================= SAVE USER ================= */
         window.saveUser = async function (paymentId) {
 
-            let email =
-                localStorage.getItem("email");
+            let email = localStorage.getItem("email");
 
             const q = query(
                 collection(db, "participants"),
@@ -470,34 +511,30 @@
             const existing = await getDocs(q);
 
             if (!existing.empty) {
-
                 alert("❌ Already Joined");
-
                 return;
             }
 
             await addDoc(collection(db, "participants"), {
 
-                name: data.name,
-                email: data.email,
-                tribe: data.tribe,
-                ticketId: data.ticket,
+                name: currentUser.name,
+                email: currentUser.email,
+                tribe: currentUser.tribe,
+                ticketId: currentUser.ticket,
+
+                category: selectedComp,
+                language: document.getElementById("language").value,
+                type: document.getElementById("type").value,
 
                 paymentId: paymentId,
-
                 fee: entryFees[selectedComp],
-
                 paymentStatus: "success",
-
                 currency: "INR",
-
                 time: new Date()
 
             });
 
-            statusEl.innerText =
-                "✔ Joined Successfully";
-
+            statusEl.innerText = "✔ Joined Successfully";
         };
 
         /* ================= LIVE STREAM ================= */
@@ -505,40 +542,7 @@
 
             let data = snap.data();
 
-            document.getElementById("name").value = data.name;
-            document.getElementById("userName").innerText = data.name;
-            document.getElementById("userEmail").innerText = data.email;
-            document.getElementById("userTribe").innerText = data.tribe;
-            document.getElementById("ticketId").innerText = data.ticket;
-            // Payment check
-            if (!data.payment) {
-                alert("❌ Payment not completed.");
-                window.location.href = "register.html";
-                return;
-            }
 
-            // Ticket check
-            if (!data.ticket) {
-                alert("❌ Ticket ID not found.");
-                window.location.href = "register.html";
-                return;
-            }
-
-            // Show user details
-            document.getElementById("ticketId").innerText = data.ticket;
-            document.getElementById("userName").innerText = data.name;
-            document.getElementById("userEmail").innerText = data.email;
-            document.getElementById("userTribe").innerText = data.tribe;
-
-            // Ticket Check
-            if (!data.ticket) {
-                alert("❌ Ticket ID not found. Please register first.");
-                window.location.href = "register.html";
-                return;
-            }
-
-            // Show Ticket ID
-            document.getElementById("ticketId").innerText = data.ticket;
 
             if (!data || data.live === false) {
                 document.getElementById("videoBox").innerHTML =
