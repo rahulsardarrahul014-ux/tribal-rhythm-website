@@ -299,7 +299,8 @@
             <button class="register-btn">
                 Register
             </button>
-            <input type="text" id="name" class="form-control mb-3" placeholder="Your Name" readonly>
+            <p><b>Name:</b> <span id="userName">Loading...</span></p>
+            <input type="hidden" id="name">
 
             <select id="language" class="form-control mb-3">
                 <option value="Santali">Santali</option>
@@ -503,6 +504,12 @@
         onSnapshot(doc(db, "settings", "competition"), (snap) => {
 
             let data = snap.data();
+
+            document.getElementById("name").value = data.name;
+            document.getElementById("userName").innerText = data.name;
+            document.getElementById("userEmail").innerText = data.email;
+            document.getElementById("userTribe").innerText = data.tribe;
+            document.getElementById("ticketId").innerText = data.ticket;
             // Payment check
             if (!data.payment) {
                 alert("❌ Payment not completed.");
