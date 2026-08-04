@@ -569,20 +569,28 @@
 
         const photoName = document.getElementById("photoName");
         const idPhotoName = document.getElementById("idPhotoName");
+
         /* TICKET GENERATOR */
 
         function genTicket() {
-
-            return "TR-" +
-                crypto.randomUUID()
-                    .slice(0, 8)
-                    .toUpperCase();
-
+            return "TR-" + crypto.randomUUID().slice(0, 8).toUpperCase();
         }
 
-        let finalTicket = genTicket();
+        let finalTicket = localStorage.getItem("ticket");
+
+        if (!finalTicket) {
+            finalTicket = genTicket();
+        }
 
         ticketText.innerText = finalTicket;
+
+        // Agar ticket pehle se hai to wahi use karo
+        const savedTicket = localStorage.getItem("ticketId");
+
+        if (savedTicket) {
+            finalTicket = savedTicket;
+            ticketText.innerText = finalTicket;
+        }
 
         /* FORM SUBMIT */
 
@@ -747,6 +755,25 @@
                         color: "#FFD700"
                     },
 
+                    modal: {
+
+                        ondismiss: function () {
+
+                            btn.disabled = false;
+
+                            btn.innerText = "Pay ₹300 & Register";
+
+
+                            if (loader) {
+
+                                loader.style.display = "none";
+
+                            }
+
+                        }
+
+                    },
+
                     prefill: {
 
                         name: name,
@@ -871,147 +898,117 @@
 
                             }
                         );
-                            console.log("✅ Firestore Saved");
+                        localStorage.setItem("ticket", finalTicket);
+                        console.log("✅ Firestore Saved");
 
 
-                        // await emailjs.send(
-                        //     "YOUR_SERVICE_ID",
-                        //     "YOUR_TEMPLATE_ID",
-                        //     {
-                        //         name: name,
-                        //         email: email,
-                        //         ticket: finalTicket
-                        //     }
-                        // );
 
-                        // await fetch(
-                        //     "https://tribal-rhythm-backend.onrender.com/send-registration-email",
-                        //     {
-                        //         method: "POST",
-
-                        //         headers: {
-                        //             "Content-Type": "application/json"
-                        //         },
-
-                        //         body: JSON.stringify({
-
-                        //             name: name,
-
-                        //             email: email,
-
-                        //             ticketId: finalTicket
-
-                        //         })
-                        //     });
-
-
-                        // await fetch(
-                        //     "https://tribal-rhythm-backend.onrender.com/send-registration-sms",
-                        //     {
-
-                        //         method: "POST",
-
-                        //         headers: {
-                        //             "Content-Type": "application/json"
-                        //         },
-
-                        //         body: JSON.stringify({
-
-                        //             name,
-
-                        //             mobile,
-
-                        //             ticketId: finalTicket
-
-                        //         })
-
-                        //     });
 
                         try {
                             console.log("2. Firestore Saved");
 
                             console.log("3. Before Email API");
                             console.log("➡ Calling Email API");
-                            await fetch("https://tribal-rhythm-backend.onrender.com/send-registration-email", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify({
-                                    name,
-                                    email,
-                                    ticketId: finalTicket
-                                })
-                            });
+
+                            const emailResponse = await fetch(
+                                "https://tribal-rhythm-backend.onrender.com/send-registration-email",
+                                {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({
+                                        name,
+                                        email,
+                                        ticketId: finalTicket
+                                    })
+                                }
+                            );
+
+                            const emailData = await emailResponse.json();
+
+                            if (!emailResponse.ok) {
+                                throw new Error(emailData.message || "Email sending failed");
+                            }
+
+                            console.log("📧 Email Response:", emailData);
+
                         } catch (e) {
+
                             console.error("Email Error:", e);
+
                         }
+
                         console.log("✅ Email API Finished");
 
+
+
                         try {
-                            console.log("4. Email Sent");
+
+                            console.log("4. Before SMS API");
                             console.log("➡ Calling SMS API");
-                            await fetch("https://tribal-rhythm-backend.onrender.com/send-registration-sms", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify({
-                                    name,
-                                    mobile,
-                                    ticketId: finalTicket
-                                })
-                            });
+
+
+                            const smsResponse = await fetch(
+                                "https://tribal-rhythm-backend.onrender.com/send-registration-sms",
+                                {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({
+                                        name,
+                                        mobile,
+                                        ticketId: finalTicket
+                                    })
+                                }
+                            );
+
+
+                            const smsData = await smsResponse.json();
+
+
+                            if (!smsResponse.ok) {
+                                throw new Error(smsData.message || "SMS sending failed");
+                            }
+
+
+                            console.log("📱 SMS Response:", smsData);
+
+
                         } catch (e) {
+
                             console.error("SMS Error:", e);
+
                         }
+
+
                         console.log("✅ SMS API Finished");
 
-                        // alert(
-                        //     "Registration Successful ✅"
-                        // );
-
-                        // localStorage.setItem(
-                        //     "email",
-                        //     email
-                        // );
-
-                        // localStorage.setItem(
-                        //     "name",
-                        //     name
-                        // );
-
-                        // window.location.href =
-                        //     "competition.html";
-
-                        alert("Registration Successful ✅");
-
+                        // Save User Data
                         localStorage.setItem("email", email);
                         localStorage.setItem("name", name);
+                        localStorage.setItem("ticketId", finalTicket);
 
                         console.log("Redirecting to competition page...");
 
-                        console.log("5. SMS Sent");
 
-                        console.log("6. Redirecting");
-                        console.log("➡ Redirect");
+                        alert(
+                            "Registration Successful ✅\nTicket ID: " + finalTicket
+                        );
+                        loader.style.display = "none";
 
-                        window.location.href = "competition.html";
+                        btn.disabled = false;
 
-                    },
 
-                    modal: {
+                        setTimeout(() => {
 
-                        ondismiss: function () {
+                            window.location.href = "competition.html";
 
-                            btn.disabled = false;
+                        }, 1500);
 
-                            btn.innerText =
-                                "Pay ₹300 & Register";
 
-                            loader.style.display = "none";
 
-                        }
 
                     }
 
