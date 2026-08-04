@@ -507,6 +507,7 @@
 
     <!-- RAZORPAY -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- FIREBASE -->
     <script type="module">
@@ -576,21 +577,8 @@
             return "TR-" + crypto.randomUUID().slice(0, 8).toUpperCase();
         }
 
-        let finalTicket = localStorage.getItem("ticket");
-
-        if (!finalTicket) {
-            finalTicket = genTicket();
-        }
-
-        ticketText.innerText = finalTicket;
-
-        // Agar ticket pehle se hai to wahi use karo
-        const savedTicket = localStorage.getItem("ticketId");
-
-        if (savedTicket) {
-            finalTicket = savedTicket;
-            ticketText.innerText = finalTicket;
-        }
+        let finalTicket = "";
+        ticketText.innerText = "Will Generate After Payment";
 
         /* FORM SUBMIT */
 
@@ -812,9 +800,23 @@
                         const verifyData = await verify.json();
 
                         if (!verifyData.success) {
-                            alert("Payment Verification Failed");
+                            Swal.fire({
+                                icon: "error",
+                                title: "Payment Failed ❌",
+                                text: "Payment verification failed. Please try again.",
+                                confirmButtonColor: "#FFD700"
+                            });
+
                             return;
                         }
+
+                        // Generate Ticket After Successful Payment
+
+                        finalTicket = genTicket();
+
+                        ticketText.innerText = finalTicket;
+
+                        console.log("Generated Ticket:", finalTicket);
 
 
 
@@ -993,9 +995,47 @@
                         console.log("Redirecting to competition page...");
 
 
-                        alert(
-                            "Registration Successful ✅\nTicket ID: " + finalTicket
-                        );
+                        Swal.fire({
+
+                            icon: "success",
+
+                            title: "Registration Successful 🎉",
+
+                            html: `
+        <h4 style="color:#FFD700">
+        Tribal Rhythm
+        </h4>
+
+        <p>
+        Your competition registration is confirmed.
+        </p>
+
+        <h3>
+        🎫 Ticket ID
+        </h3>
+
+        <h2 style="color:green">
+        ${finalTicket}
+        </h2>
+
+        <p>
+        Ticket ID is required at competition entry.
+        </p>
+    `,
+
+                            confirmButtonText: "Continue",
+
+                            confirmButtonColor: "#FFD700",
+
+                            background: "#111",
+
+                            color: "#fff"
+
+                        }).then(() => {
+
+                            window.location.href = "competition.html";
+
+                        });
                         loader.style.display = "none";
 
                         btn.disabled = false;
@@ -1028,12 +1068,20 @@
                     console.log("Step:", response.error.step);
                     console.log("Metadata:", response.error.metadata);
 
-                    alert(
-                        "Code: " + response.error.code +
-                        "\nDescription: " + response.error.description +
-                        "\nReason: " + response.error.reason
-                    );
+                    Swal.fire({
 
+                        icon: "error",
+
+                        title: "Payment Failed ❌",
+
+                        html: `
+    <p>${response.error.description}</p>
+    <small>Please try again.</small>
+    `,
+
+                        confirmButtonColor: "#FFD700"
+
+                    });
                 });
 
                 rzp.open();
@@ -1044,9 +1092,17 @@
 
                 console.log(err);
 
-                alert(
-                    "Server Error ❌"
-                );
+                Swal.fire({
+
+                    icon: "error",
+
+                    title: "Server Error ❌",
+
+                    text: "Please try again later.",
+
+                    confirmButtonColor: "#FFD700"
+
+                });
 
                 btn.disabled = false;
 
@@ -1139,6 +1195,7 @@
             });
 
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 </body>
