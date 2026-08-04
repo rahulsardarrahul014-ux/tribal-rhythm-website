@@ -347,7 +347,8 @@
             </button>
 
         </div>
-        <div id="status" style="margin-top:12px;
+        <div id="paymentStatus">
+            style="margin-top:12px;
             color:gold;
             font-weight:bold;
             text-align:center;">
@@ -425,18 +426,40 @@
 
             let email = localStorage.getItem("email");
 
-            Swal.fire({
-                icon: "warning",
-                title: "Registration Required",
-                text: "❌ पहले register karo"
-            });
+            if (!email) {
+
+                Swal.fire({
+
+                    icon: "warning",
+
+                    title: "Tribal Rhythm Says",
+
+                    text: "❌ पहले register karo",
+
+                    confirmButtonText: "Register Now"
+
+                }).then(() => {
+
+                    window.location.href = "register.html";
+
+                });
+
+                return;
+
+            }
 
             try {
                 const ref = doc(db, "users", email);
                 const snap = await getDoc(ref);
 
                 if (!snap.exists()) {
-                    alert("❌ User not found");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Tribal Rhythm Says",
+                        text: "❌ User not found"
+                    }).then(() => {
+                        window.location.href = "register.html";
+                    });
                     window.location.href = "register.html";
                     return;
                 }
@@ -445,14 +468,26 @@
                 currentUser = data;
 
                 if (data.payment !== true) {
-                    alert("❌ Payment not completed");
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Tribal Rhythm Says",
+                        text: "❌ Payment not completed"
+                    }).then(() => {
+                        window.location.href = "register.html";
+                    });
                     window.location.href = "register.html";
                     return;
                 }
 
                 // Ticket Check
                 if (!data.ticket) {
-                    alert("❌ Ticket ID not found");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Tribal Rhythm Says",
+                        text: "❌ Ticket ID not found"
+                    }).then(() => {
+                        window.location.href = "register.html";
+                    });
                     window.location.href = "register.html";
                     return;
                 }
@@ -470,7 +505,15 @@
 
             } catch (err) {
                 console.error(err);
-                alert("⚠️ Error verifying user");
+                Swal.fire({
+
+                    icon: "error",
+
+                    title: "Tribal Rhythm Says",
+
+                    text: "⚠️ Error verifying user"
+
+                });
             }
 
             // fallback localStorage
@@ -624,7 +667,7 @@
         };
         setTimeout(() => {
 
-            localStorage.clear();
+            localStorage.removeItem("competitionSession");
 
             window.location.href =
                 "index.html";
@@ -633,7 +676,7 @@
 
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <script>
         function joinCompetition(name, fee) {
