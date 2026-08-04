@@ -34,76 +34,180 @@
             font-family: Poppins, sans-serif;
         }
 
-        .competition-section {
-            padding: 60px 20px;
-        }
-
-        .title {
+        .hero-header {
+            position: relative;
+            width: 100%;
+            min-height: 320px;
+            background: url("banner.jpg") center center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            color: #ffd700;
-            margin-bottom: 40px;
-            font-size: 40px;
+            overflow: hidden;
         }
 
-        .competition-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, .65);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            padding: 30px;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #FFD700;
+            background: #fff;
+            padding: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 25px rgba(255, 215, 0, .6);
+        }
+
+        .header-content h1 {
+            color: #FFD700;
+            font-size: 50px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .header-content h2 {
+            color: #fff;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .header-content p {
+            color: #ddd;
+            font-size: 18px;
+            max-width: 700px;
+            margin: auto;
         }
 
         .competition-card {
-            background: rgba(255, 255, 255, .05);
-            border: 1px solid rgba(255, 215, 0, .3);
+            background: #111;
             border-radius: 20px;
-            padding: 25px;
-            position: relative;
-            backdrop-filter: blur(12px);
+            overflow: hidden;
+            border: 2px solid #FFD700;
             transition: .4s;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
         }
 
         .competition-card:hover {
-            transform: translateY(-8px);
-            border-color: #ffd700;
-            box-shadow: 0 0 25px rgba(255, 215, 0, .4);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, .35);
         }
 
-        .badge {
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .live-badge {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: linear-gradient(45deg, #ffd700, #ff8c00);
-            color: #000;
-            padding: 6px 12px;
+            background: red;
+            color: #fff;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 12px;
             font-weight: bold;
         }
 
         .competition-card h3 {
-            color: #fff;
-            margin-bottom: 10px;
+            color: #FFD700;
+            padding: 15px 20px 5px;
         }
 
         .competition-card p {
-            color: #cfcfcf;
+            color: #ddd;
+            padding: 0 20px;
         }
 
         .info {
             display: flex;
             justify-content: space-between;
-            margin: 20px 0;
-            color: #ffd700;
+            padding: 15px 20px;
+            color: #fff;
             font-weight: 600;
         }
 
-        button {
-            width: 100%;
+        .prize {
+            margin: 0 20px;
+            background: #FFD700;
+            color: #000;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            padding: 20px;
+        }
+
+        .register-btn,
+        .join-btn {
+            flex: 1;
             border: none;
             padding: 14px;
-            border-radius: 30px;
-            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            border-radius: 10px;
+            font-size: 16px;
             font-weight: 700;
             cursor: pointer;
+        }
+
+        .register-btn {
+            background: #FFD700;
+            color: #000;
+        }
+
+        .join-btn {
+            background: #28a745;
+            color: #fff;
+        }
+
+        .ticket-notice {
+            max-width: 900px;
+            margin: 30px auto;
+            background: #1b1b1b;
+            border-left: 6px solid #FFD700;
+            border-radius: 15px;
+            padding: 20px;
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .4);
+        }
+
+        .ticket-notice h4 {
+            color: #FFD700;
+            margin-bottom: 12px;
+        }
+
+        .ticket-box {
+            max-width: 500px;
+            margin: 20px auto;
+            background: #111;
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .ticket-box h2 {
+            color: #FFD700;
+            font-size: 28px;
+            letter-spacing: 2px;
         }
     </style>
 
@@ -111,146 +215,126 @@
 
 <body>
 
-    <div class="header">
-        <h2>🏆 TRIBAL COMPETITION</h2>
-        <p>Select & Join Competition</p>
+    <header class="hero-header">
+        <div class="overlay"></div>
+
+        <div class="header-content">
+
+            <img src="tribalweblogo.png" alt="Tribal Rhythm Logo" class="logo">
+
+            <h1>TRIBAL RHYTHM</h1>
+
+            <h2>ONLINE COMPETITION REGISTRATION</h2>
+
+            <p>
+                Dance • Singing • Madal • Beauty Queen • Essay • Tribal Culture
+            </p>
+
+        </div>
+    </header>
+
+    <!-- Ticket Notice -->
+
+    <div class="ticket-notice">
+        <h4>🎫 Entry Rule</h4>
+
+        <p>
+            Every participant must carry a valid
+            <strong>Tribal Rhythm Ticket ID</strong>.
+        </p>
+
+        <p style="color:#ff4d4d;font-weight:bold;">
+            ❌ No Ticket ID = No Entry
+        </p>
+
+        <p>
+            Show your Ticket ID (QR Code) at the entry gate for verification.
+        </p>
+    </div>
+    <div class="ticket-box">
+        <h4>🎫 Competition Pass</h4>
+
+        <p><b>Name:</b> <span id="userName">Loading...</span></p>
+
+        <p><b>Email:</b> <span id="userEmail">Loading...</span></p>
+
+        <p><b>Tribe:</b> <span id="userTribe">Loading...</span></p>
+
+        <h2 id="ticketId">Loading...</h2>
+
+        <p style="color:red;font-weight:bold;">
+            ❌ No Ticket ID = No Entry
+        </p>
     </div>
 
-    <div class="container">
+    <div class="ticket-box">
+        <h4>🎫 Your Ticket ID</h4>
+        <h2 id="ticketId">Loading...</h2>
+        <p style="color:red;font-weight:bold;">
+            ❌ No Ticket ID = No Entry
+        </p>
+    </div>
 
-        <!-- COMPETITION SELECT CARD -->
-        <div class="card-box">
-            <h4>🎯 Select Competition</h4>
+    <div class="competition-card">
 
-            <label><input type="radio" name="comp" value="dance"> Tribal Dance</label><br>
-            <label><input type="radio" name="comp" value="song"> Tribal Song</label><br>
-            <label><input type="radio" name="comp" value="essay"> Essay Writing</label><br>
-            <label><input type="radio" name="comp" value="baja"> Tribal Baja</label><br>
-            <label><input type="radio" name="comp" value="gk"> Tribal GK</label><br>
-            <label><input type="radio" name="comp" value="beauty"> Beauty Queen</label><br>
-            <label><input type="radio" name="comp" value="dialogue"> Tribal Dialogue</label><br>
-            <label><input type="radio" name="comp" value="poem"> Poem Writing</label><br>
+        <img src="dance.jpg" class="card-img">
 
-            <button class="live-btn mt-2" onclick="joinComp()">🚀 JOIN COMPETITION</button>
-            <button class="live-btn mt-2" onclick="watchComp()">👁 WATCH LIVE</button>
+        <span class="live-badge">LIVE</span>
 
-            <p id="status"></p>
+        <h3>💃 Tribal Dance Competition</h3>
+
+        <p>Traditional Solo & Group Dance Competition</p>
+
+        <div class="info">
+            <span>⏱ 3-5 Min</span>
+            <span>₹299</span>
         </div>
 
-        <!-- USER DETAILS -->
-        <div class="card-box">
-            <h4>👤 Participant Info</h4>
+        <div class="prize">
+            🏆 Winner Prize ₹10,000
+        </div>
 
-            <input id="name" placeholder="Your Name">
+        <div class="buttons">
 
-            <select id="language">
-                <option>Bhumij</option>
-                <option>Santali</option>
+            <button class="register-btn">
+                Register
+            </button>
+            <input type="text" id="name" class="form-control mb-3" placeholder="Your Name" readonly>
+
+            <select id="language" class="form-control mb-3">
+                <option value="Santali">Santali</option>
+                <option value="Bhumij">Bhumij</option>
+                <option value="Odia">Odia</option>
             </select>
 
-            <select id="type">
-                <option>Solo</option>
-                <option>Duet</option>
-                <option>Group</option>
+            <select id="type" class="form-control mb-3">
+                <option value="Solo">Solo</option>
+                <option value="Group">Group</option>
             </select>
-        </div>
-        <!-- Competition Card Example -->
 
-        <section class="competition-section">
-
-            <h2 class="title">🏆 Tribal Rhythm Competitions</h2>
-
-            <div class="competition-grid">
-
-                <div class="competition-card">
-                    <div class="badge">LIVE</div>
-
-                    <h3>💃 Tribal Dance Competition</h3>
-
-                    <p>Solo / Group Dance Performance</p>
-
-                    <div class="info">
-                        <span>⏱ 3-5 Min</span>
-                        <span>💰 ₹100</span>
-                    </div>
-
-                    <button onclick="joinCompetition('Tribal Dance',100)">
-                        Join Competition
-                    </button>
-
-                </div>
-
-                <div class="competition-card">
-                    <div class="badge">POPULAR</div>
-
-                    <h3>🎤 Tribal Singing Competition</h3>
-
-                    <p>Santali & Bhumij Songs</p>
-
-                    <div class="info">
-                        <span>⏱ 4 Min</span>
-                        <span>💰 ₹120</span>
-                    </div>
-
-                    <button onclick="joinCompetition('Tribal Singing',120)">
-                        Join Competition
-                    </button>
-
-                </div>
-
-                <div class="competition-card">
-                    <div class="badge">HOT</div>
-
-                    <h3>🥁 Tribal Baja Competition</h3>
-
-                    <p>Madal, Dhamsa & Traditional Instruments</p>
-
-                    <div class="info">
-                        <span>⏱ 5 Min</span>
-                        <span>💰 ₹150</span>
-                    </div>
-
-                    <button onclick="joinCompetition('Tribal Baja',150)">
-                        Join Competition
-                    </button>
-
-                </div>
-
-                <div class="competition-card">
-                    <div class="badge">QUEEN</div>
-
-                    <h3>👑 Beauty Queen Competition</h3>
-
-                    <p>Traditional Dress & Talent Round</p>
-
-                    <div class="info">
-                        <span>⏱ 5 Min</span>
-                        <span>💰 ₹200</span>
-                    </div>
-
-                    <button onclick="joinCompetition('Beauty Queen',200)">
-                        Join Competition
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- LIVE AREA -->
-        <div class="card-box">
-            <h4>🔴 LIVE STREAM</h4>
-
-            <div id="videoBox">
-                <iframe width="100%" height="300" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                    allowfullscreen></iframe>
-            </div>
-
-            <button class="live-btn mt-2" onclick="openZoom()">🎥 OPEN ZOOM</button>
+            <button class="join-btn">
+                Join Now
+            </button>
+            <button class="ticket-btn">
+                🎫 My Ticket
+            </button>
 
         </div>
+
+    </div>
+
+
+    <!-- LIVE AREA -->
+    <div class="card-box">
+        <h4>🔴 LIVE STREAM</h4>
+
+        <div id="videoBox">
+            <iframe width="100%" height="300" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+        </div>
+
+        <button class="live-btn mt-2" onclick="openZoom()">🎥 OPEN ZOOM</button>
+
+    </div>
 
     </div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -393,18 +477,10 @@
 
             await addDoc(collection(db, "participants"), {
 
-                name:
-                    document.getElementById("name").value,
-
-                email: email,
-
-                language:
-                    document.getElementById("language").value,
-
-                category: selectedComp,
-
-                type:
-                    document.getElementById("type").value,
+                name: data.name,
+                email: data.email,
+                tribe: data.tribe,
+                ticketId: data.ticket,
 
                 paymentId: paymentId,
 
@@ -427,6 +503,35 @@
         onSnapshot(doc(db, "settings", "competition"), (snap) => {
 
             let data = snap.data();
+            // Payment check
+            if (!data.payment) {
+                alert("❌ Payment not completed.");
+                window.location.href = "register.html";
+                return;
+            }
+
+            // Ticket check
+            if (!data.ticket) {
+                alert("❌ Ticket ID not found.");
+                window.location.href = "register.html";
+                return;
+            }
+
+            // Show user details
+            document.getElementById("ticketId").innerText = data.ticket;
+            document.getElementById("userName").innerText = data.name;
+            document.getElementById("userEmail").innerText = data.email;
+            document.getElementById("userTribe").innerText = data.tribe;
+
+            // Ticket Check
+            if (!data.ticket) {
+                alert("❌ Ticket ID not found. Please register first.");
+                window.location.href = "register.html";
+                return;
+            }
+
+            // Show Ticket ID
+            document.getElementById("ticketId").innerText = data.ticket;
 
             if (!data || data.live === false) {
                 document.getElementById("videoBox").innerHTML =
