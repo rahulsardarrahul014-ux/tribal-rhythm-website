@@ -513,7 +513,26 @@ color:white;">
             <input id="loginEmail" placeholder="Email">
 
 
-            <input type="password" id="loginPassword" placeholder="Password">
+            <div style="position:relative;">
+
+                <input type="password" id="loginPassword" placeholder="Password">
+
+                <button type="button" id="loginEye" onclick="toggleLoginPassword()" style="
+    position:absolute;
+    right:5px;
+    top:10px;
+    width:auto;
+    padding:8px;
+    background:none;
+    border:none;
+    color:white;
+    cursor:pointer;">
+
+                    👁️
+
+                </button>
+
+            </div>
 
 
 
@@ -611,6 +630,25 @@ color:white;">
             }
             else {
                 pass.type = "password";
+            }
+
+        }
+
+        function toggleLoginPassword() {
+
+            const pass = document.getElementById("loginPassword");
+            const eye = document.getElementById("loginEye");
+
+            if (pass.type === "password") {
+
+                pass.type = "text";
+                eye.innerHTML = "🙈";
+
+            } else {
+
+                pass.type = "password";
+                eye.innerHTML = "👁️";
+
             }
 
         }
