@@ -64,28 +64,57 @@
         }
 
         body {
-            background: #0a0a0a;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
+            background: #06140d;
+            color: #fff;
+            font-family: Poppins, sans-serif;
         }
 
         /* SILVER CARD */
         .card-pro {
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid #c0c0c0;
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
+
+            background: linear-gradient(145deg,
+                    rgba(25, 60, 35, .95),
+                    rgba(15, 30, 20, .95));
+
+            border: 1px solid silver;
+
+            border-radius: 20px;
+
+            padding: 20px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 255, 150, .20);
+
+            transition: .3s;
+
+        }
+
+        .card-pro:hover {
+
+            transform: translateY(-6px);
+
+            box-shadow:
+                0 0 30px rgba(0, 255, 120, .4);
+
         }
 
         .btn-silver {
-            background: linear-gradient(45deg, #c0c0c0, #e6e6e6);
-            color: black;
-            font-weight: bold;
+
+            background:
+                linear-gradient(90deg,
+                    silver,
+                    #00d26a);
+
             border: none;
+
+            font-weight: bold;
+
+            color: black;
+
+            border-radius: 12px;
+
         }
 
         .btn-silver:hover {
@@ -93,12 +122,32 @@
         }
 
         .sidebar {
-            width: 240px;
-            height: 100vh;
-            position: fixed;
-            background: #111;
-            padding: 20px;
-            border-right: 1px solid #333;
+            background: linear-gradient(180deg, #0b2d18, #153d24, #1f5d35);
+            border-right: 2px solid silver;
+        }
+
+        .sidebar a {
+
+            background: #153d24;
+
+            color: white;
+
+            border-radius: 12px;
+
+            margin-bottom: 8px;
+
+            transition: .3s;
+
+        }
+
+        .sidebar a:hover {
+
+            background: #00c46b;
+
+            color: black;
+
+            transform: translateX(5px);
+
         }
 
         .main {
@@ -243,6 +292,52 @@
                 width: 40px !important;
             }
         }
+
+        .otp-container {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+        }
+
+        .otp-box {
+
+            width: 55px;
+
+            height: 55px;
+
+            border-radius: 12px;
+
+            border: 2px solid silver;
+
+            background: #0d1f16;
+
+            color: #00ff88;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            text-align: center;
+
+            outline: none;
+
+            transition: .3s;
+
+        }
+
+        .otp-box:focus {
+
+            border-color: #00ff88;
+
+            box-shadow: 0 0 15px #00ff88;
+
+        }
     </style>
 </head>
 
@@ -301,12 +396,21 @@
         <div class="form-row">
             <label>Email OTP</label>
 
-            <input class="otp-box" maxlength="1">
-            <input class="otp-box" maxlength="1">
-            <input class="otp-box" maxlength="1">
-            <input class="otp-box" maxlength="1">
-            <input class="otp-box" maxlength="1">
-            <input class="otp-box" maxlength="1">
+            <div class="otp-container">
+
+                <input class="otp-box" maxlength="1" inputmode="numeric">
+
+                <input class="otp-box" maxlength="1" inputmode="numeric">
+
+                <input class="otp-box" maxlength="1" inputmode="numeric">
+
+                <input class="otp-box" maxlength="1" inputmode="numeric">
+
+                <input class="otp-box" maxlength="1" inputmode="numeric">
+
+                <input class="otp-box" maxlength="1" inputmode="numeric">
+
+            </div>
         </div>
 
         <div class="form-row">
@@ -473,19 +577,101 @@
 
     <!-- SIDEBAR -->
     <div class="sidebar" id="side" style="display:none;">
-        <h4 style="color:silver">ADMIN PANEL</h4>
+        <h3 class="text-center text-warning mb-3">
+            👑 ADMIN PANEL
+        </h3>
 
         <hr>
 
-        <button onclick="lock()" class="btn btn-danger w-100 mb-2">🔒 Lock</button>
-        <button onclick="unlock()" class="btn btn-success w-100">🔓 Unlock</button>
+        <a href="#dashboard" class="btn btn-dark w-100 mb-2">
+            🏠 Dashboard
+        </a>
+
+        <a href="#users" class="btn btn-dark w-100 mb-2">
+            👥 User Management
+        </a>
+
+        <a href="#admins" class="btn btn-dark w-100 mb-2">
+            👑 Admin Management
+        </a>
+
+        <a href="#competition" class="btn btn-dark w-100 mb-2">
+            🎭 Competition
+        </a>
+
+        <a href="#videos" class="btn btn-dark w-100 mb-2">
+            🎬 Video Approval
+        </a>
+
+        <a href="#winners" class="btn btn-dark w-100 mb-2">
+            🏆 Winners
+        </a>
+
+        <a href="#payments" class="btn btn-dark w-100 mb-2">
+            💰 Payments
+        </a>
+
+        <a href="#tickets" class="btn btn-dark w-100 mb-2">
+            🎟 Ticket Verification
+        </a>
+
+        <a href="#emails" class="btn btn-dark w-100 mb-2">
+            📩 Email Center
+        </a>
+
+        <a href="#sms" class="btn btn-dark w-100 mb-2">
+            📱 SMS Center
+        </a>
+
+        <a href="#notification" class="btn btn-dark w-100 mb-2">
+            📢 Notifications
+        </a>
+
+        <a href="#scheduler" class="btn btn-dark w-100 mb-2">
+            📅 Scheduler
+        </a>
+
+        <a href="#news" class="btn btn-dark w-100 mb-2">
+            📰 News
+        </a>
+
+        <a href="#live" class="btn btn-dark w-100 mb-2">
+            🎥 Live Streaming
+        </a>
+
+        <a href="#certificate" class="btn btn-dark w-100 mb-2">
+            📜 Certificates
+        </a>
+
+        <a href="#reports" class="btn btn-dark w-100 mb-2">
+            📊 Reports
+        </a>
+
+        <a href="#settings" class="btn btn-dark w-100 mb-2">
+            ⚙ Website Settings
+        </a>
+
+        <a href="#logs" class="btn btn-dark w-100 mb-2">
+            🛡 Security Logs
+        </a>
+
+        <a href="#backup" class="btn btn-dark w-100 mb-2">
+            🗄 Backup
+        </a>
 
         <hr>
 
-        <button onclick="logout()" class="btn btn-secondary w-100">Logout</button>
-        <a href="dashboard.html" class="btn btn-warning w-100 mb-2">📊 Dashboard</a>
+        <button onclick="lock()" class="btn btn-danger w-100 mb-2">
+            🔒 Lock Competition
+        </button>
 
-        <a href="prizes.html" class="btn btn-warning w-100">🏆 Certificates</a>
+        <button onclick="unlock()" class="btn btn-success w-100 mb-2">
+            🔓 Unlock Competition
+        </button>
+
+        <button onclick="logout()" class="btn btn-secondary w-100">
+            🚪 Logout
+        </button>
     </div>
     <div class="card-pro">
 
@@ -515,6 +701,7 @@
             <p id="adminInfo"></p>
 
         </div>
+        <div id="dashboard"></div>
 
         <h2>👑 CONTROL PANEL</h2>
 
@@ -530,29 +717,55 @@
         </div>
 
         <!-- STATS -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card-pro stat">Users <h3 id="u">0</h3>
+        <!-- ================= DASHBOARD STATS ================= -->
+
+        <div class="row g-4">
+
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="card-pro stat">
+                    <h6>Total Users</h6>
+                    <h2 id="u">0</h2>
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="card-pro stat">Bookings <h3 id="b">0</h3>
-                </div>
-            </div>
-            <div id="reader" style="width:300px;"></div>
-            <button onclick="startScanner()" class="btn btn-silver mt-2">Start Scan</button>
-
-            <div class="col-md-3">
-                <div class="card-pro stat">Revenue ₹ <h3 id="p">0</h3>
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="card-pro stat">
+                    <h6>Total Bookings</h6>
+                    <h2 id="b">0</h2>
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="card-pro stat">Approved <h3 id="a">0</h3>
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="card-pro stat">
+                    <h6>Revenue</h6>
+                    <h2>₹<span id="p">0</span></h2>
                 </div>
             </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="card-pro stat">
+                    <h6>Approved</h6>
+                    <h2 id="a">0</h2>
+                </div>
+            </div>
+
         </div>
+
+        <br>
+
+        <div class="card-pro">
+
+            <h5>🎟 QR Ticket Scanner</h5>
+
+            <div id="reader" style="max-width:350px;"></div>
+
+            <button onclick="startScanner()" class="btn btn-silver mt-3">
+                Start Scanner
+            </button>
+
+        </div>
+
+        <div id="live"></div>
 
         <!-- LIVE CONTROL -->
         <div class="card-pro">
@@ -561,12 +774,23 @@
             <button onclick="updateLive()" class="btn btn-silver">Update Stream</button>
         </div>
 
+        <div id="competition"></div>
+        <div id="videos" class="card-pro">
+
+            <h4>🎬 Video Approval</h4>
+
+            <div id="videoList"></div>
+
+        </div>
+
         <!-- TOPIC -->
         <div class="card-pro">
             <h4>🏆 Competition Topic</h4>
             <input id="topic" class="form-control mb-2" placeholder="Enter Topic">
             <button onclick="updateTopic()" class="btn btn-silver">Save Topic</button>
         </div>
+
+        <div id="news"></div>
 
         <!-- NEWS -->
         <div class="card-pro">
@@ -581,7 +805,7 @@
             <input type="datetime-local" id="time" class="form-control mb-2">
             <button onclick="setTime()" class="btn btn-silver">Set Time</button>
         </div>
-
+        <div id="scheduler"></div>
         <!-- SCHEDULER -->
         <div class="card-pro">
             <h4>📅 Competition Scheduler</h4>
@@ -595,11 +819,20 @@
 
             <div id="eventList"></div>
         </div>
+        <div id="users"></div>
 
         <!-- USERS -->
         <div class="card-pro">
             <h4>👥 Users Control</h4>
             <div id="list"></div>
+        </div>
+
+        <div id="admins" class="card-pro">
+
+            <h4>👑 Admin Management</h4>
+
+            <div id="adminList"></div>
+
         </div>
 
         <!-- LEADERBOARD -->
@@ -608,18 +841,30 @@
             <div id="leaderboard"></div>
         </div>
 
+        <div id="winners" class="card-pro">
+
+            <h4>🏆 Winners</h4>
+
+            <div id="winnerList"></div>
+
+        </div>
+
+        <div id="certificate"></div>
+
         <button onclick="generateCertificate()" class="btn btn-silver mt-2">
             🧾 Generate Certificate
         </button>
 
         <!-- PAYMENTS -->
         <div class="card-pro">
+            <div id="payments"></div>
             <h4>💳 Payments</h4>
             <div id="paymentList"></div>
         </div>
 
         <canvas id="bar"></canvas>
         <div class="card-pro">
+            <div id="tickets"></div>
             <h4>🎟️ Ticket Scanner</h4>
 
             <input id="scanInput" class="form-control mb-2" placeholder="Scan QR / Enter Ticket ID">
@@ -629,6 +874,81 @@
             <p id="scanResult"></p>
         </div>
 
+
+    </div>
+    <div id="emails" class="card-pro">
+
+        <h4>📩 Email Center</h4>
+
+        <textarea id="emailMessage" class="form-control" rows="4"></textarea>
+
+        <button class="btn btn-warning mt-2">
+            Send Email
+        </button>
+
+    </div>
+    <div id="sms" class="card-pro">
+
+        <h4>📱 SMS Center</h4>
+
+        <textarea id="smsMessage" class="form-control"></textarea>
+
+        <button class="btn btn-warning mt-2">
+            Send SMS
+        </button>
+
+    </div>
+    <div id="notification" class="card-pro">
+
+        <h4>📢 Push Notification</h4>
+
+        <input class="form-control" placeholder="Notification">
+
+        <button class="btn btn-warning mt-2">
+            Send
+        </button>
+
+    </div>
+    <div id="reports" class="card-pro">
+
+        <h4>📊 Reports</h4>
+
+        <button class="btn btn-success">
+            Download PDF
+        </button>
+
+    </div>
+    <div id="settings" class="card-pro">
+
+        <h4>⚙ Website Settings</h4>
+
+        <input class="form-control mb-2" placeholder="Website Name">
+
+        <input class="form-control" placeholder="Support Email">
+
+    </div>
+    <div id="logs" class="card-pro">
+
+        <h4>🛡 Security Logs</h4>
+
+        <div id="securityLogs">
+
+            No Logs
+
+        </div>
+
+    </div>
+    <div id="backup" class="card-pro">
+
+        <h4>🗄 Backup</h4>
+
+        <button class="btn btn-primary">
+            Create Backup
+        </button>
+
+        <button class="btn btn-success">
+            Restore Backup
+        </button>
 
     </div>
 

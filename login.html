@@ -474,7 +474,7 @@ color:white;">
 
 
 
-            <div id="recaptcha-container"></div>
+
 
 
             <button id="registerBtn" onclick="registerUser()" disabled>
@@ -587,8 +587,6 @@ color:white;">
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import {
             getAuth,
-            RecaptchaVerifier,
-            signInWithPhoneNumber,
             createUserWithEmailAndPassword,
             signInWithEmailAndPassword,
             sendPasswordResetEmail
@@ -634,24 +632,19 @@ color:white;">
 
         }
 
-        function toggleLoginPassword() {
+        window.toggleLoginPassword = function () {
 
             const pass = document.getElementById("loginPassword");
             const eye = document.getElementById("loginEye");
 
             if (pass.type === "password") {
-
                 pass.type = "text";
                 eye.innerHTML = "🙈";
-
             } else {
-
                 pass.type = "password";
                 eye.innerHTML = "👁️";
-
             }
-
-        }
+        };
         window.showLogin = function () {
 
             document.getElementById("registerForm").style.display = "none";
@@ -728,14 +721,7 @@ color:white;">
             }, 1000);
         }
 
-        window.recaptchaVerifier = new RecaptchaVerifier(
-            auth,
-            "recaptcha-container",
-            {
-                size: "invisible"
-            },
-            auth
-        );
+
 
         const setupOTPBoxes = () => {
 
@@ -950,64 +936,46 @@ color:white;">
         // 📱 SEND PHONE OTP
         window.sendPhoneOTP = async function () {
 
-            let mobile = document.getElementById("mobile").value.trim();
+            const mobile = document.getElementById("mobile").value.trim();
 
-
-            // ✅ Indian mobile validation
             if (!/^[6-9]\d{9}$/.test(mobile)) {
-
-                Swal.fire(
-                    "Invalid Mobile",
-                    "Enter valid Indian mobile number",
-                    "warning"
-                );
-
+                Swal.fire("Invalid Mobile", "Enter valid Indian mobile number", "warning");
                 return;
             }
 
-
-            const phoneNumber = "+91" + mobile;
-
             try {
 
-                const confirmationResult =
-                    await signInWithPhoneNumber(
-                        auth,
-                        phoneNumber,
-                        window.recaptchaVerifier
-                    );
+                const response = await fetch("https://tribal-rhythm-backend.onrender.com/send-phone-otp", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ mobile })
+                });
 
-                window.confirmationResult =
-                    confirmationResult;
+                const data = await response.json();
 
-                document.getElementById(
-                    "phoneOtpBox"
-                ).style.display = "flex";
+                if (data.success) {
 
-                document.getElementById(
-                    "phoneVerifyBtn"
-                ).style.display = "block";
+                    document.getElementById("phoneOtpBox").style.display = "flex";
+                    document.getElementById("phoneVerifyBtn").style.display = "block";
 
+                    startPhoneTimer();
 
-                Swal.fire(
-                    "Success",
-                    "OTP Sent To Mobile",
-                    "success"
-                );
+                    Swal.fire("Success", "Phone OTP Sent", "success");
 
-                startPhoneTimer();
+                } else {
 
-            } catch (error) {
+                    Swal.fire("Error", data.message, "error");
 
-                console.log(error);
+                }
 
-                Swal.fire(
-                    "Error",
-                    error.message,
-                    "error"
-                );
+            } catch (err) {
+
+                Swal.fire("Error", err.message, "error");
 
             }
+
         };
 
 
@@ -1026,35 +994,50 @@ color:white;">
                 return;
             }
 
+            const mobile = document.getElementById("mobile").value.trim();
+
             try {
-                await window.confirmationResult.confirm(otp);
 
-                phoneVerified = true;
-                document.getElementById("phoneVerifyBtn").disabled = true;
-                // checkFinalSuccess();
-
-                Swal.fire({
-                    title: "Success",
-                    text: "Phone Verified Successfully",
-                    icon: "success"
+                const response = await fetch("https://tribal-rhythm-backend.onrender.com/verify-phone-otp", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        mobile,
+                        otp
+                    })
                 });
-                phoneVerified = true;
 
-                if (emailVerified && phoneVerified) {
-                    document.getElementById("registerBtn").disabled = false;
+                const data = await response.json();
 
-                    Swal.fire(
-                        "Verified",
-                        "Email and Phone verified. Now click Register.",
-                        "success"
-                    );
+                if (!data.success) {
+                    Swal.fire("Error", data.message, "error");
+                    return;
                 }
 
-                // checkFinalSuccess();
+                phoneVerified = true;
 
-            } catch (error) {
-                Swal.fire("Error", "Invalid OTP", "error");
+                document.getElementById("phoneVerifyBtn").disabled = true;
+
+                if (emailVerified && phoneVerified) {
+
+                    document.getElementById("registerBtn").disabled = false;
+
+                }
+
+                Swal.fire(
+                    "Verified",
+                    "Phone Verified Successfully",
+                    "success"
+                );
+
+            } catch (err) {
+
+                Swal.fire("Error", err.message, "error");
+
             }
+
         };
 
         function checkFinalSuccess() {
