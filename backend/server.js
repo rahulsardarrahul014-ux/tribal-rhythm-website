@@ -87,13 +87,12 @@ console.log("SECRET :", process.env.RAZORPAY_KEY_SECRET ? "Loaded" : "Missing");
 // ================= EMAIL =================
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: "smtp-relay.brevo.com",
     port: 587,
     secure: false,
-    requireTLS: true,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_PASS
     }
 });
 
@@ -128,6 +127,12 @@ app.post("/send-otp", async (req, res) => {
     console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "Loaded" : "Missing");
     try {
         const { name, email, mobile } = req.body;
+        if (!/^[6-9]\d{9}$/.test(mobile)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid Mobile Number"
+            });
+        }
 
         if (!email || !isValidEmail(email)) {
             return res.status(400).json({ success: false, message: "Invalid email" });
@@ -142,7 +147,7 @@ app.post("/send-otp", async (req, res) => {
 
             const user = userSnap.data();
 
-            if (user.paymentStatus === "success") {
+            if (user.paymentStatus === "paid") {
                 return res.json({
                     success: false,
                     message: "Ticket already purchased"
@@ -308,21 +313,14 @@ app.post("/verify-otp", async (req, res) => {
         const ticketId = "TR-" + crypto.randomBytes(4).toString("hex").toUpperCase();
 
         await db.collection("users").doc(email).set({
-
             email,
             name,
             mobile,
-
+            ticketId,
             verified: true,
-
-
-
             paymentStatus: "pending",
-
             status: "pending",
-
             createdAt: new Date()
-
         });
 
         res.json({ success: true, ticketId });
@@ -402,34 +400,28 @@ app.post("/verify-payment", async (req, res) => {
 
             await db.collection("users").doc(email).update({
                 paymentStatus: "paid",
-                status: "approved"
+                status: "approved",
+                paymentId: razorpay_payment_id,
+                orderId: razorpay_order_id,
+                paymentDate: new Date()
             });
 
             const userDoc = await db.collection("users").doc(email).get();
+            const user = userDoc.data();
 
-const user = userDoc.data();
+            await fetch("https://tribal-rhythm-backend.onrender.com/send-payment-success-sms", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: user.name,
+                    mobile: user.mobile,
+                    ticketId: user.ticketId,
+                    amount: 300
+                })
+            });
 
-
-await fetch(
-    "https://your-render-url.onrender.com/send-payment-success-sms",
-    {
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-
-            name:user.name,
-
-            mobile:user.mobile,
-
-            ticketId:user.ticketId,
-
-            amount: amount/100
-
-        })
-    }
-);
             return res.json({ success: true });
         }
 
@@ -475,7 +467,10 @@ app.post("/razorpay-webhook", async (req, res) => {
 
         await userRef.update({
             paymentStatus: "paid",
-            status: "approved"
+            status: "approved",
+            paymentId: payment.id,
+            amount: payment.amount / 100,
+            paymentDate: new Date()
         });
 
         res.json({ success: true });
