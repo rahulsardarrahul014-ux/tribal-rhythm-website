@@ -273,6 +273,69 @@ app.post("/send-otp", async (req, res) => {
     }
 });
 
+app.post("/send-phone-otp", async (req, res) => {
+    try {
+
+        const { mobile, name } = req.body;
+
+        if (!/^[6-9]\d{9}$/.test(mobile)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid Mobile Number"
+            });
+        }
+
+        const otp = Math.floor(100000 + Math.random() * 900000);
+
+        await axios.post(
+            "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
+            {
+                data: {
+                    sendTo: [{
+                        to: [{
+                            mobiles: "91" + mobile,
+                            variables: {
+                                name: {
+                                    value: name || "User"
+                                },
+                                otp: {
+                                    value: otp
+                                }
+                            }
+                        }]
+                    }]
+                }
+            },
+            {
+                headers: {
+                    authkey: process.env.MSG91_AUTH_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        await db.collection("phoneOtp").doc(mobile).set({
+            otp,
+            time: Date.now()
+        });
+
+        res.json({
+            success: true,
+            message: "Phone OTP Sent"
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+
+    }
+});
+
 // ================= VERIFY OTP =================
 app.post("/verify-otp", async (req, res) => {
     try {
@@ -329,6 +392,68 @@ app.post("/verify-otp", async (req, res) => {
         console.log(err);
         res.status(500).json({ success: false });
     }
+});
+
+app.post("/verify-phone-otp", async (req, res) => {
+
+    try {
+
+        const { mobile, otp } = req.body;
+
+        if (!mobile || !otp) {
+            return res.json({
+                success: false,
+                message: "Invalid Request"
+            });
+        }
+
+        const doc = await db.collection("phoneOtp").doc(mobile).get();
+
+        if (!doc.exists) {
+            return res.json({
+                success: false,
+                message: "OTP Expired"
+            });
+        }
+
+        const data = doc.data();
+
+        if (Date.now() - data.time > 5 * 60 * 1000) {
+
+            return res.json({
+                success: false,
+                message: "OTP Expired"
+            });
+
+        }
+
+        if (String(data.otp) !== String(otp)) {
+
+            return res.json({
+                success: false,
+                message: "Wrong OTP"
+            });
+
+        }
+
+        await db.collection("phoneOtp").doc(mobile).delete();
+
+        res.json({
+            success: true,
+            message: "Phone Verified"
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+
+    }
+
 });
 
 // ================= CREATE ORDER (FIXED FOR FRONTEND =================

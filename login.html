@@ -950,7 +950,10 @@ color:white;">
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ mobile })
+                    body: JSON.stringify({
+                        mobile,
+                        name: document.getElementById("name").value.trim()
+                    })
                 });
 
                 const data = await response.json();
