@@ -885,6 +885,10 @@
             const mobile = document.getElementById("ticketPhone").value.trim();
             const email = document.getElementById("ticketEmail").value.trim();
 
+            // ================= GENERATE OTP =================
+
+
+
             if (name.length < 3) {
                 Swal.fire("Tribal Rhythm", "Please enter your full name", "warning");
                 return;
@@ -908,33 +912,36 @@
 
 
                 // Generate OTP
-                const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-
-
-                await emailjs.send(
-                    "service_ynim8tv",
-                    "template_87yxux8",
+                const response = await fetch(
+                    "https://tribal-rhythm-backend.onrender.com/send-otp",
                     {
-                        name: name,
-                        email: email,
-                        otp: otp
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            name,
+                            email,
+                            mobile
+                        })
                     }
                 );
 
+                const result = await response.json();
+
+                if (!result.success) {
+                    throw new Error("OTP send failed");
+                }
+
+                // ================= SEND OTP SMS MSG91 =================
+
+
+
+                console.log("MSG91 SMS OTP Sent ✅");
+
                 // Email successful hone ke baad hi OTP save karein
 
-                localStorage.setItem("emailOTP", otp);
 
-                localStorage.setItem(
-                    "otpExpiry",
-                    Date.now() + (5 * 60 * 1000)
-                );
-
-                localStorage.setItem(
-                    "otpEmail",
-                    email
-                );
                 // Initial OTP successful send ke baad
                 lastResendTime = Date.now();
 
@@ -1152,19 +1159,6 @@
 
             // Generate new OTP
 
-            const newOTP =
-                Math.floor(
-                    100000 +
-                    Math.random() * 900000
-                ).toString();
-
-
-            // Save new OTP
-
-            localStorage.setItem(
-                "emailOTP",
-                newOTP
-            );
 
 
             // New expiry
@@ -1185,23 +1179,19 @@
                         .trim();
 
 
-                await emailjs.send(
-
-                    "service_ynim8tv",
-
-                    "template_87yxux8",
-
+                await fetch(
+                    "https://tribal-rhythm-backend.onrender.com/send-otp",
                     {
-
-                        name: name,
-
-                        email: email,
-
-                        otp: newOTP
-
-                    }
-
-                );
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            name,
+                            email,
+                            mobile
+                        })
+                    });
 
                 // ================= UPDATE SECURITY =================
 
@@ -1251,100 +1241,112 @@
 
 
         // ================= VERIFY OTP =================
-        window.verifyOTP = function () {
+        window.verifyOTP = async function () {
 
-            const email = document
-                .getElementById("ticketEmail")
-                .value
-                .trim()
-                .toLowerCase();
-            const otp = document.getElementById("ticketOTP").value.trim();
+            const email =
+                document.getElementById("ticketEmail")
+                    .value.trim()
+                    .toLowerCase();
+
+            const otp =
+                document.getElementById("ticketOTP")
+                    .value.trim();
+
 
             if (otp.length !== 6) {
+
                 Swal.fire(
                     "Tribal Rhythm",
-                    "Enter valid 6 digit OTP",
+                    "Enter 6 digit OTP",
                     "warning"
                 );
                 return;
             }
 
-            const savedOTP = localStorage.getItem("emailOTP");
 
-            // ================= CHECK OTP EXPIRY =================
+            try {
 
-            const otpExpiry =
-                localStorage.getItem("otpExpiry");
+                const res = await fetch(
+                    "https://tribal-rhythm-backend.onrender.com/verify-otp",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
 
-
-            if (
-                !otpExpiry ||
-                Date.now() > Number(otpExpiry)
-            ) {
-
-                Swal.fire(
-
-                    "OTP Expired",
-
-                    "Your OTP has expired. Please request a new OTP.",
-
-                    "warning"
-
-                );
-
-                return;
-
-            }
-
-            if (otp === savedOTP) {
-
-                localStorage.setItem("ticketVerified", "true");
-                localStorage.setItem("ticketEmail", email);
-
-                // ================= DEBUG =================
-                console.log(
-                    "VERIFIED SUCCESS:",
-                    localStorage.getItem("ticketVerified")
-                );
-
-                console.log(
-                    "VERIFIED EMAIL:",
-                    localStorage.getItem("ticketEmail")
+                        body: JSON.stringify({
+                            email,
+                            otp
+                        })
+                    }
                 );
 
 
-                // OTP remove after successful verification
-                localStorage.removeItem("emailOTP");
+                const data = await res.json();
 
-                // STOP TIMER
+
+                if (!data.success) {
+
+                    Swal.fire(
+                        "Invalid OTP",
+                        "Please enter correct OTP",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                localStorage.setItem(
+                    "ticketVerified",
+                    "true"
+                );
+
+
+                localStorage.setItem(
+                    "ticketEmail",
+                    email
+                );
+
+
                 clearInterval(otpTimerInterval);
 
-                // HIDE OTP INPUT
-                document.getElementById("ticketOTP").style.display = "none";
 
-                // HIDE VERIFY BUTTON
-                document.getElementById("verifyOtpBtn").style.display = "none";
+                document.getElementById("ticketOTP")
+                    .style.display = "none";
 
-                // HIDE TIMER
-                document.getElementById("otpTimer").style.display = "none";
 
-                // HIDE RESEND LINK
-                document.getElementById("resendOtpLink").style.display = "none";
+                document.getElementById("verifyOtpBtn")
+                    .style.display = "none";
 
-                // SHOW VERIFIED MESSAGE
-                document.getElementById("otpVerifiedMessage").style.display = "block";
+
+                document.getElementById("otpTimer")
+                    .style.display = "none";
+
+
+                document.getElementById("resendOtpLink")
+                    .style.display = "none";
+
+
+                document.getElementById("otpVerifiedMessage")
+                    .style.display = "block";
+
 
                 Swal.fire(
-                    "OTP Verified",
-                    "Email verification completed successfully.",
+                    "Success",
+                    "OTP Verified Successfully",
                     "success"
                 );
 
-            } else {
+
+            }
+            catch (err) {
+
+                console.log(err);
 
                 Swal.fire(
-                    "Tribal Rhythm",
-                    "Invalid OTP",
+                    "Error",
+                    "OTP verification failed",
                     "error"
                 );
 
@@ -2072,6 +2074,49 @@
                             } else {
 
                                 console.log("Success email sent successfully");
+
+                            }
+
+                            // ================= SEND SUCCESS SMS MSG91 =================
+
+                            try {
+
+                                const smsResponse = await fetch(
+                                    `${API_URL}/send-payment-success-sms`,
+                                    {
+                                        method: "POST",
+
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        },
+
+                                        body: JSON.stringify({
+
+                                            name: name,
+                                            mobile: phone,
+                                            ticketId: ticketId,
+                                            amount: amount
+
+                                        })
+                                    }
+                                );
+
+
+                                const smsResult = await smsResponse.json();
+
+                                console.log(
+                                    "MSG91 SMS RESPONSE:",
+                                    smsResult
+                                );
+
+
+                            }
+                            catch (error) {
+
+                                console.log(
+                                    "SMS ERROR:",
+                                    error
+                                );
 
                             }
 

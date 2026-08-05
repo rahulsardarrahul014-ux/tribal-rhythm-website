@@ -280,166 +280,260 @@
 
 <body>
 
-    
+
 
     <div class="card-box">
 
         <img src="tribalweblogo.png" class="logo">
-        <h4>Welcome to TribalRhythm</h4>
 
-        <input id="name" placeholder="Full Name">
-        <input id="age" placeholder="Age">
-        <input id="dob" type="date">
-        <input id="mobile" placeholder="Mobile Number">
+        <h4 id="formTitle">Create TribalRhythm Account</h4>
 
-        <button class="otp-btn mt-2" onclick="sendPhoneOTP()">
-            📱 Send Phone OTP
-        </button>
 
-        <div id="phoneOtpBox" class="otp-container" style="display:none;">
-            <input maxlength="1" class="phone-otp">
-            <input maxlength="1" class="phone-otp">
-            <input maxlength="1" class="phone-otp">
-            <input maxlength="1" class="phone-otp">
-            <input maxlength="1" class="phone-otp">
-            <input maxlength="1" class="phone-otp">
+        <!-- ================= REGISTER FORM ================= -->
+
+        <div id="registerForm">
+
+
+            <input id="name" placeholder="Full Name">
+            <input id="age" placeholder="Age">
+            <input id="dob" type="date">
+            <input id="mobile" type="tel" maxlength="10" placeholder="Mobile Number">
+
+
+            <button class="otp-btn mt-2" onclick="sendPhoneOTP()">
+                📱 Send Phone OTP
+            </button>
+
+
+            <div id="phoneOtpBox" class="otp-container" style="display:none;">
+                <input maxlength="1" class="phone-otp">
+                <input maxlength="1" class="phone-otp">
+                <input maxlength="1" class="phone-otp">
+                <input maxlength="1" class="phone-otp">
+                <input maxlength="1" class="phone-otp">
+                <input maxlength="1" class="phone-otp">
+            </div>
+
+
+            <div style="margin-top:10px;">
+                <span id="phoneTimerText" style="color:red;">(60)</span>
+
+                <a href="javascript:void(0)" id="phoneResendBtn" onclick="sendPhoneOTP()" style="color:gold;">
+                    Resend Phone OTP
+                </a>
+            </div>
+
+
+            <button id="phoneVerifyBtn" class="verify-btn" onclick="verifyPhoneOTP()" style="display:none;">
+                ✔ Verify Phone OTP
+            </button>
+
+
+
+            <input id="email" type="email" placeholder="Email">
+
+
+            <div style="position:relative;">
+
+                <input type="password" id="password" placeholder="Create Password">
+
+                <button type="button" onclick="togglePassword()" style="
+position:absolute;
+right:5px;
+top:10px;
+width:auto;
+padding:8px;
+background:none;
+box-shadow:none;
+color:white;">
+                    👁
+                </button>
+
+            </div>
+
+            <div style="position:relative;">
+
+                <input type="password" id="confirmPassword" placeholder="Confirm Password">
+
+                <button type="button" onclick="toggleConfirmPassword()" style="
+    position:absolute;
+    right:5px;
+    top:10px;
+    width:auto;
+    padding:8px;
+    background:none;
+    box-shadow:none;
+    color:white;">
+                    👁
+                </button>
+
+            </div>
+
+
+
+            <button class="otp-btn" onclick="sendOTP()">
+                📧 Send Email OTP
+            </button>
+
+
+
+            <div id="emailOtpBox" class="otp-container" style="display:none;">
+
+                <input maxlength="1" class="email-otp">
+                <input maxlength="1" class="email-otp">
+                <input maxlength="1" class="email-otp">
+                <input maxlength="1" class="email-otp">
+                <input maxlength="1" class="email-otp">
+                <input maxlength="1" class="email-otp">
+
+            </div>
+
+
+            <button id="emailVerifyBtn" class="verify-btn" onclick="verifyOTP()" style="display:none;">
+                ✅ Verify Email OTP
+            </button>
+
+
+
+            <input id="whatsapp" type="tel" maxlength="10" placeholder="Whatsapp Number">
+
+
+
+            <label>Enter Pincode</label>
+
+            <div class="otp-container">
+
+                <input maxlength="1" class="pincode">
+                <input maxlength="1" class="pincode">
+                <input maxlength="1" class="pincode">
+                <input maxlength="1" class="pincode">
+                <input maxlength="1" class="pincode">
+                <input maxlength="1" class="pincode">
+
+            </div>
+
+
+
+            <select id="state">
+
+                <option value="">
+                    Select State
+                </option>
+
+                <option>Odisha</option>
+                <option>Jharkhand</option>
+                <option>Bihar</option>
+
+            </select>
+
+
+
+            <select id="language">
+
+                <option value="">
+                    Select Language
+                </option>
+
+                <option>Bhumij</option>
+                <option>Santali</option>
+
+            </select>
+
+
+
+            <div class="form-check mt-2 text-start">
+
+                <input class="form-check-input" type="checkbox" id="rulesCheck">
+
+
+                <label class="form-check-label">
+
+                    I agree to
+
+                    <a href="rules.html" style="color:yellow;">
+                        Rules & Regulations
+                    </a>
+
+                </label>
+
+            </div>
+
+
+
+            <div id="recaptcha-container"></div>
+
+
+            <button onclick="registerUser()">
+                Register New User
+            </button>
+            <button id="editBtn" style="display:none" onclick="enableEdit()">
+                ✏️ Edit Details
+            </button>
+
+
+
+            <!-- SWITCH TO LOGIN -->
+
+            <p style="margin-top:15px;">
+
+                Already have account?
+
+                <a href="javascript:void(0)" onclick="showLogin()" style="color:yellow;">
+                    Login Here
+                </a>
+
+            </p>
+
+
         </div>
-        <div style="margin-top:10px;">
-            <span id="phoneTimerText" style="color:red;">(60)</span>
-            <a href="javascript:void(0)" id="phoneResendBtn" onclick="sendPhoneOTP()" style="color:gold;">
-                Resend Phone OTP
-            </a>
+
+
+
+
+        <!-- ================= LOGIN FORM ================= -->
+
+
+        <div id="loginForm" style="display:none;">
+
+
+            <input id="loginEmail" placeholder="Email">
+
+
+            <input type="password" id="loginPassword" placeholder="Password">
+
+
+
+            <div style="text-align:right;margin-top:8px;">
+
+                <a href="javascript:void(0)" onclick="forgotPassword()" style="color:gold;">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+
+
+            <button onclick="loginUser()">
+
+                🔐 Sign In
+
+            </button>
+
+
+
+            <p style="margin-top:15px;">
+
+                New User?
+
+                <a href="javascript:void(0)" onclick="showRegister()" style="color:yellow;">
+                    Create Account
+                </a>
+
+            </p>
+
+
+
         </div>
-
-        <button id="phoneVerifyBtn" class="verify-btn" onclick="verifyPhoneOTP()" style="display:none;">
-            ✔ Verify Phone OTP </button>
-
-        <input id="email" placeholder="Email">
-
-        <input type="password" id="password" placeholder="Create Password" minlength="8">
-
-        <small style="color:white;">
-            Password must contain:
-            1 Capital Letter,
-            1 Small Letter,
-            1 Number,
-            1 Special Character,
-            Minimum 8 Characters
-        </small>
-
-        <input type="password" id="confirmPassword" placeholder="Confirm Password">
-
-        <div style="text-align:right;margin-top:8px;">
-            <a href="javascript:void(0)" onclick="forgotPassword()"
-                style="color:gold;text-decoration:none;font-size:14px;">
-                Forgot Password?
-            </a>
-        </div>
-
-        <button class="otp-btn mt-2" onclick="sendOTP()">
-            📧 Send Email OTP
-        </button>
-        <div style="margin-top:10px;">
-            <span id="emailTimerText" style="color:red;">(60)</span>
-            <a href="javascript:void(0)" id="emailResendBtn" onclick="sendOTP()" style="color:gold;">
-                Resend Email OTP
-            </a>
-        </div>
-
-        <div id="emailOtpBox" class="otp-container" style="display:none;">
-            <input maxlength="1" class="email-otp">
-            <input maxlength="1" class="email-otp">
-            <input maxlength="1" class="email-otp">
-            <input maxlength="1" class="email-otp">
-            <input maxlength="1" class="email-otp">
-            <input maxlength="1" class="email-otp">
-        </div>
-
-        <button id="emailVerifyBtn" class="verify-btn" onclick="verifyOTP()" style="display:none;">
-            ✅ Verify Email OTP </button>
-
-        <button id="editBtn" style="display:none;" onclick="enableEdit()">
-            ✏️ Edit Details
-        </button>
-
-        <input id="whatsapp" placeholder="Whatsapp Number">
-
-
-        <label>Enter Pincode</label>
-        <div class="otp-container">
-            <input maxlength="1" class="pincode">
-            <input maxlength="1" class="pincode">
-            <input maxlength="1" class="pincode">
-            <input maxlength="1" class="pincode">
-            <input maxlength="1" class="pincode">
-            <input maxlength="1" class="pincode">
-        </div>
-
-
-        <!-- STATE -->
-        <select id="state">
-            <option value="">Select State</option>
-            <option>Andhra Pradesh</option>
-            <option>Arunachal Pradesh</option>
-            <option>Assam</option>
-            <option>Bihar</option>
-            <option>Chhattisgarh</option>
-            <option>Goa</option>
-            <option>Gujarat</option>
-            <option>Haryana</option>
-            <option>Himachal Pradesh</option>
-            <option>Jharkhand</option>
-            <option>Karnataka</option>
-            <option>Kerala</option>
-            <option>Madhya Pradesh</option>
-            <option>Maharashtra</option>
-            <option>Manipur</option>
-            <option>Meghalaya</option>
-            <option>Mizoram</option>
-            <option>Nagaland</option>
-            <option>Odisha</option>
-            <option>Punjab</option>
-            <option>Rajasthan</option>
-            <option>Sikkim</option>
-            <option>Tamil Nadu</option>
-            <option>Telangana</option>
-            <option>Tripura</option>
-            <option>Uttar Pradesh</option>
-            <option>Uttarakhand</option>
-            <option>West Bengal</option>
-            <option>Delhi</option>
-            <option>Puducherry</option>
-            <option>Chandigarh</option>
-            <option>Andaman & Nicobar</option>
-            <option>Ladakh</option>
-            <option>Lakshadweep</option>
-        </select>
-
-        <!-- LANGUAGE -->
-        <select id="language">
-            <option value="">Select Language</option>
-            <option>Bhumij</option>
-            <option>Santali</option>
-        </select>
-
-        <!-- RULES -->
-        <div class="form-check mt-2 text-start">
-            <input class="form-check-input" type="checkbox" id="rulesCheck">
-            <label class="form-check-label">
-                I agree to
-                <a href="rules.html" target="_blank" style="color:yellow;">Rules & Regulations</a>
-            </label>
-        </div>
-
-        <div id="recaptcha-container"></div>
-        <button onclick="registerUser()">
-            Register New User
-        </button>
-        <button onclick="loginUser()">
-            Sign In
-        </button>
-
-
 
 
     </div>
@@ -480,6 +574,53 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
+
+        window.togglePassword = function () {
+
+            let pass = document.getElementById("password");
+
+            if (pass.type === "password") {
+                pass.type = "text";
+            }
+            else {
+                pass.type = "password";
+            }
+
+        }
+
+        window.toggleConfirmPassword = function () {
+
+            let pass = document.getElementById("confirmPassword");
+
+            if (pass.type === "password") {
+                pass.type = "text";
+            }
+            else {
+                pass.type = "password";
+            }
+
+        }
+        window.showLogin = function () {
+
+            document.getElementById("registerForm").style.display = "none";
+
+            document.getElementById("loginForm").style.display = "block";
+
+            document.getElementById("formTitle").innerHTML = "Welcome Back";
+
+        }
+
+
+
+        window.showRegister = function () {
+
+            document.getElementById("registerForm").style.display = "block";
+
+            document.getElementById("loginForm").style.display = "none";
+
+            document.getElementById("formTitle").innerHTML = "Create TribalRhythm Account";
+
+        }
 
 
         // 🔥 CHECK EXISTING USER (by email or mobile)
@@ -539,8 +680,9 @@
             auth,
             "recaptcha-container",
             {
-                size: "normal"
-            }
+                size: "invisible"
+            },
+            auth
         );
 
         const setupOTPBoxes = () => {
@@ -755,11 +897,9 @@
                 checkFinalSuccess();
 
                 Swal.fire({
-                    title: "Welcome to Tribal Rhythm 🎉",
-                    text: "Registration Successful",
+                    title: "Email Verified",
+                    text: "Now verify phone OTP",
                     icon: "success"
-                }).then(() => {
-                    window.location.href = "index.html";
                 });
 
             } catch (error) {
@@ -777,19 +917,21 @@
         // 📱 SEND PHONE OTP
         window.sendPhoneOTP = async function () {
 
-            let mobile =
-                document.getElementById("mobile").value;
+            let mobile = document.getElementById("mobile").value.trim();
 
-            if (mobile.length !== 10) {
+
+            // ✅ Indian mobile validation
+            if (!/^[6-9]\d{9}$/.test(mobile)) {
 
                 Swal.fire(
-                    "Tribal Rhythm",
-                    "Enter valid mobile number",
+                    "Invalid Mobile",
+                    "Enter valid Indian mobile number",
                     "warning"
                 );
 
                 return;
             }
+
 
             const phoneNumber = "+91" + mobile;
 
@@ -895,6 +1037,17 @@
 
         window.registerUser = async function () {
 
+            if (!emailVerified || !phoneVerified) {
+
+                Swal.fire(
+                    "Verification Required",
+                    "Please verify Email and Phone OTP first",
+                    "warning"
+                );
+
+                return;
+            }
+
             let email =
                 document.getElementById("email").value;
 
@@ -954,10 +1107,10 @@
         window.loginUser = async function () {
 
             let email =
-                document.getElementById("email").value;
+                document.getElementById("loginEmail").value;
 
             let password =
-                document.getElementById("password").value;
+                document.getElementById("loginPassword").value;
 
             try {
 
@@ -983,26 +1136,20 @@
 
         window.forgotPassword = async function () {
 
-            let email =
-                document.getElementById("email").value;
+            let email = document.getElementById("loginEmail").value.trim();
 
             if (!email) {
-
                 Swal.fire(
                     "Error",
                     "Enter Email First",
                     "warning"
                 );
-
                 return;
             }
 
             try {
 
-                await sendPasswordResetEmail(
-                    auth,
-                    email
-                );
+                await sendPasswordResetEmail(auth, email);
 
                 Swal.fire(
                     "Success",
@@ -1022,7 +1169,7 @@
         };
 
 
-        
+
 
 
 

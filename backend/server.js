@@ -127,7 +127,7 @@ app.post("/send-otp", async (req, res) => {
     console.log("EMAIL_USER:", process.env.EMAIL_USER);
     console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "Loaded" : "Missing");
     try {
-        const { name, email } = req.body;
+        const { name, email, mobile } = req.body;
 
         if (!email || !isValidEmail(email)) {
             return res.status(400).json({ success: false, message: "Invalid email" });
@@ -151,6 +151,45 @@ app.post("/send-otp", async (req, res) => {
         }
 
         const otp = Math.floor(100000 + Math.random() * 900000);
+
+        await axios.post(
+
+            'https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run',
+
+            {
+                data: {
+                    sendTo: [
+                        {
+                            to: [
+                                {
+                                    mobiles: "91" + mobile,
+
+                                    variables: {
+                                        name: {
+                                            value: name
+                                        },
+
+                                        otp: {
+                                            value: otp
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+
+            {
+                headers: {
+                    authkey: process.env.MSG91_AUTH_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+
+        );
+
+        console.log("MSG91 OTP SMS Sent ✅");
 
         await db.collection("otp").doc(email).set({
             otp,
@@ -234,8 +273,18 @@ app.post("/verify-otp", async (req, res) => {
     try {
         const { email, otp, name, mobile } = req.body;
 
-        if (!email || !otp || !isValidEmail(email)) {
-            return res.status(400).json({ success: false });
+
+        if (
+            !email ||
+            !otp ||
+            !isValidEmail(email) ||
+            !mobile ||
+            !/^[6-9]\d{9}$/.test(mobile)
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid details"
+            });
         }
 
         const doc = await db.collection("otp").doc(email).get();
@@ -355,6 +404,32 @@ app.post("/verify-payment", async (req, res) => {
                 paymentStatus: "paid",
                 status: "approved"
             });
+
+            const userDoc = await db.collection("users").doc(email).get();
+
+const user = userDoc.data();
+
+
+await fetch(
+    "https://your-render-url.onrender.com/send-payment-success-sms",
+    {
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+
+            name:user.name,
+
+            mobile:user.mobile,
+
+            ticketId:user.ticketId,
+
+            amount: amount/100
+
+        })
+    }
+);
             return res.json({ success: true });
         }
 
@@ -516,29 +591,64 @@ app.post("/send-registration-email", async (req, res) => {
 
 });
 
+// ================= PAYMENT SUCCESS SMS =================
 
-// ================= SEND MSG91 SMS =================
-app.post("/send-registration-sms", async (req, res) => {
+app.post("/send-payment-success-sms", async (req, res) => {
 
     try {
 
-        const { name, mobile, ticketId } = req.body;
+        const {
+            name,
+            mobile,
+            ticketId,
+            amount
+        } = req.body;
+
 
         await axios.post(
-            "https://control.msg91.com/api/v5/flow/",
+
+            "https://control.msg91.com/api/v5/oneapi/api/flow/payment-success/run",
+
             {
+                data: {
 
-                flow_id: process.env.MSG91_FLOW_ID,
+                    sendTo: [
 
-                sender: process.env.MSG91_SENDER_ID,
+                        {
+                            to: [
 
-                mobiles: "91" + mobile,
+                                {
 
-                name: name,
+                                    mobiles: "91" + mobile,
 
-                ticketId: ticketId
+                                    variables: {
+
+                                        name: {
+                                            value: name
+                                        },
+
+                                        ticket: {
+                                            value: ticketId
+                                        },
+
+                                        amount: {
+                                            value: amount
+                                        }
+
+                                    }
+
+                                }
+
+                            ]
+
+                        }
+
+                    ]
+
+                }
 
             },
+
             {
 
                 headers: {
@@ -550,13 +660,101 @@ app.post("/send-registration-sms", async (req, res) => {
                 }
 
             }
+
         );
 
-        res.json({ success: true });
+
+        console.log("Payment Success SMS Sent ✅");
+
+
+        res.json({
+
+            success: true
+
+        });
+
+
+    } catch (error) {
+
+        console.log(
+            "PAYMENT SMS ERROR:",
+            error.response?.data || error.message
+        );
+
+
+        res.status(500).json({
+
+            success: false,
+
+            error: error.message
+
+        });
+
+    }
+
+});
+
+
+// ================= SEND MSG91 SMS =================
+app.post("/send-registration-sms", async (req, res) => {
+
+    try {
+
+        const { name, mobile, otp } = req.body;
+
+        await axios.post(
+
+            'https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run',
+
+            {
+                data: {
+                    sendTo: [
+                        {
+                            to: [
+                                {
+                                    mobiles: "91" + mobile,
+
+                                    variables: {
+                                        name: {
+                                            value: name
+                                        },
+
+                                        otp: {
+                                            value: otp
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+
+            {
+                headers: {
+
+                    authkey: process.env.MSG91_AUTH_KEY,
+
+                    "Content-Type": "application/json"
+
+                }
+            }
+
+        );
+
+
+        res.json({
+            success: true
+        });
+
 
     } catch (err) {
 
-        console.log(err.response?.data || err);
+        console.log(
+            "MSG91 ERROR:",
+            err.response?.data || err
+        );
+
 
         res.status(500).json({
             success: false
