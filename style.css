@@ -1205,56 +1205,56 @@ body {
     }
 }
 
-#ticketOTP{
+#ticketOTP {
 
-text-align:center;
+    text-align: center;
 
-letter-spacing:10px;
+    letter-spacing: 10px;
 
-font-size:24px;
+    font-size: 24px;
 
-font-weight:bold;
-
-}
-
-.pass-box{
-
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
-cursor:pointer;
+    font-weight: bold;
 
 }
 
-.pass-box input{
+.pass-box {
 
-transform:scale(1.4);
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
 
 }
 
-.pass-box{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:12px;
-    margin-bottom:12px;
-    border:2px solid #FFD700;
-    border-radius:10px;
-    cursor:pointer;
-    transition:0.3s;
+.pass-box input {
+
+    transform: scale(1.4);
+
 }
 
-.pass-box:hover{
-    background:#FFD700;
-    color:#000;
+.pass-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.pass-box input[type="radio"]{
-    transform:scale(1.4);
-    accent-color:#28a745;
+.pass-box:hover {
+    background: #FFD700;
+    color: #000;
+}
+
+.pass-box input[type="radio"] {
+    transform: scale(1.4);
+    accent-color: #28a745;
 }
 
 #booking .row {
@@ -1266,6 +1266,7 @@ transform:scale(1.4);
 #booking .col-md-4 {
     width: 33.333333%;
 }
+
 @media (max-width: 768px) {
 
     #booking .col-md-4 {
@@ -1273,6 +1274,7 @@ transform:scale(1.4);
     }
 
 }
+
 #booking button {
     width: 100%;
     background: #ffd000;
@@ -1397,4 +1399,20 @@ transform:scale(1.4);
         z-index: 10;
         font-size: 20px;
     }
+}
+
+.dropdown-menu {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+}
+
+.dropdown-item {
+    padding: 10px 18px;
+    font-weight: 500;
+}
+
+.dropdown-item:hover {
+    background: #198754;
+    color: #fff;
 }
