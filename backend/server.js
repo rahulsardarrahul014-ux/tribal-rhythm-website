@@ -123,8 +123,8 @@ const isValidEmail = (email) => {
 app.post("/send-otp", async (req, res) => {
 
     console.log("BODY:", req.body);
-    console.log("EMAIL_USER:", process.env.EMAIL_USER);
-    console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "Loaded" : "Missing");
+    console.log("BREVO_USER:", process.env.BREVO_USER);
+    console.log("BREVO_PASS:", process.env.BREVO_PASS ? "Loaded" : "Missing");
     try {
         const { name, email, mobile } = req.body;
         if (!/^[6-9]\d{9}$/.test(mobile)) {
