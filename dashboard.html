@@ -124,6 +124,43 @@
 
         <h3>👑 Tribal Rhythm Live Dashboard</h3>
 
+        <!-- STATS -->
+        <!-- ================= DASHBOARD STATS ================= -->
+
+        <div class="row g-4">
+
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="card-pro stat">
+                    <h6>Total Users</h6>
+                    <h2 id="u">0</h2>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="card-pro stat">
+                    <h6>Total Bookings</h6>
+                    <h2 id="b">0</h2>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="card-pro stat">
+                    <h6>Revenue</h6>
+                    <h2>₹<span id="p">0</span></h2>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="card-pro stat">
+                    <h6>Approved</h6>
+                    <h2 id="a">0</h2>
+                </div>
+            </div>
+
+        </div>
+
+         <canvas id="bar"></canvas>
+
         <!-- ================= MAIN STATS ================= -->
 
         <div class="row g-3 mt-2">
@@ -329,6 +366,55 @@
 
         /* CHART */
         let chart;
+
+          function loadData() {
+
+            onSnapshot(collection(db, "bookings"), snap => {
+
+                let users = 0, approved = 0, revenue = 0, html = "", pay = "";
+
+                snap.forEach(d => {
+
+                    let data = d.data();
+
+                    users++;
+
+                    if (data.status === "Approved") approved++;
+
+                    let amount = data.amount || 200;
+                    revenue += amount;
+
+                    pay += `<div class="card-pro">₹${amount} - ${data.name}</div>`;
+
+                    html += `
+            <div class="card-pro">
+                <b>${data.name}</b><br>
+                ${data.email}<br>
+                ${data.status || "Pending"}<br>
+                <button onclick="approve('${d.id}')">Approve</button>
+                <button onclick="remove('${d.id}')">Delete</button>
+            </div>`;
+                });
+
+                u.innerText = users;
+                b.innerText = users;
+                a.innerText = approved;
+                p.innerText = revenue;
+
+                list.innerHTML = html;
+                paymentList.innerHTML = pay;
+
+                if (chart) chart.destroy();
+
+                chart = new Chart(bar, {
+                    type: "bar",
+                    data: {
+                        labels: ["Users", "Approved", "Revenue"],
+                        datasets: [{ data: [users, approved, revenue] }]
+                    }
+                });
+            });
+        }
 
         // ================= REFRESH CHART =================
 

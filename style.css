@@ -1416,3 +1416,36 @@ body {
     background: #198754;
     color: #fff;
 }
+
+/* ================= SEND OTP BUTTON ================= */
+
+.send-otp-btn{
+    width:100%;
+    padding:12px 18px;
+    border:none;
+    border-radius:10px;
+    background:#198754;
+    color:#fff;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .3s ease;
+    box-shadow:0 4px 12px rgba(25,135,84,.35);
+}
+
+.send-otp-btn:hover{
+    background:#157347;
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(25,135,84,.45);
+}
+
+.send-otp-btn:active{
+    transform:scale(.98);
+}
+
+.send-otp-btn:disabled{
+    background:#9ca3af;
+    cursor:not-allowed;
+    box-shadow:none;
+    transform:none;
+}

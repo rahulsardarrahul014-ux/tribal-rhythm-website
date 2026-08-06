@@ -396,7 +396,7 @@
                         </small>
 
 
-                        <input type="email" id="ticketEmail" placeholder="Enter Email OTP">
+                        <input type="email" id="ticketEmail" placeholder="Enter Email Address">
 
 
                         <select id="ticketQuantity">
@@ -422,8 +422,8 @@
                         <!-- ================= OTP SECTION ================= -->
                         <div id="otpSection" style="display:none;">
 
-                            <input type="text" id="ticketOTP" maxlength="6" placeholder="Enter 6 Digit OTP"
-                                class="form-control mb-2">
+                            <input type="text" id="ticketOTP" maxlength="6" inputmode="numeric"
+                                autocomplete="one-time-code" placeholder="Enter Email OTP" class="form-control mb-2">
 
                             <button id="verifyOtpBtn" class="btn btn-success w-100" onclick="verifyOTP()">
 
@@ -883,6 +883,10 @@
 
         // ================= SEND OTP =================
         window.sendOTP = async function () {
+
+            const sendBtn = document.querySelector(".send-otp-btn");
+            sendBtn.disabled = true;
+            sendBtn.innerText = "Sending OTP...";
 
             const now = Date.now();
 

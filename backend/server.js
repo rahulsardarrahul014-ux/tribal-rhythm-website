@@ -217,10 +217,10 @@ app.post("/send-otp", async (req, res) => {
         });
 
         console.log("OTP Saved");
-        
+
 
         await transporter.sendMail({
-            from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+            from: `TRIBAL RHYTHM <${process.env.BREVO_USER}>`,
             to: email,
             subject: "🔐 Tribal Rhythm - OTP Verification",
 
@@ -276,7 +276,7 @@ app.post("/send-otp", async (req, res) => {
     </div>
     `
         });
-    
+
 
         res.json({ success: true });
 
@@ -307,7 +307,9 @@ app.post("/send-phone-otp", async (req, res) => {
         console.log("OTP:", otp);
         console.log("MSG91 KEY:", process.env.MSG91_AUTH_KEY ? "Loaded" : "Missing");
 
-        await axios.post(
+       
+
+        const response = await axios.post(
             "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
             {
                 data: {
@@ -333,33 +335,6 @@ app.post("/send-phone-otp", async (req, res) => {
                 }
             }
         );
-
-        // const response = await axios.post(
-        //     "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
-        //     {
-        //         data: {
-        //             sendTo: [{
-        //                 to: [{
-        //                     mobiles: "91" + mobile,
-        //                     variables: {
-        //                         name: {
-        //                             value: name || "User"
-        //                         },
-        //                         otp: {
-        //                             value: otp
-        //                         }
-        //                     }
-        //                 }]
-        //             }]
-        //         }
-        //     },
-        //     {
-        //         headers: {
-        //             authkey: process.env.MSG91_AUTH_KEY,
-        //             "Content-Type": "application/json"
-        //         }
-        //     }
-        // );
 
         console.log("MSG91 RESPONSE:", response.data);
 
@@ -392,27 +367,7 @@ app.post("/verify-otp", async (req, res) => {
         // ================= TEMP TEST OTP =================
         const { email, otp, name, mobile } = req.body;
 
-        if (otp === "112737") {
 
-            const ticketId =
-                "TR-" + crypto.randomBytes(4).toString("hex").toUpperCase();
-
-            await db.collection("users").doc(email).set({
-                email,
-                name,
-                mobile,
-                ticketId,
-                verified: true,
-                paymentStatus: "pending",
-                status: "pending",
-                createdAt: new Date()
-            });
-
-            return res.json({
-                success: true,
-                ticketId
-            });
-        }
         // const { email, otp, name, mobile } = req.body;
 
 
@@ -586,7 +541,13 @@ app.post("/create-order", async (req, res) => {
 // ================= VERIFY PAYMENT =================
 app.post("/verify-payment", async (req, res) => {
     try {
-        const { razorpay_order_id, razorpay_payment_id, razorpay_signature, email } = req.body;
+
+        const {
+            razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature,
+            email
+        } = req.body;
 
         const body = razorpay_order_id + "|" + razorpay_payment_id;
 
@@ -595,39 +556,65 @@ app.post("/verify-payment", async (req, res) => {
             .update(body)
             .digest("hex");
 
-        if (expected === razorpay_signature) {
-
-            await db.collection("users").doc(email).update({
-                paymentStatus: "paid",
-                status: "approved",
-                paymentId: razorpay_payment_id,
-                orderId: razorpay_order_id,
-                paymentDate: new Date()
+        if (expected !== razorpay_signature) {
+            return res.status(400).json({
+                success: false,
+                message: "Payment Verification Failed"
             });
-
-            const userDoc = await db.collection("users").doc(email).get();
-            const user = userDoc.data();
-
-            await fetch("https://tribal-rhythm-backend.onrender.com/send-payment-success-sms", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    name: user.name,
-                    mobile: user.mobile,
-                    ticketId: user.ticketId,
-                    amount: 300
-                })
-            });
-
-            return res.json({ success: true });
         }
 
-        return res.status(400).json({ success: false });
+        await db.collection("users").doc(email).update({
+            paymentStatus: "paid",
+            status: "approved",
+            paymentId: razorpay_payment_id,
+            orderId: razorpay_order_id,
+            paymentDate: new Date()
+        });
+
+        const userDoc = await db.collection("users").doc(email).get();
+        const user = userDoc.data();
+
+        await axios.post(
+            "https://tribal-rhythm-backend.onrender.com/send-payment-success-sms",
+            {
+                name: user.name,
+                mobile: user.mobile,
+                ticketId: user.ticketId,
+                amount: 300
+            }
+        );
+
+        await axios.post(
+            "https://tribal-rhythm-backend.onrender.com/send-registration-email",
+            {
+                name: user.name,
+                email,
+                ticketId: user.ticketId
+            }
+        );
+
+        await axios.post(
+            "https://tribal-rhythm-backend.onrender.com/send-registration-sms",
+            {
+                name: user.name,
+                mobile: user.mobile,
+                ticketId: user.ticketId
+            }
+        );
+
+        return res.json({
+            success: true
+        });
 
     } catch (err) {
-        res.status(500).json({ success: false });
+
+        console.log(err);
+
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
+
     }
 });
 
@@ -726,7 +713,7 @@ app.post("/send-registration-email", async (req, res) => {
 
         await transporter.sendMail({
 
-            from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+            from: `TRIBAL RHYTHM <${process.env.BREVO_USER}>`,
 
             to: email,
 
@@ -894,7 +881,7 @@ app.post("/send-bulk-email", async (req, res) => {
         await transporter.sendMail({
 
             from:
-                `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+                `TRIBAL RHYTHM <${process.env.BREVO_USER}>`,
 
             bcc: users,
 
@@ -1289,189 +1276,189 @@ app.post("/send-registration-sms", async (req, res) => {
 
 });
 
-// ================= ADMIN BULK SMS =================
+// // ================= ADMIN BULK SMS =================
 
-app.post("/send-bulk-sms", async (req, res) => {
+// app.post("/send-bulk-sms", async (req, res) => {
 
-    try {
+//     try {
 
-        const { target, message, mobiles } = req.body;
+//         const { target, message, mobiles } = req.body;
 
-        let phoneList = [];
+//         let phoneList = [];
 
-        // ALL USERS
+//         // ALL USERS
 
-        if (target === "all") {
+//         if (target === "all") {
 
-            const snap = await db.collection("users").get();
+//             const snap = await db.collection("users").get();
 
-            snap.forEach(doc => {
+//             snap.forEach(doc => {
 
-                const user = doc.data();
+//                 const user = doc.data();
 
-                if (user.mobile) {
+//                 if (user.mobile) {
 
-                    phoneList.push(user.mobile);
+//                     phoneList.push(user.mobile);
 
-                }
+//                 }
 
-            });
+//             });
 
-        }
+//         }
 
-        // PAID USERS
+//         // PAID USERS
 
-        else if (target === "paid") {
+//         else if (target === "paid") {
 
-            const snap = await db.collection("users")
-                .where("paymentStatus", "==", "paid")
-                .get();
+//             const snap = await db.collection("users")
+//                 .where("paymentStatus", "==", "paid")
+//                 .get();
 
-            snap.forEach(doc => {
+//             snap.forEach(doc => {
 
-                const user = doc.data();
+//                 const user = doc.data();
 
-                if (user.mobile) {
+//                 if (user.mobile) {
 
-                    phoneList.push(user.mobile);
+//                     phoneList.push(user.mobile);
 
-                }
+//                 }
 
-            });
+//             });
 
-        }
+//         }
 
-        // PARTICIPANTS
+//         // PARTICIPANTS
 
-        else if (target === "participants") {
+//         else if (target === "participants") {
 
-            const snap = await db.collection("participation").get();
+//             const snap = await db.collection("participation").get();
 
-            snap.forEach(doc => {
+//             snap.forEach(doc => {
 
-                const user = doc.data();
+//                 const user = doc.data();
 
-                if (user.mobile) {
+//                 if (user.mobile) {
 
-                    phoneList.push(user.mobile);
+//                     phoneList.push(user.mobile);
 
-                }
+//                 }
 
-            });
+//             });
 
-        }
+//         }
 
-        // SELECTED USERS
+//         // SELECTED USERS
 
-        else if (target === "selected") {
+//         else if (target === "selected") {
 
-            phoneList = mobiles || [];
+//             phoneList = mobiles || [];
 
-        }
+//         }
 
-        // REMOVE DUPLICATES
+//         // REMOVE DUPLICATES
 
-        phoneList = [...new Set(phoneList)];
+//         phoneList = [...new Set(phoneList)];
 
-        if (phoneList.length === 0) {
+//         if (phoneList.length === 0) {
 
-            return res.json({
+//             return res.json({
 
-                success: false,
+//                 success: false,
 
-                message: "No Mobile Numbers Found"
+//                 message: "No Mobile Numbers Found"
 
-            });
+//             });
 
-        }
+//         }
 
-        // SEND SMS
+//         // SEND SMS
 
-        for (const mobile of phoneList) {
+//         for (const mobile of phoneList) {
 
-            await axios.post(
+//             await axios.post(
 
-                "https://control.msg91.com/api/v5/oneapi/api/flow/admin-bulk-message/run",
+//                 "https://control.msg91.com/api/v5/oneapi/api/flow/admin-bulk-message/run",
 
-                {
+//                 {
 
-                    data: {
+//                     data: {
 
-                        sendTo: [
+//                         sendTo: [
 
-                            {
+//                             {
 
-                                to: [
+//                                 to: [
 
-                                    {
+//                                     {
 
-                                        mobiles: "91" + mobile,
+//                                         mobiles: "91" + mobile,
 
-                                        variables: {
+//                                         variables: {
 
-                                            message: {
+//                                             message: {
 
-                                                value: message
+//                                                 value: message
 
-                                            }
+//                                             }
 
-                                        }
+//                                         }
 
-                                    }
+//                                     }
 
-                                ]
+//                                 ]
 
-                            }
+//                             }
 
-                        ]
+//                         ]
 
-                    }
+//                     }
 
-                },
+//                 },
 
-                {
+//                 {
 
-                    headers: {
+//                     headers: {
 
-                        authkey: process.env.MSG91_AUTH_KEY,
+//                         authkey: process.env.MSG91_AUTH_KEY,
 
-                        "Content-Type": "application/json"
+//                         "Content-Type": "application/json"
 
-                    }
+//                     }
 
-                }
+//                 }
 
-            );
+//             );
 
-        }
+//         }
 
-        res.json({
+//         res.json({
 
-            success: true,
+//             success: true,
 
-            total: phoneList.length,
+//             total: phoneList.length,
 
-            message: phoneList.length + " SMS Sent Successfully"
+//             message: phoneList.length + " SMS Sent Successfully"
 
-        });
+//         });
 
-    }
+//     }
 
-    catch (err) {
+//     catch (err) {
 
-        console.log(err.response?.data || err);
+//         console.log(err.response?.data || err);
 
-        res.status(500).json({
+//         res.status(500).json({
 
-            success: false,
+//             success: false,
 
-            message: err.message
+//             message: err.message
 
-        });
+//         });
 
-    }
+//     }
 
-});
+// });
 
 // ================= SEND WINNER SMS =================
 
@@ -1586,7 +1573,7 @@ app.post("/send-certificate-ready", async (req, res) => {
         // Email
         await transporter.sendMail({
 
-            from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+            from: `TRIBAL RHYTHM <${process.env.BREVO_USER}>`,
 
             to: email,
 
