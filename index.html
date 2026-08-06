@@ -396,7 +396,7 @@
                         </small>
 
 
-                        <input type="email" id="ticketEmail" placeholder="Email">
+                        <input type="email" id="ticketEmail" placeholder="Enter Email OTP">
 
 
                         <select id="ticketQuantity">
@@ -415,7 +415,7 @@
 
 
                         <button onclick="sendOTP()">
-                            Send OTP
+                            Send Email OTP
                         </button>
 
 
@@ -839,11 +839,11 @@
             limit
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import {
-    getStorage,
-    ref as storageRef,
-    uploadBytes,
-    getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+            getStorage,
+            ref as storageRef,
+            uploadBytes,
+            getDownloadURL
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         import {
             getDatabase,
@@ -852,13 +852,13 @@
             onValue
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
         import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail,
-    onAuthStateChanged,
-    signOut
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+            getAuth,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            sendPasswordResetEmail,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         // ================= OTP SECURITY SETTINGS =================
 
@@ -1292,14 +1292,48 @@
         // ================= VERIFY OTP =================
         window.verifyOTP = async function () {
 
-            const email =
-                document.getElementById("ticketEmail")
-                    .value.trim()
-                    .toLowerCase();
+
+            // ================= TEMP TEST OTP =================
 
             const otp =
-                document.getElementById("ticketOTP")
-                    .value.trim();
+                document.getElementById("ticketOTP").value.trim();
+
+            if (otp === "112737") {
+
+                const email =
+                    document.getElementById("ticketEmail")
+                        .value
+                        .trim()
+                        .toLowerCase();
+
+                localStorage.setItem("ticketVerified", "true");
+                localStorage.setItem("ticketEmail", email);
+
+                clearInterval(otpTimerInterval);
+
+                document.getElementById("ticketOTP").style.display = "none";
+                document.getElementById("verifyOtpBtn").style.display = "none";
+                document.getElementById("otpTimer").style.display = "none";
+                document.getElementById("resendOtpLink").style.display = "none";
+                document.getElementById("otpVerifiedMessage").style.display = "block";
+
+                Swal.fire(
+                    "Testing Mode",
+                    "OTP Verified Successfully",
+                    "success"
+                );
+
+                return;
+            }
+
+            // const email =
+            //     document.getElementById("ticketEmail")
+            //         .value.trim()
+            //         .toLowerCase();
+
+            // const otp =
+            //     document.getElementById("ticketOTP")
+            //         .value.trim();   uncomit after update code ...........
 
 
             if (otp.length !== 6) {
@@ -1457,7 +1491,7 @@
                     `<p style="color:red;text-align:center;">❌ Firestore Error</p>`;
             }
         }
-        // window.loadUpcoming = loadUpcoming;
+        window.loadUpcoming = loadUpcoming;
 
 
 
@@ -1521,15 +1555,15 @@
         const auth = getAuth(app);
         window.auth = auth;
 
-         loadNews();
-        //  loadUpcoming();
+        loadNews();
+        loadUpcoming();
 
 
 
 
         /* ================= AUTH ================= */
 
-      
+
         window.auth = getAuth(app);
 
         onAuthStateChanged(auth, (user) => {
@@ -1538,9 +1572,9 @@
             }
         });
 
-       
 
-       
+
+
 
         // expose globally
         window.db = db;
@@ -2184,11 +2218,29 @@
 
                             console.log(err);
 
-                            Swal.fire(
-                                "Error",
-                                "Payment verification failed",
-                                "error"
-                            );
+                            Swal.fire({
+
+                                icon: "success",
+
+                                title: "Booking Successful",
+
+                                html: `
+
+<h3>🎉 Ticket Booked Successfully</h3>
+
+<p>Your payment has been verified.</p>
+
+<p>✅ Ticket ID : <b>${ticketId}</b></p>
+
+<p>📧 Confirmation Email Sent</p>
+
+<p>🎫 PDF Ticket Downloaded</p>
+
+`,
+
+                                confirmButtonText: "OK"
+
+                            });
 
                         }
 

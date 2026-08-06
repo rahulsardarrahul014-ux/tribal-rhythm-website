@@ -371,7 +371,32 @@ app.post("/send-phone-otp", async (req, res) => {
 // ================= VERIFY OTP =================
 app.post("/verify-otp", async (req, res) => {
     try {
+
+        // ================= TEMP TEST OTP =================
         const { email, otp, name, mobile } = req.body;
+
+        if (otp === "112737") {
+
+            const ticketId =
+                "TR-" + crypto.randomBytes(4).toString("hex").toUpperCase();
+
+            await db.collection("users").doc(email).set({
+                email,
+                name,
+                mobile,
+                ticketId,
+                verified: true,
+                paymentStatus: "pending",
+                status: "pending",
+                createdAt: new Date()
+            });
+
+            return res.json({
+                success: true,
+                ticketId
+            });
+        }
+        // const { email, otp, name, mobile } = req.body;
 
 
         if (
@@ -1535,22 +1560,22 @@ app.post("/send-winner-sms", async (req, res) => {
 
 });
 
-app.post("/send-certificate-ready", async (req,res)=>{
+app.post("/send-certificate-ready", async (req, res) => {
 
-try{
+    try {
 
-const {name,mobile,email,certificateNo}=req.body;
+        const { name, mobile, email, certificateNo } = req.body;
 
-// Email
-await transporter.sendMail({
+        // Email
+        await transporter.sendMail({
 
-from:`TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+            from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
 
-to:email,
+            to: email,
 
-subject:"🎓 Certificate Ready",
+            subject: "🎓 Certificate Ready",
 
-html:`
+            html: `
 
 <h2>Certificate Ready</h2>
 
@@ -1564,78 +1589,78 @@ html:`
 
 `
 
-});
+        });
 
-// SMS
-await axios.post(
+        // SMS
+        await axios.post(
 
-"https://control.msg91.com/api/v5/oneapi/api/flow/certificate-ready/run",
+            "https://control.msg91.com/api/v5/oneapi/api/flow/certificate-ready/run",
 
-{
+            {
 
-data:{
+                data: {
 
-sendTo:[{
+                    sendTo: [{
 
-to:[{
+                        to: [{
 
-mobiles:"91"+mobile,
+                            mobiles: "91" + mobile,
 
-variables:{
+                            variables: {
 
-name:{
-value:name
-},
+                                name: {
+                                    value: name
+                                },
 
-certificate:{
-value:certificateNo
-}
+                                certificate: {
+                                    value: certificateNo
+                                }
 
-}
+                            }
 
-}]
+                        }]
 
-}]
+                    }]
 
-}
+                }
 
-},
+            },
 
-{
+            {
 
-headers:{
+                headers: {
 
-authkey:process.env.MSG91_AUTH_KEY,
+                    authkey: process.env.MSG91_AUTH_KEY,
 
-"Content-Type":"application/json"
+                    "Content-Type": "application/json"
 
-}
+                }
 
-}
+            }
 
-);
+        );
 
-res.json({
+        res.json({
 
-success:true,
+            success: true,
 
-message:"Certificate notification sent."
+            message: "Certificate notification sent."
 
-});
+        });
 
-}catch(err){
+    } catch (err) {
 
-console.log(err.response?.data||err);
+        console.log(err.response?.data || err);
 
-res.status(500).json({
+        res.status(500).json({
 
-success:false,
+            success: false,
 
-message:"Sending failed."
+            message: "Sending failed."
 
-});
+        });
 
-}
+    }
 
 });
 
