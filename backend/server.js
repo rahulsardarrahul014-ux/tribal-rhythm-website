@@ -87,20 +87,28 @@ console.log("SECRET :", process.env.RAZORPAY_KEY_SECRET ? "Loaded" : "Missing");
 // ================= EMAIL =================
 
 const transporter = nodemailer.createTransport({
+
     host: "smtp-relay.brevo.com",
+
     port: 587,
+
     secure: false,
-    requireTLS: true,
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
+
     auth: {
         user: process.env.BREVO_USER,
         pass: process.env.BREVO_PASS
     },
+
     tls: {
-        rejectUnauthorized: false
-    }
+        minVersion: "TLSv1.2"
+    },
+
+    connectionTimeout: 60000,
+
+    greetingTimeout: 30000,
+
+    socketTimeout: 60000
+
 });
 
 transporter.verify((err) => {
@@ -209,6 +217,7 @@ app.post("/send-otp", async (req, res) => {
         });
 
         console.log("OTP Saved");
+        
 
         await transporter.sendMail({
             from: `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
@@ -267,6 +276,7 @@ app.post("/send-otp", async (req, res) => {
     </div>
     `
         });
+    
 
         res.json({ success: true });
 
@@ -324,32 +334,32 @@ app.post("/send-phone-otp", async (req, res) => {
             }
         );
 
-        const response = await axios.post(
-            "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
-            {
-                data: {
-                    sendTo: [{
-                        to: [{
-                            mobiles: "91" + mobile,
-                            variables: {
-                                name: {
-                                    value: name || "User"
-                                },
-                                otp: {
-                                    value: otp
-                                }
-                            }
-                        }]
-                    }]
-                }
-            },
-            {
-                headers: {
-                    authkey: process.env.MSG91_AUTH_KEY,
-                    "Content-Type": "application/json"
-                }
-            }
-        );
+        // const response = await axios.post(
+        //     "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
+        //     {
+        //         data: {
+        //             sendTo: [{
+        //                 to: [{
+        //                     mobiles: "91" + mobile,
+        //                     variables: {
+        //                         name: {
+        //                             value: name || "User"
+        //                         },
+        //                         otp: {
+        //                             value: otp
+        //                         }
+        //                     }
+        //                 }]
+        //             }]
+        //         }
+        //     },
+        //     {
+        //         headers: {
+        //             authkey: process.env.MSG91_AUTH_KEY,
+        //             "Content-Type": "application/json"
+        //         }
+        //     }
+        // );
 
         console.log("MSG91 RESPONSE:", response.data);
 
