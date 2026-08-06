@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Prizes & Certificates | Tribal Rhythm</title>
+    <title>Prizes & Certificates | Tribal Rhythm | Powered by Zentro Nex</title>
 
     <!-- SEO -->
     <meta name="description"
@@ -16,7 +16,7 @@
     <meta name="keywords"
         content="Tribal Rhythm, Dance Competition, Certificates, Prizes, Awards, Winners, Medals, Dance Event">
 
-    <meta name="author" content="Tribal Rhythm">
+    <meta name="author" content="Zentro Nex">
 
     <!-- ROBOTS -->
     <meta name="robots" content="index,follow">
@@ -54,6 +54,7 @@
 
     <!-- SECURITY -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <!-- STYLE -->
     <style>
@@ -179,7 +180,13 @@
 
     <div class="container">
 
-        <h1>🏆 Tribal Rhythm Prizes & Certificates</h1>
+        <h1>
+            🏆 Tribal Rhythm Prizes & Certificates
+            <br>
+            <small style="font-size:16px;color:gold;">
+                Powered by Zentro Nex
+            </small>
+        </h1>
 
         <div class="winner-box mt-4">
             🎉 Live Winner Auto System 🎉
@@ -196,15 +203,76 @@
 
                 <div class="cert-content">
                     <h2>TRIBAL RHYTHM</h2>
+                    <h5 id="eventName">
+                        Mayurbhanj Tribal Dance Championship 2026
+                    </h5>
+                    <p style="font-size:14px;color:#444;font-weight:600;">
+                        Powered by Zentro Nex
+                    </p>
 
                     <p>This Certificate is Awarded to</p>
                     <h2 id="certName">Loading...</h2>
 
                     <p id="certCategory">Category</p>
+                    <p>
+                        Certificate ID :
+                        <span id="certificateId">
+                            Loading...
+                        </span>
+                    </p>
+                    <p>
+                        Ticket ID :
+                        <span id="ticketId">
+                            Loading...
+                        </span>
+                    </p>
 
                     <h3 id="positionText">Participant</h3>
 
                     <div id="medal">🎖️</div>
+                </div>
+                <p style="
+font-size:14px;
+font-weight:bold;
+color:#555;">
+                    Powered by Zentro Nex
+                </p>
+                <div style="
+position:absolute;
+bottom:30px;
+left:40px;
+text-align:center;">
+
+                    <img src="organizer-sign.png" width="140">
+
+                    <hr>
+
+                    Organizer
+                </div>
+                <div style="
+position:absolute;
+bottom:30px;
+right:40px;
+text-align:center;">
+
+                    <img src="judge-sign.png" width="140">
+
+                    <hr>
+
+                    Chief Judge
+                </div>
+                <img src="official-seal.png" style="
+position:absolute;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+width:110px;
+opacity:.9;">
+
+                <div id="qrCode" style="
+position:absolute;
+right:25px;
+top:25px;">
                 </div>
             </div>
 
@@ -222,7 +290,17 @@
     <script type="module">
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import {
+            getFirestore,
+            collection,
+            onSnapshot,
+            doc,
+            getDoc,
+            query,
+            where,
+            getDocs
+        }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -248,9 +326,21 @@
                 let s = d.data();
 
                 if (!map[s.category]) map[s.category] = {};
-                if (!map[s.category][s.name]) map[s.category][s.name] = 0;
+                const key = s.ticket || s.email || s.name;
 
-                map[s.category][s.name] += s.score;
+                if (!map[s.category][key]) {
+
+                    map[s.category][key] = {
+                        name: s.name,
+                        ticket: s.ticket || "",
+                        email: s.email || "",
+                        mobile: s.mobile || "",
+                        score: 0
+                    };
+
+                }
+
+                map[s.category][key].score += Number(s.score || 0);
             });
 
             let firstCat = Object.keys(map)[0];
@@ -258,8 +348,10 @@
 
             let arr = [];
 
-            for (let name in map[firstCat]) {
-                arr.push({ name, score: map[firstCat][name] });
+            for (let key in map[firstCat]) {
+
+                arr.push(map[firstCat][key]);
+
             }
 
             arr.sort((a, b) => b.score - a.score);
@@ -288,13 +380,53 @@
             );
         };
 
-        function updateCertificate(index, category = "Dance Category") {
+        async function updateCertificate(index, category = "Dance Category") {
 
             let user = participants[index];
             if (!user) return;
 
+            // ===============================
+            // Fetch Full User Details
+            // ===============================
+
+            try {
+
+                const q = query(
+                    collection(db, "users"),
+                    where("name", "==", user.name)
+                );
+
+                const snap = await getDocs(q);
+
+                if (!snap.empty) {
+
+                    const data = snap.docs[0].data();
+
+                    user.ticket = data.ticket || data.ticketId || "";
+
+                    user.phone = data.mobile || "";
+
+                    user.email = data.email || "";
+
+                }
+
+            } catch (err) {
+
+                console.error("User Fetch Error :", err);
+
+            }
+
             document.getElementById("certName").innerText = user.name;
+
+            const certId =
+                "TRC-" +
+                Date.now();
+
+            document.getElementById("certificateId").innerText =
+                certId;
             document.getElementById("certCategory").innerText = category;
+            document.getElementById("ticketId").innerText =
+                user.ticket || "N/A";
 
             let positionText = "Participation Certificate";
             let medal = "🎖️";
@@ -312,57 +444,70 @@
 
             document.getElementById("positionText").innerText = positionText;
             document.getElementById("medal").innerText = medal;
+            document.getElementById("qrCode").innerHTML = "";
+
+            new QRCode(
+                document.getElementById("qrCode"),
+                {
+                    text:
+                        "https://tribalrhythm.in/verify.html?id=" + certId,
+                    width: 80,
+                    height: 80
+                });
         }
 
         window.downloadCertificate = async function () {
 
-            let box =
-                document.getElementById("certificateBox");
+            try {
 
-            const canvas =
-                await html2canvas(box, {
+                let box = document.getElementById("certificateBox");
+
+                const canvas = await html2canvas(box, {
                     scale: 2
                 });
 
-            let link =
-                document.createElement("a");
+                let link = document.createElement("a");
 
-            link.download =
-                "TribalRhythmCertificate.png";
+                link.download = "TribalRhythm_Certificate_Powered_By_ZentroNex.png";
+                link.href = canvas.toDataURL("image/png");
+                link.click();
 
-            link.href =
-                canvas.toDataURL("image/png");
+                // Selected User
+                let selectedIndex = document.getElementById("userSelect").value;
+                let user = participants[selectedIndex];
 
-            link.click();
+                if (!user) return;
 
-            // ✅ Selected User
-            let selectedIndex =
-                document.getElementById("userSelect").value;
+                // Phone
+                let phone = (user.phone || "").replace(/\D/g, "");
 
-            let user = participants[selectedIndex];
+                if (phone.length === 10) {
+                    phone = "91" + phone;
+                }
 
-            if (!user) return;
+                // WhatsApp Message
+                let message = `🎉 Congratulations ${user.name}!
 
-            // ✅ Phone fallback
-            let phone = user.phone || "";
+Your Tribal Rhythm Certificate has been generated successfully.
 
-            // ✅ WhatsApp Message
-            let message =
-                `🎉 Congratulations ${user.name}!
+Powered by Zentro Nex 🚀`;
 
-You have received your certificate in Tribal Rhythm 🏆`;
+                if (phone) {
 
-            // ✅ Open WhatsApp only if phone exists
-            if (phone) {
+                    let whatsappURL =
+                        `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
-                let whatsappURL =
-                    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappURL, "_blank");
+                }
 
-                window.open(whatsappURL, "_blank");
+            } catch (err) {
+
+                console.error(err);
+                alert("Certificate download failed.");
 
             }
 
-        }
+        };
 
 
     </script>

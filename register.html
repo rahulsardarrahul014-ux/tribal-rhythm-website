@@ -520,9 +520,10 @@
         import {
             getFirestore,
             doc,
-            setDoc
-        }
-            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+            setDoc,
+            collection,
+            addDoc
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         import {
             getStorage,
@@ -866,6 +867,8 @@
 
                                 name,
 
+                                nameLower: name.toLowerCase(),
+
                                 guardian,
 
                                 age,
@@ -900,6 +903,26 @@
 
                             }
                         );
+
+                        // ================= SAVE PARTICIPATION =================
+
+                        await addDoc(collection(db, "participation"), {
+
+                            email: email,
+
+                            name: name,
+
+                            mobile: mobile,
+
+                            ticketId: finalTicket,
+
+                           category: selectedCategory,
+
+                            paymentStatus: "paid",
+
+                            joinedAt: new Date().toISOString()
+
+                        });
                         localStorage.setItem("ticket", finalTicket);
                         console.log("✅ Firestore Saved");
 

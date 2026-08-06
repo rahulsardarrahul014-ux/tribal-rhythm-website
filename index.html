@@ -7,22 +7,25 @@
 
     <!-- SEO META TAGS -->
     <meta name="description"
-        content="Tribal Rhythm is a cultural dance and music platform for Santali and Bhumij community talent, competitions, live events and online programs.">
+        content="Tribal Rhythm is a cultural platform owned and operated by Zentro Nex, dedicated to tribal dance, music, competitions and live events.">
+
+    <meta name="author" content="Zentro Nex">
 
     <meta name="keywords"
         content="Tribal Rhythm, dance competition, Santali culture, Bhumij culture, tribal dance, online competition, dance studio, live event">
 
-    <meta name="author" content="Rahul Sardar">
+   
 
     <meta name="robots" content="index, follow">
     <!-- <img src="tribalweblogo.png" alt="Tribal Rhythm Logo" class="logo-img me-2"> -->
 
     <!-- SOCIAL SHARE -->
-    <meta property="og:title" content="Tribal Rhythm">
-    <meta property="og:description" content="Official Tribal Rhythm cultural and dance platform">
+    <meta property="og:title" content="Tribal Rhythm by Zentro Nex">
+
+    <meta property="og:description" content="Official Tribal Rhythm Platform powered by Zentro Nex">
     <meta property="og:image" content="tribalweblogo.png">
 
-    <title>Tribal Rhythm | Official Cultural Platform</title>
+    <title>Tribal Rhythm | A Zentro Nex Platform</title>
     <!-- <link rel="icon" type="image/png" href="tribalweblogo.png"> -->
     <link rel="icon" href="tribalweblogo.png">
 
@@ -35,13 +38,7 @@
     <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-    <script>
-        (function () {
-            emailjs.init({
-                publicKey: "FYCnHXj3AQZc52uq6"
-            });
-        })();
-    </script>
+
 </head>
 
 <body>
@@ -51,7 +48,12 @@
         <div class="container d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
                 <img src="tribalweblogo.png" class="logo-img me-2">
-                <h4 class="title-text m-0">Tribal Rhythm</h4>
+                <h4 class="title-text m-0">
+                    Tribal Rhythm
+                    <small style="font-size:13px;color:#ffc107;">
+                        by Zentro Nex
+                    </small>
+                </h4>
             </div>
         </div>
     </header>
@@ -239,10 +241,9 @@
 
                         <p class="about-text">
                             <b>English:</b><br>
-                            Tribal Rhythm is a digital cultural platform dedicated to showcasing the hidden talent
-                            of
-                            Santali and Bhumij communities. We provide a modern stage for artists to express their
-                            creativity in dance, music, and performance through live events and online competitions.
+                            Tribal Rhythm is a digital cultural platform owned and operated by Zentro Nex. Our mission
+                            is to preserve tribal culture through technology, online competitions, live events, and
+                            digital learning.
                         </p>
 
                         <p class="about-text">
@@ -258,15 +259,18 @@
 
                         <p class="about-text">
                             <b>हिंदी:</b><br>
-                            Tribal Rhythm एक डिजिटल सांस्कृतिक मंच है जो संथाली और भूमिज समुदाय की प्रतिभा को
-                            दुनिया के सामने लाने के लिए बनाया गया है। यहाँ कलाकार अपनी कला, नृत्य और संगीत को
-                            आधुनिक तकनीक के माध्यम से प्रस्तुत कर सकते हैं।
+                            <strong>Tribal Rhythm</strong>, <strong>Zentro Nex</strong> द्वारा संचालित एक डिजिटल
+                            सांस्कृतिक मंच है, जिसे संथाली और भूमिज समुदाय की प्रतिभाओं को राष्ट्रीय एवं अंतरराष्ट्रीय
+                            स्तर पर पहचान दिलाने के उद्देश्य से बनाया गया है। यहाँ कलाकार अपनी लोक संस्कृति, नृत्य,
+                            संगीत और पारंपरिक कला को आधुनिक तकनीक के माध्यम से प्रस्तुत कर सकते हैं।
                         </p>
 
                         <p class="about-text">
-                            हमारा उद्देश्य ग्रामीण प्रतिभाओं को डिजिटल दुनिया से जोड़कर उन्हें एक बड़ा मंच प्रदान
-                            करना है।
+                            हमारा उद्देश्य ग्रामीण एवं जनजातीय प्रतिभाओं को डिजिटल दुनिया से जोड़ना, उनकी सांस्कृतिक
+                            विरासत का संरक्षण करना तथा उन्हें प्रतियोगिताओं, लाइव कार्यक्रमों और ऑनलाइन मंचों के माध्यम
+                            से नए अवसर प्रदान करना है।
                         </p>
+
 
                     </div>
 
@@ -766,6 +770,9 @@
                     </a>
 
                 </div>
+                <p>
+                    <strong>Powered & Operated by:</strong> Zentro Nex
+                </p>
 
             </div>
 
@@ -792,7 +799,9 @@
 
             <!-- RIGHT TEXT -->
             <div class="footer-right">
-                <p>© 2026 Tribal Rhythm. All Rights Reserved.</p>
+                <p>
+                    © 2026 Tribal Rhythm. Powered by Zentro Nex. All Rights Reserved.
+                </p>
             </div>
 
         </div>
@@ -2234,21 +2243,16 @@
             doc.setFontSize(11);
             doc.text("OFFICIAL EVENT ENTRY PASS", 60, 28);
 
+            // Verified
             doc.setFontSize(9);
             doc.text("Verified Digital Ticket", 60, 34);
 
+            // Powered By
+            doc.setFontSize(8);
+            doc.setTextColor(220, 220, 220);
+            doc.text("Powered by Zentro Nex", 60, 38);
+
             // Reset Text Color
-            doc.setTextColor(0, 0, 0);
-
-            // Premium Badge
-            doc.setFillColor(255, 215, 0);
-            doc.roundedRect(155, 12, 38, 12, 2, 2, "F");
-
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(10);
-            doc.text("VIP PASS", 165, 20);
-
-            // Reset
             doc.setTextColor(0, 0, 0);
 
             // Divider
@@ -2509,10 +2513,18 @@ Payment : ${paymentId}`;
                 265
             );
 
+            doc.setFontSize(8);
+
+            doc.text(
+                "Powered & Operated by Zentro Nex",
+                20,
+                271
+            );
+
             doc.text(
                 "www.tribalrhythm.in",
                 20,
-                272
+                277
             );
 
             // Digital Signature
@@ -2765,65 +2777,102 @@ Payment : ${paymentId}`;
             <table class="table table-dark table-bordered">
 
                 <tr>
-                    <th>Santali Culture</th>
-                    <th>Bhumij Culture</th>
+                    <th>🌿 Santali Culture</th>
+                    <th>🌿 Bhumij Culture</th>
                 </tr>
 
                 <tr>
+
+                    <!-- Santali -->
                     <td>
-                        <img src="" class="history-img">
+
+                        <img src="santali-history.jpg" class="history-img" alt="Santali Culture">
+
                         <p>
-                            Santali culture rich tribal tradition hai.
-                            Dance, music, festivals jaise Karam, Sohrai famous hai.
+                            Santali culture is one of India's oldest tribal traditions, rich in music,
+                            dance, language, festivals and community values.
                         </p>
-                        <p>Santali culture Bharat ke sabse purane aur samriddh tribal cultures me se ek hai, jo mainly
-                            Jharkhand, Odisha, West Bengal aur Bihar ke ilaakon me paya jata hai. Santali samaj prakriti
-                            se gahra juda hua hai, aur unki jeevan shailee forest, nadi, aur zameen ke aas-paas ghoomti
-                            hai. Unke paramparik tyohar jaise <b>KARAM</b>, <b>SOHRAI</b>, aur <b>BAHA</b> unki
-                            sanskriti ka
-                            mahatvapurn hissa hain, jahan gaon ke log ek saath milkar dance, music aur pooja karte hain.
-                            Santali dance aur music bahut hi energetic hote hain, jisme dhol, madal aur flute jaise
-                            traditional instruments ka use hota hai. Unki bhasha, Santali, apni alag pehchaan rakhti hai
-                            aur Ol Chiki script me likhi jati hai. Samaj me ek strong community system hota hai jahan
-                            sab log milkar faisle lete hain aur paramparaon ka palan karte hain. Santali log apni
-                            pehchaan aur virasat ko bahut mahatva dete hain, aur naye zamane ke saath judte hue bhi apni
-                            sanskriti ko sanrakshit rakhne ki koshish kar rahe hain. Yeh culture unity, nature respect
-                            aur traditional values ka ek sundar udaharan hai.
+
+                        <p>
+                            Santali culture is mainly found in Jharkhand, Odisha, West Bengal and Bihar.
+                            Major festivals include <b>Karam</b>, <b>Sohrai</b> and <b>Baha</b>.
+                            Traditional instruments like Madal, Tumdak and Flute are widely used in dance
+                            and music. The Santali language is written in the <b>Ol Chiki</b> script and
+                            reflects a deep connection with nature, unity and cultural heritage.
                         </p>
+
                     </td>
 
+                    <!-- Bhumij -->
                     <td>
-                        <img src="" class="history-img">
+
+                        <img src="bhumij-history.jpg" class="history-img" alt="Bhumij Culture">
+
                         <p>
-                            Bhumij culture nature based aur traditional hai.
-                            Festivals aur community dance iska main part hai.
+                            Bhumij culture represents simplicity, unity and a strong relationship with
+                            nature through traditional festivals, music and dance.
                         </p>
-                        <p>Bhumij culture ek prachin aur samriddh tribal culture hai jo mainly Jharkhand, West Bengal,
-                            Odisha aur Bihar ke kuch ilaakon me paya jata hai. Bhumij samaj ka jeevan prakriti se juda
-                            hota hai, jahan jungle, zameen aur jal unke jeevan ka important hissa hote hain. Unki
-                            sanskriti me parampara, samajik ekta aur prakriti ka samman sabse upar rakha jata hai.
-                            Bhumij log apne traditional festivals jaise <b>Karam</b>, <b>TUSU</b>, aur anya seasonal
-                            tyoharon
-                            ko bade utsah ke saath manate hain. In tyoharon me gaon ke log ek saath milkar dance, gaan
-                            aur pooja karte hain. Unka dance aur music bahut hi energetic hota hai, jisme dhol, nagara
-                            aur anya local instruments ka use hota hai. Bhumij samaj me ek strong community system hota
-                            hai jahan bade buzurg faisle lete hain aur sab log unka samman karte hain. Unki bhasha aur
-                            parampara unki pehchaan ko banaye rakhti hai. Aaj ke modern samay me bhi Bhumij log apni
-                            virasat aur parampara ko sambhal kar rakhe hue hain aur naye yug ke saath chalne ki koshish
-                            kar rahe hain. Yeh culture simplicity, unity aur nature ke prati gehra respect dikhata hai.
+
+                        <p>
+                            The Bhumij community mainly lives in Odisha, Jharkhand, West Bengal and Bihar.
+                            Festivals like <b>Karam</b> and <b>Tusu</b> play an important role in their
+                            cultural life. Traditional dance, Nagara, Dhol and local folk music reflect
+                            their rich heritage and continue to preserve their identity for future
+                            generations.
                         </p>
+
                     </td>
+
                 </tr>
 
             </table>
 
-            <hr>
+            <hr style="border-color:gold;">
 
-            <h4>👤 Website Owner</h4>
-            <p>
-                Tribal Rhythm ek digital platform hai jo rural talent ko global stage deta hai.
-            </p>
-            <h2>RAHUL SARDAR</h2>
+            <!-- Website Owner -->
+
+            <div class="text-center">
+
+                <h3 style="color:#FFD700;">👤 Website Owner</h3>
+
+                <h2 style="color:#fff;font-weight:bold;">
+                    Rahul Sardar
+                </h2>
+
+                <p style="font-size:18px;color:#FFD700;margin-bottom:5px;">
+                    Founder & CEO
+                </p>
+
+                <h4 style="color:#ffffff;">
+                    Zentro Nex
+                </h4>
+
+                <p style="color:#cccccc;">
+                    Technology Company
+                </p>
+
+                <hr style="width:120px;border:1px solid gold;">
+
+                <h4 style="color:#FFD700;">
+                    Official Brand
+                </h4>
+
+                <h3 style="color:#ffffff;">
+                    Tribal Rhythm
+                </h3>
+
+                <p style="color:#cccccc;">
+                    A Cultural & Tribal Talent Platform operated by
+                    <strong style="color:#FFD700;">Zentro Nex</strong>.
+                </p>
+
+                <p style="color:#bbbbbb;font-size:14px;">
+                    Our mission is to preserve, promote and digitally empower
+                    Santali, Bhumij and other tribal communities through
+                    competitions, live events, education and technology.
+                </p>
+
+            </div>
 
         </div>
 

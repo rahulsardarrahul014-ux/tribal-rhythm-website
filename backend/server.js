@@ -286,6 +286,9 @@ app.post("/send-phone-otp", async (req, res) => {
         }
 
         const otp = Math.floor(100000 + Math.random() * 900000);
+        console.log("Phone:", mobile);
+        console.log("OTP:", otp);
+        console.log("MSG91 KEY:", process.env.MSG91_AUTH_KEY ? "Loaded" : "Missing");
 
         await axios.post(
             "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
@@ -314,6 +317,35 @@ app.post("/send-phone-otp", async (req, res) => {
             }
         );
 
+        const response = await axios.post(
+            "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
+            {
+                data: {
+                    sendTo: [{
+                        to: [{
+                            mobiles: "91" + mobile,
+                            variables: {
+                                name: {
+                                    value: name || "User"
+                                },
+                                otp: {
+                                    value: otp
+                                }
+                            }
+                        }]
+                    }]
+                }
+            },
+            {
+                headers: {
+                    authkey: process.env.MSG91_AUTH_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        console.log("MSG91 RESPONSE:", response.data);
+
         await db.collection("phoneOtp").doc(mobile).set({
             otp,
             time: Date.now()
@@ -326,7 +358,7 @@ app.post("/send-phone-otp", async (req, res) => {
 
     } catch (err) {
 
-        console.log(err);
+        console.log("MSG91 ERROR:", err.response?.data || err.message);
 
         res.status(500).json({
             success: false,
@@ -711,6 +743,336 @@ app.post("/send-registration-email", async (req, res) => {
 
 });
 
+// ================= BULK EMAIL CENTER =================
+
+app.post("/send-bulk-email", async (req, res) => {
+
+    try {
+
+        const {
+            target,
+            subject,
+            message
+        } = req.body;
+
+
+        let users = [];
+
+
+        // ALL USERS
+        if (target === "all") {
+
+            const snap =
+                await db.collection("users").get();
+
+
+            snap.forEach(doc => {
+
+                users.push(doc.data().email);
+
+            });
+
+        }
+
+
+
+        // PAID USERS
+
+        else if (target === "paid") {
+
+            const snap =
+                await db.collection("users")
+                    .where("paymentStatus", "==", "paid")
+                    .get();
+
+
+            snap.forEach(doc => {
+
+                users.push(doc.data().email);
+
+            });
+
+        }
+
+
+
+        // COMPETITION PARTICIPANTS
+
+        else if (target === "participants") {
+
+            const snap =
+                await db.collection("participation").get();
+
+            snap.forEach(doc => {
+
+                users.push(doc.data().email);
+
+            });
+
+
+            snap.forEach(doc => {
+
+                let data = doc.data();
+
+                if (data.email) {
+
+                    users.push(data.email);
+
+                }
+
+            });
+
+        }
+
+
+
+        // SELECTED USER
+
+        else if (target === "selected") {
+
+            users = req.body.emails;
+
+        }
+
+
+
+        if (users.length === 0) {
+
+            return res.json({
+
+                success: false,
+                message: "No users found"
+
+            });
+
+        }
+
+
+
+        await transporter.sendMail({
+
+            from:
+                `TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+
+            bcc: users,
+
+            subject: subject,
+
+
+            html: `
+
+            <div style="font-family:Arial">
+
+            <h2>🎭 Tribal Rhythm</h2>
+
+            <p>${message}</p>
+
+            </div>
+
+            `
+
+        });
+
+
+
+        res.json({
+
+            success: true,
+
+            message:
+                users.length + " emails sent"
+
+        });
+
+
+
+    }
+
+    catch (error) {
+
+        console.log(
+            "BULK EMAIL ERROR",
+            error
+        );
+
+
+        res.status(500).json({
+
+            success: false,
+
+            message: error.message
+
+        });
+
+    }
+
+});
+
+// ================= BULK SMS CENTER =================
+
+app.post("/send-bulk-sms", async (req, res) => {
+
+    try {
+
+        const { target, message, mobiles } = req.body;
+
+        let phoneList = [];
+
+        // ALL USERS
+        if (target === "all") {
+
+            const snap = await db.collection("users").get();
+
+            snap.forEach(doc => {
+                const data = doc.data();
+
+                if (data.mobile) {
+                    phoneList.push(data.mobile);
+                }
+            });
+
+        }
+
+        // PAID USERS
+        else if (target === "paid") {
+
+            const snap = await db.collection("users")
+                .where("paymentStatus", "==", "paid")
+                .get();
+
+            snap.forEach(doc => {
+
+                const data = doc.data();
+
+                if (data.mobile) {
+                    phoneList.push(data.mobile);
+                }
+
+            });
+
+        }
+
+        // PARTICIPANTS
+        else if (target === "participants") {
+
+            const snap = await db.collection("participation").get();
+
+            snap.forEach(doc => {
+
+                const data = doc.data();
+
+                if (data.mobile) {
+                    phoneList.push(data.mobile);
+                }
+
+            });
+
+        }
+
+        // SELECTED USERS
+        else if (target === "selected") {
+
+            phoneList = mobiles || [];
+
+        }
+
+        phoneList = [...new Set(phoneList)];
+
+        if (phoneList.length === 0) {
+
+            return res.json({
+                success: false,
+                message: "No Mobile Numbers Found"
+            });
+
+        }
+
+        // SEND SMS ONE BY ONE
+
+        for (const mobile of phoneList) {
+
+            await axios.post(
+
+                "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
+
+                {
+
+                    data: {
+
+                        sendTo: [
+
+                            {
+
+                                to: [
+
+                                    {
+
+                                        mobiles: "91" + mobile,
+
+                                        variables: {
+
+                                            message: {
+                                                value: message
+                                            }
+
+                                        }
+
+                                    }
+
+                                ]
+
+                            }
+
+                        ]
+
+                    }
+
+                },
+
+                {
+
+                    headers: {
+
+                        authkey: process.env.MSG91_AUTH_KEY,
+
+                        "Content-Type": "application/json"
+
+                    }
+
+                }
+
+            );
+
+        }
+
+        res.json({
+
+            success: true,
+
+            total: phoneList.length,
+
+            message: phoneList.length + " SMS Sent"
+
+        });
+
+    }
+
+    catch (err) {
+
+        console.log(err.response?.data || err);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: err.message
+
+        });
+
+    }
+
+});
+
 // ================= PAYMENT SUCCESS SMS =================
 
 app.post("/send-payment-success-sms", async (req, res) => {
@@ -815,16 +1177,17 @@ app.post("/send-payment-success-sms", async (req, res) => {
 });
 
 
-// ================= SEND MSG91 SMS =================
+// ================= SEND REGISTRATION SUCCESS SMS =================
+
 app.post("/send-registration-sms", async (req, res) => {
 
     try {
 
-        const { name, mobile, otp } = req.body;
+        const { name, mobile, ticketId } = req.body;
 
         await axios.post(
 
-            'https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run',
+            "https://control.msg91.com/api/v5/oneapi/api/flow/registration-success/run",
 
             {
                 data: {
@@ -835,14 +1198,17 @@ app.post("/send-registration-sms", async (req, res) => {
                                     mobiles: "91" + mobile,
 
                                     variables: {
+
                                         name: {
                                             value: name
                                         },
 
-                                        otp: {
-                                            value: otp
+                                        ticket: {
+                                            value: ticketId
                                         }
+
                                     }
+
                                 }
                             ]
                         }
@@ -852,35 +1218,424 @@ app.post("/send-registration-sms", async (req, res) => {
 
             {
                 headers: {
+                    authkey: process.env.MSG91_AUTH_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+
+        );
+
+        console.log("✅ Registration SMS Sent");
+
+        res.json({
+            success: true
+        });
+
+    } catch (err) {
+
+        console.log(
+            "REGISTRATION SMS ERROR:",
+            err.response?.data || err.message
+        );
+
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+
+    }
+
+});
+
+// ================= ADMIN BULK SMS =================
+
+app.post("/send-bulk-sms", async (req, res) => {
+
+    try {
+
+        const { target, message, mobiles } = req.body;
+
+        let phoneList = [];
+
+        // ALL USERS
+
+        if (target === "all") {
+
+            const snap = await db.collection("users").get();
+
+            snap.forEach(doc => {
+
+                const user = doc.data();
+
+                if (user.mobile) {
+
+                    phoneList.push(user.mobile);
+
+                }
+
+            });
+
+        }
+
+        // PAID USERS
+
+        else if (target === "paid") {
+
+            const snap = await db.collection("users")
+                .where("paymentStatus", "==", "paid")
+                .get();
+
+            snap.forEach(doc => {
+
+                const user = doc.data();
+
+                if (user.mobile) {
+
+                    phoneList.push(user.mobile);
+
+                }
+
+            });
+
+        }
+
+        // PARTICIPANTS
+
+        else if (target === "participants") {
+
+            const snap = await db.collection("participation").get();
+
+            snap.forEach(doc => {
+
+                const user = doc.data();
+
+                if (user.mobile) {
+
+                    phoneList.push(user.mobile);
+
+                }
+
+            });
+
+        }
+
+        // SELECTED USERS
+
+        else if (target === "selected") {
+
+            phoneList = mobiles || [];
+
+        }
+
+        // REMOVE DUPLICATES
+
+        phoneList = [...new Set(phoneList)];
+
+        if (phoneList.length === 0) {
+
+            return res.json({
+
+                success: false,
+
+                message: "No Mobile Numbers Found"
+
+            });
+
+        }
+
+        // SEND SMS
+
+        for (const mobile of phoneList) {
+
+            await axios.post(
+
+                "https://control.msg91.com/api/v5/oneapi/api/flow/admin-bulk-message/run",
+
+                {
+
+                    data: {
+
+                        sendTo: [
+
+                            {
+
+                                to: [
+
+                                    {
+
+                                        mobiles: "91" + mobile,
+
+                                        variables: {
+
+                                            message: {
+
+                                                value: message
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                ]
+
+                            }
+
+                        ]
+
+                    }
+
+                },
+
+                {
+
+                    headers: {
+
+                        authkey: process.env.MSG91_AUTH_KEY,
+
+                        "Content-Type": "application/json"
+
+                    }
+
+                }
+
+            );
+
+        }
+
+        res.json({
+
+            success: true,
+
+            total: phoneList.length,
+
+            message: phoneList.length + " SMS Sent Successfully"
+
+        });
+
+    }
+
+    catch (err) {
+
+        console.log(err.response?.data || err);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: err.message
+
+        });
+
+    }
+
+});
+
+// ================= SEND WINNER SMS =================
+
+app.post("/send-winner-sms", async (req, res) => {
+
+    try {
+
+        const {
+            name,
+            mobile,
+            category,
+            rank,
+            prize
+        } = req.body;
+
+        await axios.post(
+
+            "https://control.msg91.com/api/v5/oneapi/api/flow/winner-message/run",
+
+            {
+
+                data: {
+
+                    sendTo: [
+
+                        {
+
+                            to: [
+
+                                {
+
+                                    mobiles: "91" + mobile,
+
+                                    variables: {
+
+                                        name: {
+                                            value: name
+                                        },
+
+                                        category: {
+                                            value: category
+                                        },
+
+                                        rank: {
+                                            value: rank
+                                        },
+
+                                        prize: {
+                                            value: prize
+                                        }
+
+                                    }
+
+                                }
+
+                            ]
+
+                        }
+
+                    ]
+
+                }
+
+            },
+
+            {
+
+                headers: {
 
                     authkey: process.env.MSG91_AUTH_KEY,
 
                     "Content-Type": "application/json"
 
                 }
+
             }
 
         );
 
-
         res.json({
-            success: true
-        });
 
+            success: true,
 
-    } catch (err) {
+            message: "Winner SMS Sent"
 
-        console.log(
-            "MSG91 ERROR:",
-            err.response?.data || err
-        );
-
-
-        res.status(500).json({
-            success: false
         });
 
     }
+
+    catch (err) {
+
+        console.log(err.response?.data || err);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: err.message
+
+        });
+
+    }
+
+});
+
+app.post("/send-certificate-ready", async (req,res)=>{
+
+try{
+
+const {name,mobile,email,certificateNo}=req.body;
+
+// Email
+await transporter.sendMail({
+
+from:`TRIBAL RHYTHM <${process.env.EMAIL_USER}>`,
+
+to:email,
+
+subject:"🎓 Certificate Ready",
+
+html:`
+
+<h2>Certificate Ready</h2>
+
+<p>Hello <b>${name}</b>,</p>
+
+<p>Your participation certificate is now ready.</p>
+
+<p><b>Certificate No:</b> ${certificateNo}</p>
+
+<p>Please login to Tribal Rhythm and download your certificate.</p>
+
+`
+
+});
+
+// SMS
+await axios.post(
+
+"https://control.msg91.com/api/v5/oneapi/api/flow/certificate-ready/run",
+
+{
+
+data:{
+
+sendTo:[{
+
+to:[{
+
+mobiles:"91"+mobile,
+
+variables:{
+
+name:{
+value:name
+},
+
+certificate:{
+value:certificateNo
+}
+
+}
+
+}]
+
+}]
+
+}
+
+},
+
+{
+
+headers:{
+
+authkey:process.env.MSG91_AUTH_KEY,
+
+"Content-Type":"application/json"
+
+}
+
+}
+
+);
+
+res.json({
+
+success:true,
+
+message:"Certificate notification sent."
+
+});
+
+}catch(err){
+
+console.log(err.response?.data||err);
+
+res.status(500).json({
+
+success:false,
+
+message:"Sending failed."
+
+});
+
+}
 
 });
 

@@ -6,22 +6,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TribalRhythm Login</title>
+    <title>Tribal Rhythm Login | Powered by Zentro Nex</title>
 
     <!-- SEO -->
     <meta name="description"
-        content="Login to TribalRhythm dance studio platform for student access, events, competitions, and updates.">
+        content="Login to Tribal Rhythm, a cultural platform powered and operated by Zentro Nex. Access your account, competitions, tickets, and events.">
 
-    <meta name="keywords" content="TribalRhythm, Dance Studio, Login, Dance Competition, Student Portal">
+    <meta name="keywords"
+        content="Tribal Rhythm, Zentro Nex, Login, Tribal Competition, Santali, Bhumij, Cultural Platform, Student Portal">
 
-    <meta name="author" content="TribalRhythm">
+    <meta name="author" content="Zentro Nex">
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#0b0b0b">
 
     <!-- Open Graph (Social Share) -->
-    <meta property="og:title" content="TribalRhythm Login">
-    <meta property="og:description" content="Access your TribalRhythm dance studio account.">
+    <meta property="og:title" content="Tribal Rhythm Login | Powered by Zentro Nex">
+
+    <meta property="og:description" content="Access your Tribal Rhythm account powered by Zentro Nex.">
     <meta property="og:type" content="website">
     <meta name="robots" content="index,follow">
 
@@ -32,7 +34,7 @@
     <link rel="canonical" href="https://yourdomain.com/login.html">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" type="image/png" href="tribalweblogo.png">
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -293,7 +295,18 @@
 
         <img src="tribalweblogo.png" class="logo">
 
-        <h4 id="formTitle">Create TribalRhythm Account</h4>
+        <h4 id="formTitle">
+            Create Tribal Rhythm Account
+        </h4>
+
+        <p style="
+margin-top:-5px;
+margin-bottom:18px;
+font-size:13px;
+color:#FFD700;
+font-weight:600;">
+            Powered by Zentro Nex
+        </p>
 
 
         <!-- ================= REGISTER FORM ================= -->
@@ -651,7 +664,8 @@ color:white;">
 
             document.getElementById("loginForm").style.display = "block";
 
-            document.getElementById("formTitle").innerHTML = "Welcome Back";
+            document.getElementById("formTitle").innerHTML =
+                "Welcome Back to Tribal Rhythm";
 
         }
 
@@ -663,7 +677,8 @@ color:white;">
 
             document.getElementById("loginForm").style.display = "none";
 
-            document.getElementById("formTitle").innerHTML = "Create TribalRhythm Account";
+            document.getElementById("formTitle").innerHTML =
+                "Create Tribal Rhythm Account";
 
         }
 
@@ -1158,7 +1173,7 @@ color:white;">
 
                 Swal.fire({
                     title: "Registration Successful",
-                    text: "Welcome to TribalRhythm",
+                    text: "Welcome to Tribal Rhythm - Powered by Zentro Nex",
                     icon: "success"
                 }).then(() => {
                     window.location.href = "index.html";
@@ -1177,22 +1192,25 @@ color:white;">
 
         window.loginUser = async function () {
 
-            let email =
-                document.getElementById("loginEmail").value;
-
-            let password =
-                document.getElementById("loginPassword").value;
+            let email = document.getElementById("loginEmail").value;
+            let password = document.getElementById("loginPassword").value;
 
             try {
 
-                await signInWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
+                await signInWithEmailAndPassword(auth, email, password);
 
-                window.location.href =
-                    "index.html";
+                Swal.fire({
+                    icon: "success",
+                    title: "Welcome to Tribal Rhythm",
+                    html: `
+        Successfully logged in.<br><br>
+        <small style="color:#888;">Powered by <b>Zentro Nex</b></small>
+    `,
+                    timer: 1800,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "index.html";
+                });
 
             } catch (error) {
 
@@ -1251,6 +1269,18 @@ color:white;">
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <div style="
+text-align:center;
+color:#FFD700;
+font-size:13px;
+margin-top:20px;
+padding-bottom:10px;">
+
+        © 2026 Tribal Rhythm<br>
+
+        Powered & Operated by <strong>Zentro Nex</strong>
+
+    </div>
 
 </body>
 
