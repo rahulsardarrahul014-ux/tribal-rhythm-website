@@ -1276,189 +1276,7 @@ app.post("/send-registration-sms", async (req, res) => {
 
 });
 
-// // ================= ADMIN BULK SMS =================
 
-// app.post("/send-bulk-sms", async (req, res) => {
-
-//     try {
-
-//         const { target, message, mobiles } = req.body;
-
-//         let phoneList = [];
-
-//         // ALL USERS
-
-//         if (target === "all") {
-
-//             const snap = await db.collection("users").get();
-
-//             snap.forEach(doc => {
-
-//                 const user = doc.data();
-
-//                 if (user.mobile) {
-
-//                     phoneList.push(user.mobile);
-
-//                 }
-
-//             });
-
-//         }
-
-//         // PAID USERS
-
-//         else if (target === "paid") {
-
-//             const snap = await db.collection("users")
-//                 .where("paymentStatus", "==", "paid")
-//                 .get();
-
-//             snap.forEach(doc => {
-
-//                 const user = doc.data();
-
-//                 if (user.mobile) {
-
-//                     phoneList.push(user.mobile);
-
-//                 }
-
-//             });
-
-//         }
-
-//         // PARTICIPANTS
-
-//         else if (target === "participants") {
-
-//             const snap = await db.collection("participation").get();
-
-//             snap.forEach(doc => {
-
-//                 const user = doc.data();
-
-//                 if (user.mobile) {
-
-//                     phoneList.push(user.mobile);
-
-//                 }
-
-//             });
-
-//         }
-
-//         // SELECTED USERS
-
-//         else if (target === "selected") {
-
-//             phoneList = mobiles || [];
-
-//         }
-
-//         // REMOVE DUPLICATES
-
-//         phoneList = [...new Set(phoneList)];
-
-//         if (phoneList.length === 0) {
-
-//             return res.json({
-
-//                 success: false,
-
-//                 message: "No Mobile Numbers Found"
-
-//             });
-
-//         }
-
-//         // SEND SMS
-
-//         for (const mobile of phoneList) {
-
-//             await axios.post(
-
-//                 "https://control.msg91.com/api/v5/oneapi/api/flow/admin-bulk-message/run",
-
-//                 {
-
-//                     data: {
-
-//                         sendTo: [
-
-//                             {
-
-//                                 to: [
-
-//                                     {
-
-//                                         mobiles: "91" + mobile,
-
-//                                         variables: {
-
-//                                             message: {
-
-//                                                 value: message
-
-//                                             }
-
-//                                         }
-
-//                                     }
-
-//                                 ]
-
-//                             }
-
-//                         ]
-
-//                     }
-
-//                 },
-
-//                 {
-
-//                     headers: {
-
-//                         authkey: process.env.MSG91_AUTH_KEY,
-
-//                         "Content-Type": "application/json"
-
-//                     }
-
-//                 }
-
-//             );
-
-//         }
-
-//         res.json({
-
-//             success: true,
-
-//             total: phoneList.length,
-
-//             message: phoneList.length + " SMS Sent Successfully"
-
-//         });
-
-//     }
-
-//     catch (err) {
-
-//         console.log(err.response?.data || err);
-
-//         res.status(500).json({
-
-//             success: false,
-
-//             message: err.message
-
-//         });
-
-//     }
-
-// });
 
 // ================= SEND WINNER SMS =================
 
@@ -1666,6 +1484,201 @@ app.post("/send-certificate-ready", async (req, res) => {
 
     }
 
+});
+
+
+
+app.post("/admin/send-otp", async (req, res) => {
+
+    try {
+
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "Email required"
+            });
+        }
+
+        const otp = generateOTP();
+
+        adminOtps.set(email, {
+            otp: otp,
+            expiresAt: Date.now() + (5 * 60 * 1000),
+            attempts: 0
+        });
+
+        const brevoResponse = await fetch(
+            "https://api.brevo.com/v3/smtp/email",
+            {
+                method: "POST",
+
+                headers: {
+                    "accept": "application/json",
+                    "api-key": process.env.BREVO_API_KEY,
+                    "content-type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    sender: {
+                        name: "Tribal Rhythm",
+                        email: process.env.BREVO_SENDER_EMAIL
+                    },
+
+                    to: [
+                        {
+                            email: email
+                        }
+                    ],
+
+                    subject:
+                        "Tribal Rhythm Admin OTP",
+
+                    htmlContent: `
+                        <div style="
+                            font-family:Arial;
+                            padding:20px;
+                        ">
+
+                            <h2>
+                                Tribal Rhythm Admin
+                            </h2>
+
+                            <p>
+                                Your verification OTP is:
+                            </p>
+
+                            <h1>
+                                ${otp}
+                            </h1>
+
+                            <p>
+                                This OTP is valid for
+                                5 minutes.
+                            </p>
+
+                            <p>
+                                Powered by
+                                <strong>Zentro Nex</strong>
+                            </p>
+
+                        </div>
+                    `
+                })
+            }
+        );
+
+        if (!brevoResponse.ok) {
+
+            const error =
+                await brevoResponse.text();
+
+            console.error(
+                "Brevo Error:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message: "OTP email failed"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "OTP sent successfully"
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Send OTP Error:",
+            error
+        );
+
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+});
+
+app.post("/admin/verify-otp", async (req, res) => {
+
+    try {
+
+        const { email, otp } = req.body;
+
+        if (!email || !otp) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Email and OTP required"
+            });
+        }
+
+        const record =
+            adminOtps.get(email);
+
+        if (!record) {
+
+            return res.status(400).json({
+                success: false,
+                message: "OTP not found or expired"
+            });
+        }
+
+        if (
+            Date.now() >
+            record.expiresAt
+        ) {
+
+            adminOtps.delete(email);
+
+            return res.status(400).json({
+                success: false,
+                message: "OTP expired"
+            });
+        }
+
+        if (
+            String(record.otp) !==
+            String(otp)
+        ) {
+
+            record.attempts++;
+
+            if (record.attempts >= 5) {
+                adminOtps.delete(email);
+            }
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid OTP"
+            });
+        }
+
+        adminOtps.delete(email);
+
+        res.json({
+            success: true,
+            message: "OTP verified"
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Verify OTP Error:",
+            error
+        );
+
+        res.status(500).json({
+            success: false,
+            message: "OTP verification failed"
+        });
+    }
 });
 
 // ================= ROOT =================
