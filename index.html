@@ -35,8 +35,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <!-- EmailJS -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 
 
 </head>
@@ -54,6 +53,11 @@
                         by Zentro Nex
                     </small>
                 </h4>
+            </div>
+            <div id="authButtons">
+                <a href="login.html" class="btn btn-warning btn-sm">
+                    Login / Register
+                </a>
             </div>
         </div>
     </header>
@@ -145,11 +149,7 @@
                 </div>
 
             </div>
-            <div id="authButtons">
-                <a href="login.html" class="btn btn-warning px-4">
-                    Login / Register
-                </a>
-            </div>
+
 
 
         </div>
@@ -414,7 +414,8 @@
                         </select>
 
 
-                        <button onclick="sendOTP()">
+                        <!-- Send OTP button -->
+                        <button id="sendOtpBtn" class="send-otp-btn" type="button" onclick="sendOTP()">
                             Send Email OTP
                         </button>
 
@@ -793,7 +794,8 @@
 
                 <a href="terms.html">Terms & Conditions</a> |
                 <a href="refund-policy.html">Refund Policy</a> |
-                <a href="shipping-policy.html">Shipping Policy</a>
+                <a href="shipping-policy.html">Shipping Policy</a> |
+                <a href="privacy.html">Privacy Policy</a>
 
             </div>
 
@@ -884,7 +886,7 @@
         // ================= SEND OTP =================
         window.sendOTP = async function () {
 
-            const sendBtn = document.querySelector(".send-otp-btn");
+            const sendBtn = document.getElementById("sendOtpBtn");
             sendBtn.disabled = true;
             sendBtn.innerText = "Sending OTP...";
 
@@ -956,6 +958,8 @@
                 Swal.fire("Tribal Rhythm", "Enter valid email", "warning");
                 return;
             }
+            sendBtn.disabled = true;
+            sendBtn.innerText = "Sending OTP...";
 
             try {
 
@@ -1044,6 +1048,10 @@
                     "Unable to send OTP",
                     "error"
                 );
+            }
+            finally {
+                sendBtn.disabled = false;
+                sendBtn.innerText = "Send Email OTP";
             }
 
         }
@@ -1295,53 +1303,16 @@
 
         // ================= VERIFY OTP =================
         window.verifyOTP = async function () {
+            const email = document.getElementById("ticketEmail")
+                .value
+                .trim()
+                .toLowerCase();
 
-
-            // ================= TEMP TEST OTP =================
-
-            const otp =
-                document.getElementById("ticketOTP").value.trim();
-
-            if (otp === "112737") {
-
-                const email =
-                    document.getElementById("ticketEmail")
-                        .value
-                        .trim()
-                        .toLowerCase();
-
-                localStorage.setItem("ticketVerified", "true");
-                localStorage.setItem("ticketEmail", email);
-
-                clearInterval(otpTimerInterval);
-
-                document.getElementById("ticketOTP").style.display = "none";
-                document.getElementById("verifyOtpBtn").style.display = "none";
-                document.getElementById("otpTimer").style.display = "none";
-                document.getElementById("resendOtpLink").style.display = "none";
-                document.getElementById("otpVerifiedMessage").style.display = "block";
-
-                Swal.fire(
-                    "Testing Mode",
-                    "OTP Verified Successfully",
-                    "success"
-                );
-
-                return;
-            }
-
-            // const email =
-            //     document.getElementById("ticketEmail")
-            //         .value.trim()
-            //         .toLowerCase();
-
-            // const otp =
-            //     document.getElementById("ticketOTP")
-            //         .value.trim();   uncomit after update code ...........
-
+            const otp = document.getElementById("ticketOTP")
+                .value
+                .trim();
 
             if (otp.length !== 6) {
-
                 Swal.fire(
                     "Tribal Rhythm",
                     "Enter 6 digit OTP",
@@ -1350,9 +1321,7 @@
                 return;
             }
 
-
             try {
-
                 const res = await fetch(
                     "https://tribal-rhythm-backend.onrender.com/verify-otp",
                     {
