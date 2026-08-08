@@ -55,6 +55,7 @@
             /* ✅ scroll allow */
             padding: 20px 0;
             /* ✅ top-bottom spacing */
+            flex-direction: column;
         }
 
         /* 🌟 BACKGROUND GLOW */
@@ -284,6 +285,59 @@
             font-size: 20px;
             font-weight: bold;
         }
+
+        /* SweetAlert mobile fix */
+        .swal2-container {
+            z-index: 20000 !important;
+            padding: 12px !important;
+        }
+
+        .swal2-popup {
+            width: min(92vw, 380px) !important;
+            max-height: calc(100dvh - 24px);
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        .page-footer {
+            width: 100%;
+            text-align: center;
+            color: #FFD700;
+            font-size: 13px;
+            margin-top: 20px;
+            padding: 10px 15px;
+        }
+
+        .field-label {
+            display: block;
+            text-align: left;
+            margin-top: 14px;
+            font-size: 13px;
+            color: #fff;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 5px;
+            top: 10px;
+            width: auto;
+            padding: 8px;
+            margin: 0;
+            background: none;
+            border: 0;
+            box-shadow: none;
+            color: #fff;
+        }
+
+        #password,
+        #confirmPassword,
+        #loginPassword {
+            padding-right: 50px;
+        }
+
+        a {
+            text-decoration: none !important;
+        }
     </style>
 </head>
 
@@ -316,7 +370,9 @@ font-weight:600;">
 
             <input id="name" placeholder="Full Name">
             <input id="age" placeholder="Age">
-            <input id="dob" type="date">
+            <label for="dob" class="field-label">Enter your Date of Birth</label>
+            <input id="dob" type="date" aria-label="Enter your Date of Birth">
+            <!-- <input id="dob" type="date"> -->
             <input id="mobile" type="tel" maxlength="10" placeholder="Mobile Number">
 
 
@@ -336,7 +392,7 @@ font-weight:600;">
 
 
             <div style="margin-top:10px;">
-                <span id="phoneTimerText" style="color:red;">(60)</span>
+                <span id="phoneTimerText" style="color:red;">60</span>
 
                 <a href="javascript:void(0)" id="phoneResendBtn" onclick="sendPhoneOTP()" style="color:gold;">
                     Resend Phone OTP
@@ -357,17 +413,8 @@ font-weight:600;">
 
                 <input type="password" id="password" placeholder="Create Password">
 
-                <button type="button" onclick="togglePassword()" style="
-position:absolute;
-right:5px;
-top:10px;
-width:auto;
-padding:8px;
-background:none;
-box-shadow:none;
-color:white;">
-                    👁
-                </button>
+                <button type="button" id="passwordEye" class="password-toggle" onclick="togglePassword()"
+                    aria-label="Show password">👁️</button>
 
             </div>
 
@@ -375,17 +422,8 @@ color:white;">
 
                 <input type="password" id="confirmPassword" placeholder="Confirm Password">
 
-                <button type="button" onclick="toggleConfirmPassword()" style="
-    position:absolute;
-    right:5px;
-    top:10px;
-    width:auto;
-    padding:8px;
-    background:none;
-    box-shadow:none;
-    color:white;">
-                    👁
-                </button>
+                <button type="button" id="confirmPasswordEye" class="password-toggle" onclick="toggleConfirmPassword()"
+                    aria-label="Show confirm password">👁️</button>
 
             </div>
 
@@ -395,7 +433,7 @@ color:white;">
                 📧 Send Email OTP
             </button>
             <div style="margin-top:10px;">
-                <span id="emailTimerText" style="color:red;">(60)</span>
+                <span id="emailTimerText" style="color:red;">60</span>
 
                 <a href="javascript:void(0)" id="emailResendBtn" onclick="sendOTP()" style="color:gold;">
                     Resend Email OTP
@@ -426,7 +464,7 @@ color:white;">
 
 
 
-            <label>Enter Pincode</label>
+            <label>Enter PIN Code</label>
 
             <div class="otp-container">
 
@@ -523,27 +561,15 @@ color:white;">
         <div id="loginForm" style="display:none;">
 
 
-            <input id="loginEmail" placeholder="Email">
+            <input id="loginEmail" type="email" placeholder="Email">
 
 
             <div style="position:relative;">
 
                 <input type="password" id="loginPassword" placeholder="Password">
 
-                <button type="button" id="loginEye" onclick="toggleLoginPassword()" style="
-    position:absolute;
-    right:5px;
-    top:10px;
-    width:auto;
-    padding:8px;
-    background:none;
-    border:none;
-    color:white;
-    cursor:pointer;">
-
-                    👁️
-
-                </button>
+                <button type="button" id="loginEye" class="password-toggle" onclick="toggleLoginPassword()"
+                    aria-label="Show password">👁️</button>
 
             </div>
 
@@ -619,45 +645,23 @@ color:white;">
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        window.togglePassword = function () {
+        function togglePasswordField(inputId, eyeId) {
+            const input = document.getElementById(inputId);
+            const eye = document.getElementById(eyeId);
+            const showing = input.type === "text";
 
-            let pass = document.getElementById("password");
-
-            if (pass.type === "password") {
-                pass.type = "text";
-            }
-            else {
-                pass.type = "password";
-            }
-
+            input.type = showing ? "password" : "text";
+            eye.textContent = showing ? "👁️" : "🙈";
+            eye.setAttribute("aria-label", showing ? "Show password" : "Hide password");
         }
 
-        window.toggleConfirmPassword = function () {
+        window.togglePassword = () => togglePasswordField("password", "passwordEye");
 
-            let pass = document.getElementById("confirmPassword");
+        window.toggleConfirmPassword = () =>
+            togglePasswordField("confirmPassword", "confirmPasswordEye");
 
-            if (pass.type === "password") {
-                pass.type = "text";
-            }
-            else {
-                pass.type = "password";
-            }
-
-        }
-
-        window.toggleLoginPassword = function () {
-
-            const pass = document.getElementById("loginPassword");
-            const eye = document.getElementById("loginEye");
-
-            if (pass.type === "password") {
-                pass.type = "text";
-                eye.innerHTML = "🙈";
-            } else {
-                pass.type = "password";
-                eye.innerHTML = "👁️";
-            }
-        };
+        window.toggleLoginPassword = () =>
+            togglePasswordField("loginPassword", "loginEye");
         window.showLogin = function () {
 
             document.getElementById("registerForm").style.display = "none";
@@ -701,37 +705,37 @@ color:white;">
             emailTime = 60;
 
             document.getElementById("emailResendBtn").style.pointerEvents = "none";
+            document.getElementById("emailTimerText").innerText = emailTime;
 
             emailInterval = setInterval(() => {
                 emailTime--;
 
-                document.getElementById("emailTimerText").innerText = `(${emailTime})`;
+                document.getElementById("emailTimerText").innerText = emailTime;
 
                 if (emailTime <= 0) {
                     clearInterval(emailInterval);
                     document.getElementById("emailResendBtn").style.pointerEvents = "auto";
-                    document.getElementById("emailTimerText").innerText = "(0)";
-
+                    document.getElementById("emailTimerText").innerText = "0";
                 }
             }, 1000);
         }
-
 
         function startPhoneTimer() {
             clearInterval(phoneInterval);
             phoneTime = 60;
 
             document.getElementById("phoneResendBtn").style.pointerEvents = "none";
+            document.getElementById("phoneTimerText").innerText = phoneTime;
 
             phoneInterval = setInterval(() => {
                 phoneTime--;
 
-                document.getElementById("phoneTimerText").innerText = `(${phoneTime})`;
+                document.getElementById("phoneTimerText").innerText = phoneTime;
 
                 if (phoneTime <= 0) {
                     clearInterval(phoneInterval);
                     document.getElementById("phoneResendBtn").style.pointerEvents = "auto";
-                    document.getElementById("phoneTimerText").innerText = "(0)";
+                    document.getElementById("phoneTimerText").innerText = "0";
                 }
             }, 1000);
         }
@@ -1269,18 +1273,10 @@ color:white;">
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <div style="
-text-align:center;
-color:#FFD700;
-font-size:13px;
-margin-top:20px;
-padding-bottom:10px;">
-
-        © 2026 Tribal Rhythm<br>
-
+    <footer class="page-footer">
+        © 2026 Tribal Rhythm. All Rights Reserved.<br>
         Powered & Operated by <strong>Zentro Nex</strong>
-
-    </div>
+    </footer>
 
 </body>
 
