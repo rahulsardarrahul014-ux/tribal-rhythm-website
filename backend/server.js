@@ -1681,6 +1681,324 @@ app.post("/admin/verify-otp", async (req, res) => {
     }
 });
 
+
+// ================= TICKET VERIFICATION =================
+
+app.get("/verify-ticket", async (req, res) => {
+
+    try {
+
+        const ticketId =
+            String(req.query.ticketId || "")
+                .trim()
+                .toUpperCase();
+
+        // ================= VALIDATE TICKET ID =================
+
+        if (!ticketId) {
+
+            return res.status(400).json({
+                success: false,
+                status: "INVALID",
+                message: "Ticket ID is required."
+            });
+
+        }
+
+        // Example: TR-20260808-ABC123
+        if (!/^TR-[A-Z0-9-]+$/.test(ticketId)) {
+
+            return res.status(400).json({
+                success: false,
+                status: "INVALID",
+                message: "Invalid Ticket ID format."
+            });
+
+        }
+
+        // ================= FIRESTORE SEARCH =================
+
+        const snapshot = await db
+            .collection("bookings")
+            .where("ticketId", "==", ticketId)
+            .limit(1)
+            .get();
+
+        // ================= TICKET NOT FOUND =================
+
+        if (snapshot.empty) {
+
+            return res.status(404).json({
+                success: false,
+                status: "INVALID",
+                message: "Ticket not found."
+            });
+
+        }
+
+        const doc = snapshot.docs[0];
+
+        const booking = doc.data();
+
+        // ================= PAYMENT CHECK =================
+
+        if (booking.status !== "success") {
+
+            return res.status(403).json({
+                success: false,
+                status: "INVALID",
+                message: "Payment is not verified."
+            });
+
+        }
+
+        // ================= ALREADY USED =================
+
+        if (booking.entryStatus === "used") {
+
+            return res.status(200).json({
+
+                success: false,
+
+                status: "USED",
+
+                message:
+                    "This ticket has already been used.",
+
+                ticket: {
+                    ticketId: booking.ticketId,
+                    name: booking.name,
+                    ticketType: booking.ticketType,
+                    ticketQuantity: booking.ticketQuantity,
+                    usedAt: booking.usedAt || null
+                }
+
+            });
+
+        }
+
+        // ================= VALID TICKET =================
+
+        return res.status(200).json({
+
+            success: true,
+
+            status: "VALID",
+
+            message: "Valid ticket.",
+
+            ticket: {
+
+                ticketId:
+                    booking.ticketId,
+
+                name:
+                    booking.name,
+
+                phone:
+                    booking.phone,
+
+                ticketType:
+                    booking.ticketType,
+
+                ticketQuantity:
+                    booking.ticketQuantity,
+
+                paymentId:
+                    booking.paymentId,
+
+                status:
+                    booking.status,
+
+                entryStatus:
+                    booking.entryStatus || "unused"
+
+            }
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Ticket verification error:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            status: "ERROR",
+
+            message:
+                "Server error while verifying ticket."
+
+        });
+
+    }
+
+});
+
+
+// ================= MARK TICKET AS USED =================
+
+app.post("/use-ticket", async (req, res) => {
+
+    try {
+
+        const ticketId =
+            String(req.body.ticketId || "")
+                .trim()
+                .toUpperCase();
+
+        // ================= VALIDATE =================
+
+        if (!ticketId) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                status: "INVALID",
+
+                message:
+                    "Ticket ID is required."
+
+            });
+
+        }
+
+        // ================= FIND BOOKING =================
+
+        const snapshot = await db
+            .collection("bookings")
+            .where("ticketId", "==", ticketId)
+            .limit(1)
+            .get();
+
+        if (snapshot.empty) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                status: "INVALID",
+
+                message:
+                    "Ticket not found."
+
+            });
+
+        }
+
+        const ticketDoc =
+            snapshot.docs[0];
+
+        const booking =
+            ticketDoc.data();
+
+        // ================= PAYMENT CHECK =================
+
+        if (booking.status !== "success") {
+
+            return res.status(403).json({
+
+                success: false,
+
+                status: "INVALID",
+
+                message:
+                    "Payment is not verified."
+
+            });
+
+        }
+
+        // ================= ALREADY USED =================
+
+        if (booking.entryStatus === "used") {
+
+            return res.status(409).json({
+
+                success: false,
+
+                status: "USED",
+
+                message:
+                    "Ticket has already been used.",
+
+                usedAt:
+                    booking.usedAt || null
+
+            });
+
+        }
+
+        // ================= MARK USED =================
+
+        await ticketDoc.ref.update({
+
+            entryStatus: "used",
+
+            usedAt:
+                new Date(),
+
+            verifiedAt:
+                new Date()
+
+        });
+
+        // ================= SUCCESS =================
+
+        return res.status(200).json({
+
+            success: true,
+
+            status: "USED",
+
+            message:
+                "Ticket verified and entry marked successfully.",
+
+            ticket: {
+
+                ticketId:
+                    booking.ticketId,
+
+                name:
+                    booking.name,
+
+                ticketType:
+                    booking.ticketType,
+
+                ticketQuantity:
+                    booking.ticketQuantity
+
+            }
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Use ticket error:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            status: "ERROR",
+
+            message:
+                "Unable to process ticket."
+
+        });
+
+    }
+
+});
+
 // ================= ROOT =================
 app.get("/", (req, res) => {
     res.send("Tribal Rhythm API Running 🚀");
