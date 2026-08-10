@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const nodemailer = require("nodemailer");
+
 const admin = require("firebase-admin");
 const cors = require("cors");
 const crypto = require("crypto");
@@ -43,7 +43,7 @@ app.use(cors({
 const serviceAccount = {
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: (process.env.FIREBASE_PRIVATE_KEY || "").replace(/\n/g, "\n")
+   privateKey: (process.env.FIREBASE_PRIVATE_KEY || "").replace(/\\n/g, "\n")
 };
 console.log("PROJECT_ID:", process.env.FIREBASE_PROJECT_ID);
 console.log("CLIENT_EMAIL:", process.env.FIREBASE_CLIENT_EMAIL);
@@ -132,40 +132,54 @@ console.log("SECRET :", process.env.RAZORPAY_KEY_SECRET ? "Loaded" : "Missing");
 
 // ================= EMAIL =================
 
-const transporter = nodemailer.createTransport({
+// ================= BREVO EMAIL API =================
 
-    host: "smtp-relay.brevo.com",
+const sendBrevoEmail = async ({
+    to,
+    subject,
+    html,
+    name = ""
+}) => {
 
-    port: 587,
+    const response = await axios.post(
+        "https://api.brevo.com/v3/smtp/email",
 
-    secure: false,
+        {
+            sender: {
+                name: "Tribal Rhythm",
+                email: process.env.BREVO_SENDER_EMAIL
+            },
 
-    auth: {
-        user: process.env.BREVO_USER,
-        pass: process.env.BREVO_PASS
-    },
+            to: [
+                {
+                    email: to,
+                    name: name || undefined
+                }
+            ],
 
-    tls: {
-        minVersion: "TLSv1.2"
-    },
+            subject: subject,
 
-    connectionTimeout: 60000,
+            htmlContent: html
+        },
 
-    greetingTimeout: 30000,
+        {
+            headers: {
+                accept: "application/json",
+                "api-key": process.env.BREVO_API_KEY,
+                "content-type": "application/json"
+            },
 
-    socketTimeout: 60000
+            timeout: 30000
+        }
+    );
 
-});
+    console.log(
+        "✅ Brevo Email Sent:",
+        response.data
+    );
 
-transporter.verify((err) => {
-
-    if (err) {
-        console.log("SMTP ERROR:", err);
-    } else {
-        console.log("SMTP Connected ✅");
-    }
-
-});
+    return response.data;
+};
 
 // ================= RATE LIMIT =================
 const otpLimiter = rateLimit({
@@ -220,6 +234,8 @@ const isValidEmail = (email) => {
 };
 
 // ================= SEND OTP =================
+
+
 // ================= ADMIN SEND OTP =================
 
 app.post("/admin/send-otp", async (req, res) => {
@@ -244,7 +260,7 @@ app.post("/admin/send-otp", async (req, res) => {
             });
         }
 
-        // Make sure this email exists in Firebase Authentication
+        // Check Firebase Auth user
         let adminUser;
 
         try {
@@ -258,37 +274,48 @@ app.post("/admin/send-otp", async (req, res) => {
                 success: false,
                 message: "Admin Firebase account not found"
             });
+
         }
 
         const otp = generateOTP();
         const otpHash = hashOTP(otp);
 
+        // Save hashed OTP in Firestore
         await db
             .collection("adminOtps")
             .doc(email)
             .set({
+
                 otpHash,
+
                 uid: adminUser.uid,
+
                 attempts: 0,
-                createdAt: admin.firestore.Timestamp.now(),
-                expiresAt: admin.firestore.Timestamp.fromMillis(
-                    Date.now() + 5 * 60 * 1000
-                )
+
+                createdAt:
+                    admin.firestore.Timestamp.now(),
+
+                expiresAt:
+                    admin.firestore.Timestamp.fromMillis(
+                        Date.now() + 5 * 60 * 1000
+                    )
             });
 
-        await transporter.sendMail({
+        // ================= BREVO API EMAIL =================
 
-            from:
-                `TRIBAL RHYTHM <${process.env.BREVO_USER}>`,
+        await sendBrevoEmail({
 
             to: email,
+
+            name: adminUser.displayName || "Admin",
 
             subject:
                 "🔐 Tribal Rhythm Admin OTP",
 
             html: `
+
                 <div style="
-                    font-family:Arial;
+                    font-family:Arial,sans-serif;
                     max-width:600px;
                     margin:auto;
                     padding:30px;
@@ -329,27 +356,41 @@ app.post("/admin/send-otp", async (req, res) => {
                     </p>
 
                 </div>
+
             `
         });
 
         return res.json({
+
             success: true,
-            message: "Admin OTP sent successfully"
+
+            message:
+                "Admin OTP sent successfully"
+
         });
 
     } catch (error) {
 
         console.error(
             "ADMIN SEND OTP ERROR:",
-            error
+            error.response?.data ||
+            error.message
         );
 
         return res.status(500).json({
+
             success: false,
-            message: "Unable to send admin OTP"
+
+            message:
+                "Unable to send admin OTP"
+
         });
+
     }
+
 });
+
+
 
 app.post("/send-phone-otp", async (req, res) => {
     try {
@@ -368,7 +409,7 @@ app.post("/send-phone-otp", async (req, res) => {
         console.log("OTP:", otp);
         console.log("MSG91 KEY:", process.env.MSG91_AUTH_KEY ? "Loaded" : "Missing");
 
-       
+
 
         const response = await axios.post(
             "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
@@ -771,40 +812,69 @@ app.post("/check-entry", async (req, res) => {
 
 // ================= REGISTRATION CONFIRMATION EMAIL =================
 
-app.post("/send-registration-email", checkAdmin,async (req, res) => {
+app.post("/send-registration-email", checkAdmin, async (req, res) => {
 
     try {
 
         const { name, email, ticketId } = req.body;
 
-        await transporter.sendMail({
-
-            from: `TRIBAL RHYTHM <${process.env.BREVO_USER}>`,
+        await sendBrevoEmail({
 
             to: email,
 
-            subject: "🎟️ Tribal Rhythm Ticket Booking Successful",
+            name: name,
+
+            subject:
+                "🎟️ Tribal Rhythm Ticket Booking Successful",
 
             html: `
-                <h2>Payment Successful 🎉</h2>
 
-                <p>Hello <b>${name}</b>,</p>
+        <div style="
+            font-family:Arial,sans-serif;
+            max-width:600px;
+            margin:auto;
+            padding:30px;
+            background:#111;
+            color:#fff;
+            border-radius:12px;
+        ">
 
-                <p>
-                    Your ticket booking has been successfully completed.
-                </p>
+            <h2 style="color:#FFD700;">
+                Payment Successful 🎉
+            </h2>
 
-                <p>
-                    <b>Ticket ID:</b> ${ticketId}
-                </p>
+            <p>
+                Hello <b>${name}</b>,
+            </p>
 
-                <p>
-                    Thank you for booking with Tribal Rhythm.
-                </p>
+            <p>
+                Your ticket booking has been
+                successfully completed.
+            </p>
 
-                <h3>Team Tribal Rhythm</h3>
-            `
+            <p>
+                <b>Ticket ID:</b>
+                ${ticketId}
+            </p>
 
+            <p>
+                Thank you for booking with
+                Tribal Rhythm.
+            </p>
+
+            <h3>
+                Team Tribal Rhythm
+            </h3>
+
+            <hr>
+
+            <p>
+                Powered by <b>Zentro Nex</b>
+            </p>
+
+        </div>
+
+    `
         });
 
         console.log("✅ Confirmation email sent to:", email);
@@ -840,7 +910,7 @@ app.post("/send-registration-email", checkAdmin,async (req, res) => {
 
 // ================= BULK EMAIL CENTER =================
 
-app.post("/send-bulk-email",checkAdmin, async (req, res) => {
+app.post("/send-bulk-email", checkAdmin, async (req, res) => {
 
     try {
 
@@ -944,29 +1014,50 @@ app.post("/send-bulk-email",checkAdmin, async (req, res) => {
 
 
 
-        await transporter.sendMail({
+        await axios.post(
+            "https://api.brevo.com/v3/smtp/email",
 
-            from:
-                `TRIBAL RHYTHM <${process.env.BREVO_USER}>`,
+            {
+                sender: {
+                    name: "Tribal Rhythm",
+                    email: process.env.BREVO_SENDER_EMAIL
+                },
 
-            bcc: users,
+                bcc: users.map(email => ({
+                    email: email
+                })),
 
-            subject: subject,
+                subject: subject,
 
+                htmlContent: `
+            <div style="font-family:Arial,sans-serif">
 
-            html: `
+                <h2>🎭 Tribal Rhythm</h2>
 
-            <div style="font-family:Arial">
+                <p>
+                    ${message}
+                </p>
 
-            <h2>🎭 Tribal Rhythm</h2>
+                <hr>
 
-            <p>${message}</p>
+                <p>
+                    Powered by <b>Zentro Nex</b>
+                </p>
 
             </div>
+        `
+            },
 
-            `
+            {
+                headers: {
+                    accept: "application/json",
+                    "api-key": process.env.BREVO_API_KEY,
+                    "content-type": "application/json"
+                },
 
-        });
+                timeout: 30000
+            }
+        );
 
 
 
@@ -1005,7 +1096,7 @@ app.post("/send-bulk-email",checkAdmin, async (req, res) => {
 
 // ================= BULK SMS CENTER =================
 
-app.post("/send-bulk-sms",checkAdmin, async (req, res) => {
+app.post("/send-bulk-sms", checkAdmin, async (req, res) => {
 
     try {
 
@@ -1170,7 +1261,7 @@ app.post("/send-bulk-sms",checkAdmin, async (req, res) => {
 
 // ================= PAYMENT SUCCESS SMS =================
 
-app.post("/send-payment-success-sms",checkAdmin, async (req, res) => {
+app.post("/send-payment-success-sms", checkAdmin, async (req, res) => {
 
     try {
 
@@ -1274,7 +1365,7 @@ app.post("/send-payment-success-sms",checkAdmin, async (req, res) => {
 
 // ================= SEND REGISTRATION SUCCESS SMS =================
 
-app.post("/send-registration-sms",checkAdmin, async (req, res) => {
+app.post("/send-registration-sms", checkAdmin, async (req, res) => {
 
     try {
 
@@ -1346,7 +1437,7 @@ app.post("/send-registration-sms",checkAdmin, async (req, res) => {
 
 // ================= SEND WINNER SMS =================
 
-app.post("/send-winner-sms",checkAdmin, async (req, res) => {
+app.post("/send-winner-sms", checkAdmin, async (req, res) => {
 
     try {
 
@@ -1448,35 +1539,64 @@ app.post("/send-winner-sms",checkAdmin, async (req, res) => {
 
 });
 
-app.post("/send-certificate-ready",checkAdmin, async (req, res) => {
+app.post("/send-certificate-ready", checkAdmin, async (req, res) => {
 
     try {
 
         const { name, mobile, email, certificateNo } = req.body;
 
         // Email
-        await transporter.sendMail({
-
-            from: `TRIBAL RHYTHM <${process.env.BREVO_USER}>`,
+        await sendBrevoEmail({
 
             to: email,
 
-            subject: "🎓 Certificate Ready",
+            name: name,
+
+            subject:
+                "🎓 Tribal Rhythm Certificate Ready",
 
             html: `
 
-<h2>Certificate Ready</h2>
+        <div style="
+            font-family:Arial,sans-serif;
+            max-width:600px;
+            margin:auto;
+            padding:30px;
+            background:#111;
+            color:#fff;
+            border-radius:12px;
+        ">
 
-<p>Hello <b>${name}</b>,</p>
+            <h2 style="color:#FFD700;">
+                🎓 Certificate Ready
+            </h2>
 
-<p>Your participation certificate is now ready.</p>
+            <p>
+                Hello <b>${name}</b>,
+            </p>
 
-<p><b>Certificate No:</b> ${certificateNo}</p>
+            <p>
+                Your Tribal Rhythm certificate is ready.
+            </p>
 
-<p>Please login to Tribal Rhythm and download your certificate.</p>
+            <p>
+                <b>Certificate No:</b>
+                ${certificateNo}
+            </p>
 
-`
+            <p>
+                Thank you for participating.
+            </p>
 
+            <hr>
+
+            <p>
+                Powered by <b>Zentro Nex</b>
+            </p>
+
+        </div>
+
+    `
         });
 
         // SMS
@@ -1554,122 +1674,7 @@ app.post("/send-certificate-ready",checkAdmin, async (req, res) => {
 
 
 
-app.post("/admin/send-otp", async (req, res) => {
 
-    try {
-
-        const { email } = req.body;
-
-        if (!email) {
-            return res.status(400).json({
-                success: false,
-                message: "Email required"
-            });
-        }
-
-        const otp = generateOTP();
-
-        adminOtps.set(email, {
-            otp: otp,
-            expiresAt: Date.now() + (5 * 60 * 1000),
-            attempts: 0
-        });
-
-        const brevoResponse = await fetch(
-            "https://api.brevo.com/v3/smtp/email",
-            {
-                method: "POST",
-
-                headers: {
-                    "accept": "application/json",
-                    "api-key": process.env.BREVO_API_KEY,
-                    "content-type": "application/json"
-                },
-
-                body: JSON.stringify({
-
-                    sender: {
-                        name: "Tribal Rhythm",
-                        email: process.env.BREVO_SENDER_EMAIL
-                    },
-
-                    to: [
-                        {
-                            email: email
-                        }
-                    ],
-
-                    subject:
-                        "Tribal Rhythm Admin OTP",
-
-                    htmlContent: `
-                        <div style="
-                            font-family:Arial;
-                            padding:20px;
-                        ">
-
-                            <h2>
-                                Tribal Rhythm Admin
-                            </h2>
-
-                            <p>
-                                Your verification OTP is:
-                            </p>
-
-                            <h1>
-                                ${otp}
-                            </h1>
-
-                            <p>
-                                This OTP is valid for
-                                5 minutes.
-                            </p>
-
-                            <p>
-                                Powered by
-                                <strong>Zentro Nex</strong>
-                            </p>
-
-                        </div>
-                    `
-                })
-            }
-        );
-
-        if (!brevoResponse.ok) {
-
-            const error =
-                await brevoResponse.text();
-
-            console.error(
-                "Brevo Error:",
-                error
-            );
-
-            return res.status(500).json({
-                success: false,
-                message: "OTP email failed"
-            });
-        }
-
-        res.json({
-            success: true,
-            message: "OTP sent successfully"
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Send OTP Error:",
-            error
-        );
-
-        res.status(500).json({
-            success: false,
-            message: "Server error"
-        });
-    }
-});
 
 app.post("/admin/verify-otp", async (req, res) => {
 
