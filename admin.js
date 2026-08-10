@@ -175,9 +175,13 @@ onAuthStateChanged(auth, async (user) => {
     /* 🔒 OWNER ONLY */
     if (user.email !== OWNER_EMAIL) {
 
-        alert("⛔ Owner access only");
+        await showError(
+            "Only the owner can access the Admin Panel.",
+            "Access Denied"
+        );
 
         await signOut(auth);
+
 
         document.getElementById("login").style.display =
             "flex";
@@ -293,24 +297,26 @@ window.login = async () => {
 
         if (error.code === "auth/invalid-credential") {
 
-            msg.innerText =
-                "Wrong Email or Password";
+            showError(
+                "Wrong Email or Password",
+                "Login Failed"
+            );
 
         }
+        else if (error.code === "auth/user-not-found") {
 
-        else if (
-            error.code === "auth/user-not-found"
-        ) {
-
-            msg.innerText =
-                "Admin not found";
+            showError(
+                "Admin account not found.",
+                "Login Failed"
+            );
 
         }
-
         else {
 
-            msg.innerText =
-                error.message;
+            showError(
+                error.message,
+                "Login Failed"
+            );
 
         }
 
@@ -327,16 +333,22 @@ window.resetPass = () => {
 
     if (!emailValue) {
 
-        alert("Enter Email ❌");
-        return;
+        showWarning(
+            "Please enter your email address.",
+            "Email Required"
+        );
 
+        return;
     }
 
     sendPasswordResetEmail(auth, emailValue)
 
         .then(() => {
 
-            alert("Reset Email Sent ✅");
+            showSuccess(
+                "Password reset email has been sent.",
+                "Reset Email Sent"
+            );
 
         })
 
@@ -503,28 +515,56 @@ window.logout = () => {
 
 };
 
+
+
 window.changePassword = async () => {
 
     const newPass =
         document.getElementById("newPassword")?.value.trim();
 
     if (!newPass) {
-        alert("Enter new password ❌");
+
+        showWarning(
+            "Please enter a new password.",
+            "Password Required"
+        );
+
         return;
     }
 
     if (!auth.currentUser) {
-        alert("Login required ❌");
+
+        showError(
+            "Please login first.",
+            "Login Required"
+        );
+
         return;
     }
 
-    await updatePassword(
-        auth.currentUser,
-        newPass
-    );
+    try {
 
-    alert("Password Updated");
-}
+        await updatePassword(
+            auth.currentUser,
+            newPass
+        );
+
+        showSuccess(
+            "Your password has been updated successfully.",
+            "Password Updated"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        showError(
+            error.message,
+            "Password Update Failed"
+        );
+
+    }
+};
 
 
 
@@ -698,7 +738,12 @@ window.addNews = async () => {
     const newsInput = document.getElementById("newsInput");
 
     if (!newsInput || !newsInput.value.trim()) {
-        alert("Enter news ❌");
+
+        showWarning(
+            "Please enter news before adding.",
+            "News Required"
+        );
+
         return;
     }
 
@@ -708,7 +753,11 @@ window.addNews = async () => {
     });
 
     newsInput.value = "";
-    alert("News Added ✅");
+    showSuccess(
+        "News has been added successfully.",
+        "News Added"
+    );
+
 };
 
 /* 🎯 JUDGE SCORING */
@@ -828,7 +877,12 @@ window.generateCertificate = async () => {
     let firstCat = Object.keys(map)[0];
 
     if (!firstCat) {
-        alert("No category found");
+
+        showWarning(
+            "No scoring category is available.",
+            "No Category"
+        );
+
         return;
     }
 
@@ -841,7 +895,12 @@ window.generateCertificate = async () => {
     arr.sort((a, b) => b.score - a.score);
 
     if (arr.length === 0) {
-        alert("No scores found");
+
+        showWarning(
+            "No scores are available to generate a certificate.",
+            "No Scores"
+        );
+
         return;
     }
 
@@ -865,6 +924,10 @@ window.generateCertificate = async () => {
     doc.text("Tribal Rhythm Event", 70, 130);
 
     doc.save("certificate.pdf");
+    showSuccess(
+        `Certificate generated successfully for ${winner.name}.`,
+        "Certificate Generated"
+    );
 };
 
 window.updateLive = () => {
@@ -1013,7 +1076,10 @@ window.approveUser = async (uid) => {
         }
     }
 
-    alert("User Approved ✅");
+    showSuccess(
+        "User has been approved successfully.",
+        "User Approved"
+    );
 };
 
 window.approve = id =>
@@ -1027,7 +1093,12 @@ window.scanTicket = async () => {
     let id = document.getElementById("scanInput").value.trim();
 
     if (!id) {
-        alert("Enter ticket ID ❌");
+
+        showWarning(
+            "Please enter a ticket ID.",
+            "Ticket Required"
+        );
+
         return;
     }
 
@@ -1166,7 +1237,12 @@ window.verifyOTP = async function () {
             .join("");
 
     if (!email) {
-        alert("Enter Email ❌");
+
+        showWarning(
+            "Please enter your email address.",
+            "Email Required"
+        );
+
         return;
     }
 
@@ -1223,7 +1299,10 @@ window.verifyOTP = async function () {
 
         otpVerified = false;
 
-        alert("OTP verification failed ❌");
+        showError(
+            "OTP verification failed. Please try again.",
+            "Verification Failed"
+        );
     }
 };
 
@@ -1270,7 +1349,12 @@ window.sendTestEmail = async () => {
         document.getElementById("emailMessage")?.value.trim();
 
     if (!target || !subject || !message) {
-        alert("Recipient, Subject and Message required");
+
+        showWarning(
+            "Recipient, subject and message are required.",
+            "Missing Information"
+        );
+
         return;
     }
 
@@ -1293,11 +1377,17 @@ window.sendTestEmail = async () => {
             throw new Error(data.message || "Email sending failed");
         }
 
-        alert(data.message || "Test email sent ✅");
+        showSuccess(
+            data.message || "Test email sent successfully.",
+            "Email Sent"
+        );
 
     } catch (error) {
         console.error("Test email error:", error);
-        alert(error.message || "Email sending failed ❌");
+        showError(
+            error.message || "Email sending failed.",
+            "Email Failed"
+        );
     }
 };
 
@@ -1318,9 +1408,12 @@ window.sendBulkEmail = async () => {
 
     if (!subject || !message) {
 
-        alert("Subject and Message required");
-        return;
+        showWarning(
+            "Subject and message are required.",
+            "Missing Information"
+        );
 
+        return;
     }
 
 
@@ -1354,7 +1447,21 @@ window.sendBulkEmail = async () => {
             await response.json();
 
 
-        alert(data.message);
+        if (data.success === false) {
+
+            showError(
+                data.message || "Bulk email failed.",
+                "Email Failed"
+            );
+
+        } else {
+
+            showSuccess(
+                data.message || "Bulk email sent successfully.",
+                "Bulk Email Sent"
+            );
+
+        }
 
 
     }
@@ -1363,7 +1470,10 @@ window.sendBulkEmail = async () => {
 
         console.log(error);
 
-        alert("Email sending failed");
+        showError(
+            "Bulk email sending failed.",
+            "Email Failed"
+        );
 
     }
 
@@ -1390,9 +1500,86 @@ window.sendBulkSMS = async function sendBulkSMS() {
 
     const data = await res.json();
 
-    Swal.fire(data.message);
+    if (data.success === false) {
+
+        showError(
+            data.message || "Bulk SMS sending failed.",
+            "SMS Failed"
+        );
+
+    } else {
+
+        showSuccess(
+            data.message || "Bulk SMS sent successfully.",
+            "SMS Sent"
+        );
+
+    }
 
 }
+
+
+window.sendBulkSMS = async function sendBulkSMS() {
+
+    try {
+
+        const target =
+            document.getElementById("smsUsers").value;
+
+        const message =
+            document.getElementById("smsMessage").value;
+
+        if (!message.trim()) {
+
+            showWarning(
+                "Please enter an SMS message.",
+                "Message Required"
+            );
+
+            return;
+        }
+
+        const res = await fetch(
+            `${API_BASE}/send-bulk-sms`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    target,
+                    message
+                })
+            }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok || data.success === false) {
+
+            showError(
+                data.message || "Bulk SMS sending failed.",
+                "SMS Failed"
+            );
+
+            return;
+        }
+
+        showSuccess(
+            data.message || "Bulk SMS sent successfully.",
+            "SMS Sent"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        showError(
+            "Unable to send bulk SMS.",
+            "SMS Error"
+        );
+    }
+};
 
 window.sendWinnerSMS = async function sendWinnerSMS() {
 
@@ -1438,7 +1625,31 @@ window.sendWinnerSMS = async function sendWinnerSMS() {
 
     const data = await res.json();
 
-    Swal.fire(data.message);
+    if (data.success === false) {
+
+        showError(
+            data.message || "Winner SMS sending failed.",
+            "SMS Failed"
+        );
+
+    } else {
+
+        showSuccess(
+            data.message || "Winner SMS sent successfully.",
+            "Winner SMS Sent"
+        );
+
+    }
+
+    if (!name || !mobile || !category || !rank || !prize) {
+
+        showWarning(
+            "Please fill all winner details.",
+            "Missing Information"
+        );
+
+        return;
+    }
 
 }
 
@@ -1466,11 +1677,21 @@ window.sendCertificateReady = async function sendCertificateReady() {
 
     const data = await res.json();
 
-    Swal.fire(
-        data.success ? "Success" : "Error",
-        data.message,
-        data.success ? "success" : "error"
-    );
+    if (data.success) {
+
+        showSuccess(
+            data.message,
+            "Certificate Notification Sent"
+        );
+
+    } else {
+
+        showError(
+            data.message,
+            "Certificate Notification Failed"
+        );
+
+    }
 
 }
 
@@ -1495,7 +1716,38 @@ window.approveAdmin =
             }
         );
 
-        alert(
+        showSuccess(
+            "Admin has been approved successfully.",
             "Admin Approved"
         );
     };
+
+window.approveAdmin = async (uid) => {
+
+    try {
+
+        await updateDoc(
+            doc(db, "admins", uid),
+            {
+                approvalStatus: "Approved",
+                status: "Active",
+                approvedAt: new Date(),
+                approvedBy: auth.currentUser.email
+            }
+        );
+
+        showSuccess(
+            "Admin has been approved successfully.",
+            "Admin Approved"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        showError(
+            error.message || "Admin approval failed.",
+            "Approval Failed"
+        );
+    }
+};
