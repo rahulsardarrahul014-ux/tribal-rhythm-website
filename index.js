@@ -83,6 +83,47 @@ const rtdb =
 const auth =
     getAuth(app);
 
+
+document.addEventListener("DOMContentLoaded", () => {
+    const uploadButton = document.getElementById("heroUploadBtn");
+
+    if (!uploadButton) return;
+
+    uploadButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        // Already logged-in user
+        if (auth.currentUser) {
+            document.getElementById("upload")?.scrollIntoView({
+                behavior: "smooth"
+            });
+            return;
+        }
+
+        // New / existing user alert
+        Swal.fire({
+            icon: "info",
+            title: "Login required",
+            text: "Upload video karne ke liye pehle Register ya Login kijiye.",
+            showCancelButton: true,
+            showDenyButton: true,
+            confirmButtonText: "New User Register",
+            denyButtonText: "Existing User Login",
+            cancelButtonText: "Cancel",
+            confirmButtonColor: "#d4af37",
+            denyButtonColor: "#198754"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "register.html";
+            }
+
+            if (result.isDenied) {
+                window.location.href = "login.html";
+            }
+        });
+    });
+});
+
 window.db = db;
 window.storage = storage;
 window.rtdb = rtdb;
@@ -835,159 +876,133 @@ async function loadNews() {
 
 // load up coming section
 
+function getProgramDate(dateValue, timeValue = "") {
+    if (!dateValue) return null;
+
+    // Firestore Timestamp
+    if (typeof dateValue.toDate === "function") {
+        return dateValue.toDate();
+    }
+
+    // HTML datetime-local / ISO date
+    const value = String(dateValue).includes("T")
+        ? String(dateValue)
+        : `${dateValue}T${timeValue || "00:00"}`;
+
+    const result = new Date(value);
+    return Number.isNaN(result.getTime()) ? null : result;
+}
+
+function formatProgramDate(date) {
+    return new Intl.DateTimeFormat("en-IN", {
+        dateStyle: "medium",
+        timeStyle: "short",
+        hour12: true
+    }).format(date);
+}
+
 async function loadUpcoming() {
+    const container = document.querySelector(".card-container");
+    if (!container) return;
 
     try {
-
-        console.log("Loading upcoming...");
-
-        const snap =
-            await getDocs(collection(db, "upcoming"));
-
-        console.log("Docs found:", snap.size);
-
-        let html = "";
+        const snap = await getDocs(collection(db, "upcoming"));
 
         if (snap.empty) {
-
-            document.querySelector(".card-container").innerHTML =
+            container.innerHTML =
                 `<p style="color:yellow;text-align:center;">
                     No Upcoming Programs Found
                 </p>`;
-
             return;
         }
 
-        snap.forEach((doc) => {
+        let html = "";
 
+        snap.forEach((doc) => {
             const data = doc.data();
+
+            // Firestore fields: date, time, endDate, endTime
+            const startDate = getProgramDate(data.date, data.time);
+            const endDate = getProgramDate(data.endDate, data.endTime);
+
+            const startMs = startDate ? startDate.getTime() : "";
+            const endMs = endDate ? endDate.getTime() : "";
 
             html += `
                 <div class="col-md-4 mb-4">
-
                     <div class="gold-card">
-
                         <h4 style="color:gold;">
                             ${escapeHTML(data.title || "No Title")}
                         </h4>
 
-                        <div
-                            class="countdown"
-                            data-time="${data.date || ""}"
-                            data-end="${data.endDate || ""}">
-                        </div>
+                        <p>📍 ${escapeHTML(data.place || "No Place")}</p>
 
                         <p>
-                            📍 ${escapeHTML(data.place || "No Place")}
+                            📅 <b>Date & Time:</b><br>
+                            ${startDate ? formatProgramDate(startDate) : "Date not announced"}
                         </p>
 
+                        <div
+                            class="countdown"
+                            data-start="${startMs}"
+                            data-end="${endMs}">
+                        </div>
                     </div>
-
                 </div>
             `;
-
         });
 
-        const container =
-            document.querySelector(".card-container");
-
-        if (container) {
-
-            container.innerHTML = html;
-
-            updateCountdown();
-
-        }
+        container.innerHTML = html;
+        updateCountdown();
 
     } catch (error) {
-
         console.error("Upcoming Error:", error);
-
-        const container =
-            document.querySelector(".card-container");
-
-        if (container) {
-
-            container.innerHTML =
-                `<p style="color:red;text-align:center;">
-                    ❌ Firestore Error
-                </p>`;
-
-        }
-
+        container.innerHTML =
+            `<p style="color:red;text-align:center;">
+                ❌ Firestore Error
+            </p>`;
     }
 }
 
 window.loadUpcoming = loadUpcoming;
 
-
-
-
 function updateCountdown() {
-
-    const cards = document.querySelectorAll(".countdown");
-
-    cards.forEach(card => {
-
-        const startValue = card.getAttribute("data-time");
-        const endValue = card.getAttribute("data-end");
-
-        if (!startValue || !endValue) return;
-
-        const startTime = new Date(startValue).getTime();
-        const endTime = new Date(endValue).getTime();
+    document.querySelectorAll(".countdown").forEach((card) => {
+        const startTime = Number(card.dataset.start);
+        const endTime = Number(card.dataset.end);
         const now = Date.now();
 
-        // Invalid date check
-        if (isNaN(startTime) || isNaN(endTime)) {
-            card.innerHTML = "⚠️ Invalid Date";
+        if (!startTime) {
+            card.innerHTML = "⚠️ Date not available";
             return;
         }
 
-        // Program not started
         if (now < startTime) {
+            let diff = startTime - now;
 
-            const diff = startTime - now;
-
-            const days = Math.floor(
-                diff / (1000 * 60 * 60 * 24)
-            );
-
-            const hours = Math.floor(
-                (diff / (1000 * 60 * 60)) % 24
-            );
-
-            const minutes = Math.floor(
-                (diff / (1000 * 60)) % 60
-            );
-
-            const seconds = Math.floor(
-                (diff / 1000) % 60
-            );
+            const days = Math.floor(diff / 86400000);
+            diff %= 86400000;
+            const hours = Math.floor(diff / 3600000);
+            diff %= 3600000;
+            const minutes = Math.floor(diff / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
 
             card.innerHTML =
-                `⏳ ${days}d ${hours}h ${minutes}m ${seconds}s`;
-
+                `⏳ Starts in: <b>${days}d ${hours}h ${minutes}m ${seconds}s</b>`;
+            return;
         }
 
-        // Program running
-        else if (now >= startTime && now <= endTime) {
-
-            card.innerHTML = "🎉 Started";
-
+        if (!endTime || now <= endTime) {
+            card.innerHTML = "🎉 Program is live now";
+            return;
         }
 
-        // Program ended
-        else {
-
-            card.innerHTML = "❌ Program Ended";
-
-        }
-
+        card.innerHTML = "❌ Program Ended";
     });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
+    loadUpcoming();
     updateCountdown();
     setInterval(updateCountdown, 1000);
 });
@@ -1066,7 +1081,9 @@ window.uploadYouTube = async function () {
 };
 
 
-/* ================= FIREBASE UPLOAD ================= */
+
+/* ================= FIREBASE VIDEO UPLOAD ================= */
+
 window.uploadFirebase = async function () {
 
     try {
@@ -1074,41 +1091,154 @@ window.uploadFirebase = async function () {
         let file = document.getElementById("fbFile").files[0];
         let title = document.getElementById("fbTitle").value.trim();
 
+        // ================= FILE CHECK =================
+
         if (!file) {
-            Swal.fire("Tribal Rhythm", "Select Video First", "warning");
+
+            Swal.fire(
+                "Tribal Rhythm",
+                "Select Video First",
+                "warning"
+            );
+
             return;
         }
+
+
+        // ================= VIDEO TYPE CHECK =================
+
+        if (!file.type.startsWith("video/")) {
+
+            Swal.fire(
+                "Invalid File",
+                "Please select a video file only.",
+                "error"
+            );
+
+            document.getElementById("fbFile").value = "";
+
+            return;
+        }
+
+
+        // ================= VIDEO SIZE LIMIT =================
+
+        const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100 MB
+
+        if (file.size > MAX_VIDEO_SIZE) {
+
+            Swal.fire({
+                title: "Video Too Large",
+
+                html: `
+                    <div style="color:red;font-weight:bold;">
+                        ⚠️ Maximum video upload size is 100 MB.
+                        <br><br>
+                        Your selected video is
+                        ${(file.size / (1024 * 1024)).toFixed(2)} MB.
+                    </div>
+                `,
+
+                icon: "error",
+
+                confirmButtonText: "Choose Another Video"
+            });
+
+            document.getElementById("fbFile").value = "";
+
+            return;
+        }
+
+
+        // ================= UPLOAD START =================
+
+        Swal.fire({
+            title: "Uploading Video...",
+            text: "Please wait. Do not close this page.",
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+
+        // ================= FIREBASE STORAGE =================
 
         const fileRef = storageRef(
             storage,
             "videos/" + Date.now() + "_" + file.name
         );
 
+
         await uploadBytes(fileRef, file);
+
+
+        // ================= GET DOWNLOAD URL =================
 
         let url = await getDownloadURL(fileRef);
 
+
+        // ================= SAVE VIDEO DATA =================
+
         await addDoc(collection(db, "videos"), {
+
             title: title || "Untitled",
+
             videoUrl: url,
+
+            fileName: file.name,
+
+            fileSize: file.size,
+
+            fileType: file.type,
+
             createdAt: new Date()
+
         });
 
+
+        // ================= SUCCESS =================
+
         Swal.fire({
-            title: "Tribal Rhythm",
-            text: "Video Uploaded Successfully 🎉",
+            title: "Upload Successful 🎉",
+
+            html: `
+                <b>Video uploaded successfully.</b>
+                <br><br>
+                File Size:
+                ${(file.size / (1024 * 1024)).toFixed(2)} MB
+            `,
+
             icon: "success"
         });
 
+
+        // Clear form
+
+        document.getElementById("fbFile").value = "";
+        document.getElementById("fbTitle").value = "";
+
+
     } catch (error) {
-        console.error(error);
+
+        console.error(
+            "Firebase Video Upload Error:",
+            error
+        );
+
 
         Swal.fire({
-            title: "Tribal Rhythm",
-            text: "Upload Failed",
+            title: "Upload Failed",
+
+            text: error.message ||
+                "Unable to upload video.",
+
             icon: "error"
         });
+
     }
+
 };
 
 
@@ -2262,17 +2392,11 @@ document
     });
 
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, (user) => {
     const uploadSection = document.getElementById("upload");
 
-    if (!uploadSection || !user) {
-        return;
-    }
-
-    const token = await user.getIdTokenResult();
-
-    if (token.claims.admin === true) {
-        uploadSection.hidden = false;
+    if (uploadSection) {
+        uploadSection.hidden = !user;
     }
 });
 

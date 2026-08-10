@@ -246,7 +246,7 @@
 
                 <a href="register.html" class="btn-glow">🚀 Register Now</a>
 
-                <a href="#upload" class="btn-outline">
+                <a href="#" id="heroUploadBtn" class="btn-outline">
                     📤 Upload Video
                 </a>
 
@@ -654,7 +654,7 @@
     </section>
 
     <!-- ================= UPLOAD ================= -->
-   <section id="upload" class="py-5 text-center" hidden>
+    <section id="upload" class="py-5 text-center" hidden>
 
         <h2 class="text-warning">Upload Studio</h2>
 
@@ -680,7 +680,16 @@
                 <h4>☁ Upload to website</h4>
 
                 <input type="text" id="fbTitle" placeholder="Title">
-                <input type="file" id="fbFile">
+                <input type="file" id="fbFile" accept="video/*">
+
+                <p style="
+    color:red;
+    font-weight:bold;
+    font-size:14px;
+    margin-top:8px;
+">
+                    ⚠️ Maximum video upload size: 100 MB
+                </p>
 
                 <button type="button" class="upload-btn firebase-btn" onclick="uploadFirebase()">
                     Upload
