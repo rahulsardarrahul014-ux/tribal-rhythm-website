@@ -43,7 +43,7 @@ app.use(cors({
 const serviceAccount = {
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-   privateKey: (process.env.FIREBASE_PRIVATE_KEY || "").replace(/\\n/g, "\n")
+    privateKey: (process.env.FIREBASE_PRIVATE_KEY || "").replace(/\\n/g, "\n")
 };
 console.log("PROJECT_ID:", process.env.FIREBASE_PROJECT_ID);
 console.log("CLIENT_EMAIL:", process.env.FIREBASE_CLIENT_EMAIL);
@@ -133,6 +133,21 @@ console.log("SECRET :", process.env.RAZORPAY_KEY_SECRET ? "Loaded" : "Missing");
 // ================= EMAIL =================
 
 // ================= BREVO EMAIL API =================
+
+// ================= BREVO CONFIG CHECK =================
+
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+const BREVO_SENDER_EMAIL = process.env.BREVO_SENDER_EMAIL;
+
+console.log(
+    "BREVO_API_KEY:",
+    BREVO_API_KEY ? "Loaded ✅" : "Missing ❌"
+);
+
+console.log(
+    "BREVO_SENDER_EMAIL:",
+    BREVO_SENDER_EMAIL ? "Loaded ✅" : "Missing ❌"
+);
 
 const sendBrevoEmail = async ({
     to,
