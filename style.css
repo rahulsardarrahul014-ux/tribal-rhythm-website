@@ -176,6 +176,42 @@ body {
     color: black;
 }
 
+
+
+/* ================= TRIBAL UPLOAD POPUP ================= */
+
+.tribal-upload-popup {
+    border-radius: 22px !important;
+    padding: 25px !important;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.30) !important;
+    border: 1px solid rgba(212, 175, 55, 0.5) !important;
+}
+
+.tribal-upload-title {
+    margin-bottom: 5px !important;
+}
+
+.tribal-register-btn,
+.tribal-login-btn,
+.tribal-cancel-btn {
+    border-radius: 10px !important;
+    padding: 11px 20px !important;
+    font-weight: 600 !important;
+    margin: 4px !important;
+}
+
+.tribal-register-btn {
+    box-shadow:
+        0 5px 15px rgba(212, 175, 55, 0.35);
+}
+
+.tribal-login-btn {
+    box-shadow:
+        0 5px 15px rgba(25, 135, 84, 0.25);
+}
+
+
 /* ================= FEATURES ================= */
 /* ================= FEATURES ULTRA PRO ================= */
 
@@ -1214,29 +1250,29 @@ body {
 }
 
 #booking .send-otp-btn {
-  width: 100%;
-  padding: 12px 18px;
-  border: none;
-  border-radius: 10px;
-  background: #198754;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .3s ease;
-  box-shadow: 0 4px 12px rgba(25, 135, 84, .35);
+    width: 100%;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #198754;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .3s ease;
+    box-shadow: 0 4px 12px rgba(25, 135, 84, .35);
 }
 
 #booking .send-otp-btn:hover {
-  background: #157347;
-  transform: translateY(-2px);
+    background: #157347;
+    transform: translateY(-2px);
 }
 
 #booking .send-otp-btn:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
+    background: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
 /* ================= HISTORY MOBILE FIX ================= */

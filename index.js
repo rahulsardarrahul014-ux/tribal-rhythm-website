@@ -85,44 +85,146 @@ const auth =
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    const uploadButton = document.getElementById("heroUploadBtn");
+
+    const uploadButton =
+        document.getElementById("heroUploadBtn");
 
     if (!uploadButton) return;
 
     uploadButton.addEventListener("click", (event) => {
+
         event.preventDefault();
 
-        // Already logged-in user
+        // ================= LOGGED-IN USER =================
+
         if (auth.currentUser) {
+
             document.getElementById("upload")?.scrollIntoView({
                 behavior: "smooth"
             });
+
             return;
         }
 
-        // New / existing user alert
+
+        // ================= LOGIN / REGISTER POPUP =================
+
         Swal.fire({
+
             icon: "info",
-            title: "Login required",
-            text: "Upload video karne ke liye pehle Register ya Login kijiye.",
+
+            title: `
+                <div style="
+                    font-size:24px;
+                    font-weight:700;
+                    color:#d4af37;
+                    margin-bottom:5px;
+                ">
+                    📤 Upload Your Talent
+                </div>
+            `,
+
+            html: `
+                <div style="
+                    font-size:15px;
+                    line-height:1.6;
+                    color:#555;
+                    margin-top:5px;
+                ">
+
+                    <p style="margin-bottom:12px;">
+                        Upload your <b>Dance, Song & Cultural Video</b>
+                        on Tribal Rhythm.
+                    </p>
+
+                    <div style="
+                        background:linear-gradient(
+                            135deg,
+                            #fff8dc,
+                            #fff
+                        );
+                        border:1px solid #d4af37;
+                        border-radius:12px;
+                        padding:12px;
+                        margin:10px 0;
+                    ">
+
+                        <div style="
+                            font-weight:600;
+                            color:#333;
+                            margin-bottom:5px;
+                        ">
+                            🔐 Login required
+                        </div>
+
+                        <small style="color:#666;">
+                            Please login or register before
+                            uploading your video.
+                        </small>
+
+                    </div>
+
+                </div>
+            `,
+
             showCancelButton: true,
             showDenyButton: true,
-            confirmButtonText: "New User Register",
-            denyButtonText: "Existing User Login",
-            cancelButtonText: "Cancel",
+
+            confirmButtonText: "🆕 Register",
+            denyButtonText: "🔐 Login",
+            cancelButtonText: "❌ Cancel",
+
             confirmButtonColor: "#d4af37",
-            denyButtonColor: "#198754"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "register.html";
+            denyButtonColor: "#198754",
+            cancelButtonColor: "#6c757d",
+
+            reverseButtons: true,
+
+            allowOutsideClick: true,
+            allowEscapeKey: true,
+
+            customClass: {
+
+                popup: "tribal-upload-popup",
+
+                title: "tribal-upload-title",
+
+                confirmButton: "tribal-register-btn",
+
+                denyButton: "tribal-login-btn",
+
+                cancelButton: "tribal-cancel-btn"
+
             }
 
-            if (result.isDenied) {
-                window.location.href = "login.html";
+        }).then((result) => {
+
+            // ================= REGISTER =================
+
+            if (result.isConfirmed) {
+
+                window.location.href =
+                    "login.html";
+
             }
+
+
+            // ================= LOGIN =================
+
+            if (result.isDenied) {
+
+                window.location.href =
+                    "login.html";
+
+            }
+
         });
+
     });
+
 });
+
+
 
 window.db = db;
 window.storage = storage;
