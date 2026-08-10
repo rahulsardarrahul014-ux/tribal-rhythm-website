@@ -26,9 +26,9 @@ import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
     sendEmailVerification,
-    updatePassword
-}
-    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    updatePassword,
+    deleteUser
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
     getStorage,
@@ -361,6 +361,10 @@ window.resetPass = () => {
 };
 window.signup = async () => {
 
+    // ==============================
+    // 1. OTP CHECK
+    // ==============================
+
     if (!otpVerified) {
 
         showWarning(
@@ -371,11 +375,82 @@ window.signup = async () => {
         return;
     }
 
+
+    // ==============================
+    // 2. GET FORM VALUES
+    // ==============================
+
     const emailValue =
         document.getElementById("email").value.trim();
 
     const passValue =
         document.getElementById("pass").value.trim();
+
+    const adminName =
+        document.getElementById("adminName").value.trim();
+
+    const mobile =
+        document.getElementById("mobile").value.trim();
+
+    const whatsapp =
+        document.getElementById("whatsapp").value.trim();
+
+    const role =
+        document.getElementById("role").value;
+
+    const idType =
+        document.getElementById("idType").value;
+
+    const idNumber =
+        document.getElementById("idNumber").value.trim();
+
+    const photoFile =
+        document.getElementById("profilePhoto").files[0];
+
+    const idFile =
+        document.getElementById("idProof").files[0];
+
+
+    // ==============================
+    // 3. REQUIRED FIELD CHECK
+    // ==============================
+
+    if (
+        !emailValue ||
+        !passValue ||
+        !adminName ||
+        !mobile ||
+        !idType ||
+        !idNumber
+    ) {
+
+        showWarning(
+            "Please fill all required fields.",
+            "Missing Information"
+        );
+
+        return;
+    }
+
+
+    // ==============================
+    // 4. OWNER EMAIL CHECK
+    // ==============================
+
+    if (emailValue !== OWNER_EMAIL) {
+
+        showError(
+            "Only the owner can create an admin account.",
+            "Access Denied"
+        );
+
+        return;
+    }
+
+
+    // ==============================
+    // 5. PASSWORD VALIDATION
+    // ==============================
 
     const passwordRegex =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
@@ -391,91 +466,124 @@ window.signup = async () => {
     }
 
 
-    const photoFile =
-        document.getElementById("profilePhoto").files[0];
+    // ==============================
+    // 6. CREATE FIREBASE AUTH ACCOUNT
+    // ==============================
 
-    const idFile =
-        document.getElementById("idProof").files[0];
-
-    let photoURL = "";
-
-    if (photoFile) {
-        const photoRef =
-            ref(storage, "admins/profile/" + Date.now());
-
-        await uploadBytes(photoRef, photoFile);
-        photoURL = await getDownloadURL(photoRef);
-    }
-
-    let idProofURL = "";
-
-    if (idFile) {
-
-        const idRef = ref(
-            storage,
-            "admins/idproof/" +
-            Date.now() +
-            "_" +
-            idFile.name
-        );
-
-        await uploadBytes(idRef, idFile);
-
-        idProofURL =
-            await getDownloadURL(idRef);
-    }
-
-
-
-    if (!emailValue || !passValue) {
-
-        showError("Fill all fields");
-        return;
-
-    }
-
-    if (emailValue !== "rahulsardarrahul014@gmail.com") {
-        showError(
-            "Only the owner can create an admin account.",
-            "Access Denied"
-        );
-        return;
-    }
+    let user = null;
 
     try {
 
-        await createUserWithEmailAndPassword(
-            auth,
-            emailValue,
-            passValue
+        const userCredential =
+            await createUserWithEmailAndPassword(
+                auth,
+                emailValue,
+                passValue
+            );
+
+        user = userCredential.user;
+
+        console.log(
+            "Firebase Auth account created:",
+            user.uid
         );
 
-        const user = auth.currentUser;
+
+        // =================================================
+        // 7. ACCOUNT CREATE HO GAYA
+        // AB PROFILE PHOTO UPLOAD HOGA
+        // =================================================
+
+        let photoURL = "";
+
+        if (photoFile) {
+
+            const photoRef = ref(
+                storage,
+                "admins/profile/" +
+                user.uid +
+                "/" +
+                Date.now() +
+                "_" +
+                photoFile.name
+            );
+
+            await uploadBytes(
+                photoRef,
+                photoFile
+            );
+
+            photoURL =
+                await getDownloadURL(photoRef);
+
+            console.log(
+                "Profile photo uploaded:",
+                photoURL
+            );
+        }
+
+
+        // =================================================
+        // 8. ID PROOF UPLOAD
+        // ACCOUNT CREATE KE BAAD
+        // =================================================
+
+        let idProofURL = "";
+
+        if (idFile) {
+
+            const idRef = ref(
+                storage,
+                "admins/idproof/" +
+                user.uid +
+                "/" +
+                Date.now() +
+                "_" +
+                idFile.name
+            );
+
+            await uploadBytes(
+                idRef,
+                idFile
+            );
+
+            idProofURL =
+                await getDownloadURL(idRef);
+
+            console.log(
+                "ID proof uploaded:",
+                idProofURL
+            );
+        }
+
+
+        // =================================================
+        // 9. FIRESTORE ADMIN DATA SAVE
+        // =================================================
 
         await setDoc(
             doc(db, "admins", user.uid),
             {
-                adminName:
-                    document.getElementById("adminName").value,
+
+                uid: user.uid,
+
+                adminName: adminName,
 
                 email: user.email,
 
-                mobile:
-                    document.getElementById("mobile").value,
+                mobile: mobile,
 
-                whatsapp:
-                    document.getElementById("whatsapp").value,
+                whatsapp: whatsapp,
 
-                role:
-                    document.getElementById("role").value,
+                role: role,
 
-                idType:
-                    document.getElementById("idType").value,
+                idType: idType,
 
-                idNumber:
-                    document.getElementById("idNumber").value,
+                idNumber: idNumber,
 
                 idProofURL: idProofURL,
+
+                profilePhotoURL: photoURL,
 
                 approvalStatus: "Pending",
 
@@ -483,27 +591,98 @@ window.signup = async () => {
 
                 status: "Pending",
 
-                profilePhotoURL: photoURL,
-
                 createdAt: new Date()
+
             }
         );
 
-        await sendEmailVerification(auth.currentUser);
-        showSuccess(
-            "Admin account created. Verification email has been sent.",
+
+        console.log(
+            "Admin data saved to Firestore."
+        );
+
+
+        // =================================================
+        // 10. SEND FIREBASE EMAIL VERIFICATION
+        // =================================================
+
+        await sendEmailVerification(user);
+
+
+        // =================================================
+        // 11. SUCCESS
+        // =================================================
+
+        await showSuccess(
+            "Admin account created successfully. Verification email has been sent.",
             "Admin Created"
         );
 
+
+        // =================================================
+        // 12. LOGOUT AFTER ACCOUNT CREATION
+        // =================================================
+
+        await signOut(auth);
+
+
     } catch (e) {
 
-        console.error("Code:", e.code);
-        console.error("Message:", e.message);
+        console.error(
+            "Admin signup error:",
+            e
+        );
 
-        showError(e.message);
 
+        // =================================================
+        // CLEANUP
+        // =================================================
+
+        if (user) {
+
+            try {
+
+                await deleteUser(user);
+
+                console.log(
+                    "Auth account deleted because signup failed."
+                );
+
+            } catch (deleteError) {
+
+                console.error(
+                    "Account cleanup failed:",
+                    deleteError
+                );
+            }
+        }
+
+
+        // =================================================
+        // ERROR MESSAGE
+        // =================================================
+
+        if (e.code === "auth/email-already-in-use") {
+
+            showError(
+                "This email already has a Firebase account.",
+                "Account Already Exists"
+            );
+
+        } else {
+
+            showError(
+                e.message ||
+                "Admin account creation failed.",
+                "Signup Failed"
+            );
+        }
     }
 };
+
+
+
+
 window.logout = () => {
 
     signOut(auth)
@@ -1178,6 +1357,13 @@ window.sendOTP = async function () {
 
         otpVerified = false;
 
+        const sendBtn = document.getElementById("sendOtpBtn");
+
+        if (sendBtn) {
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = "📨 OTP Sent";
+        }
+
         showSuccess("OTP sent to your email.", "OTP Sent");
 
         startOtpTimer();
@@ -1218,6 +1404,14 @@ function startOtpTimer() {
             timer.innerText = "";
 
             resend.style.display = "inline";
+
+            const sendBtn =
+                document.getElementById("sendOtpBtn");
+
+            if (sendBtn) {
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = "📧 Send OTP";
+            }
         }
 
     }, 1000);
@@ -1287,6 +1481,13 @@ window.verifyOTP = async function () {
         }
 
         otpVerified = true;
+
+        const verifyBtn = document.getElementById("verifyOtpBtn");
+
+        if (verifyBtn) {
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = "✅ OTP Verified";
+        }
 
         showSuccess(
             "Email OTP verified successfully.",
