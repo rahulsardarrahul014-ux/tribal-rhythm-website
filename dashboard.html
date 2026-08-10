@@ -161,6 +161,41 @@
 
          <canvas id="bar"></canvas>
 
+
+          <div class="card-pro">
+
+            <img id="adminPhoto" width="80" height="80" style="border-radius:50%;">
+
+            <h4 id="adminWelcome"></h4>
+
+            <p id="adminInfo"></p>
+
+        </div>
+        <div id="dashboard"></div>
+
+        <h2>👑 CONTROL PANEL</h2>
+
+        <!-- 🎯 JUDGE PANEL (LOGIN के बाद ही दिखेगा) -->
+        <div class="card-pro">
+            <h4>🎯 Judge Scoring Panel</h4>
+
+            <input id="pname" class="form-control mb-2" placeholder="Participant Name">
+            <input id="pcat" class="form-control mb-2" placeholder="Category">
+            <input id="pscore" type="number" class="form-control mb-2" placeholder="Score (0-100)">
+
+            <button onclick="submitScore()" class="btn btn-silver">Submit Score</button>
+        </div>
+
+        <div class="card-pro">
+            <h4>🏆 Category Leaderboard</h4>
+            <div id="leaderboard"></div>
+        </div>
+
+        <section class="card-pro">
+    <h4>🏆 Winners</h4>
+    <div id="publicWinnerList"></div>
+</section>
+
         <!-- ================= MAIN STATS ================= -->
 
         <div class="row g-3 mt-2">

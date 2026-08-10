@@ -43,7 +43,7 @@ app.use(cors({
 const serviceAccount = {
     projectId: process.env.FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: (process.env.FIREBASE_PRIVATE_KEY || "").replace(/\\n/g, "\n")
+    privateKey: (process.env.FIREBASE_PRIVATE_KEY || "").replace(/\n/g, "\n")
 };
 console.log("PROJECT_ID:", process.env.FIREBASE_PROJECT_ID);
 console.log("CLIENT_EMAIL:", process.env.FIREBASE_CLIENT_EMAIL);
@@ -61,15 +61,61 @@ const db = admin.firestore();
 // ================= ADMIN SECURITY =================
 const checkAdmin = async (req, res, next) => {
     try {
-        const token = req.headers.authorization;
+        const authHeader = req.headers.authorization || "";
 
-        if (!token) return res.status(403).send("Unauthorized");
+        if (!authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({
+                success: false,
+                message: "Authentication required"
+            });
+        }
 
-        await admin.auth().verifyIdToken(token);
+        const idToken = authHeader.substring(7).trim();
+
+        const decodedToken =
+            await admin.auth().verifyIdToken(idToken);
+
+        const adminEmails = String(
+            process.env.ADMIN_EMAILS || ""
+        )
+            .split(",")
+            .map(email => email.trim().toLowerCase())
+            .filter(Boolean);
+
+        const email =
+            String(decodedToken.email || "")
+                .trim()
+                .toLowerCase();
+
+        if (!email || !adminEmails.includes(email)) {
+            return res.status(403).json({
+                success: false,
+                message: "Admin access denied"
+            });
+        }
+
+        if (decodedToken.admin !== true) {
+            return res.status(403).json({
+                success: false,
+                message: "Admin permission required"
+            });
+        }
+
+        req.admin = {
+            uid: decodedToken.uid,
+            email
+        };
 
         next();
-    } catch (err) {
-        return res.status(403).send("Unauthorized");
+
+    } catch (error) {
+
+        console.error("ADMIN AUTH ERROR:", error.message);
+
+        return res.status(401).json({
+            success: false,
+            message: "Invalid or expired admin session"
+        });
     }
 };
 
@@ -129,163 +175,178 @@ const otpLimiter = rateLimit({
 
 app.use("/send-otp", otpLimiter);
 
+
+const adminOtpLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+app.use("/admin/send-otp", adminOtpLimiter);
+
+
+// ================= ADMIN OTP HELPERS =================
+
+const generateOTP = () => {
+    return crypto.randomInt(100000, 1000000).toString();
+};
+
+const hashOTP = (otp) => {
+    return crypto
+        .createHash("sha256")
+        .update(String(otp))
+        .digest("hex");
+};
+
+const normalizeEmail = (email) => {
+    return String(email || "")
+        .trim()
+        .toLowerCase();
+};
+
+const getAdminEmails = () => {
+    return String(process.env.ADMIN_EMAILS || "")
+        .split(",")
+        .map(email => email.trim().toLowerCase())
+        .filter(Boolean);
+};
+
 // ================= HELPERS =================
 const isValidEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        String(email || "").trim()
+    );
 };
 
 // ================= SEND OTP =================
-app.post("/send-otp", async (req, res) => {
+// ================= ADMIN SEND OTP =================
 
-    console.log("BODY:", req.body);
-    console.log("BREVO_USER:", process.env.BREVO_USER);
-    console.log("BREVO_PASS:", process.env.BREVO_PASS ? "Loaded" : "Missing");
+app.post("/admin/send-otp", async (req, res) => {
+
     try {
-        const { name, email, mobile } = req.body;
-        if (!/^[6-9]\d{9}$/.test(mobile)) {
+
+        const email = normalizeEmail(req.body.email);
+
+        if (!isValidEmail(email)) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid Mobile Number"
+                message: "Invalid email"
             });
         }
 
-        if (!email || !isValidEmail(email)) {
-            return res.status(400).json({ success: false, message: "Invalid email" });
+        const adminEmails = getAdminEmails();
+
+        if (!adminEmails.includes(email)) {
+            return res.status(403).json({
+                success: false,
+                message: "Admin access denied"
+            });
         }
 
-        const userRef = db.collection("users").doc(email);
-        const userSnap = await userRef.get();
+        // Make sure this email exists in Firebase Authentication
+        let adminUser;
 
-        console.log("Firestore Connected");
+        try {
 
-        if (userSnap.exists) {
+            adminUser =
+                await admin.auth().getUserByEmail(email);
 
-            const user = userSnap.data();
+        } catch (error) {
 
-            if (user.paymentStatus === "paid") {
-                return res.json({
-                    success: false,
-                    message: "Ticket already purchased"
-                });
-            }
+            return res.status(403).json({
+                success: false,
+                message: "Admin Firebase account not found"
+            });
         }
 
-        const otp = Math.floor(100000 + Math.random() * 900000);
+        const otp = generateOTP();
+        const otpHash = hashOTP(otp);
 
-        await axios.post(
-
-            'https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run',
-
-            {
-                data: {
-                    sendTo: [
-                        {
-                            to: [
-                                {
-                                    mobiles: "91" + mobile,
-
-                                    variables: {
-                                        name: {
-                                            value: name
-                                        },
-
-                                        otp: {
-                                            value: otp
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-
-            {
-                headers: {
-                    authkey: process.env.MSG91_AUTH_KEY,
-                    "Content-Type": "application/json"
-                }
-            }
-
-        );
-
-        console.log("MSG91 OTP SMS Sent ✅");
-
-        await db.collection("otp").doc(email).set({
-            otp,
-            time: Date.now()
-        });
-
-        console.log("OTP Saved");
-
+        await db
+            .collection("adminOtps")
+            .doc(email)
+            .set({
+                otpHash,
+                uid: adminUser.uid,
+                attempts: 0,
+                createdAt: admin.firestore.Timestamp.now(),
+                expiresAt: admin.firestore.Timestamp.fromMillis(
+                    Date.now() + 5 * 60 * 1000
+                )
+            });
 
         await transporter.sendMail({
-            from: `TRIBAL RHYTHM <${process.env.BREVO_USER}>`,
+
+            from:
+                `TRIBAL RHYTHM <${process.env.BREVO_USER}>`,
+
             to: email,
-            subject: "🔐 Tribal Rhythm - OTP Verification",
+
+            subject:
+                "🔐 Tribal Rhythm Admin OTP",
 
             html: `
-    <div style="max-width:600px;margin:auto;font-family:Arial,sans-serif;background:#ffffff;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden">
+                <div style="
+                    font-family:Arial;
+                    max-width:600px;
+                    margin:auto;
+                    padding:30px;
+                    background:#111;
+                    color:#fff;
+                    border-radius:12px;
+                ">
 
-        <div style="background:#0d6efd;color:#fff;padding:20px;text-align:center;">
-            <h2 style="margin:0;">🎭 Tribal Rhythm</h2>
-            <p style="margin-top:8px;">OTP Verification</p>
-        </div>
+                    <h2 style="color:#FFD700;">
+                        Tribal Rhythm Admin
+                    </h2>
 
-        <div style="padding:30px;">
+                    <p>
+                        Your administrator verification OTP is:
+                    </p>
 
-            <p>Hello <b>${name || "User"}</b>,</p>
+                    <h1 style="
+                        color:#FFD700;
+                        letter-spacing:8px;
+                    ">
+                        ${otp}
+                    </h1>
 
-            <p>
-                Thank you for choosing <b>Tribal Rhythm</b>.
-                Please use the OTP below to complete your verification.
-            </p>
+                    <p>
+                        This OTP is valid for
+                        <b>5 minutes</b>.
+                    </p>
 
-            <div style="text-align:center;margin:30px 0;">
-                <span style="display:inline-block;font-size:34px;font-weight:bold;letter-spacing:8px;background:#f5f5f5;padding:15px 35px;border-radius:8px;color:#0d6efd;">
-                    ${otp}
-                </span>
-            </div>
+                    <p>
+                        Never share this OTP with anyone.
+                    </p>
 
-            <p>
-                This OTP is valid for <b>5 minutes</b>.
-            </p>
+                    <hr>
 
-            <div style="background:#fff4e5;border-left:5px solid #ff9800;padding:15px;margin-top:25px;">
-                <b>🔒 Security Notice</b>
-                <ul style="margin-top:10px;padding-left:18px;">
-                    <li>Tribal Rhythm will <b>NEVER</b> ask for your OTP.</li>
-                    <li>Do <b>NOT</b> share this OTP with anyone.</li>
-                    <li>If you did not request this OTP, please ignore this email.</li>
-                </ul>
-            </div>
+                    <p>
+                        Powered by
+                        <b>Zentro Nex</b>
+                    </p>
 
-            <br>
-
-            <p>
-                Regards,<br>
-                <b>Team Tribal Rhythm</b>
-            </p>
-
-        </div>
-
-        <div style="background:#f5f5f5;padding:15px;text-align:center;font-size:12px;color:#666;">
-            © 2026 Tribal Rhythm. All Rights Reserved.
-        </div>
-
-    </div>
-    `
+                </div>
+            `
         });
 
+        return res.json({
+            success: true,
+            message: "Admin OTP sent successfully"
+        });
 
-        res.json({ success: true });
+    } catch (error) {
 
-    } catch (err) {
-        console.error("SEND OTP ERROR:", err);
+        console.error(
+            "ADMIN SEND OTP ERROR:",
+            error
+        );
 
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
-            message: err.message
+            message: "Unable to send admin OTP"
         });
     }
 });
@@ -361,128 +422,133 @@ app.post("/send-phone-otp", async (req, res) => {
 });
 
 // ================= VERIFY OTP =================
-app.post("/verify-otp", async (req, res) => {
+// ================= ADMIN VERIFY OTP =================
+
+app.post("/admin/verify-otp", async (req, res) => {
+
     try {
 
-        // ================= TEMP TEST OTP =================
-        const { email, otp, name, mobile } = req.body;
+        const email =
+            normalizeEmail(req.body.email);
 
-
-        // const { email, otp, name, mobile } = req.body;
-
+        const otp =
+            String(req.body.otp || "").trim();
 
         if (
-            !email ||
-            !otp ||
             !isValidEmail(email) ||
-            !mobile ||
-            !/^[6-9]\d{9}$/.test(mobile)
+            !/^\d{6}$/.test(otp)
         ) {
+
             return res.status(400).json({
                 success: false,
-                message: "Invalid details"
+                message: "Invalid email or OTP"
             });
         }
 
-        const doc = await db.collection("otp").doc(email).get();
+        const adminEmails =
+            getAdminEmails();
 
-        if (!doc.exists) {
-            return res.json({ success: false, message: "OTP expired" });
-        }
+        if (!adminEmails.includes(email)) {
 
-        const data = doc.data();
-
-        if (Date.now() - data.time > 5 * 60 * 1000) {
-            return res.json({ success: false, message: "OTP expired" });
-        }
-
-        if (String(data.otp) !== String(otp)) {
-            return res.json({ success: false, message: "Wrong OTP" });
-        }
-
-        await db.collection("otp").doc(email).delete();
-
-        const ticketId = "TR-" + crypto.randomBytes(4).toString("hex").toUpperCase();
-
-        await db.collection("users").doc(email).set({
-            email,
-            name,
-            mobile,
-            ticketId,
-            verified: true,
-            paymentStatus: "pending",
-            status: "pending",
-            createdAt: new Date()
-        });
-
-        res.json({ success: true, ticketId });
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ success: false });
-    }
-});
-
-app.post("/verify-phone-otp", async (req, res) => {
-
-    try {
-
-        const { mobile, otp } = req.body;
-
-        if (!mobile || !otp) {
-            return res.json({
+            return res.status(403).json({
                 success: false,
-                message: "Invalid Request"
+                message: "Admin access denied"
             });
         }
 
-        const doc = await db.collection("phoneOtp").doc(mobile).get();
+        const otpRef =
+            db.collection("adminOtps").doc(email);
 
-        if (!doc.exists) {
-            return res.json({
+        const otpSnap =
+            await otpRef.get();
+
+        if (!otpSnap.exists) {
+
+            return res.status(400).json({
                 success: false,
-                message: "OTP Expired"
+                message: "OTP not found or expired"
             });
         }
 
-        const data = doc.data();
+        const data =
+            otpSnap.data();
 
-        if (Date.now() - data.time > 5 * 60 * 1000) {
+        if (
+            !data.expiresAt ||
+            data.expiresAt.toMillis() < Date.now()
+        ) {
 
-            return res.json({
+            await otpRef.delete();
+
+            return res.status(400).json({
                 success: false,
-                message: "OTP Expired"
+                message: "OTP expired"
             });
-
         }
 
-        if (String(data.otp) !== String(otp)) {
+        const attempts =
+            Number(data.attempts || 0);
 
-            return res.json({
+        if (attempts >= 5) {
+
+            await otpRef.delete();
+
+            return res.status(429).json({
                 success: false,
-                message: "Wrong OTP"
+                message: "Too many OTP attempts"
             });
-
         }
 
-        await db.collection("phoneOtp").doc(mobile).delete();
+        const submittedHash =
+            hashOTP(otp);
 
-        res.json({
+        if (submittedHash !== data.otpHash) {
+
+            await otpRef.update({
+                attempts: admin.firestore.FieldValue.increment(1)
+            });
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid OTP"
+            });
+        }
+
+        // OTP is valid
+        await otpRef.delete();
+
+        const adminUser =
+            await admin.auth().getUser(data.uid);
+
+        // Create Firebase custom token
+        const customToken =
+            await admin.auth().createCustomToken(
+                adminUser.uid,
+                {
+                    admin: true
+                }
+            );
+
+        return res.json({
             success: true,
-            message: "Phone Verified"
+            message: "Admin login successful",
+            token: customToken,
+            uid: adminUser.uid,
+            email: adminUser.email
         });
 
-    } catch (err) {
+    } catch (error) {
 
-        console.log(err);
+        console.error(
+            "ADMIN VERIFY OTP ERROR:",
+            error
+        );
 
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
-            message: err.message
+            message: "Admin authentication failed"
         });
-
     }
-
 });
 
 // ================= CREATE ORDER (FIXED FOR FRONTEND =================
@@ -705,7 +771,7 @@ app.post("/check-entry", async (req, res) => {
 
 // ================= REGISTRATION CONFIRMATION EMAIL =================
 
-app.post("/send-registration-email", async (req, res) => {
+app.post("/send-registration-email", checkAdmin,async (req, res) => {
 
     try {
 
@@ -774,7 +840,7 @@ app.post("/send-registration-email", async (req, res) => {
 
 // ================= BULK EMAIL CENTER =================
 
-app.post("/send-bulk-email", async (req, res) => {
+app.post("/send-bulk-email",checkAdmin, async (req, res) => {
 
     try {
 
@@ -939,7 +1005,7 @@ app.post("/send-bulk-email", async (req, res) => {
 
 // ================= BULK SMS CENTER =================
 
-app.post("/send-bulk-sms", async (req, res) => {
+app.post("/send-bulk-sms",checkAdmin, async (req, res) => {
 
     try {
 
@@ -1104,7 +1170,7 @@ app.post("/send-bulk-sms", async (req, res) => {
 
 // ================= PAYMENT SUCCESS SMS =================
 
-app.post("/send-payment-success-sms", async (req, res) => {
+app.post("/send-payment-success-sms",checkAdmin, async (req, res) => {
 
     try {
 
@@ -1208,7 +1274,7 @@ app.post("/send-payment-success-sms", async (req, res) => {
 
 // ================= SEND REGISTRATION SUCCESS SMS =================
 
-app.post("/send-registration-sms", async (req, res) => {
+app.post("/send-registration-sms",checkAdmin, async (req, res) => {
 
     try {
 
@@ -1280,7 +1346,7 @@ app.post("/send-registration-sms", async (req, res) => {
 
 // ================= SEND WINNER SMS =================
 
-app.post("/send-winner-sms", async (req, res) => {
+app.post("/send-winner-sms",checkAdmin, async (req, res) => {
 
     try {
 
@@ -1382,7 +1448,7 @@ app.post("/send-winner-sms", async (req, res) => {
 
 });
 
-app.post("/send-certificate-ready", async (req, res) => {
+app.post("/send-certificate-ready",checkAdmin, async (req, res) => {
 
     try {
 
@@ -1684,7 +1750,7 @@ app.post("/admin/verify-otp", async (req, res) => {
 
 // ================= TICKET VERIFICATION =================
 
-app.get("/verify-ticket", async (req, res) => {
+app.get("/verify-ticket", checkAdmin, async (req, res) => {
 
     try {
 
@@ -1842,7 +1908,9 @@ app.get("/verify-ticket", async (req, res) => {
 
 // ================= MARK TICKET AS USED =================
 
-app.post("/use-ticket", async (req, res) => {
+// ================= MARK TICKET AS USED =================
+
+app.post("/use-ticket", checkAdmin, async (req, res) => {
 
     try {
 
@@ -1851,104 +1919,100 @@ app.post("/use-ticket", async (req, res) => {
                 .trim()
                 .toUpperCase();
 
-        // ================= VALIDATE =================
-
         if (!ticketId) {
 
             return res.status(400).json({
-
                 success: false,
-
                 status: "INVALID",
-
-                message:
-                    "Ticket ID is required."
-
+                message: "Ticket ID is required."
             });
-
         }
 
-        // ================= FIND BOOKING =================
-
-        const snapshot = await db
-            .collection("bookings")
-            .where("ticketId", "==", ticketId)
-            .limit(1)
-            .get();
+        const snapshot =
+            await db.collection("bookings")
+                .where("ticketId", "==", ticketId)
+                .limit(1)
+                .get();
 
         if (snapshot.empty) {
 
             return res.status(404).json({
-
                 success: false,
-
                 status: "INVALID",
-
-                message:
-                    "Ticket not found."
-
+                message: "Ticket not found."
             });
-
         }
 
         const ticketDoc =
             snapshot.docs[0];
 
-        const booking =
-            ticketDoc.data();
+        const result =
+            await db.runTransaction(async transaction => {
 
-        // ================= PAYMENT CHECK =================
+                const freshDoc =
+                    await transaction.get(ticketDoc.ref);
 
-        if (booking.status !== "success") {
+                if (!freshDoc.exists) {
+                    throw new Error("Ticket not found");
+                }
+
+                const booking =
+                    freshDoc.data();
+
+                if (booking.status !== "success") {
+
+                    return {
+                        type: "invalid"
+                    };
+                }
+
+                if (booking.entryStatus === "used") {
+
+                    return {
+                        type: "used",
+                        usedAt:
+                            booking.usedAt || null
+                    };
+                }
+
+                const now =
+                    admin.firestore.Timestamp.now();
+
+                transaction.update(
+                    ticketDoc.ref,
+                    {
+                        entryStatus: "used",
+                        usedAt: now,
+                        verifiedAt: now,
+                        verifiedBy:
+                            req.admin.email
+                    }
+                );
+
+                return {
+                    type: "success",
+                    booking
+                };
+            });
+
+        if (result.type === "invalid") {
 
             return res.status(403).json({
-
                 success: false,
-
                 status: "INVALID",
-
-                message:
-                    "Payment is not verified."
-
+                message: "Payment is not verified."
             });
-
         }
 
-        // ================= ALREADY USED =================
-
-        if (booking.entryStatus === "used") {
+        if (result.type === "used") {
 
             return res.status(409).json({
-
                 success: false,
-
                 status: "USED",
-
-                message:
-                    "Ticket has already been used.",
-
-                usedAt:
-                    booking.usedAt || null
-
+                message: "Ticket has already been used.",
+                usedAt: result.usedAt
             });
-
         }
-
-        // ================= MARK USED =================
-
-        await ticketDoc.ref.update({
-
-            entryStatus: "used",
-
-            usedAt:
-                new Date(),
-
-            verifiedAt:
-                new Date()
-
-        });
-
-        // ================= SUCCESS =================
 
         return res.status(200).json({
 
@@ -1962,19 +2026,17 @@ app.post("/use-ticket", async (req, res) => {
             ticket: {
 
                 ticketId:
-                    booking.ticketId,
+                    result.booking.ticketId,
 
                 name:
-                    booking.name,
+                    result.booking.name,
 
                 ticketType:
-                    booking.ticketType,
+                    result.booking.ticketType,
 
                 ticketQuantity:
-                    booking.ticketQuantity
-
+                    result.booking.ticketQuantity
             }
-
         });
 
     } catch (error) {
@@ -1985,19 +2047,14 @@ app.post("/use-ticket", async (req, res) => {
         );
 
         return res.status(500).json({
-
             success: false,
-
             status: "ERROR",
-
-            message:
-                "Unable to process ticket."
-
+            message: "Unable to process ticket."
         });
-
     }
-
 });
+
+
 
 // ================= ROOT =================
 app.get("/", (req, res) => {
