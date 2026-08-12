@@ -196,26 +196,31 @@ const sendBrevoEmail = async ({
     return response.data;
 };
 
-// ================= RATE LIMIT =================
 const otpLimiter = rateLimit({
-    windowMs: 60 * 1000,
-    max: 5
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+
+    message: {
+        success: false,
+        message: "Too many OTP requests. Please try again later."
+    }
 });
 
 app.use("/send-otp", otpLimiter);
 
 
-
-
-
-// ================= USER EMAIL OTP =================
+// ================= USER EMAIL SEND OTP =================
 
 app.post("/send-otp", async (req, res) => {
 
     try {
 
         const email = normalizeEmail(req.body.email);
-        const name = String(req.body.name || "User").trim();
+        const name = String(req.body.name || "User")
+            .trim()
+            .slice(0, 100);
 
         if (!isValidEmail(email)) {
 
@@ -226,30 +231,78 @@ app.post("/send-otp", async (req, res) => {
 
         }
 
+        const otpRef =
+            db.collection("emailOtps").doc(email);
+
+        const existingSnap =
+            await otpRef.get();
+
+        // ================= RESEND COOLDOWN =================
+
+        if (existingSnap.exists) {
+
+            const oldData = existingSnap.data();
+
+            const createdAt =
+                oldData.createdAt?.toMillis?.() || 0;
+
+            if (
+                createdAt &&
+                Date.now() - createdAt <
+                OTP_RESEND_COOLDOWN_MS
+            ) {
+
+                const remaining =
+                    Math.ceil(
+                        (
+                            OTP_RESEND_COOLDOWN_MS -
+                            (Date.now() - createdAt)
+                        ) / 1000
+                    );
+
+                return res.status(429).json({
+
+                    success: false,
+
+                    message:
+                        `Please wait ${remaining} seconds before requesting another OTP.`,
+
+                    retryAfter: remaining
+
+                });
+            }
+        }
+
+        // ================= GENERATE OTP =================
+
         const otp = generateOTP();
+
+        // NEVER STORE PLAIN OTP
         const otpHash = hashOTP(otp);
 
-        // Save OTP securely in Firestore
-        await db
-            .collection("emailOtps")
-            .doc(email)
-            .set({
+        const now = Date.now();
 
-                otpHash,
+        // ================= SAVE OTP =================
 
-                attempts: 0,
+        await otpRef.set({
 
-                createdAt:
-                    admin.firestore.Timestamp.now(),
+            otpHash,
 
-                expiresAt:
-                    admin.firestore.Timestamp.fromMillis(
-                        Date.now() + 5 * 60 * 1000
-                    )
+            attempts: 0,
 
-            });
+            verified: false,
 
-        // ================= BREVO EMAIL =================
+            createdAt:
+                admin.firestore.Timestamp.fromMillis(now),
+
+            expiresAt:
+                admin.firestore.Timestamp.fromMillis(
+                    now + OTP_EXPIRY_MS
+                )
+
+        });
+
+        // ================= SEND EMAIL =================
 
         await sendBrevoEmail({
 
@@ -262,59 +315,171 @@ app.post("/send-otp", async (req, res) => {
 
             html: `
 
-                <div style="
-                    font-family:Arial,sans-serif;
-                    max-width:600px;
-                    margin:auto;
-                    padding:30px;
-                    background:#111;
-                    color:#fff;
-                    border-radius:12px;
-                ">
+<!DOCTYPE html>
+<html>
 
-                    <h2 style="color:#FFD700;">
-                        Tribal Rhythm
-                    </h2>
+<head>
 
-                    <p>
-                        Hello <b>${name}</b>,
-                    </p>
+<meta charset="UTF-8">
 
-                    <p>
-                        Your email verification OTP is:
-                    </p>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-                    <h1 style="
-                        color:#FFD700;
-                        letter-spacing:8px;
-                        text-align:center;
-                    ">
-                        ${otp}
-                    </h1>
+<title>Tribal Rhythm OTP</title>
 
-                    <p>
-                        This OTP is valid for
-                        <b>5 minutes</b>.
-                    </p>
+</head>
 
-                    <p>
-                        Please do not share this OTP with anyone.
-                    </p>
+<body style="
+    margin:0;
+    padding:0;
+    background:#f3f4f6;
+    font-family:Arial,sans-serif;
+">
 
-                    <hr>
+<div style="
+    max-width:600px;
+    margin:30px auto;
+    background:#111111;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 8px 30px rgba(0,0,0,.2);
+">
 
-                    <p>
-                        Powered by <b>Zentro Nex</b>
-                    </p>
+    <!-- HEADER -->
 
-                </div>
+    <div style="
+        padding:25px;
+        text-align:center;
+        background:#181818;
+    ">
+
+        <h1 style="
+            margin:0;
+            color:#FFD700;
+            font-size:28px;
+        ">
+            Tribal Rhythm
+        </h1>
+
+        <p style="
+            color:#cccccc;
+            margin:8px 0 0;
+        ">
+            Email Verification
+        </p>
+
+    </div>
+
+
+    <!-- CONTENT -->
+
+    <div style="
+        padding:30px;
+        color:#ffffff;
+    ">
+
+        <p>
+            Hello <b>${name}</b>,
+        </p>
+
+        <p>
+            We received a request to verify this
+            email address for Tribal Rhythm.
+        </p>
+
+
+        <!-- OTP BOX -->
+
+        <div style="
+            margin:25px 0;
+            padding:20px;
+            background:#222222;
+            border:1px solid #444444;
+            border-radius:12px;
+            text-align:center;
+        ">
+
+            <p style="
+                margin:0 0 10px;
+                color:#aaaaaa;
+                font-size:14px;
+            ">
+                Your verification code
+            </p>
+
+            <div style="
+                color:#FFD700;
+                font-size:36px;
+                font-weight:bold;
+                letter-spacing:10px;
+            ">
+                ${otp}
+            </div>
+
+        </div>
+
+
+        <p>
+            ⏱️ This OTP is valid for
+            <b>5 minutes</b>.
+        </p>
+
+        <p>
+            🔒 This OTP can be used only once.
+        </p>
+
+        <p>
+            🚫 Never share this OTP with anyone,
+            including anyone claiming to be from
+            Tribal Rhythm.
+        </p>
+
+        <p style="
+            color:#aaaaaa;
+            font-size:13px;
+            margin-top:25px;
+        ">
+            If you did not request this OTP,
+            you can safely ignore this email.
+        </p>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div style="
+        padding:20px;
+        background:#181818;
+        text-align:center;
+        color:#888888;
+        font-size:12px;
+    ">
+
+        <p style="margin:5px;">
+            Tribal Rhythm
+        </p>
+
+        <p style="margin:5px;">
+            Powered by <b style="color:#FFD700;">
+            Zentro Nex
+            </b>
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
 
             `
 
         });
 
         console.log(
-            "✅ User OTP sent successfully:",
+            "✅ Email OTP sent:",
             email
         );
 
@@ -323,14 +488,16 @@ app.post("/send-otp", async (req, res) => {
             success: true,
 
             message:
-                "OTP sent successfully"
+                "OTP sent successfully",
+
+            expiresIn: 300
 
         });
 
     } catch (error) {
 
         console.error(
-            "SEND OTP ERROR:",
+            "SEND EMAIL OTP ERROR:",
             error.response?.data ||
             error.message
         );
@@ -349,14 +516,17 @@ app.post("/send-otp", async (req, res) => {
 });
 
 
-// ================= USER VERIFY OTP =================
+// ================= USER EMAIL VERIFY OTP =================
 
 app.post("/verify-otp", async (req, res) => {
 
     try {
 
-        const email = normalizeEmail(req.body.email);
-        const otp = String(req.body.otp || "").trim();
+        const email =
+            normalizeEmail(req.body.email);
+
+        const otp =
+            String(req.body.otp || "").trim();
 
         if (
             !isValidEmail(email) ||
@@ -380,14 +550,17 @@ app.post("/verify-otp", async (req, res) => {
 
             return res.status(400).json({
                 success: false,
-                message: "OTP not found or expired"
+                message:
+                    "OTP not found or expired"
             });
 
         }
 
-        const data = otpSnap.data();
+        const data =
+            otpSnap.data();
 
-        // Check expiry
+        // ================= EXPIRY =================
+
         if (
             !data.expiresAt ||
             data.expiresAt.toMillis() < Date.now()
@@ -402,26 +575,33 @@ app.post("/verify-otp", async (req, res) => {
 
         }
 
-        // Check attempts
+        // ================= MAX ATTEMPTS =================
+
         const attempts =
             Number(data.attempts || 0);
 
-        if (attempts >= 5) {
+        if (attempts >= OTP_MAX_ATTEMPTS) {
 
             await otpRef.delete();
 
             return res.status(429).json({
                 success: false,
-                message: "Too many OTP attempts"
+                message:
+                    "Too many incorrect attempts. Please request a new OTP."
             });
 
         }
 
-        // Compare hashed OTP
+        // ================= HASH OTP =================
+
         const submittedHash =
             hashOTP(otp);
 
-        if (submittedHash !== data.otpHash) {
+        // ================= WRONG OTP =================
+
+        if (
+            submittedHash !== data.otpHash
+        ) {
 
             await otpRef.update({
 
@@ -431,18 +611,28 @@ app.post("/verify-otp", async (req, res) => {
             });
 
             return res.status(400).json({
+
                 success: false,
-                message: "Invalid OTP"
+
+                message:
+                    "Invalid OTP"
+
             });
 
         }
 
-        // OTP verified
+        // ================= OTP SUCCESS =================
+
+        // DELETE IMMEDIATELY
+        // Makes OTP one-time-use
+
         await otpRef.delete();
 
         return res.json({
 
             success: true,
+
+            verified: true,
 
             message:
                 "OTP verified successfully"
@@ -452,7 +642,7 @@ app.post("/verify-otp", async (req, res) => {
     } catch (error) {
 
         console.error(
-            "VERIFY OTP ERROR:",
+            "VERIFY EMAIL OTP ERROR:",
             error
         );
 
@@ -470,21 +660,23 @@ app.post("/verify-otp", async (req, res) => {
 });
 
 
-const adminOtpLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 5,
-    standardHeaders: true,
-    legacyHeaders: false
-});
-
-app.use("/admin/send-otp", adminOtpLimiter);
 
 
-// ================= ADMIN OTP HELPERS =================
+
+// ================= OTP SECURITY HELPERS =================
+
+
+// ================= OTP SECURITY CONFIG =================
+
+const OTP_EXPIRY_MS = 5 * 60 * 1000;       // 5 minutes
+const OTP_MAX_ATTEMPTS = 5;
+const OTP_RESEND_COOLDOWN_MS = 60 * 1000;  // 60 seconds
 
 const generateOTP = () => {
     return crypto.randomInt(100000, 1000000).toString();
 };
+
+
 
 const hashOTP = (otp) => {
     return crypto
@@ -499,6 +691,12 @@ const normalizeEmail = (email) => {
         .toLowerCase();
 };
 
+const normalizeMobile = (mobile) => {
+    return String(mobile || "")
+        .replace(/\D/g, "")
+        .slice(-10);
+};
+
 const getAdminEmails = () => {
     return String(process.env.ADMIN_EMAILS || "")
         .split(",")
@@ -506,14 +704,23 @@ const getAdminEmails = () => {
         .filter(Boolean);
 };
 
-// ================= HELPERS =================
 const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
         String(email || "").trim()
     );
 };
 
-// ================= SEND OTP =================
+const isValidMobile = (mobile) => {
+    return /^[6-9]\d{9}$/.test(
+        String(mobile || "")
+    );
+};
+
+
+
+
+
+
 
 
 // ================= ADMIN SEND OTP =================
@@ -608,25 +815,38 @@ app.post("/admin/send-otp", async (req, res) => {
                         Tribal Rhythm Admin
                     </h2>
 
-                    <p>
-                        Your administrator verification OTP is:
-                    </p>
+                   <p>
+    Your administrator verification OTP is:
+</p>
 
-                    <h1 style="
-                        color:#FFD700;
-                        letter-spacing:8px;
-                    ">
-                        ${otp}
-                    </h1>
+<h1 style="
+    color:#FFD700;
+    letter-spacing:8px;
+    text-align:center;
+">
+    ${otp}
+</h1>
 
-                    <p>
-                        This OTP is valid for
-                        <b>5 minutes</b>.
-                    </p>
+<p>
+    ⏱️ This OTP is valid for
+    <b>5 minutes</b>.
+</p>
 
-                    <p>
-                        Never share this OTP with anyone.
-                    </p>
+<p>
+    🔒 This OTP can be used only once.
+</p>
+
+<p>
+    🚫 Never share this OTP with anyone.
+</p>
+
+<p style="
+    color:#aaaaaa;
+    font-size:13px;
+">
+    If you did not request an administrator login,
+    please ignore this email and review your account security.
+</p>
 
                     <hr>
 
@@ -672,77 +892,439 @@ app.post("/admin/send-otp", async (req, res) => {
 
 
 
+// ================= USER PHONE SEND OTP =================
+
+const phoneOtpLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+        success: false,
+        message: "Too many OTP requests. Please try again later."
+    }
+});
+
+app.use("/send-phone-otp", phoneOtpLimiter);
+
+
 app.post("/send-phone-otp", async (req, res) => {
+
     try {
 
-        const { mobile, name } = req.body;
+        const mobile =
+            String(req.body.mobile || "").trim();
+
+        const name =
+            String(req.body.name || "User").trim();
+
+
+        // ================= VALIDATE MOBILE =================
 
         if (!/^[6-9]\d{9}$/.test(mobile)) {
+
             return res.status(400).json({
                 success: false,
                 message: "Invalid Mobile Number"
             });
+
         }
 
-        const otp = Math.floor(100000 + Math.random() * 900000);
-        console.log("Phone:", mobile);
-        console.log("OTP:", otp);
-        console.log("MSG91 KEY:", process.env.MSG91_AUTH_KEY ? "Loaded" : "Missing");
+
+        // ================= GENERATE OTP =================
+
+        const otp = generateOTP();
+
+        // NEVER store plain OTP
+        const otpHash = hashOTP(otp);
+
+        const now = Date.now();
 
 
+        // ================= RESEND COOLDOWN =================
 
-        const response = await axios.post(
-            "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
-            {
-                data: {
-                    sendTo: [{
-                        to: [{
-                            mobiles: "91" + mobile,
-                            variables: {
-                                name: {
-                                    value: name || "User"
-                                },
-                                otp: {
-                                    value: otp
-                                }
-                            }
-                        }]
-                    }]
-                }
-            },
-            {
-                headers: {
-                    authkey: process.env.MSG91_AUTH_KEY,
-                    "Content-Type": "application/json"
-                }
+        const otpRef =
+            db.collection("phoneOtps").doc(mobile);
+
+        const existingSnap =
+            await otpRef.get();
+
+        if (existingSnap.exists) {
+
+            const oldData = existingSnap.data();
+
+            const createdAt =
+                oldData.createdAt?.toMillis?.() || 0;
+
+            if (
+                createdAt &&
+                Date.now() - createdAt <
+                OTP_RESEND_COOLDOWN_MS
+            ) {
+
+                const remaining =
+                    Math.ceil(
+                        (
+                            OTP_RESEND_COOLDOWN_MS -
+                            (Date.now() - createdAt)
+                        ) / 1000
+                    );
+
+                return res.status(429).json({
+
+                    success: false,
+
+                    message:
+                        `Please wait ${remaining} seconds before requesting another OTP.`,
+
+                    retryAfter: remaining
+
+                });
             }
+        }
+
+
+        // ================= SAVE SECURE OTP =================
+
+        await otpRef.set({
+
+            otpHash,
+
+            attempts: 0,
+
+            verified: false,
+
+            createdAt:
+                admin.firestore.Timestamp.fromMillis(now),
+
+            expiresAt:
+                admin.firestore.Timestamp.fromMillis(
+                    now + OTP_EXPIRY_MS
+                )
+
+        });
+
+
+        // ================= SEND MSG91 OTP =================
+        // If MSG91 fails, delete OTP from Firestore
+
+        try {
+
+            await axios.post(
+
+                "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
+
+                {
+                    data: {
+                        sendTo: [
+                            {
+                                to: [
+                                    {
+                                        mobiles: "91" + mobile,
+
+                                        variables: {
+
+                                            name: {
+                                                value: name
+                                            },
+
+                                            otp: {
+                                                value: otp
+                                            }
+
+                                        }
+
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+
+                {
+                    headers: {
+
+                        authkey:
+                            process.env.MSG91_AUTH_KEY,
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    timeout: 30000
+
+                }
+
+            );
+
+        } catch (smsError) {
+
+            // MSG91 failed
+            // Remove OTP so it cannot be used
+
+            await otpRef.delete();
+
+            console.error(
+                "MSG91 OTP SEND FAILED:",
+                smsError.response?.data ||
+                smsError.message
+            );
+
+            throw smsError;
+        }
+
+
+        console.log(
+            "✅ Phone OTP sent:",
+            mobile
         );
 
-        console.log("MSG91 RESPONSE:", response.data);
 
-        await db.collection("phoneOtp").doc(mobile).set({
-            otp,
-            time: Date.now()
-        });
+        return res.json({
 
-        res.json({
             success: true,
-            message: "Phone OTP Sent"
+
+            message:
+                "OTP sent successfully",
+
+            expiresIn:
+                OTP_EXPIRY_MS / 1000
+
         });
 
-    } catch (err) {
 
-        console.log("MSG91 ERROR:", err.response?.data || err.message);
+    } catch (error) {
 
-        res.status(500).json({
+        console.error(
+            "SEND PHONE OTP ERROR:",
+            error.response?.data ||
+            error.message
+        );
+
+
+        return res.status(500).json({
+
             success: false,
-            message: err.message
+
+            message:
+                "Unable to send OTP"
+
         });
 
     }
+
 });
 
-// ================= VERIFY OTP =================
+
+
+// ================= USER PHONE VERIFY OTP =================
+
+app.post("/verify-phone-otp", async (req, res) => {
+
+    try {
+
+        const mobile =
+            String(req.body.mobile || "").trim();
+
+        const otp =
+            String(req.body.otp || "").trim();
+
+
+        // ================= VALIDATION =================
+
+        if (
+            !/^[6-9]\d{9}$/.test(mobile) ||
+            !/^\d{6}$/.test(otp)
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Invalid mobile number or OTP"
+
+            });
+
+        }
+
+
+        // ================= OTP DOCUMENT =================
+
+        const otpRef =
+            db
+                .collection("phoneOtps")
+                .doc(mobile);
+
+
+        const otpSnap =
+            await otpRef.get();
+
+
+        if (!otpSnap.exists) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "OTP not found or expired"
+
+            });
+
+        }
+
+
+        const data =
+            otpSnap.data();
+
+
+        // ================= EXPIRY CHECK =================
+
+        if (
+            !data.expiresAt ||
+            data.expiresAt.toMillis() <= Date.now()
+        ) {
+
+            await otpRef.delete();
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "OTP expired. Please request a new OTP."
+
+            });
+
+        }
+
+
+        // ================= ONE-TIME USE CHECK =================
+
+        if (data.verified === true) {
+
+            await otpRef.delete();
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "OTP has already been used."
+
+            });
+
+        }
+
+
+        // ================= ATTEMPT LIMIT =================
+
+        const attempts =
+            Number(data.attempts || 0);
+
+
+        if (attempts >= OTP_MAX_ATTEMPTS) {
+
+            await otpRef.delete();
+
+            return res.status(429).json({
+
+                success: false,
+
+                message:
+                    "Too many incorrect attempts. Please request a new OTP."
+
+            });
+
+        }
+
+
+        // ================= HASH SUBMITTED OTP =================
+
+        const submittedHash =
+            hashOTP(otp);
+
+
+        // ================= COMPARE =================
+
+        if (
+            submittedHash !== data.otpHash
+        ) {
+
+            await otpRef.update({
+
+                attempts:
+                    admin.firestore.FieldValue.increment(1)
+
+            });
+
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Invalid OTP"
+
+            });
+
+        }
+
+
+        // ================= OTP SUCCESS =================
+
+        await otpRef.update({
+
+            verified: true,
+
+            verifiedAt:
+                admin.firestore.Timestamp.now()
+
+        });
+
+
+        // ================= DELETE OTP =================
+        // OTP becomes unusable immediately
+
+        await otpRef.delete();
+
+
+        return res.json({
+
+            success: true,
+
+            verified: true,
+
+            message:
+                "Phone number verified successfully"
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "VERIFY PHONE OTP ERROR:",
+            error
+        );
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Phone OTP verification failed"
+
+        });
+
+    }
+
+});
+
+
 // ================= ADMIN VERIFY OTP =================
 
 app.post("/admin/verify-otp", async (req, res) => {
@@ -896,7 +1478,7 @@ app.post("/create-order", async (req, res) => {
             });
         }
 
-        const finalAmount = Number(amount) * 100;
+        const finalAmount = 30000;
 
         const order = await razorpay.orders.create({
             amount: finalAmount,
@@ -961,15 +1543,12 @@ app.post("/verify-payment", async (req, res) => {
         const userDoc = await db.collection("users").doc(email).get();
         const user = userDoc.data();
 
-        await axios.post(
-            "https://tribal-rhythm-backend.onrender.com/send-payment-success-sms",
-            {
-                name: user.name,
-                mobile: user.mobile,
-                ticketId: user.ticketId,
-                amount: 300
-            }
-        );
+        await sendPaymentSuccessSMS({
+            name: user.name,
+            mobile: user.mobile,
+            ticketId: user.ticketId,
+            amount: 300
+        });
 
         await axios.post(
             "https://tribal-rhythm-backend.onrender.com/send-registration-email",
@@ -1538,6 +2117,52 @@ app.post("/send-bulk-sms", checkAdmin, async (req, res) => {
     }
 
 });
+
+
+// ================= PAYMENT SUCCESS SMS FUNCTION =================
+
+const sendPaymentSuccessSMS = async ({
+    name,
+    mobile,
+    ticketId,
+    amount
+}) => {
+
+    return await axios.post(
+        "https://control.msg91.com/api/v5/oneapi/api/flow/payment-success/run",
+        {
+            data: {
+                sendTo: [
+                    {
+                        to: [
+                            {
+                                mobiles: "91" + mobile,
+                                variables: {
+                                    name: {
+                                        value: name
+                                    },
+                                    ticket: {
+                                        value: ticketId
+                                    },
+                                    amount: {
+                                        value: amount
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            headers: {
+                authkey: process.env.MSG91_AUTH_KEY,
+                "Content-Type": "application/json"
+            },
+            timeout: 30000
+        }
+    );
+};
 
 // ================= PAYMENT SUCCESS SMS =================
 
