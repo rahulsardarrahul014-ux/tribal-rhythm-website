@@ -205,6 +205,271 @@ const otpLimiter = rateLimit({
 app.use("/send-otp", otpLimiter);
 
 
+
+
+
+// ================= USER EMAIL OTP =================
+
+app.post("/send-otp", async (req, res) => {
+
+    try {
+
+        const email = normalizeEmail(req.body.email);
+        const name = String(req.body.name || "User").trim();
+
+        if (!isValidEmail(email)) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid email"
+            });
+
+        }
+
+        const otp = generateOTP();
+        const otpHash = hashOTP(otp);
+
+        // Save OTP securely in Firestore
+        await db
+            .collection("emailOtps")
+            .doc(email)
+            .set({
+
+                otpHash,
+
+                attempts: 0,
+
+                createdAt:
+                    admin.firestore.Timestamp.now(),
+
+                expiresAt:
+                    admin.firestore.Timestamp.fromMillis(
+                        Date.now() + 5 * 60 * 1000
+                    )
+
+            });
+
+        // ================= BREVO EMAIL =================
+
+        await sendBrevoEmail({
+
+            to: email,
+
+            name: name,
+
+            subject:
+                "🔐 Tribal Rhythm Email Verification OTP",
+
+            html: `
+
+                <div style="
+                    font-family:Arial,sans-serif;
+                    max-width:600px;
+                    margin:auto;
+                    padding:30px;
+                    background:#111;
+                    color:#fff;
+                    border-radius:12px;
+                ">
+
+                    <h2 style="color:#FFD700;">
+                        Tribal Rhythm
+                    </h2>
+
+                    <p>
+                        Hello <b>${name}</b>,
+                    </p>
+
+                    <p>
+                        Your email verification OTP is:
+                    </p>
+
+                    <h1 style="
+                        color:#FFD700;
+                        letter-spacing:8px;
+                        text-align:center;
+                    ">
+                        ${otp}
+                    </h1>
+
+                    <p>
+                        This OTP is valid for
+                        <b>5 minutes</b>.
+                    </p>
+
+                    <p>
+                        Please do not share this OTP with anyone.
+                    </p>
+
+                    <hr>
+
+                    <p>
+                        Powered by <b>Zentro Nex</b>
+                    </p>
+
+                </div>
+
+            `
+
+        });
+
+        console.log(
+            "✅ User OTP sent successfully:",
+            email
+        );
+
+        return res.json({
+
+            success: true,
+
+            message:
+                "OTP sent successfully"
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "SEND OTP ERROR:",
+            error.response?.data ||
+            error.message
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Unable to send OTP"
+
+        });
+
+    }
+
+});
+
+
+// ================= USER VERIFY OTP =================
+
+app.post("/verify-otp", async (req, res) => {
+
+    try {
+
+        const email = normalizeEmail(req.body.email);
+        const otp = String(req.body.otp || "").trim();
+
+        if (
+            !isValidEmail(email) ||
+            !/^\d{6}$/.test(otp)
+        ) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid email or OTP"
+            });
+
+        }
+
+        const otpRef =
+            db.collection("emailOtps").doc(email);
+
+        const otpSnap =
+            await otpRef.get();
+
+        if (!otpSnap.exists) {
+
+            return res.status(400).json({
+                success: false,
+                message: "OTP not found or expired"
+            });
+
+        }
+
+        const data = otpSnap.data();
+
+        // Check expiry
+        if (
+            !data.expiresAt ||
+            data.expiresAt.toMillis() < Date.now()
+        ) {
+
+            await otpRef.delete();
+
+            return res.status(400).json({
+                success: false,
+                message: "OTP expired"
+            });
+
+        }
+
+        // Check attempts
+        const attempts =
+            Number(data.attempts || 0);
+
+        if (attempts >= 5) {
+
+            await otpRef.delete();
+
+            return res.status(429).json({
+                success: false,
+                message: "Too many OTP attempts"
+            });
+
+        }
+
+        // Compare hashed OTP
+        const submittedHash =
+            hashOTP(otp);
+
+        if (submittedHash !== data.otpHash) {
+
+            await otpRef.update({
+
+                attempts:
+                    admin.firestore.FieldValue.increment(1)
+
+            });
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid OTP"
+            });
+
+        }
+
+        // OTP verified
+        await otpRef.delete();
+
+        return res.json({
+
+            success: true,
+
+            message:
+                "OTP verified successfully"
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "VERIFY OTP ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "OTP verification failed"
+
+        });
+
+    }
+
+});
+
+
 const adminOtpLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 5,
@@ -1687,85 +1952,6 @@ app.post("/send-certificate-ready", checkAdmin, async (req, res) => {
 
 });
 
-
-
-
-
-app.post("/admin/verify-otp", async (req, res) => {
-
-    try {
-
-        const { email, otp } = req.body;
-
-        if (!email || !otp) {
-
-            return res.status(400).json({
-                success: false,
-                message: "Email and OTP required"
-            });
-        }
-
-        const record =
-            adminOtps.get(email);
-
-        if (!record) {
-
-            return res.status(400).json({
-                success: false,
-                message: "OTP not found or expired"
-            });
-        }
-
-        if (
-            Date.now() >
-            record.expiresAt
-        ) {
-
-            adminOtps.delete(email);
-
-            return res.status(400).json({
-                success: false,
-                message: "OTP expired"
-            });
-        }
-
-        if (
-            String(record.otp) !==
-            String(otp)
-        ) {
-
-            record.attempts++;
-
-            if (record.attempts >= 5) {
-                adminOtps.delete(email);
-            }
-
-            return res.status(400).json({
-                success: false,
-                message: "Invalid OTP"
-            });
-        }
-
-        adminOtps.delete(email);
-
-        res.json({
-            success: true,
-            message: "OTP verified"
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Verify OTP Error:",
-            error
-        );
-
-        res.status(500).json({
-            success: false,
-            message: "OTP verification failed"
-        });
-    }
-});
 
 
 // ================= TICKET VERIFICATION =================
