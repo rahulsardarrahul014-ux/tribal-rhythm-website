@@ -1474,6 +1474,14 @@ app.post("/create-order", async (req, res) => {
         const quantity =
             Number(ticketQuantity);
 
+        console.log("CREATE ORDER REQUEST:", {
+            email,
+            normalizedEmail,
+            ticketType,
+            ticketQuantity,
+            quantity
+        });
+
         // ================= VALIDATION =================
 
         if (!isValidEmail(normalizedEmail)) {
@@ -2033,13 +2041,13 @@ app.post("/razorpay-webhook", async (req, res) => {
 
         const userRef = db.collection("users").doc(email);
 
-        await userRef.update({
+        await userRef.set({
             paymentStatus: "paid",
             status: "approved",
             paymentId: payment.id,
             amount: payment.amount / 100,
             paymentDate: new Date()
-        });
+        }, { merge: true });
 
         res.json({ success: true });
 
