@@ -1662,24 +1662,7 @@ window.payNow = async function () {
         document.getElementById("ticketEmail").value.trim();
 
 
-    // ================= FIRESTORE USER CHECK =================
-    const userDoc = await getDocs(
-        query(
-            collection(db, "users"),
-            where("email", "==", email)
-        )
-    );
-
-    if (userDoc.empty) {
-
-        Swal.fire(
-            "Tribal Rhythm",
-            "User not found. Verify OTP again.",
-            "warning"
-        );
-
-        return;
-    }
+    
 
 
     // ================= VALIDATION =================
