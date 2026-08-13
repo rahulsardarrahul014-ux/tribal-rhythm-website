@@ -11,6 +11,58 @@ const axios = require("axios");
 const app = express();
 app.set("trust proxy", 1);
 
+
+// ================= SECURITY CONFIG =================
+
+const OTP_EXPIRY_MS = 5 * 60 * 1000;          // 5 minutes
+const OTP_MAX_ATTEMPTS = 5;
+const OTP_RESEND_COOLDOWN_MS = 60 * 1000;     // 60 seconds
+
+const generateOTP = () => {
+    return crypto.randomInt(100000, 1000000).toString();
+};
+
+const hashOTP = (otp) => {
+    return crypto
+        .createHmac(
+            "sha256",
+            process.env.OTP_HASH_SECRET
+        )
+        .update(String(otp))
+        .digest("hex");
+};
+
+const normalizeEmail = (email) => {
+    return String(email || "")
+        .trim()
+        .toLowerCase();
+};
+
+const normalizeMobile = (mobile) => {
+    return String(mobile || "")
+        .replace(/\D/g, "")
+        .slice(-10);
+};
+
+const getAdminEmails = () => {
+    return String(process.env.ADMIN_EMAILS || "")
+        .split(",")
+        .map(email => email.trim().toLowerCase())
+        .filter(Boolean);
+};
+
+const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        String(email || "").trim()
+    );
+};
+
+const isValidMobile = (mobile) => {
+    return /^[6-9]\d{9}$/.test(
+        String(mobile || "")
+    );
+};
+
 // ================= MIDDLEWARE =================
 app.use(express.json({
     verify: (req, res, buf) => {
@@ -147,6 +199,13 @@ console.log(
 console.log(
     "BREVO_SENDER_EMAIL:",
     BREVO_SENDER_EMAIL ? "Loaded ✅" : "Missing ❌"
+);
+
+const MSG91_AUTH_KEY = process.env.MSG91_AUTH_KEY;
+
+console.log(
+    "MSG91_AUTH_KEY:",
+    MSG91_AUTH_KEY ? "Loaded ✅" : "Missing ❌"
 );
 
 const sendBrevoEmail = async ({
@@ -661,60 +720,35 @@ app.post("/verify-otp", async (req, res) => {
 
 
 
+// ================= ADMIN OTP RATE LIMITER =================
 
+const adminOtpLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
 
-// ================= OTP SECURITY HELPERS =================
+    message: {
+        success: false,
+        message: "Too many admin OTP requests. Please try again later."
+    }
+});
 
+app.use("/admin/send-otp", adminOtpLimiter);
 
-// ================= OTP SECURITY CONFIG =================
+const adminVerifyOtpLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
 
-const OTP_EXPIRY_MS = 5 * 60 * 1000;       // 5 minutes
-const OTP_MAX_ATTEMPTS = 5;
-const OTP_RESEND_COOLDOWN_MS = 60 * 1000;  // 60 seconds
+    message: {
+        success: false,
+        message: "Too many admin OTP verification attempts. Please try again later."
+    }
+});
 
-const generateOTP = () => {
-    return crypto.randomInt(100000, 1000000).toString();
-};
-
-
-
-const hashOTP = (otp) => {
-    return crypto
-        .createHash("sha256")
-        .update(String(otp))
-        .digest("hex");
-};
-
-const normalizeEmail = (email) => {
-    return String(email || "")
-        .trim()
-        .toLowerCase();
-};
-
-const normalizeMobile = (mobile) => {
-    return String(mobile || "")
-        .replace(/\D/g, "")
-        .slice(-10);
-};
-
-const getAdminEmails = () => {
-    return String(process.env.ADMIN_EMAILS || "")
-        .split(",")
-        .map(email => email.trim().toLowerCase())
-        .filter(Boolean);
-};
-
-const isValidEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-        String(email || "").trim()
-    );
-};
-
-const isValidMobile = (mobile) => {
-    return /^[6-9]\d{9}$/.test(
-        String(mobile || "")
-    );
-};
+app.use("/admin/verify-otp", adminVerifyOtpLimiter);
 
 
 
@@ -764,8 +798,57 @@ app.post("/admin/send-otp", async (req, res) => {
 
         }
 
-        const otp = generateOTP();
-        const otpHash = hashOTP(otp);
+        // ================= ADMIN OTP RESEND COOLDOWN =================
+
+        const otpRef =
+            db.collection("adminOtps").doc(email);
+
+        const existingSnap =
+            await otpRef.get();
+
+        if (existingSnap.exists) {
+
+            const oldData =
+                existingSnap.data();
+
+            const createdAt =
+                oldData.createdAt?.toMillis?.() || 0;
+
+            if (
+                createdAt &&
+                Date.now() - createdAt <
+                OTP_RESEND_COOLDOWN_MS
+            ) {
+
+                const remaining =
+                    Math.ceil(
+                        (
+                            OTP_RESEND_COOLDOWN_MS -
+                            (Date.now() - createdAt)
+                        ) / 1000
+                    );
+
+                return res.status(429).json({
+
+                    success: false,
+
+                    message:
+                        `Please wait ${remaining} seconds before requesting another OTP.`,
+
+                    retryAfter: remaining
+
+                });
+            }
+        }
+
+
+        // ================= GENERATE ADMIN OTP =================
+
+        const otp =
+            generateOTP();
+
+        const otpHash =
+            hashOTP(otp);
 
         // Save hashed OTP in Firestore
         await db

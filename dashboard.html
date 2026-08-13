@@ -7,58 +7,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Tribal Rhythm Dashboard</title>
+    <title>Tribal Rhythm Dashboard | Powered by Zentro Nex</title>
 
     <!-- SEO -->
     <meta name="description"
-        content="Tribal Rhythm Dashboard for managing dance studio students, attendance, competitions, analytics, and performance reports.">
+        content="Tribal Rhythm user dashboard powered by Zentro Nex. Manage your profile, registrations, competitions, payments and certificates.">
 
-    <meta name="keywords"
-        content="Tribal Rhythm Dashboard, Dance Studio, Student Dashboard, Analytics, Attendance, Event Management">
+    <meta name="author" content="Zentro Nex">
 
-    <meta name="author" content="Tribal Rhythm">
-
-    <!-- GOOGLE INDEX -->
-    <meta name="robots" content="index,follow">
+    <!-- USER DASHBOARD SHOULD NOT BE INDEXED -->
+    <meta name="robots" content="noindex,nofollow">
 
     <!-- THEME -->
     <meta name="theme-color" content="#070707">
 
-    <!-- OPEN GRAPH -->
-    <meta property="og:title" content="Tribal Rhythm Dashboard">
-    <meta property="og:description" content="Professional dance studio dashboard with analytics and management tools.">
-    <meta property="og:type" content="website">
-
-    <!-- TWITTER -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tribal Rhythm Dashboard">
-    <meta name="twitter:description" content="Dance studio management dashboard for Tribal Rhythm.">
-
-    <!-- SECURITY -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <!-- FAVICON -->
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" type="tribalweblogo" href="tribalweblogo.png">
 
     <!-- GOOGLE FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
     <!-- BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- SWEETALERT2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- CHART JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- PERFORMANCE -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-
-    <!-- STYLE -->
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -66,489 +51,1548 @@
         }
 
         body {
-            background: #070707;
-            color: white;
+            background:
+                radial-gradient(circle at top right, rgba(255, 215, 0, 0.08), transparent 30%),
+                radial-gradient(circle at bottom left, rgba(0, 120, 255, 0.08), transparent 30%),
+                #070707;
+            color: #fff;
             font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
             overflow-x: hidden;
         }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+        .dashboard-wrapper {
+            max-width: 1400px;
+            margin: auto;
+            padding: 25px;
         }
 
-        .main {
-            padding: 20px;
+        /* HEADER */
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 18px 22px;
+            margin-bottom: 25px;
+
+            background: rgba(255, 255, 255, 0.055);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 20px;
         }
 
-        .stat {
-            font-size: 22px;
-            font-weight: bold;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            border-radius: 14px;
+        }
+
+        .brand h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .brand small {
+            color: #aaa;
+        }
+
+        .brand small span {
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        /* BUTTON */
+
+        .logout-btn {
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            background: rgba(255, 215, 0, 0.08);
+            color: #ffd700;
+            padding: 9px 16px;
+            border-radius: 12px;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: #ffd700;
+            color: #000;
+        }
+
+        /* WELCOME */
+
+        .welcome-card {
+            padding: 28px;
+            border-radius: 22px;
+            margin-bottom: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 215, 0, 0.12),
+                    rgba(255, 255, 255, 0.04)
+                );
+
+            border: 1px solid rgba(255, 215, 0, 0.16);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-card h2 {
+            font-weight: 700;
         }
 
         .gold {
-            color: gold;
+            color: #ffd700;
         }
 
-        /* SCROLLBAR */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .user-email {
+            color: #aaa;
+            font-size: 14px;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: #444;
-            border-radius: 10px;
+        /* PROFILE */
+
+        .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .profile-photo {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffd700;
+            background: #151515;
+        }
+
+        /* STAT CARDS */
+
+        .stat-card {
+            height: 100%;
+            padding: 22px;
+            border-radius: 18px;
+
+            background: rgba(255, 255, 255, 0.055);
+            backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 215, 0, 0.35);
+        }
+
+        .stat-icon {
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .stat-title {
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .stat-value {
+            font-size: 27px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        /* GLASS */
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 22px;
+        }
+
+        .section-title {
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        /* LIST */
+
+        .item-card {
+            padding: 15px;
+            margin-bottom: 12px;
+
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+
+            border-radius: 14px;
+        }
+
+        .item-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .item-label {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .item-value {
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        /* BADGES */
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .success {
+            background: rgba(25, 135, 84, 0.18);
+            color: #54d88a;
+        }
+
+        .pending {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffd54f;
+        }
+
+        .failed {
+            background: rgba(220, 53, 69, 0.15);
+            color: #ff6b7a;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            text-align: center;
+            padding: 35px 10px;
+            color: #888;
+        }
+
+        .empty-icon {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        /* LOADING */
+
+        #loadingScreen {
+            position: fixed;
+            inset: 0;
+            background: #070707;
+            z-index: 99999;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .loader {
+            width: 42px;
+            height: 42px;
+
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-top-color: #ffd700;
+
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            margin-top: 15px;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* CHART */
+
+        .chart-container {
+            position: relative;
+            height: 320px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+            padding: 30px 0 10px;
+        }
+
+        footer strong {
+            color: #ffd700;
         }
 
         /* MOBILE */
+
         @media(max-width:768px) {
-            .main {
-                padding: 10px;
+
+            .dashboard-wrapper {
+                padding: 12px;
             }
 
-            .stat {
-                font-size: 18px;
+            .topbar {
+                padding: 14px;
             }
+
+            .brand h4 {
+                font-size: 16px;
+            }
+
+            .brand small {
+                font-size: 10px;
+            }
+
+            .brand img {
+                width: 43px;
+                height: 43px;
+            }
+
+            .welcome-card {
+                padding: 20px;
+            }
+
+            .welcome-card h2 {
+                font-size: 21px;
+            }
+
+            .profile-photo {
+                width: 65px;
+                height: 65px;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .logout-btn {
+                padding: 7px 11px;
+                font-size: 12px;
+            }
+
         }
+
     </style>
 
 </head>
 
 <body>
 
-    <div class="container main">
+    <!-- ================= LOADING ================= -->
 
-        <h3>👑 Tribal Rhythm Live Dashboard</h3>
+    <div id="loadingScreen">
 
-        <!-- STATS -->
-        <!-- ================= DASHBOARD STATS ================= -->
+        <div class="loader"></div>
 
-        <div class="row g-4">
-
-            <div class="col-xl-3 col-lg-6 col-md-6">
-                <div class="card-pro stat">
-                    <h6>Total Users</h6>
-                    <h2 id="u">0</h2>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-6 col-md-6">
-                <div class="card-pro stat">
-                    <h6>Total Bookings</h6>
-                    <h2 id="b">0</h2>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-6 col-md-6">
-                <div class="card-pro stat">
-                    <h6>Revenue</h6>
-                    <h2>₹<span id="p">0</span></h2>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-6 col-md-6">
-                <div class="card-pro stat">
-                    <h6>Approved</h6>
-                    <h2 id="a">0</h2>
-                </div>
-            </div>
-
-        </div>
-
-         <canvas id="bar"></canvas>
-
-
-          <div class="card-pro">
-
-            <img id="adminPhoto" width="80" height="80" style="border-radius:50%;">
-
-            <h4 id="adminWelcome"></h4>
-
-            <p id="adminInfo"></p>
-
-        </div>
-        <div id="dashboard"></div>
-
-        <h2>👑 CONTROL PANEL</h2>
-
-        <!-- 🎯 JUDGE PANEL (LOGIN के बाद ही दिखेगा) -->
-        <div class="card-pro">
-            <h4>🎯 Judge Scoring Panel</h4>
-
-            <input id="pname" class="form-control mb-2" placeholder="Participant Name">
-            <input id="pcat" class="form-control mb-2" placeholder="Category">
-            <input id="pscore" type="number" class="form-control mb-2" placeholder="Score (0-100)">
-
-            <button onclick="submitScore()" class="btn btn-silver">Submit Score</button>
-        </div>
-
-        <div class="card-pro">
-            <h4>🏆 Category Leaderboard</h4>
-            <div id="leaderboard"></div>
-        </div>
-
-        <section class="card-pro">
-    <h4>🏆 Winners</h4>
-    <div id="publicWinnerList"></div>
-</section>
-
-        <!-- ================= MAIN STATS ================= -->
-
-        <div class="row g-3 mt-2">
-
-            <div class="col-6 col-lg-3">
-                <div class="glass">
-                    👥 Total Users
-                    <div class="stat" id="users">0</div>
-                </div>
-            </div>
-
-            <div class="col-6 col-lg-3">
-                <div class="glass">
-                    🎟️ Participants
-                    <div class="stat" id="tickets">0</div>
-                </div>
-            </div>
-
-            <div class="col-6 col-lg-3">
-                <div class="glass">
-                    🏆 Competition
-                    <div class="stat" id="competitionParticipants">0</div>
-                </div>
-            </div>
-
-            <div class="col-6 col-lg-3">
-                <div class="glass">
-                    💰 Revenue
-                    <div class="stat">
-                        ₹<span id="revenue">0</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="glass mt-3">
-            <h5>📈 Live Analytics</h5>
-            <canvas id="chart"></canvas>
-        </div>
-
-        <!-- ================= COMPETITION ANALYTICS ================= -->
-
-        <div class="row g-3 mt-3">
-
-            <div class="col-md-6">
-
-                <div class="glass">
-
-                    <h5>🏆 Competition Analytics</h5>
-
-                    <hr>
-
-                    <p>
-                        🎭 Total Participants:
-                        <b id="totalParticipants">0</b>
-                    </p>
-
-                    <p>
-                        📤 Total Videos:
-                        <b id="totalVideos">0</b>
-                    </p>
-
-                    <p>
-                        🏅 Winners:
-                        <b id="totalWinners">0</b>
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="col-md-6">
-
-                <div class="glass">
-
-                    <h5>💰 Revenue Analytics</h5>
-
-                    <hr>
-
-                    <p>
-                        🎟️ Participant Revenue:
-                        ₹<b id="participantRevenue">0</b>
-                    </p>
-
-                    <p>
-                        🏆 Competition Revenue:
-                        ₹<b id="competitionRevenue">0</b>
-                    </p>
-
-                    <p>
-                        💰 Total Revenue:
-                        ₹<b id="totalRevenue">0</b>
-                    </p>
-
-                </div>
-
-            </div>
-
+        <div class="loading-text">
+            Loading Tribal Rhythm...
         </div>
 
     </div>
 
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <main class="dashboard-wrapper" id="dashboardContent" style="display:none;">
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div class="brand">
+
+                <img
+                    src="logo.png"
+                    alt="Tribal Rhythm Logo"
+                    onerror="this.style.display='none'"
+                >
+
+                <div>
+
+                    <h4>Tribal Rhythm</h4>
+
+                    <small>
+                        Powered by
+                        <span>Zentro Nex</span>
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="logoutBtn"
+                class="logout-btn"
+                type="button"
+            >
+                Logout
+            </button>
+
+        </header>
+
+
+        <!-- ================= WELCOME ================= -->
+
+        <section class="welcome-card">
+
+            <h2>
+                👑 Welcome,
+                <span id="userName" class="gold">
+                    User
+                </span>
+            </h2>
+
+            <div
+                id="userEmail"
+                class="user-email"
+            >
+                Loading...
+            </div>
+
+
+            <div class="profile-card">
+
+                <img
+                    id="profilePhoto"
+                    class="profile-photo"
+                    src="logo.png"
+                    alt="Profile"
+                >
+
+                <div>
+
+                    <div
+                        id="profileName"
+                        style="font-weight:700;"
+                    >
+                        User
+                    </div>
+
+                    <div
+                        id="profileMobile"
+                        class="user-email"
+                    >
+                        Mobile not available
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= STATS ================= -->
+
+        <section class="row g-3 mb-4">
+
+            <div class="col-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🎟️
+                    </div>
+
+                    <div class="stat-title">
+                        My Registrations
+                    </div>
+
+                    <div
+                        id="registrationCount"
+                        class="stat-value"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🏆
+                    </div>
+
+                    <div class="stat-title">
+                        Competitions
+                    </div>
+
+                    <div
+                        id="competitionCount"
+                        class="stat-value"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        💰
+                    </div>
+
+                    <div class="stat-title">
+                        My Payments
+                    </div>
+
+                    <div class="stat-value">
+                        ₹<span id="paymentAmount">0</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🏅
+                    </div>
+
+                    <div class="stat-title">
+                        Wins
+                    </div>
+
+                    <div
+                        id="winnerCount"
+                        class="stat-value"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ANALYTICS ================= -->
+
+        <section class="glass mb-4">
+
+            <h5 class="section-title">
+                📊 My Activity
+            </h5>
+
+            <div class="chart-container">
+
+                <canvas id="userChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= REGISTRATIONS ================= -->
+
+        <section class="glass mb-4">
+
+            <h5 class="section-title">
+                🎟️ My Registrations
+            </h5>
+
+            <div id="registrationList">
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🎟️
+                    </div>
+
+                    No registrations found.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= WINNERS ================= -->
+
+        <section class="glass mb-4">
+
+            <h5 class="section-title">
+                🏆 My Achievements
+            </h5>
+
+            <div id="winnerList">
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🏆
+                    </div>
+
+                    No achievements yet.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= QUICK INFO ================= -->
+
+        <section class="glass mb-4">
+
+            <h5 class="section-title">
+                ℹ️ Account Information
+            </h5>
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+
+                    <div class="item-card">
+
+                        <div class="item-label">
+                            Account Email
+                        </div>
+
+                        <div
+                            id="accountEmail"
+                            class="item-value"
+                        >
+                            -
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="item-card">
+
+                        <div class="item-label">
+                            User ID
+                        </div>
+
+                        <div
+                            id="accountUid"
+                            class="item-value"
+                            style="word-break:break-all;"
+                        >
+                            -
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            © 2026 Tribal Rhythm.
+            All rights reserved.
+
+            <br>
+
+            Powered by
+            <strong>Zentro Nex</strong>
+
+        </footer>
+
+    </main>
+
+
+    <!-- ================= FIREBASE ================= -->
+
     <script type="module">
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot }
-            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+
+        import {
+            getFirestore,
+            collection,
+            query,
+            where,
+            onSnapshot
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+
+        /* =====================================================
+           FIREBASE CONFIG
+        ===================================================== */
 
         const firebaseConfig = {
+
             apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
-            authDomain: "tribalrhythm-486bd.firebaseapp.com",
-            projectId: "tribalrhythm-486bd",
-            storageBucket: "tribalrhythm-486bd.firebasestorage.app",
-            messagingSenderId: "566528037279",
-            appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
+
+            authDomain:
+                "tribalrhythm-486bd.firebaseapp.com",
+
+            projectId:
+                "tribalrhythm-486bd",
+
+            storageBucket:
+                "tribalrhythm-486bd.firebasestorage.app",
+
+            messagingSenderId:
+                "566528037279",
+
+            appId:
+                "1:566528037279:web:b475312ea2c721d4fd2daa"
+
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
 
-        /* USERS */
-        onSnapshot(collection(db, "users"), snap => {
+        const app =
+            initializeApp(firebaseConfig);
 
-            document.getElementById("users").innerText =
-                snap.size;
 
-            refreshChart();
+        const auth =
+            getAuth(app);
 
-        });
 
-        // ================= VIDEOS =================
+        const db =
+            getFirestore(app);
 
-        onSnapshot(collection(db, "videos"), snap => {
 
-            document.getElementById("totalVideos").innerText =
-                snap.size;
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
 
-            refreshChart();
+        const loadingScreen =
+            document.getElementById("loadingScreen");
 
-        });
+        const dashboardContent =
+            document.getElementById("dashboardContent");
 
-        // ================= WINNERS =================
+        const userName =
+            document.getElementById("userName");
 
-        onSnapshot(collection(db, "winners"), snap => {
+        const userEmail =
+            document.getElementById("userEmail");
 
-            document.getElementById("totalWinners").innerText =
-                snap.size;
+        const profileName =
+            document.getElementById("profileName");
 
-            refreshChart();
+        const profileMobile =
+            document.getElementById("profileMobile");
 
-        });
+        const profilePhoto =
+            document.getElementById("profilePhoto");
 
-        // ================= PARTICIPANTS =================
+        const accountEmail =
+            document.getElementById("accountEmail");
 
-        onSnapshot(collection(db, "participants"), snap => {
+        const accountUid =
+            document.getElementById("accountUid");
 
-            const totalParticipants = snap.size;
 
-            document.getElementById("tickets").innerText =
-                totalParticipants;
+        /* =====================================================
+           CHART
+        ===================================================== */
 
-            document.getElementById("competitionParticipants").innerText =
-                totalParticipants;
+        let userChart = null;
 
-            document.getElementById("totalParticipants").innerText =
-                totalParticipants;
-
-            refreshChart();
-
-        });
-
-        // ================= REVENUE =================
-
-        onSnapshot(collection(db, "participants"), snap => {
-
-            let competitionRevenue = 0;
-
-            snap.forEach(d => {
-
-                const data = d.data();
-
-                if (data.paymentStatus === "success") {
-
-                    competitionRevenue +=
-                        Number(data.fee || 0);
-
-                }
-
-            });
-
-            document.getElementById("revenue").innerText =
-                competitionRevenue;
-
-            document.getElementById("competitionRevenue").innerText =
-                competitionRevenue;
-
-            document.getElementById("totalRevenue").innerText =
-                competitionRevenue;
-
-        });
-
-        /* CHART */
-        let chart;
-
-          function loadData() {
-
-            onSnapshot(collection(db, "bookings"), snap => {
-
-                let users = 0, approved = 0, revenue = 0, html = "", pay = "";
-
-                snap.forEach(d => {
-
-                    let data = d.data();
-
-                    users++;
-
-                    if (data.status === "Approved") approved++;
-
-                    let amount = data.amount || 200;
-                    revenue += amount;
-
-                    pay += `<div class="card-pro">₹${amount} - ${data.name}</div>`;
-
-                    html += `
-            <div class="card-pro">
-                <b>${data.name}</b><br>
-                ${data.email}<br>
-                ${data.status || "Pending"}<br>
-                <button onclick="approve('${d.id}')">Approve</button>
-                <button onclick="remove('${d.id}')">Delete</button>
-            </div>`;
-                });
-
-                u.innerText = users;
-                b.innerText = users;
-                a.innerText = approved;
-                p.innerText = revenue;
-
-                list.innerHTML = html;
-                paymentList.innerHTML = pay;
-
-                if (chart) chart.destroy();
-
-                chart = new Chart(bar, {
-                    type: "bar",
-                    data: {
-                        labels: ["Users", "Approved", "Revenue"],
-                        datasets: [{ data: [users, approved, revenue] }]
-                    }
-                });
-            });
-        }
-
-        // ================= REFRESH CHART =================
-
-        function refreshChart() {
-
-            const users =
-                Number(document.getElementById("users").innerText);
-
-            const participants =
-                Number(document.getElementById("totalParticipants").innerText);
-
-            const videos =
-                Number(document.getElementById("totalVideos").innerText);
-
-            const winners =
-                Number(document.getElementById("totalWinners").innerText);
-
-            updateChart(
-                users,
-                participants,
-                videos,
-                winners
-            );
-
-        }
 
         function updateChart(
-            users,
-            participants,
-            videos,
-            winners
+            registrations,
+            competitions,
+            wins,
+            payments
         ) {
 
-            if (!chart) {
+            const ctx =
+                document
+                    .getElementById("userChart")
+                    .getContext("2d");
 
-                chart = new Chart(
-                    document.getElementById("chart"),
-                    {
 
-                        type: "bar",
+            if (userChart) {
 
-                        data: {
+                userChart.destroy();
 
-                            labels: [
-                                "Users",
-                                "Participants",
-                                "Videos",
-                                "Winners"
+            }
+
+
+            userChart =
+                new Chart(ctx, {
+
+                    type: "bar",
+
+                    data: {
+
+                        labels: [
+                            "Registrations",
+                            "Competitions",
+                            "Wins",
+                            "Payments"
+                        ],
+
+                        datasets: [{
+
+                            label:
+                                "My Tribal Rhythm Activity",
+
+                            data: [
+                                registrations,
+                                competitions,
+                                wins,
+                                payments
                             ],
 
-                            datasets: [{
+                            borderWidth: 1
 
-                                label: "Tribal Rhythm Analytics",
+                        }]
 
-                                data: [
-                                    users,
-                                    participants,
-                                    videos,
-                                    winners
-                                ]
+                    },
 
-                            }]
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+                        scales: {
+
+                            y: {
+
+                                beginAtZero: true,
+
+                                ticks: {
+
+                                    precision: 0
+
+                                }
+
+                            }
 
                         },
 
-                        options: {
-                            responsive: true,
+                        plugins: {
 
-                            scales: {
-                                y: {
-                                    beginAtZero: true
+                            legend: {
+
+                                labels: {
+
+                                    color: "#fff"
+
                                 }
+
                             }
 
                         }
 
                     }
 
+                });
+
+        }
+
+
+        /* =====================================================
+           AUTHENTICATION
+        ===================================================== */
+
+        onAuthStateChanged(auth, async (user) => {
+
+            if (!user) {
+
+                await Swal.fire({
+
+                    icon: "warning",
+
+                    title: "Login Required",
+
+                    text:
+                        "Please login to access your Tribal Rhythm dashboard.",
+
+                    confirmButtonText: "Go to Login",
+
+                    confirmButtonColor: "#d4af37"
+
+                });
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            /* USER AUTHENTICATED */
+
+            console.log(
+                "Authenticated user:",
+                user.uid
+            );
+
+
+            accountEmail.innerText =
+                user.email || "Not available";
+
+
+            accountUid.innerText =
+                user.uid;
+
+
+            userEmail.innerText =
+                user.email || "Email not available";
+
+
+            userName.innerText =
+                user.displayName || "Tribal Rhythm User";
+
+
+            profileName.innerText =
+                user.displayName || "Tribal Rhythm User";
+
+
+            if (user.photoURL) {
+
+                profilePhoto.src =
+                    user.photoURL;
+
+            }
+
+
+            dashboardContent.style.display =
+                "block";
+
+
+            loadingScreen.style.display =
+                "none";
+
+
+            loadUserData(user);
+
+        });
+
+
+        /* =====================================================
+           USER DATA
+        ===================================================== */
+
+        function loadUserData(user) {
+
+
+            /* =================================================
+               PARTICIPANTS / REGISTRATIONS
+            ================================================= */
+
+            const participantQuery =
+                query(
+                    collection(db, "participants"),
+                    where("uid", "==", user.uid)
                 );
 
-            } else {
 
-                chart.data.datasets[0].data = [
+            onSnapshot(
 
-                    users,
-                    participants,
-                    videos,
-                    winners
+                participantQuery,
 
-                ];
+                (snapshot) => {
 
-                chart.update();
+                    let total =
+                        snapshot.size;
+
+                    let competitionTotal =
+                        0;
+
+                    let paymentTotal =
+                        0;
+
+                    let html = "";
+
+
+                    snapshot.forEach((doc) => {
+
+                        const data =
+                            doc.data();
+
+
+                        if (
+                            data.competition ||
+                            data.competitionName ||
+                            data.category
+                        ) {
+
+                            competitionTotal++;
+
+                        }
+
+
+                        if (
+                            data.paymentStatus ===
+                            "success"
+                        ) {
+
+                            paymentTotal +=
+                                Number(
+                                    data.fee || 0
+                                );
+
+                        }
+
+
+                        const status =
+                            data.paymentStatus ||
+                            "pending";
+
+
+                        let statusClass =
+                            "pending";
+
+
+                        if (
+                            status === "success"
+                        ) {
+
+                            statusClass =
+                                "success";
+
+                        }
+
+
+                        if (
+                            status === "failed"
+                        ) {
+
+                            statusClass =
+                                "failed";
+
+                        }
+
+
+                        html += `
+
+                            <div class="item-card">
+
+                                <div class="row g-3">
+
+                                    <div class="col-md-4">
+
+                                        <div class="item-label">
+                                            Participant
+                                        </div>
+
+                                        <div class="item-value">
+                                            ${escapeHTML(
+                                                data.fullName ||
+                                                data.name ||
+                                                "Participant"
+                                            )}
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-4">
+
+                                        <div class="item-label">
+                                            Ticket ID
+                                        </div>
+
+                                        <div class="item-value">
+                                            ${escapeHTML(
+                                                data.ticket ||
+                                                data.ticketId ||
+                                                "-"
+                                            )}
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-4">
+
+                                        <div class="item-label">
+                                            Payment
+                                        </div>
+
+                                        <div class="item-value">
+
+                                            ₹${Number(
+                                                data.fee || 0
+                                            )}
+
+                                            <span
+                                                class="status-badge ${statusClass}"
+                                            >
+                                                ${escapeHTML(status)}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+
+                        if (
+                            !profileMobile.innerText ||
+                            profileMobile.innerText ===
+                            "Mobile not available"
+                        ) {
+
+                            profileMobile.innerText =
+                                data.mobile ||
+                                data.phone ||
+                                "Mobile not available";
+
+                        }
+
+                    });
+
+
+                    document
+                        .getElementById(
+                            "registrationCount"
+                        )
+                        .innerText =
+                        total;
+
+
+                    document
+                        .getElementById(
+                            "competitionCount"
+                        )
+                        .innerText =
+                        competitionTotal;
+
+
+                    document
+                        .getElementById(
+                            "paymentAmount"
+                        )
+                        .innerText =
+                        paymentTotal;
+
+
+                    if (html) {
+
+                        document
+                            .getElementById(
+                                "registrationList"
+                            )
+                            .innerHTML =
+                            html;
+
+                    }
+
+
+                    refreshUserChart();
+
+                },
+
+                (error) => {
+
+                    console.error(
+                        "Participant error:",
+                        error
+                    );
+
+
+                    showFirestoreError(error);
+
+                }
+
+            );
+
+
+            /* =================================================
+               WINNERS
+            ================================================= */
+
+            const winnerQuery =
+                query(
+                    collection(db, "winners"),
+                    where("uid", "==", user.uid)
+                );
+
+
+            onSnapshot(
+
+                winnerQuery,
+
+                (snapshot) => {
+
+                    document
+                        .getElementById(
+                            "winnerCount"
+                        )
+                        .innerText =
+                        snapshot.size;
+
+
+                    let html = "";
+
+
+                    snapshot.forEach((doc) => {
+
+                        const data =
+                            doc.data();
+
+
+                        html += `
+
+                            <div class="item-card">
+
+                                <div class="row g-3">
+
+                                    <div class="col-md-4">
+
+                                        <div class="item-label">
+                                            Competition
+                                        </div>
+
+                                        <div class="item-value">
+                                            ${escapeHTML(
+                                                data.competitionName ||
+                                                data.competition ||
+                                                "Competition"
+                                            )}
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-4">
+
+                                        <div class="item-label">
+                                            Category
+                                        </div>
+
+                                        <div class="item-value">
+                                            ${escapeHTML(
+                                                data.category ||
+                                                "-"
+                                            )}
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-4">
+
+                                        <div class="item-label">
+                                            Position
+                                        </div>
+
+                                        <div class="item-value gold">
+                                            🏆 ${escapeHTML(
+                                                data.position ||
+                                                data.rank ||
+                                                "Winner"
+                                            )}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    });
+
+
+                    if (html) {
+
+                        document
+                            .getElementById(
+                                "winnerList"
+                            )
+                            .innerHTML =
+                            html;
+
+                    }
+
+
+                    refreshUserChart();
+
+                },
+
+                (error) => {
+
+                    console.error(
+                        "Winner error:",
+                        error
+                    );
+
+                    showFirestoreError(error);
+
+                }
+
+            );
+
+        }
+
+
+        /* =====================================================
+           CHART REFRESH
+        ===================================================== */
+
+        function refreshUserChart() {
+
+            const registrations =
+                Number(
+                    document
+                        .getElementById(
+                            "registrationCount"
+                        )
+                        .innerText
+                ) || 0;
+
+
+            const competitions =
+                Number(
+                    document
+                        .getElementById(
+                            "competitionCount"
+                        )
+                        .innerText
+                ) || 0;
+
+
+            const wins =
+                Number(
+                    document
+                        .getElementById(
+                            "winnerCount"
+                        )
+                        .innerText
+                ) || 0;
+
+
+            const payments =
+                Number(
+                    document
+                        .getElementById(
+                            "paymentAmount"
+                        )
+                        .innerText
+                ) || 0;
+
+
+            updateChart(
+                registrations,
+                competitions,
+                wins,
+                payments
+            );
+
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ===================================================== */
+
+        document
+            .getElementById("logoutBtn")
+            .addEventListener(
+                "click",
+                async () => {
+
+                    const result =
+                        await Swal.fire({
+
+                            icon: "question",
+
+                            title: "Logout?",
+
+                            text:
+                                "Do you want to logout from Tribal Rhythm?",
+
+                            showCancelButton: true,
+
+                            confirmButtonText:
+                                "Yes, Logout",
+
+                            cancelButtonText:
+                                "Cancel",
+
+                            confirmButtonColor:
+                                "#d4af37",
+
+                            cancelButtonColor:
+                                "#444"
+
+                        });
+
+
+                    if (!result.isConfirmed) {
+
+                        return;
+
+                    }
+
+
+                    try {
+
+                        await signOut(auth);
+
+
+                        await Swal.fire({
+
+                            icon: "success",
+
+                            title: "Logged Out",
+
+                            text:
+                                "You have been safely logged out.",
+
+                            timer: 1500,
+
+                            showConfirmButton: false
+
+                        });
+
+
+                        window.location.href =
+                            "login.html";
+
+                    } catch (error) {
+
+                        console.error(
+                            error
+                        );
+
+
+                        Swal.fire({
+
+                            icon: "error",
+
+                            title: "Logout Failed",
+
+                            text:
+                                "Unable to logout. Please try again."
+
+                        });
+
+                    }
+
+                }
+            );
+
+
+        /* =====================================================
+           HTML SECURITY
+        ===================================================== */
+
+        function escapeHTML(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+
+                .replaceAll("&", "&amp;")
+
+                .replaceAll("<", "&lt;")
+
+                .replaceAll(">", "&gt;")
+
+                .replaceAll('"', "&quot;")
+
+                .replaceAll("'", "&#039;");
+
+        }
+
+
+        /* =====================================================
+           FIRESTORE ERROR
+        ===================================================== */
+
+        function showFirestoreError(error) {
+
+            if (
+                error &&
+                error.code ===
+                "permission-denied"
+            ) {
+
+                Swal.fire({
+
+                    icon: "error",
+
+                    title: "Access Denied",
+
+                    text:
+                        "You don't have permission to access this data."
+
+                });
 
             }
 
         }
-        setTimeout(() => {
-            location.reload();
-        }, 60000);
 
     </script>
 

@@ -509,7 +509,7 @@ font-weight:600;">
             <!-- <input id="dob" type="date"> -->
             <input id="mobile" type="tel" maxlength="10" placeholder="Mobile Number">
 
-            <button id="sendPhoneOtpBtn" class="otp-btn" type="button" onclick="sendPhoneOTP()">
+            <button id="sendPhoneOtpBtn" class="otp-btn" type="button" onclick="sendPhoneOTP()" style="display:none;">
                 📱 Send Phone OTP
             </button>
 
@@ -1137,7 +1137,7 @@ font-weight:600;">
 
         }
 
-       document.getElementById("email").addEventListener("blur", async function () {
+        document.getElementById("email").addEventListener("blur", async function () {
             let email = this.value.trim();
             if (!email) return;
 
@@ -1153,7 +1153,7 @@ font-weight:600;">
 
                     showLogin();
 
-                   document.getElementById("loginIdentifier").value = email;
+                    document.getElementById("loginIdentifier").value = email;
 
                 });
 
@@ -2002,7 +2002,7 @@ font-weight:600;">
                 // ==========================================
 
                 if (
-                    identifier.toUpperCase().startsWith("TR-")
+                    identifier.toUpperCase().startsWith("TRS-")
                 ) {
 
                     const usersRef =
@@ -2088,14 +2088,28 @@ font-weight:600;">
 
         window.forgotPassword = async function () {
 
-            let email = document.getElementById("loginEmail").value.trim();
+            const email =
+                document.getElementById("loginIdentifier").value.trim();
 
             if (!email) {
+
                 Swal.fire(
-                    "Error",
-                    "Enter Email First",
+                    "Email Required",
+                    "Please enter your registered email address.",
                     "warning"
                 );
+
+                return;
+            }
+
+            if (email.toUpperCase().startsWith("TRS-")) {
+
+                Swal.fire(
+                    "Use Email",
+                    "Please enter your registered email address for password reset.",
+                    "info"
+                );
+
                 return;
             }
 
@@ -2111,9 +2125,11 @@ font-weight:600;">
 
             } catch (error) {
 
+                console.error("Password Reset Error:", error);
+
                 Swal.fire(
                     "Error",
-                    error.message,
+                    "Unable to send password reset email.",
                     "error"
                 );
 
