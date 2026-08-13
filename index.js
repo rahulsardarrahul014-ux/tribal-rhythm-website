@@ -1572,434 +1572,608 @@ window.goToTicket = function () {
 
 
 /* ================= PAYMENT ================= */
+
+// ================= PAYMENT =================
+
 window.payNow = async function () {
-
-    // ================= DEBUG =================
-
-    console.log(
-        "BOOK NOW CHECK:",
-        localStorage.getItem("ticketVerified"),
-        localStorage.getItem("ticketEmail"),
-        document.getElementById("ticketEmail").value
-    );
-
-    // ================= OTP + EMAIL VERIFICATION =================
-
-    const verified =
-        localStorage.getItem("ticketVerified");
-
-    const verifiedEmail =
-        (localStorage.getItem("ticketEmail") || "")
-            .trim()
-            .toLowerCase();
-
-    const currentEmail =
-        document
-            .getElementById("ticketEmail")
-            .value
-            .trim()
-            .toLowerCase();
-
-    console.log("OTP STATUS:", verified);
-    console.log("VERIFIED EMAIL:", verifiedEmail);
-    console.log("CURRENT EMAIL:", currentEmail);
-
-    if (
-        verified !== "true" ||
-        !verifiedEmail ||
-        verifiedEmail !== currentEmail
-    ) {
-
-        Swal.fire(
-            "Tribal Rhythm",
-            "Please Verify OTP First",
-            "warning"
-        );
-
-        return;
-    }
-
-    // ================= SELECTED PASS =================
-    const selected =
-        document.querySelector('input[name="ticketType"]:checked');
-
-    if (!selected) {
-
-        Swal.fire(
-            "Tribal Rhythm",
-            "Please Select a Pass",
-            "warning"
-        );
-
-        return;
-    }
-
-    const type = selected.value;
-
-    // ================= TICKET QUANTITY =================
-    const ticketQuantity =
-        document.getElementById("ticketQuantity").value;
-
-    if (!ticketQuantity) {
-
-        Swal.fire(
-            "Tribal Rhythm",
-            "Please Select Number of Tickets First",
-            "warning"
-        );
-
-        return;
-    }
-
-    // ================= USER DETAILS =================
-    const name =
-        document.getElementById("ticketName").value.trim();
-
-    const phone =
-        document.getElementById("ticketPhone").value.trim();
-
-    const email =
-        document.getElementById("ticketEmail").value.trim();
-
-
-    
-
-
-    // ================= VALIDATION =================
-    if (name.length < 3) {
-
-        Swal.fire(
-            "Tribal Rhythm",
-            "Enter Valid Name",
-            "warning"
-        );
-
-        return;
-    }
-
-    if (!/^[6-9]\d{9}$/.test(phone)) {
-
-        Swal.fire(
-            "Tribal Rhythm",
-            "Invalid Mobile Number",
-            "warning"
-        );
-
-        return;
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-
-        Swal.fire(
-            "Tribal Rhythm",
-            "Invalid Email",
-            "warning"
-        );
-
-        return;
-    }
-
-
-    // ================= PRICE =================
-    const amountMap = {
-        General: 499,
-        VIP: 999,
-        Group: 399
-    };
-
-    const amount =
-        amountMap[type] * Number(ticketQuantity);
-
 
     try {
 
-        // ================= CREATE RAZORPAY ORDER =================
-        const res = await fetch(`${API_URL}/create-order`, {
+        // =====================================================
+        // 1. OTP EMAIL VERIFICATION CHECK
+        // =====================================================
 
-            method: "POST",
+        const verified =
+            localStorage.getItem("ticketVerified");
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+        const verifiedEmail =
+            (
+                localStorage.getItem("ticketEmail") ||
+                ""
+            )
+                .trim()
+                .toLowerCase();
 
-            body: JSON.stringify({
-                amount,
-                email
-            })
+        const currentEmail =
+            (
+                document.getElementById("ticketEmail")?.value ||
+                ""
+            )
+                .trim()
+                .toLowerCase();
 
-        });
+        console.log(
+            "BOOK NOW CHECK:",
+            {
+                verified,
+                verifiedEmail,
+                currentEmail
+            }
+        );
 
-        const data = await res.json();
+        if (
+            verified !== "true" ||
+            !verifiedEmail ||
+            verifiedEmail !== currentEmail
+        ) {
 
-        if (!data.success) {
-
-            Swal.fire(
+            await Swal.fire(
                 "Tribal Rhythm",
-                data.message,
-                "error"
+                "Please Verify OTP First",
+                "warning"
             );
 
             return;
+
         }
 
+        // =====================================================
+        // 2. SELECT PASS
+        // =====================================================
 
-        // ================= RAZORPAY =================
+        const selected =
+            document.querySelector(
+                'input[name="ticketType"]:checked'
+            );
+
+        if (!selected) {
+
+            await Swal.fire(
+                "Tribal Rhythm",
+                "Please Select a Pass",
+                "warning"
+            );
+
+            return;
+
+        }
+
+        const type =
+            selected.value;
+
+        // =====================================================
+        // 3. QUANTITY
+        // =====================================================
+
+        const ticketQuantity =
+            Number(
+                document.getElementById(
+                    "ticketQuantity"
+                )?.value
+            );
+
+        if (
+            !Number.isInteger(ticketQuantity) ||
+            ticketQuantity < 1
+        ) {
+
+            await Swal.fire(
+                "Tribal Rhythm",
+                "Please Select Number of Tickets First",
+                "warning"
+            );
+
+            return;
+
+        }
+
+        // =====================================================
+        // 4. USER DETAILS
+        // =====================================================
+
+        const name =
+            document
+                .getElementById("ticketName")
+                .value
+                .trim();
+
+        const phone =
+            document
+                .getElementById("ticketPhone")
+                .value
+                .trim();
+
+        const email =
+            document
+                .getElementById("ticketEmail")
+                .value
+                .trim()
+                .toLowerCase();
+
+        // =====================================================
+        // 5. VALIDATION
+        // =====================================================
+
+        if (name.length < 3) {
+
+            await Swal.fire(
+                "Tribal Rhythm",
+                "Enter Valid Name",
+                "warning"
+            );
+
+            return;
+
+        }
+
+        if (
+            !/^[6-9]\d{9}$/.test(phone)
+        ) {
+
+            await Swal.fire(
+                "Tribal Rhythm",
+                "Invalid Mobile Number",
+                "warning"
+            );
+
+            return;
+
+        }
+
+        if (
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+        ) {
+
+            await Swal.fire(
+                "Tribal Rhythm",
+                "Invalid Email",
+                "warning"
+            );
+
+            return;
+
+        }
+
+        // =====================================================
+        // 6. SHOW PROCESSING
+        // =====================================================
+
+        Swal.fire({
+
+            title:
+                "Preparing Payment...",
+
+            text:
+                "Please wait",
+
+            allowOutsideClick:
+                false,
+
+            didOpen: () => {
+
+                Swal.showLoading();
+
+            }
+
+        });
+
+        // =====================================================
+        // 7. CREATE RAZORPAY ORDER
+        // =====================================================
+
+        const orderResponse =
+            await fetch(
+                `${API_URL}/create-order`,
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            email,
+
+                            ticketType:
+                                type,
+
+                            ticketQuantity:
+                                ticketQuantity
+
+                        })
+
+                }
+            );
+
+        const orderData =
+            await orderResponse.json();
+
+        console.log(
+            "CREATE ORDER RESPONSE:",
+            orderData
+        );
+
+        if (
+            !orderResponse.ok ||
+            !orderData.success
+        ) {
+
+            Swal.close();
+
+            await Swal.fire(
+
+                "Payment Error",
+
+                orderData.message ||
+                "Unable to create payment order",
+
+                "error"
+
+            );
+
+            return;
+
+        }
+
+        Swal.close();
+
+        // =====================================================
+        // 8. RAZORPAY OPTIONS
+        // =====================================================
+
         const options = {
 
-            key: data.key,
-            amount: data.amount,
-            currency: data.currency,
-            order_id: data.id,
+            key:
+                orderData.key,
 
-            name: "Tribal Rhythm",
+            amount:
+                orderData.amount,
 
-            description: type + " Ticket",
+            currency:
+                orderData.currency,
 
-            handler: async function (response) {
+            order_id:
+                orderData.id,
 
-                try {
+            name:
+                "Tribal Rhythm",
 
-                    // ================= VERIFY PAYMENT =================
-                    const verify = await fetch(
-                        `${API_URL}/verify-payment`,
-                        {
-                            method: "POST",
+            description:
+                `${type} Ticket x ${ticketQuantity}`,
 
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
+            prefill: {
 
-                            body: JSON.stringify({
-                                ...response,
-                                email
-                            })
-                        }
+                name,
+
+                email,
+
+                contact:
+                    phone
+
+            },
+
+            theme: {
+
+                color:
+                    "#FFD700"
+
+            },
+
+            // =================================================
+            // 9. RAZORPAY SUCCESS
+            // =================================================
+
+            handler:
+                async function (response) {
+
+                    console.log(
+                        "RAZORPAY RESPONSE:",
+                        response
                     );
 
-                    const result =
-                        await verify.json();
+                    try {
 
-                    if (!result.success) {
+                        Swal.fire({
 
-                        Swal.fire(
-                            "Payment Verification Failed",
-                            "",
-                            "error"
+                            title:
+                                "Verifying Payment...",
+
+                            text:
+                                "Please do not close this window.",
+
+                            allowOutsideClick:
+                                false,
+
+                            didOpen: () => {
+
+                                Swal.showLoading();
+
+                            }
+
+                        });
+
+                        // =====================================
+                        // 10. VERIFY PAYMENT
+                        // =====================================
+
+                        const verifyResponse =
+                            await fetch(
+                                `${API_URL}/verify-payment`,
+                                {
+
+                                    method: "POST",
+
+                                    headers: {
+
+                                        "Content-Type":
+                                            "application/json"
+
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+
+                                            ...response,
+
+                                            name,
+
+                                            phone,
+
+                                            email,
+
+                                            ticketType:
+                                                type,
+
+                                            ticketQuantity:
+                                                ticketQuantity
+
+                                        })
+
+                                }
+                            );
+
+                        const result =
+                            await verifyResponse.json();
+
+                        console.log(
+                            "VERIFY PAYMENT RESPONSE:",
+                            result
                         );
 
-                        return;
-                    }
+                        if (
+                            !verifyResponse.ok ||
+                            !result.success
+                        ) {
 
+                            Swal.close();
 
-                    // ================= TICKET ID =================
-                    const now = new Date();
+                            await Swal.fire(
 
-                    const random =
-                        Math.random()
-                            .toString(36)
-                            .substring(2, 8)
-                            .toUpperCase();
+                                "Payment Verification Failed",
 
-                    const ticketId =
-                        `TR-${now.getFullYear()}${String(
-                            now.getMonth() + 1
-                        ).padStart(2, "0")}${String(
-                            now.getDate()
-                        ).padStart(2, "0")}-${random}`;
+                                result.message ||
+                                "Unable to verify payment.",
 
+                                "error"
 
-                    // ================= SAVE BOOKING =================
+                            );
 
-                    await addDoc(
-                        collection(db, "bookings"),
-                        {
+                            return;
 
-                            ticketId,
+                        }
+
+                        // =====================================
+                        // 11. PAYMENT SUCCESS
+                        // =====================================
+
+                        Swal.close();
+
+                        // Save only verified state
+                        localStorage.setItem(
+                            "paymentVerified",
+                            "true"
+                        );
+
+                        localStorage.setItem(
+                            "ticketId",
+                            result.ticketId
+                        );
+
+                        // =====================================
+                        // 12. GENERATE PDF
+                        // =====================================
+
+                        generateTicketPDF(
 
                             name,
 
                             phone,
 
-                            email,
+                            type,
 
-                            ticketType: type,
+                            response.razorpay_payment_id,
 
-                            ticketQuantity:
-                                Number(ticketQuantity),
+                            result.ticketId
 
-                            paymentId:
-                                response.razorpay_payment_id,
+                        );
 
-                            orderId:
-                                response.razorpay_order_id,
+                        // =====================================
+                        // 13. FINAL SUCCESS
+                        // =====================================
 
-                            status:
+                        await Swal.fire({
+
+                            icon:
                                 "success",
 
-                            entryStatus:
-                                "unused",
+                            title:
+                                "Booking Successful 🎉",
 
-                            createdAt:
-                                new Date()
+                            html: `
 
-                        }
-                    );
+                                <h3>
+                                    Ticket Booked Successfully
+                                </h3>
 
+                                <p>
+                                    Your payment has been
+                                    verified successfully.
+                                </p>
 
-                    // ================= SEND SUCCESS EMAIL =================
+                                <p>
+                                    🎟️ Ticket ID:
+                                    <b>
+                                        ${result.ticketId}
+                                    </b>
+                                </p>
 
-                    const emailResponse = await fetch(
-                        `${API_URL}/send-registration-email`,
-                        {
-                            method: "POST",
+                                <p>
+                                    💰 Amount Paid:
+                                    <b>
+                                        ₹${result.amount}
+                                    </b>
+                                </p>
 
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
+                                <p>
+                                    📧 Email:
+                                    ${result.emailSent
+                                    ? "Sent ✅"
+                                    : "Failed ⚠️"
+                                }
+                                </p>
 
-                            body: JSON.stringify({
-                                name,
-                                email,
-                                ticketId
-                            })
-                        }
-                    );
+                                <p>
+                                    📱 SMS:
+                                    ${result.smsSent
+                                    ? "Sent ✅"
+                                    : "Failed ⚠️"
+                                }
+                                </p>
 
-                    const emailResult = await emailResponse.json();
+                                <p>
+                                    🎫 PDF Ticket Generated
+                                </p>
 
-                    console.log("EMAIL RESPONSE:", emailResult);
+                            `,
 
-                    if (!emailResponse.ok || !emailResult.success) {
+                            confirmButtonText:
+                                "OK"
+
+                        });
+
+                    } catch (error) {
 
                         console.error(
-                            "Email sending failed:",
-                            emailResult
-                        );
-
-                        Swal.fire(
-                            "Payment Successful",
-                            "Payment successful, but confirmation email could not be sent.",
-                            "warning"
-                        );
-
-                    } else {
-
-                        console.log("Success email sent successfully");
-
-                    }
-
-                    // ================= SEND SUCCESS SMS MSG91 =================
-
-                    try {
-
-                        const smsResponse = await fetch(
-                            `${API_URL}/send-payment-success-sms`,
-                            {
-                                method: "POST",
-
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-
-                                body: JSON.stringify({
-
-                                    name: name,
-                                    mobile: phone,
-                                    ticketId: ticketId,
-                                    amount: amount
-
-                                })
-                            }
-                        );
-
-
-                        const smsResult = await smsResponse.json();
-
-                        console.log(
-                            "MSG91 SMS RESPONSE:",
-                            smsResult
-                        );
-
-
-                    }
-                    catch (error) {
-
-                        console.log(
-                            "SMS ERROR:",
+                            "PAYMENT VERIFY ERROR:",
                             error
                         );
 
+                        Swal.close();
+
+                        await Swal.fire(
+
+                            "Verification Error",
+
+                            "Payment may have succeeded, but verification response was not received. Please contact support with your Razorpay Payment ID: " +
+                            response.razorpay_payment_id,
+
+                            "error"
+
+                        );
+
                     }
 
+                },
 
-                    // ================= GENERATE TICKET =================
-                    generateTicketPDF(
-                        name,
-                        phone,
-                        type,
-                        response.razorpay_payment_id,
-                        ticketId
-                    );
+            // =================================================
+            // 14. PAYMENT FAILED
+            // =================================================
 
+            modal: {
 
-                    Swal.fire(
-                        "Success",
-                        "Payment Verified Successfully. Confirmation email sent successfully.",
-                        "success"
-                    );
+                ondismiss:
+                    function () {
 
-                } catch (err) {
+                        console.log(
+                            "Razorpay payment window closed"
+                        );
 
-                    console.log(err);
-
-                    Swal.fire({
-
-                        icon: "success",
-
-                        title: "Booking Successful",
-
-                        html: `
-
-<h3>🎉 Ticket Booked Successfully</h3>
-
-<p>Your payment has been verified.</p>
-
-<p>✅ Ticket ID : <b>${ticketId}</b></p>
-
-<p>📧 Confirmation Email Sent</p>
-
-<p>🎫 PDF Ticket Downloaded</p>
-
-`,
-
-                        confirmButtonText: "OK"
-
-                    });
-
-                }
+                    }
 
             }
 
         };
 
-        const rzp = new Razorpay(options);
+        // =====================================================
+        // 15. OPEN RAZORPAY
+        // =====================================================
+
+        const rzp =
+            new Razorpay(options);
+
+        rzp.on(
+            "payment.failed",
+            function (response) {
+
+                console.error(
+                    "RAZORPAY PAYMENT FAILED:",
+                    response
+                );
+
+                Swal.fire(
+
+                    "Payment Failed",
+
+                    response.error?.description ||
+                    "Payment could not be completed.",
+
+                    "error"
+
+                );
+
+            }
+        );
 
         rzp.open();
 
     } catch (error) {
 
-        console.log(error);
+        console.error(
+            "PAY NOW ERROR:",
+            error
+        );
 
-        Swal.fire(
+        Swal.close();
+
+        await Swal.fire(
+
             "Error",
-            "Something went wrong",
+
+            "Something went wrong while starting payment.",
+
             "error"
+
         );
 
     }
 
 };
+
+
 
 
 

@@ -1454,135 +1454,551 @@ app.post("/admin/verify-otp", async (req, res) => {
     }
 });
 
-// ================= CREATE ORDER (FIXED FOR FRONTEND =================
+
+
+// ================= CREATE RAZORPAY ORDER =================
+
 app.post("/create-order", async (req, res) => {
+
     try {
-        const { amount, email } = req.body;
 
-        console.log("Request Body:", req.body);
+        const {
+            email,
+            ticketType,
+            ticketQuantity
+        } = req.body;
 
-        if (
+        const normalizedEmail =
+            normalizeEmail(email);
 
-            !amount ||
+        const quantity =
+            Number(ticketQuantity);
 
-            Number(amount) <= 0 ||
+        // ================= VALIDATION =================
 
-            !email ||
+        if (!isValidEmail(normalizedEmail)) {
 
-            !isValidEmail(email)
-
-        ) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid request"
+                message: "Invalid email"
             });
+
         }
 
-        const finalAmount = 30000;
+        if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
 
-        const order = await razorpay.orders.create({
-            amount: finalAmount,
-            currency: "INR",
-            receipt: `receipt_${Date.now()}`,
-            notes: {
-                email
-            }
+            return res.status(400).json({
+                success: false,
+                message: "Invalid ticket quantity"
+            });
+
+        }
+
+        // ================= SERVER-SIDE PRICE =================
+
+        const amountMap = {
+            General: 499,
+            VIP: 999,
+            Group: 399
+        };
+
+        const price = amountMap[ticketType];
+
+        if (!price) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid ticket type"
+            });
+
+        }
+
+        // INR -> PAISE
+
+        const finalAmount =
+            price * quantity * 100;
+
+        console.log("CREATE ORDER:", {
+            email: normalizedEmail,
+            ticketType,
+            quantity,
+            amountINR: price * quantity,
+            amountPaise: finalAmount
         });
+
+        // ================= RAZORPAY ORDER =================
+
+        const order =
+            await razorpay.orders.create({
+
+                amount: finalAmount,
+
+                currency: "INR",
+
+                receipt:
+                    `TR_${Date.now()}`,
+
+                notes: {
+
+                    email:
+                        normalizedEmail,
+
+                    ticketType:
+                        ticketType,
+
+                    ticketQuantity:
+                        String(quantity)
+
+                }
+
+            });
 
         return res.status(200).json({
+
             success: true,
-            id: order.id,
-            amount: order.amount,
-            currency: order.currency,
-            key: process.env.RAZORPAY_KEY_ID
+
+            id:
+                order.id,
+
+            amount:
+                order.amount,
+
+            currency:
+                order.currency,
+
+            key:
+                process.env.RAZORPAY_KEY_ID
+
         });
 
-    } catch (err) {
-        console.error("Create Order Error:", err);
+    } catch (error) {
+
+        console.error(
+            "CREATE ORDER ERROR:",
+            error
+        );
 
         return res.status(500).json({
+
             success: false,
-            message: err.message || "Order creation failed"
+
+            message:
+                "Unable to create payment order"
+
         });
+
     }
+
 });
 
-// ================= VERIFY PAYMENT =================
+
+
+// ================= VERIFY RAZORPAY PAYMENT =================
+
 app.post("/verify-payment", async (req, res) => {
+
     try {
 
         const {
             razorpay_order_id,
             razorpay_payment_id,
             razorpay_signature,
-            email
+            email,
+            name,
+            phone,
+            ticketType,
+            ticketQuantity
         } = req.body;
 
-        const body = razorpay_order_id + "|" + razorpay_payment_id;
+        // ================= VALIDATION =================
 
-        const expected = crypto
-            .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-            .update(body)
-            .digest("hex");
+        const normalizedEmail =
+            normalizeEmail(email);
 
-        if (expected !== razorpay_signature) {
+        const quantity =
+            Number(ticketQuantity);
+
+        if (
+            !razorpay_order_id ||
+            !razorpay_payment_id ||
+            !razorpay_signature ||
+            !isValidEmail(normalizedEmail) ||
+            !name ||
+            !isValidMobile(phone) ||
+            !ticketType ||
+            !Number.isInteger(quantity) ||
+            quantity < 1
+        ) {
+
             return res.status(400).json({
+
                 success: false,
-                message: "Payment Verification Failed"
+
+                message:
+                    "Invalid payment verification request"
+
             });
+
         }
 
-        await db.collection("users").doc(email).update({
-            paymentStatus: "paid",
-            status: "approved",
-            paymentId: razorpay_payment_id,
-            orderId: razorpay_order_id,
-            paymentDate: new Date()
-        });
+        // ================= SIGNATURE VERIFY =================
 
-        const userDoc = await db.collection("users").doc(email).get();
-        const user = userDoc.data();
+        const body =
+            razorpay_order_id +
+            "|" +
+            razorpay_payment_id;
 
-        await sendPaymentSuccessSMS({
-            name: user.name,
-            mobile: user.mobile,
-            ticketId: user.ticketId,
-            amount: 300
-        });
+        const expectedSignature =
+            crypto
+                .createHmac(
+                    "sha256",
+                    process.env.RAZORPAY_KEY_SECRET
+                )
+                .update(body)
+                .digest("hex");
 
-        await axios.post(
-            "https://tribal-rhythm-backend.onrender.com/send-registration-email",
-            {
-                name: user.name,
-                email,
-                ticketId: user.ticketId
-            }
+        if (
+            expectedSignature !==
+            razorpay_signature
+        ) {
+
+            console.error(
+                "RAZORPAY SIGNATURE MISMATCH"
+            );
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Payment verification failed"
+
+            });
+
+        }
+
+        console.log(
+            "✅ Razorpay signature verified"
         );
 
-        await axios.post(
-            "https://tribal-rhythm-backend.onrender.com/send-registration-sms",
-            {
-                name: user.name,
-                mobile: user.mobile,
-                ticketId: user.ticketId
-            }
+        // ================= CHECK DUPLICATE PAYMENT =================
+
+        const existingPayment =
+            await db
+                .collection("bookings")
+                .where(
+                    "paymentId",
+                    "==",
+                    razorpay_payment_id
+                )
+                .limit(1)
+                .get();
+
+        if (!existingPayment.empty) {
+
+            const existingBooking =
+                existingPayment.docs[0].data();
+
+            return res.json({
+
+                success: true,
+
+                message:
+                    "Payment already verified",
+
+                ticketId:
+                    existingBooking.ticketId
+
+            });
+
+        }
+
+        // ================= SERVER-SIDE PRICE =================
+
+        const amountMap = {
+
+            General: 499,
+
+            VIP: 999,
+
+            Group: 399
+
+        };
+
+        const price =
+            amountMap[ticketType];
+
+        if (!price) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Invalid ticket type"
+
+            });
+
+        }
+
+        const amount =
+            price * quantity;
+
+        // ================= GENERATE TICKET ID =================
+
+        const now =
+            new Date();
+
+        const random =
+            crypto
+                .randomBytes(4)
+                .toString("hex")
+                .toUpperCase();
+
+        const ticketId =
+            `TR-${now.getFullYear()}${String(
+                now.getMonth() + 1
+            ).padStart(2, "0")}${String(
+                now.getDate()
+            ).padStart(2, "0")}-${random}`;
+
+        // ================= SAVE BOOKING =================
+
+        const bookingData = {
+
+            ticketId,
+
+            name:
+                String(name).trim(),
+
+            phone:
+                normalizeMobile(phone),
+
+            email:
+                normalizedEmail,
+
+            ticketType,
+
+            ticketQuantity:
+                quantity,
+
+            amount,
+
+            paymentId:
+                razorpay_payment_id,
+
+            orderId:
+                razorpay_order_id,
+
+            status:
+                "success",
+
+            entryStatus:
+                "unused",
+
+            createdAt:
+                admin.firestore.Timestamp.now()
+
+        };
+
+        await db
+            .collection("bookings")
+            .add(bookingData);
+
+        console.log(
+            "✅ Booking saved:",
+            ticketId
         );
 
-        return res.json({
-            success: true
+        // =====================================================
+        // PAYMENT SUCCESS EMAIL
+        // =====================================================
+
+        let emailSent = false;
+
+        try {
+
+            await sendBrevoEmail({
+
+                to:
+                    normalizedEmail,
+
+                name:
+                    name,
+
+                subject:
+                    "🎟️ Tribal Rhythm Ticket Booking Successful",
+
+                html: `
+
+                <div style="
+                    font-family:Arial,sans-serif;
+                    max-width:600px;
+                    margin:auto;
+                    padding:30px;
+                    background:#111;
+                    color:#fff;
+                    border-radius:12px;
+                ">
+
+                    <h2 style="color:#FFD700;">
+                        Payment Successful 🎉
+                    </h2>
+
+                    <p>
+                        Hello <b>${name}</b>,
+                    </p>
+
+                    <p>
+                        Your Tribal Rhythm ticket
+                        booking has been successfully completed.
+                    </p>
+
+                    <p>
+                        <b>Ticket ID:</b>
+                        ${ticketId}
+                    </p>
+
+                    <p>
+                        <b>Pass:</b>
+                        ${ticketType}
+                    </p>
+
+                    <p>
+                        <b>Quantity:</b>
+                        ${quantity}
+                    </p>
+
+                    <p>
+                        <b>Amount Paid:</b>
+                        ₹${amount}
+                    </p>
+
+                    <p>
+                        Thank you for booking with
+                        Tribal Rhythm.
+                    </p>
+
+                    <hr>
+
+                    <p>
+                        Powered by
+                        <b style="color:#FFD700;">
+                            Zentro Nex
+                        </b>
+                    </p>
+
+                </div>
+
+                `
+
+            });
+
+            emailSent = true;
+
+            console.log(
+                "✅ Confirmation email sent"
+            );
+
+        } catch (emailError) {
+
+            console.error(
+                "❌ EMAIL ERROR:",
+                emailError.response?.data ||
+                emailError.message
+            );
+
+        }
+
+        // =====================================================
+        // PAYMENT SUCCESS SMS
+        // =====================================================
+
+        let smsSent = false;
+
+        try {
+
+            await sendPaymentSuccessSMS({
+
+                name:
+                    name,
+
+                mobile:
+                    normalizeMobile(phone),
+
+                ticketId:
+                    ticketId,
+
+                amount:
+                    amount
+
+            });
+
+            smsSent = true;
+
+            console.log(
+                "✅ Payment success SMS sent"
+            );
+
+        } catch (smsError) {
+
+            console.error(
+                "❌ PAYMENT SMS ERROR:",
+                smsError.response?.data ||
+                smsError.message
+            );
+
+        }
+
+        // =====================================================
+        // FINAL RESPONSE
+        // =====================================================
+
+        return res.status(200).json({
+
+            success: true,
+
+            verified: true,
+
+            message:
+                "Payment verified successfully",
+
+            ticketId,
+
+            emailSent,
+
+            smsSent,
+
+            amount,
+
+            ticketType,
+
+            ticketQuantity:
+                quantity
+
         });
 
-    } catch (err) {
+    } catch (error) {
 
-        console.log(err);
+        console.error(
+            "VERIFY PAYMENT ERROR:",
+            error
+        );
 
         return res.status(500).json({
+
             success: false,
-            message: err.message
+
+            message:
+                "Payment verification failed"
+
         });
 
     }
+
 });
+
+
 
 // ================= WEBHOOK (SECURE) =================
 app.post("/razorpay-webhook", async (req, res) => {
