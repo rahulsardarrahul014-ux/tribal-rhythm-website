@@ -509,6 +509,10 @@ font-weight:600;">
             <!-- <input id="dob" type="date"> -->
             <input id="mobile" type="tel" maxlength="10" placeholder="Mobile Number">
 
+            <button id="sendPhoneOtpBtn" class="otp-btn" type="button" onclick="sendPhoneOTP()">
+                📱 Send Phone OTP
+            </button>
+
 
             <div id="phoneOtpBox" class="otp-container" style="display:none;">
 
@@ -1509,10 +1513,12 @@ font-weight:600;">
 
                 Swal.fire({
                     title: "Email Verified",
-                    text: "Now verify your Phone OTP.",
+                    text: "Now send and verify your Phone OTP.",
                     icon: "success",
                     timer: 1800,
                     showConfirmButton: false
+                }).then(() => {
+                    document.getElementById("sendPhoneOtpBtn").style.display = "block";
                 });
 
 
