@@ -420,18 +420,7 @@
             }
         }
 
-        /* SweetAlert mobile fix */
-        .swal2-container {
-            z-index: 20000 !important;
-            padding: 12px !important;
-        }
 
-        .swal2-popup {
-            width: min(92vw, 380px) !important;
-            max-height: calc(100dvh - 24px);
-            overflow-y: auto;
-            font-size: 14px;
-        }
 
         .page-footer {
             width: 100%;
@@ -472,6 +461,90 @@
         a {
             text-decoration: none !important;
         }
+
+
+        /* ================= REQUIRED STAR ================= */
+
+        .required-star {
+            color: #ff3b3b;
+            font-weight: 800;
+            margin-left: 3px;
+        }
+
+        /* ================= FIELD LABEL ================= */
+
+        .field-label {
+            display: block;
+            text-align: left;
+            margin-top: 14px;
+            margin-bottom: 4px;
+            font-size: 13px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* ================= RESPONSIVE SWEETAL ================= */
+
+        .swal2-container {
+            z-index: 20000 !important;
+            padding: 12px !important;
+        }
+
+        .swal2-popup {
+            width: min(92vw, 380px) !important;
+            max-width: 380px !important;
+            margin: auto !important;
+            border-radius: 18px !important;
+            font-size: 14px !important;
+            box-sizing: border-box !important;
+        }
+
+        .swal2-title {
+            font-size: clamp(20px, 5vw, 25px) !important;
+        }
+
+        .swal2-html-container {
+            font-size: clamp(13px, 3.5vw, 15px) !important;
+        }
+
+        .swal2-actions {
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+        }
+
+        .swal2-confirm,
+        .swal2-cancel {
+            min-width: 110px !important;
+        }
+
+        @media (max-width: 420px) {
+
+            .swal2-container {
+                padding: 8px !important;
+            }
+
+            .swal2-popup {
+                width: calc(100vw - 20px) !important;
+                max-width: none !important;
+                padding: 18px 14px !important;
+                border-radius: 16px !important;
+            }
+
+            .swal2-title {
+                font-size: 20px !important;
+            }
+
+            .swal2-html-container {
+                font-size: 13px !important;
+                margin: 10px 5px !important;
+            }
+
+            .swal2-confirm,
+            .swal2-cancel {
+                width: 100% !important;
+                margin: 3px 0 !important;
+            }
+        }
     </style>
 </head>
 
@@ -502,11 +575,22 @@ font-weight:600;">
         <div id="registerForm">
 
 
+            <label class="field-label" for="name">
+                Full Name <span class="required-star">*</span>
+            </label>
             <input id="name" placeholder="Full Name">
+            <label class="field-label" for="age">
+                Age <span class="required-star">*</span>
+            </label>
             <input id="age" placeholder="Age">
-            <label for="dob" class="field-label">Enter your Date of Birth</label>
+            <label for="dob" class="field-label">
+                Enter your Date of Birth <span class="required-star">*</span>
+            </label>
             <input id="dob" type="date" aria-label="Enter your Date of Birth">
             <!-- <input id="dob" type="date"> -->
+            <label class="field-label" for="mobile">
+                Mobile Number <span class="required-star">*</span>
+            </label>
             <input id="mobile" type="tel" maxlength="10" placeholder="Mobile Number">
 
             <button id="sendPhoneOtpBtn" class="otp-btn" type="button" onclick="sendPhoneOTP()" style="display:none;">
@@ -564,25 +648,36 @@ font-weight:600;">
 
 
 
+            <label class="field-label" for="email">
+                Email <span class="required-star">*</span>
+            </label>
             <input id="email" type="email" placeholder="Email">
 
 
-            <div style="position:relative;">
+            <label class="field-label" for="password">
+                Create Password <span class="required-star">*</span>
+            </label>
 
+            <div style="position:relative;">
                 <input type="password" id="password" placeholder="Create Password">
 
                 <button type="button" id="passwordEye" class="password-toggle" onclick="togglePassword()"
-                    aria-label="Show password">👁️</button>
-
+                    aria-label="Show password">
+                    👁️
+                </button>
             </div>
 
-            <div style="position:relative;">
+            <label class="field-label" for="confirmPassword">
+                Confirm Password <span class="required-star">*</span>
+            </label>
 
+            <div style="position:relative;">
                 <input type="password" id="confirmPassword" placeholder="Confirm Password">
 
                 <button type="button" id="confirmPasswordEye" class="password-toggle" onclick="toggleConfirmPassword()"
-                    aria-label="Show confirm password">👁️</button>
-
+                    aria-label="Show confirm password">
+                    👁️
+                </button>
             </div>
 
 
@@ -642,12 +737,16 @@ font-weight:600;">
 
 
 
-            <input id="whatsapp" type="tel" maxlength="10" placeholder="Whatsapp Number">
+            <label class="field-label" for="whatsapp">
+                WhatsApp Number <span class="required-star">*</span>
+            </label>
+
+            <input id="whatsapp" type="tel" maxlength="10" placeholder="WhatsApp Number">
 
 
 
             <label class="pin-label" for="pin1">
-                Enter PIN Code
+                Enter PIN Code <span class="required-star">*</span>
             </label>
 
             <div class="otp-container pin-container" id="pinContainer" autocomplete="off">
@@ -684,29 +783,27 @@ font-weight:600;">
 
 
 
+            <label class="field-label" for="state">
+                State <span class="required-star">*</span>
+            </label>
+
             <select id="state">
-
-                <option value="">
-                    Select State
-                </option>
-
+                <option value="">Select State</option>
                 <option>Odisha</option>
                 <option>Jharkhand</option>
                 <option>Bihar</option>
-
             </select>
 
 
 
+            <label class="field-label" for="language">
+                Language <span class="required-star">*</span>
+            </label>
+
             <select id="language">
-
-                <option value="">
-                    Select Language
-                </option>
-
+                <option value="">Select Language</option>
                 <option>Bhumij</option>
                 <option>Santali</option>
-
             </select>
 
 
@@ -723,6 +820,8 @@ font-weight:600;">
                     <a href="rules.html" style="color:yellow;">
                         Rules & Regulations
                     </a>
+
+                    <span class="required-star">*</span>
 
                 </label>
 
@@ -1179,8 +1278,267 @@ font-weight:600;">
 
             return regex.test(password);
         }
+
+        async function validateRegistrationFields() {
+
+            const fields = [
+                {
+                    id: "name",
+                    title: "Full Name Required",
+                    message: "Please enter your full name."
+                },
+                {
+                    id: "age",
+                    title: "Age Required",
+                    message: "Please enter your age."
+                },
+                {
+                    id: "dob",
+                    title: "Date of Birth Required",
+                    message: "Please select your date of birth."
+                },
+                {
+                    id: "mobile",
+                    title: "Mobile Number Required",
+                    message: "Please enter your mobile number."
+                },
+                {
+                    id: "email",
+                    title: "Email Required",
+                    message: "Please enter your email address."
+                },
+                {
+                    id: "password",
+                    title: "Password Required",
+                    message: "Please create your password."
+                },
+                {
+                    id: "confirmPassword",
+                    title: "Confirm Password Required",
+                    message: "Please confirm your password."
+                },
+                {
+                    id: "whatsapp",
+                    title: "WhatsApp Number Required",
+                    message: "Please enter your WhatsApp number."
+                },
+                {
+                    id: "state",
+                    title: "State Required",
+                    message: "Please select your state."
+                },
+                {
+                    id: "language",
+                    title: "Language Required",
+                    message: "Please select your language."
+                }
+            ];
+
+            for (const field of fields) {
+
+                const element = document.getElementById(field.id);
+
+                if (!element || !element.value.trim()) {
+
+                    await Swal.fire({
+                        title: field.title,
+                        text: field.message,
+                        icon: "warning",
+                        confirmButtonText: "OK",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        width: "min(92vw, 380px)"
+                    });
+
+                    element?.focus();
+
+                    return false;
+                }
+            }
+
+
+            /* ================= MOBILE VALIDATION ================= */
+
+            const mobile =
+                document.getElementById("mobile").value.trim();
+
+            if (!/^[6-9]\d{9}$/.test(mobile)) {
+
+                await Swal.fire({
+                    title: "Invalid Mobile Number",
+                    text: "Please enter a valid 10-digit Indian mobile number.",
+                    icon: "warning",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false
+                });
+
+                document.getElementById("mobile").focus();
+
+                return false;
+            }
+
+
+            /* ================= WHATSAPP VALIDATION ================= */
+
+            const whatsapp =
+                document.getElementById("whatsapp").value.trim();
+
+            if (!/^[6-9]\d{9}$/.test(whatsapp)) {
+
+                await Swal.fire({
+                    title: "Invalid WhatsApp Number",
+                    text: "Please enter a valid 10-digit WhatsApp number.",
+                    icon: "warning",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false
+                });
+
+                document.getElementById("whatsapp").focus();
+
+                return false;
+            }
+
+
+            /* ================= EMAIL VALIDATION ================= */
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+
+                await Swal.fire({
+                    title: "Invalid Email",
+                    text: "Please enter a valid email address.",
+                    icon: "warning",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false
+                });
+
+                document.getElementById("email").focus();
+
+                return false;
+            }
+
+
+            /* ================= PASSWORD ================= */
+
+            const password =
+                document.getElementById("password").value;
+
+            if (!validatePassword(password)) {
+
+                await Swal.fire({
+                    title: "Weak Password",
+                    html: `
+                Password must contain:
+                <br><br>
+                • At least 8 characters
+                <br>
+                • One uppercase letter
+                <br>
+                • One lowercase letter
+                <br>
+                • One number
+                <br>
+                • One special character
+            `,
+                    icon: "warning",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false
+                });
+
+                document.getElementById("password").focus();
+
+                return false;
+            }
+
+
+            /* ================= CONFIRM PASSWORD ================= */
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+            if (password !== confirmPassword) {
+
+                await Swal.fire({
+                    title: "Password Mismatch",
+                    text: "Password and Confirm Password must be the same.",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false
+                });
+
+                document.getElementById("confirmPassword").focus();
+
+                return false;
+            }
+
+
+            /* ================= PIN ================= */
+
+            let pin = "";
+
+            document.querySelectorAll(".pincode").forEach(input => {
+                pin += input.value;
+            });
+
+            if (!/^\d{6}$/.test(pin)) {
+
+                await Swal.fire({
+                    title: "PIN Required",
+                    text: "Please enter your complete 6-digit PIN.",
+                    icon: "warning",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false
+                });
+
+                document.getElementById("pin1").focus();
+
+                return false;
+            }
+
+
+            /* ================= RULES ================= */
+
+            const rules =
+                document.getElementById("rulesCheck").checked;
+
+            if (!rules) {
+
+                await Swal.fire({
+                    title: "Rules & Regulations",
+                    text: "Please accept the Rules & Regulations before continuing.",
+                    icon: "warning",
+                    confirmButtonText: "I Understand",
+                    allowOutsideClick: false
+                });
+
+                document.getElementById("rulesCheck").focus();
+
+                return false;
+            }
+
+
+            return true;
+        }
         // 📧 SEND EMAIL OTP
         window.sendOTP = async function () {
+
+            /* ==========================================
+               STEP 1 — VALIDATE ONE BY ONE
+            ========================================== */
+
+            const valid =
+                await validateRegistrationFields();
+
+            if (!valid) {
+                return;
+            }
+
+
+            /* ==========================================
+               STEP 2 — GET VALUES
+            ========================================== */
 
             const name =
                 document.getElementById("name").value.trim();
@@ -1203,53 +1561,10 @@ font-weight:600;">
             const language =
                 document.getElementById("language").value;
 
-            const rules =
-                document.getElementById("rulesCheck").checked;
 
-
-            if (
-                !name ||
-                !age ||
-                !dob ||
-                !mobile ||
-                !email ||
-                !state ||
-                !language
-            ) {
-
-                Swal.fire(
-                    "Tribal Rhythm",
-                    "Please fill all required details",
-                    "warning"
-                );
-
-                return;
-            }
-
-
-            if (!/^[6-9]\d{9}$/.test(mobile)) {
-
-                Swal.fire(
-                    "Invalid Mobile",
-                    "Enter valid Indian mobile number",
-                    "warning"
-                );
-
-                return;
-            }
-
-
-            if (!rules) {
-
-                Swal.fire(
-                    "Tribal Rhythm",
-                    "Please accept Rules & Regulations",
-                    "warning"
-                );
-
-                return;
-            }
-
+            /* ==========================================
+               STEP 3 — DISABLE EMAIL OTP BUTTON
+            ========================================== */
 
             const emailButton =
                 document.getElementById("sendEmailOtpBtn");
@@ -1267,20 +1582,25 @@ font-weight:600;">
 
                     emailButton.disabled = false;
 
-                    Swal.fire(
-                        "Already Registered",
-                        "This email is already registered. Please Login.",
-                        "error"
-                    );
+                    await Swal.fire({
+                        title: "Already Registered",
+                        text: "This email is already registered. Please Login.",
+                        icon: "error",
+                        confirmButtonText: "Login"
+                    });
 
                     showLogin();
 
-                    document.getElementById("loginEmail").value =
+                    document.getElementById("loginIdentifier").value =
                         email;
 
                     return;
                 }
 
+
+                /* ==========================================
+                   SEND EMAIL OTP
+                ========================================== */
 
                 const response = await fetch(
                     "https://tribal-rhythm-backend.onrender.com/send-otp",
@@ -1301,9 +1621,11 @@ font-weight:600;">
 
 
                 if (!response.ok) {
+
                     throw new Error(
                         `Server Error: ${response.status}`
                     );
+
                 }
 
 
@@ -1315,17 +1637,21 @@ font-weight:600;">
 
                     emailButton.disabled = false;
 
-                    Swal.fire(
-                        "OTP Error",
-                        data.message || "Unable to send Email OTP",
-                        "error"
-                    );
+                    await Swal.fire({
+                        title: "OTP Error",
+                        text: data.message ||
+                            "Unable to send Email OTP",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
 
                     return;
                 }
 
 
-                /* SHOW OTP UI */
+                /* ==========================================
+                   SHOW EMAIL OTP UI
+                ========================================== */
 
                 document.getElementById(
                     "emailOtpBox"
@@ -1342,6 +1668,7 @@ font-weight:600;">
                 ).forEach(input => {
 
                     input.value = "";
+
                     input.classList.remove("verified");
 
                 });
@@ -1355,12 +1682,15 @@ font-weight:600;">
                 startEmailTimer();
 
 
-                Swal.fire({
-                    title: "Email OTP Sent",
-                    text: `OTP sent to ${email}`,
+                await Swal.fire({
+                    title: "📧 Email OTP Sent",
+                    html: `
+                OTP has been sent to
+                <b>${email}</b>
+            `,
                     icon: "success",
-                    timer: 1800,
-                    showConfirmButton: false
+                    confirmButtonText: "Enter OTP",
+                    allowOutsideClick: false
                 });
 
 
@@ -1373,11 +1703,12 @@ font-weight:600;">
                     error
                 );
 
-                Swal.fire(
-                    "Unable to Send OTP",
-                    error.message,
-                    "error"
-                );
+                Swal.fire({
+                    title: "Unable to Send OTP",
+                    text: error.message,
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
 
             }
 
