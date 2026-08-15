@@ -566,6 +566,22 @@
     <!-- RAZORPAY -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            console.log("SweetAlert:", typeof Swal);
+
+            Swal.fire({
+                icon: "success",
+                title: "SweetAlert Working!",
+                text: "SweetAlert2 successfully loaded.",
+                confirmButtonColor: "#FFD700",
+                background: "#111",
+                color: "#fff"
+            });
+
+        });
+    </script>
 
     <!-- FIREBASE -->
     <script type="module">
@@ -1252,7 +1268,7 @@
                         btn.disabled = false;
 
 
-                       
+
 
 
 
