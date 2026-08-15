@@ -317,6 +317,44 @@
             color: #ddd;
             font-size: 14px;
         }
+
+        /* RULES AGREEMENT */
+
+        .rules-agreement {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            border-radius: 12px;
+            background: rgba(255, 215, 0, 0.06);
+        }
+
+        .rules-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.6;
+            cursor: pointer;
+        }
+
+        .rules-check input {
+            width: 18px;
+            height: 18px;
+            margin: 3px 0 0 0;
+            flex-shrink: 0;
+            accent-color: gold;
+        }
+
+        .rules-check a {
+            color: gold;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .rules-check a:hover {
+            color: orange;
+        }
     </style>
 
 </head>
@@ -375,7 +413,7 @@
 
                         <input id="bemail" type="email" placeholder="Email Address" required>
 
-                        <textarea id="address" rows="3" placeholder="Village, District, State"></textarea>
+                        <textarea id="address" rows="3" placeholder="Village, District, State" required></textarea>
 
                         <select id="tribe" required>
                             <option value="">Select Tribe</option>
@@ -474,14 +512,32 @@
 
                         </div>
 
+
+
                         <div class="ticket-box">
                             🎫 Ticket ID:
                             <span id="ticketText"></span>
                         </div>
-                        <p class="ticket-note">
-                            ⚠️ Before Register, Write Your Ticket ID. Ticket ID is Required at the Time of Joining
-                            Competition.
-                        </p>
+
+                        <!-- RULES & REGULATIONS -->
+                        <div class="rules-agreement">
+
+                            <label class="rules-check">
+
+                                <input type="checkbox" id="rulesAgreement" required>
+
+                                <span>
+                                    I have read and agree to the
+                                    <a href="rules.html" target="_blank">
+                                        Rules & Regulations
+                                    </a>
+                                    of Tribal Rhythm.
+                                </span>
+
+                            </label>
+
+                        </div>
+
 
                         <button type="submit" id="btn" class="pay-btn">
                             Pay ₹300 & Register
@@ -494,7 +550,9 @@
                     </form>
 
                     <div class="footer-note">
-                        Powered By Tribal Rhythm
+                        Powered by <strong>Tribal Rhythm</strong>
+                        <br>
+                        <small>Official Competition Registration Portal</small>
                     </div>
 
                 </div>
@@ -555,6 +613,32 @@
 
         const db = getFirestore(app);
         const storage = getStorage(app);
+
+        /* ===============================
+   SWAL VALIDATION HELPER
+================================ */
+
+        function showValidation(title, text) {
+
+            Swal.fire({
+
+                icon: "warning",
+
+                title: title,
+
+                text: text,
+
+                confirmButtonText: "OK",
+
+                confirmButtonColor: "#FFD700",
+
+                background: "#111",
+
+                color: "#fff"
+
+            });
+
+        }
 
         /* ELEMENTS */
 
@@ -638,49 +722,153 @@
                     'input[name="idproof"]:checked'
                 )?.value;
 
-            /* VALIDATION */
 
-            // Mobile Number Validation
+            //    VALIDATION
+            // *================================ */
+
+            // Full Name
+            if (!name || name.length < 3) {
+
+                showValidation(
+                    "Full Name Required",
+                    "Please enter your full name."
+                );
+
+                return;
+            }
+
+
+            // Guardian
+            if (!guardian || guardian.length < 3) {
+
+                showValidation(
+                    "Guardian Name Required",
+                    "Please enter Father / Guardian Name."
+                );
+
+                return;
+            }
+
+
+            // Age
+            if (!age || Number(age) < 5 || Number(age) > 100) {
+
+                showValidation(
+                    "Invalid Age",
+                    "Please enter a valid age."
+                );
+
+                return;
+            }
+
+
+            // Gender
+            if (!gender) {
+
+                showValidation(
+                    "Gender Required",
+                    "Please select your gender."
+                );
+
+                return;
+            }
+
+
+            // Mobile
             if (!/^[6-9][0-9]{9}$/.test(mobile)) {
 
-                alert("Please enter a valid 10-digit mobile number.");
+                showValidation(
+                    "Invalid Mobile Number",
+                    "Please enter a valid 10-digit Indian mobile number."
+                );
 
                 return;
-
             }
 
-            if (name.length < 3) {
 
-                alert("Invalid Name ❌");
+            // Email
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+
+                showValidation(
+                    "Invalid Email",
+                    "Please enter a valid email address."
+                );
+
                 return;
-
             }
 
-            if (mobile.length < 10) {
 
-                alert("Invalid Mobile Number ❌");
+            // Address
+            if (!address || address.length < 5) {
+
+                showValidation(
+                    "Address Required",
+                    "Please enter your Village, District and State."
+                );
+
                 return;
-
             }
 
-            if (!email.includes("@")) {
 
-                alert("Invalid Email ❌");
+            // Tribe
+            if (!tribe) {
+
+                showValidation(
+                    "Tribe Required",
+                    "Please select your tribe."
+                );
+
                 return;
-
             }
+
+
+            // Photo
             if (!photoFile) {
-                alert("Please upload your photo.");
+
+                showValidation(
+                    "Photo Required",
+                    "Please upload your photo."
+                );
+
                 return;
             }
 
-            if (!idPhotoFile) {
-                alert("Please upload your ID Proof.");
-                return;
-            }
 
+            // ID Proof Type
             if (!idProof) {
-                alert("Please select ID Proof.");
+
+                showValidation(
+                    "ID Proof Required",
+                    "Please select your ID Proof type."
+                );
+
+                return;
+            }
+
+
+            // ID Proof Photo
+            if (!idPhotoFile) {
+
+                showValidation(
+                    "ID Proof Photo Required",
+                    "Please upload your ID Proof photo."
+                );
+
+                return;
+            }
+
+
+            // Rules Agreement
+            const rulesAgreement =
+                document.getElementById("rulesAgreement");
+
+            if (!rulesAgreement.checked) {
+
+                showValidation(
+                    "Rules Agreement Required",
+                    "Please read and agree to the Rules & Regulations before registration."
+                );
+
                 return;
             }
 
@@ -916,7 +1104,7 @@
 
                             ticketId: finalTicket,
 
-                           category: selectedCategory,
+                            category: "Competition",
 
                             paymentStatus: "paid",
 
@@ -1064,11 +1252,7 @@
                         btn.disabled = false;
 
 
-                        setTimeout(() => {
-
-                            window.location.href = "competition.html";
-
-                        }, 1500);
+                       
 
 
 
