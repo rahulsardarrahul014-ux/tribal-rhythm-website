@@ -545,6 +545,172 @@
                 margin: 3px 0 !important;
             }
         }
+
+        /* =====================================================
+   TRIBAL RHYTHM — SWEETALERT BRANDING
+===================================================== */
+
+.tribal-alert-popup {
+    border: 1px solid rgba(255, 215, 0, 0.55) !important;
+
+    border-radius: 20px !important;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.65),
+        0 0 30px rgba(255, 215, 0, 0.25) !important;
+
+    backdrop-filter: blur(15px);
+
+    padding: 24px !important;
+}
+
+/* Tribal Rhythm Branding Header */
+
+.tribal-alert-popup::before {
+    content: "TRIBAL RHYTHM";
+    display: block;
+
+    color: #FFD700;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 8px;
+
+    text-shadow:
+        0 0 8px rgba(255, 215, 0, 0.55);
+}
+
+/* Title */
+
+.tribal-alert-title {
+    color: #ffffff !important;
+
+    font-weight: 800 !important;
+
+    font-size: 22px !important;
+}
+
+/* Message */
+
+.tribal-alert-content {
+    color: rgba(255, 255, 255, 0.85) !important;
+
+    font-size: 14px !important;
+
+    line-height: 1.6 !important;
+}
+
+/* Confirm Button */
+
+.tribal-alert-confirm {
+    min-width: 120px;
+
+    padding: 11px 25px !important;
+
+    border: none !important;
+
+    border-radius: 12px !important;
+
+    background:
+        linear-gradient(135deg, #FFD700, #FFC107) !important;
+
+    color: #111 !important;
+
+    font-weight: 800 !important;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 20px rgba(255, 193, 7, 0.45);
+
+    transition: all 0.25s ease;
+}
+
+.tribal-alert-confirm:hover {
+    transform: translateY(-2px) scale(1.03);
+
+    box-shadow:
+        0 10px 28px rgba(255, 215, 0, 0.65);
+}
+
+.tribal-alert-confirm:active {
+    transform: scale(0.96);
+}
+
+/* Cancel */
+
+.tribal-alert-cancel {
+    min-width: 120px;
+
+    padding: 11px 25px !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+
+    border-radius: 12px !important;
+
+    background: rgba(255, 255, 255, 0.1) !important;
+
+    color: #ffffff !important;
+
+    font-weight: 700 !important;
+}
+
+/* Success icon */
+
+.tribal-alert-popup .swal2-success {
+    border-color: #00ff88 !important;
+}
+
+.tribal-alert-popup .swal2-success-line-tip,
+.tribal-alert-popup .swal2-success-line-long {
+    background-color: #00ff88 !important;
+}
+
+/* Warning */
+
+.tribal-alert-popup .swal2-warning {
+    border-color: #FFD700 !important;
+
+    color: #FFD700 !important;
+}
+
+/* Error */
+
+.tribal-alert-popup .swal2-error {
+    border-color: #ff4d4d !important;
+}
+
+/* Mobile */
+
+@media (max-width: 420px) {
+
+    .tribal-alert-popup {
+        width: calc(100vw - 20px) !important;
+
+        padding: 20px 15px !important;
+
+        border-radius: 18px !important;
+    }
+
+    .tribal-alert-title {
+        font-size: 20px !important;
+    }
+
+    .tribal-alert-content {
+        font-size: 13px !important;
+    }
+
+    .tribal-alert-confirm,
+    .tribal-alert-cancel {
+        width: 100%;
+
+        margin: 4px 0 !important;
+    }
+}
     </style>
 </head>
 
@@ -916,8 +1082,37 @@ font-weight:600;">
 
     <!-- EMAIL JS -->
 
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module">
+
+        /* =====================================================
+   TRIBAL RHYTHM — GLOBAL SWEETALERT BRANDING
+===================================================== */
+
+        const TribalAlert = Swal.mixin({
+
+            customClass: {
+                popup: "tribal-alert-popup",
+                title: "tribal-alert-title",
+                htmlContainer: "tribal-alert-content",
+                confirmButton: "tribal-alert-confirm",
+                cancelButton: "tribal-alert-cancel"
+            },
+
+            buttonsStyling: false,
+
+            background: "linear-gradient(145deg, #001d3d, #003566)",
+
+            color: "#ffffff",
+
+            confirmButtonText: "OK",
+
+            allowOutsideClick: false,
+
+            allowEscapeKey: false,
+
+            width: "min(92vw, 380px)"
+        });
 
         let emailTime = 60;
         let phoneTime = 60;
@@ -1244,7 +1439,7 @@ font-weight:600;">
 
             if (userData) {
 
-                Swal.fire({
+                TribalAlert.fire({
                     title: "Welcome Back",
                     text: "User already registered. Please Login.",
                     icon: "success"
@@ -1340,7 +1535,7 @@ font-weight:600;">
 
                 if (!element || !element.value.trim()) {
 
-                    await Swal.fire({
+                    await TribalAlert.fire({
                         title: field.title,
                         text: field.message,
                         icon: "warning",
@@ -1364,7 +1559,7 @@ font-weight:600;">
 
             if (!/^[6-9]\d{9}$/.test(mobile)) {
 
-                await Swal.fire({
+                await TribalAlert.fire({
                     title: "Invalid Mobile Number",
                     text: "Please enter a valid 10-digit Indian mobile number.",
                     icon: "warning",
@@ -1385,7 +1580,7 @@ font-weight:600;">
 
             if (!/^[6-9]\d{9}$/.test(whatsapp)) {
 
-                await Swal.fire({
+                await TribalAlert.fire({
                     title: "Invalid WhatsApp Number",
                     text: "Please enter a valid 10-digit WhatsApp number.",
                     icon: "warning",
@@ -1406,7 +1601,7 @@ font-weight:600;">
 
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
 
-                await Swal.fire({
+                await TribalAlert.fire({
                     title: "Invalid Email",
                     text: "Please enter a valid email address.",
                     icon: "warning",
@@ -1427,7 +1622,7 @@ font-weight:600;">
 
             if (!validatePassword(password)) {
 
-                await Swal.fire({
+                await TribalAlert.fire({
                     title: "Weak Password",
                     html: `
                 Password must contain:
@@ -1460,7 +1655,7 @@ font-weight:600;">
 
             if (password !== confirmPassword) {
 
-                await Swal.fire({
+                await TribalAlert.fire({
                     title: "Password Mismatch",
                     text: "Password and Confirm Password must be the same.",
                     icon: "error",
@@ -1484,7 +1679,7 @@ font-weight:600;">
 
             if (!/^\d{6}$/.test(pin)) {
 
-                await Swal.fire({
+                await TribalAlert.fire({
                     title: "PIN Required",
                     text: "Please enter your complete 6-digit PIN.",
                     icon: "warning",
@@ -1505,7 +1700,7 @@ font-weight:600;">
 
             if (!rules) {
 
-                await Swal.fire({
+                await TribalAlert.fire({
                     title: "Rules & Regulations",
                     text: "Please accept the Rules & Regulations before continuing.",
                     icon: "warning",
@@ -1582,7 +1777,7 @@ font-weight:600;">
 
                     emailButton.disabled = false;
 
-                    await Swal.fire({
+                    await TribalAlert.fire({
                         title: "Already Registered",
                         text: "This email is already registered. Please Login.",
                         icon: "error",
@@ -1637,7 +1832,7 @@ font-weight:600;">
 
                     emailButton.disabled = false;
 
-                    await Swal.fire({
+                    await TribalAlert.fire({
                         title: "OTP Error",
                         text: data.message ||
                             "Unable to send Email OTP",
@@ -1682,7 +1877,7 @@ font-weight:600;">
                 startEmailTimer();
 
 
-                await Swal.fire({
+                await TribalAlert.fire({
                     title: "📧 Email OTP Sent",
                     html: `
                 OTP has been sent to
@@ -1703,7 +1898,7 @@ font-weight:600;">
                     error
                 );
 
-                Swal.fire({
+                TribalAlert.fire({
                     title: "Unable to Send OTP",
                     text: error.message,
                     icon: "error",
@@ -1734,7 +1929,7 @@ font-weight:600;">
 
             if (!/^\d{6}$/.test(otp)) {
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Invalid OTP",
                     "Please enter the complete 6-digit Email OTP",
                     "warning"
@@ -1800,7 +1995,7 @@ font-weight:600;">
                         .getElementById("emailOtpBox")
                         .classList.add("invalid");
 
-                    Swal.fire(
+                    TribalAlert.fire(
                         "Invalid OTP",
                         data.message || "Incorrect Email OTP",
                         "error"
@@ -1871,7 +2066,7 @@ font-weight:600;">
                 updateRegisterButton();
 
 
-                Swal.fire({
+                TribalAlert.fire({
                     title: "Email Verified",
                     text: "Now send and verify your Phone OTP.",
                     icon: "success",
@@ -1891,7 +2086,7 @@ font-weight:600;">
                     error
                 );
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Verification Error",
                     error.message,
                     "error"
@@ -1907,7 +2102,7 @@ font-weight:600;">
             const mobile = document.getElementById("mobile").value.trim();
 
             if (!/^[6-9]\d{9}$/.test(mobile)) {
-                Swal.fire("Invalid Mobile", "Enter valid Indian mobile number", "warning");
+                TribalAlert.fire("Invalid Mobile", "Enter valid Indian mobile number", "warning");
                 return;
             }
 
@@ -1933,17 +2128,17 @@ font-weight:600;">
 
                     startPhoneTimer();
 
-                    Swal.fire("Success", "Phone OTP Sent", "success");
+                    TribalAlert.fire("Success", "Phone OTP Sent", "success");
 
                 } else {
 
-                    Swal.fire("Error", data.message, "error");
+                    TribalAlert.fire("Error", data.message, "error");
 
                 }
 
             } catch (err) {
 
-                Swal.fire("Error", err.message, "error");
+                TribalAlert.fire("Error", err.message, "error");
 
             }
 
@@ -1967,7 +2162,7 @@ font-weight:600;">
 
             if (!/^\d{6}$/.test(otp)) {
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Invalid OTP",
                     "Please enter the complete 6-digit Phone OTP",
                     "warning"
@@ -2025,7 +2220,7 @@ font-weight:600;">
                         .getElementById("phoneOtpBox")
                         .classList.add("invalid");
 
-                    Swal.fire(
+                    TribalAlert.fire(
                         "Invalid OTP",
                         data.message || "Incorrect Phone OTP",
                         "error"
@@ -2082,7 +2277,7 @@ font-weight:600;">
                 updateRegisterButton();
 
 
-                Swal.fire({
+                TribalAlert.fire({
                     title: "Phone Verified",
                     text: "Phone OTP verified successfully.",
                     icon: "success",
@@ -2100,7 +2295,7 @@ font-weight:600;">
                     error
                 );
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Verification Error",
                     error.message,
                     "error"
@@ -2115,7 +2310,7 @@ font-weight:600;">
         function checkFinalSuccess() {
             if (emailVerified && phoneVerified) {
 
-                Swal.fire({
+                TribalAlert.fire({
                     title: "🎉 Registration Complete",
                     text: "Email + Phone both verified successfully",
                     icon: "success"
@@ -2131,14 +2326,14 @@ font-weight:600;">
                 el.disabled = false;
             });
 
-            Swal.fire("Edit Mode", "You can now update your details", "info");
+            TribalAlert.fire("Edit Mode", "You can now update your details", "info");
         };
 
         window.registerUser = async function () {
 
             if (!emailVerified || !phoneVerified) {
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Verification Required",
                     "Please verify Email and Phone OTP first",
                     "warning"
@@ -2158,7 +2353,7 @@ font-weight:600;">
 
             if (!validatePassword(password)) {
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Error",
                     "Password not strong enough",
                     "error"
@@ -2169,7 +2364,7 @@ font-weight:600;">
 
             if (password !== confirmPassword) {
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Error",
                     "Passwords do not match",
                     "error"
@@ -2233,7 +2428,7 @@ font-weight:600;">
                     })
                 });
 
-                Swal.fire({
+                TribalAlert.fire({
                     title: "🎉 Registration Successful",
 
                     html: `
@@ -2296,7 +2491,7 @@ font-weight:600;">
 
             } catch (error) {
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Error",
                     error.message,
                     "error"
@@ -2315,7 +2510,7 @@ font-weight:600;">
 
             if (!identifier || !password) {
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Login Required",
                     "Enter Email/Registration Number and Password",
                     "warning"
@@ -2353,7 +2548,7 @@ font-weight:600;">
 
                     if (snapshot.empty) {
 
-                        Swal.fire(
+                        TribalAlert.fire(
                             "Login Failed",
                             "Invalid Registration Number",
                             "error"
@@ -2379,7 +2574,7 @@ font-weight:600;">
                     password
                 );
 
-                Swal.fire({
+                TribalAlert.fire({
 
                     icon: "success",
 
@@ -2407,7 +2602,7 @@ font-weight:600;">
 
                 console.error("Login Error:", error);
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Login Failed",
                     "Invalid Email/Registration Number or Password",
                     "error"
@@ -2424,7 +2619,7 @@ font-weight:600;">
 
             if (!email) {
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Email Required",
                     "Please enter your registered email address.",
                     "warning"
@@ -2435,7 +2630,7 @@ font-weight:600;">
 
             if (email.toUpperCase().startsWith("TRS-")) {
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Use Email",
                     "Please enter your registered email address for password reset.",
                     "info"
@@ -2448,7 +2643,7 @@ font-weight:600;">
 
                 await sendPasswordResetEmail(auth, email);
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Success",
                     "Password Reset Link Sent To Email",
                     "success"
@@ -2458,7 +2653,7 @@ font-weight:600;">
 
                 console.error("Password Reset Error:", error);
 
-                Swal.fire(
+                TribalAlert.fire(
                     "Error",
                     "Unable to send password reset email.",
                     "error"
