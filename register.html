@@ -355,6 +355,24 @@
         .rules-check a:hover {
             color: orange;
         }
+
+        .swal2-container {
+            z-index: 999999 !important;
+        }
+
+        .swal2-popup {
+            font-family: 'Poppins', sans-serif !important;
+            border: 1px solid gold !important;
+            border-radius: 18px !important;
+        }
+
+        .swal2-title {
+            color: #fff !important;
+        }
+
+        .swal2-html-container {
+            color: #ddd !important;
+        }
     </style>
 
 </head>
@@ -387,7 +405,7 @@
 
                 <div class="card-body-custom">
 
-                    <form id="bForm">
+                    <form id="bForm" novalidate>
 
                         <input id="bname" type="text" placeholder="Full Name" required>
 
@@ -566,7 +584,7 @@
     <!-- RAZORPAY -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
 
     <!-- FIREBASE -->
     <script type="module">
@@ -622,21 +640,15 @@
         function showValidation(title, text) {
 
             Swal.fire({
-
                 icon: "warning",
-
                 title: title,
-
                 text: text,
-
                 confirmButtonText: "OK",
-
                 confirmButtonColor: "#FFD700",
-
                 background: "#111",
-
-                color: "#fff"
-
+                color: "#fff",
+                allowOutsideClick: false,
+                allowEscapeKey: true
             });
 
         }
@@ -909,7 +921,21 @@
                 console.log("Order Response:", data);
 
                 if (!data.success) {
-                    alert(data.message);
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Payment Order Failed ❌",
+                        text: data.message || "Unable to create payment order.",
+                        confirmButtonText: "OK",
+                        confirmButtonColor: "#FFD700",
+                        background: "#111",
+                        color: "#fff"
+                    });
+
+                    btn.disabled = false;
+                    btn.innerText = "Pay ₹300 & Register";
+                    loader.style.display = "none";
+
                     return;
                 }
 
