@@ -61,6 +61,31 @@ const storage = getStorage(app);
 const OWNER_EMAIL =
     "rahulsardarrahul014@gmail.com";
 
+/* ================= MOBILE INPUT LIMIT ================= */
+
+function setupMobileLimit(inputId) {
+
+    const input = document.getElementById(inputId);
+
+    if (!input) return;
+
+    input.addEventListener("input", function () {
+
+        // Only numbers
+        this.value = this.value.replace(/\D/g, "");
+
+        // Maximum 10 digits
+        if (this.value.length > 10) {
+            this.value = this.value.slice(0, 10);
+        }
+
+    });
+
+}
+
+setupMobileLimit("mobile");
+setupMobileLimit("whatsapp");
+
 
 /* ================= ADMIN SECURITY ================= */
 
@@ -221,7 +246,7 @@ window.login = async () => {
         document.getElementById("email").value.trim();
 
     const passValue =
-    document.getElementById("password").value.trim();
+        document.getElementById("password").value.trim();
 
     if (!emailValue || !passValue) {
 
@@ -500,12 +525,38 @@ window.signup = async (event) => {
     // 5. MOBILE VALIDATION
     // ==============================
 
+    if (!mobile) {
+
+        showWarning(
+            "Please enter your mobile number.",
+            "Mobile Number Required"
+        );
+
+        mobileElement.focus();
+
+        return;
+    }
+
+    if (mobile.length !== 10) {
+
+        showWarning(
+            "Mobile number must contain exactly 10 digits.",
+            "Invalid Mobile Number"
+        );
+
+        mobileElement.focus();
+
+        return;
+    }
+
     if (!/^[6-9]\d{9}$/.test(mobile)) {
 
         showWarning(
-            "Please enter a valid 10-digit Indian mobile number.",
-            "Invalid Mobile"
+            "Please enter a valid Indian mobile number starting with 6, 7, 8 or 9.",
+            "Invalid Mobile Number"
         );
+
+        mobileElement.focus();
 
         return;
     }
@@ -804,6 +855,12 @@ window.signup = async (event) => {
     }
 };
 
+
+/* ================= ADMIN FORM SUBMIT ================= */
+
+document
+    .getElementById("adminRegistrationForm")
+    ?.addEventListener("submit", signup);
 
 
 

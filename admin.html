@@ -465,7 +465,7 @@
 
             <img src="tribalweblogo.png" alt="Tribal Rhythm Logo" class="website-logo">
 
-            <form id="adminRegistrationForm" onsubmit="signup(event)">
+            <form id="adminRegistrationForm">
 
                 <div class="section-title">
                     1. ADMIN REGISTRATION DETAILS
@@ -480,12 +480,14 @@
 
                 <div class="form-row">
                     <label>Mobile Number</label>
-                    <input id="mobile" type="tel">
+                    <input id="mobile" type="tel" inputmode="numeric" maxlength="10" minlength="10"
+                        pattern="[6-9][0-9]{9}" placeholder="Enter 10-digit mobile number" autocomplete="tel">
                 </div>
 
                 <div class="form-row">
                     <label>WhatsApp Number</label>
-                    <input id="whatsapp" type="tel">
+                    <input id="whatsapp" type="tel" inputmode="numeric" maxlength="10" minlength="10"
+                        pattern="[6-9][0-9]{9}" placeholder="Enter 10-digit WhatsApp number" autocomplete="tel">
                 </div>
 
                 <div class="form-row">
