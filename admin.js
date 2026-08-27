@@ -1680,44 +1680,7 @@ window.sendBulkEmail = async () => {
 
 };
 
-window.sendBulkSMS = async function sendBulkSMS() {
 
-    const target = document.getElementById("smsUsers").value;
-
-    const message = document.getElementById("smsMessage").value;
-
-    const res = await fetch(
-        "https://tribal-rhythm-backend.onrender.com/send-bulk-sms",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                target,
-                message
-            })
-        });
-
-    const data = await res.json();
-
-    if (data.success === false) {
-
-        showError(
-            data.message || "Bulk SMS sending failed.",
-            "SMS Failed"
-        );
-
-    } else {
-
-        showSuccess(
-            data.message || "Bulk SMS sent successfully.",
-            "SMS Sent"
-        );
-
-    }
-
-}
 
 
 window.sendBulkSMS = async function sendBulkSMS() {
@@ -1784,63 +1747,29 @@ window.sendBulkSMS = async function sendBulkSMS() {
 
 window.sendWinnerSMS = async function sendWinnerSMS() {
 
-    const name = document.getElementById("winnerName").value;
+    // ==============================
+    // GET FORM VALUES
+    // ==============================
 
-    const mobile = document.getElementById("winnerMobile").value;
+    const name =
+        document.getElementById("winnerName")?.value.trim();
 
-    const category = document.getElementById("winnerCategory").value;
+    const mobile =
+        document.getElementById("winnerMobile")?.value.trim();
 
-    const rank = document.getElementById("winnerRank").value;
+    const category =
+        document.getElementById("winnerCategory")?.value.trim();
 
-    const prize = document.getElementById("winnerPrize").value;
+    const rank =
+        document.getElementById("winnerRank")?.value.trim();
 
-    const res = await fetch(
+    const prize =
+        document.getElementById("winnerPrize")?.value.trim();
 
-        "https://tribal-rhythm-backend.onrender.com/send-winner-sms",
 
-        {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-                name,
-
-                mobile,
-
-                category,
-
-                rank,
-
-                prize
-
-            })
-
-        }
-
-    );
-
-    const data = await res.json();
-
-    if (data.success === false) {
-
-        showError(
-            data.message || "Winner SMS sending failed.",
-            "SMS Failed"
-        );
-
-    } else {
-
-        showSuccess(
-            data.message || "Winner SMS sent successfully.",
-            "Winner SMS Sent"
-        );
-
-    }
+    // ==============================
+    // VALIDATION
+    // ==============================
 
     if (!name || !mobile || !category || !rank || !prize) {
 
@@ -1852,7 +1781,102 @@ window.sendWinnerSMS = async function sendWinnerSMS() {
         return;
     }
 
-}
+
+    // ==============================
+    // MOBILE VALIDATION
+    // ==============================
+
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+
+        showWarning(
+            "Please enter a valid 10-digit mobile number.",
+            "Invalid Mobile"
+        );
+
+        return;
+    }
+
+
+    // ==============================
+    // SEND WINNER SMS
+    // ==============================
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/send-winner-sms`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    name: name,
+
+                    mobile: mobile,
+
+                    category: category,
+
+                    rank: rank,
+
+                    prize: prize
+
+                })
+            }
+        );
+
+
+        // ==============================
+        // RESPONSE
+        // ==============================
+
+        const data = await res.json();
+
+
+        // ==============================
+        // ERROR
+        // ==============================
+
+        if (!res.ok || data.success === false) {
+
+            showError(
+                data.message ||
+                "Winner SMS sending failed.",
+                "SMS Failed"
+            );
+
+            return;
+        }
+
+
+        // ==============================
+        // SUCCESS
+        // ==============================
+
+        showSuccess(
+            data.message ||
+            "Winner SMS sent successfully.",
+            "Winner SMS Sent"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Winner SMS Error:",
+            error
+        );
+
+        showError(
+            error.message ||
+            "Unable to send winner SMS.",
+            "SMS Error"
+        );
+    }
+};
 
 window.sendCertificateReady = async function sendCertificateReady() {
 
@@ -1897,31 +1921,7 @@ window.sendCertificateReady = async function sendCertificateReady() {
 }
 
 
-window.approveAdmin =
-    async (uid) => {
 
-        await updateDoc(
-            doc(db, "admins", uid),
-            {
-                approvalStatus:
-                    "Approved",
-
-                status:
-                    "Active",
-
-                approvedAt:
-                    new Date(),
-
-                approvedBy:
-                    auth.currentUser.email
-            }
-        );
-
-        showSuccess(
-            "Admin has been approved successfully.",
-            "Admin Approved"
-        );
-    };
 
 window.approveAdmin = async (uid) => {
 

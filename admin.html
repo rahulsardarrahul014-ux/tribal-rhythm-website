@@ -465,243 +465,220 @@
 
             <img src="tribalweblogo.png" alt="Tribal Rhythm Logo" class="website-logo">
 
-            <div class="section-title">
-                1. ADMIN REGISTRATION DETAILS
-            </div>
+            <form id="adminRegistrationForm" onsubmit="signup(event)">
 
-
-
-            <div class="form-row">
-                <label>Admin Name</label>
-                <input id="adminName" type="text">
-            </div>
-
-            <div class="form-row">
-                <label>Mobile Number</label>
-                <input id="mobile" type="tel">
-            </div>
-
-            <div class="form-row">
-                <label>WhatsApp Number</label>
-                <input id="whatsapp" type="tel">
-            </div>
-
-            <div class="form-row">
-                <label>Email ID</label>
-                <input id="email" type="email">
-            </div>
-
-            <div class="form-row">
-                <label></label>
-
-                <div>
-                    <button type="button"
-        class="hidden-btn"
-        id="sendOtpBtn"
-        onclick="sendOTP()">
-    📧 Send OTP
-</button>
-
-                    |
-
-                   <button type="button"
-        id="resendOtpLink"
-        class="hidden-btn"
-        onclick="resendOTP()"
-        style="display:none;">
-    🔄 Resend OTP
-</button>
-
-                    <span id="otpTimer" style="color:red;font-weight:bold;">
-                    </span>
+                <div class="section-title">
+                    1. ADMIN REGISTRATION DETAILS
                 </div>
-            </div>
 
-            <div class="form-row">
-                <label>Email OTP</label>
 
-                <div class="otp-container">
 
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                <div class="form-row">
+                    <label>Admin Name</label>
+                    <input id="adminName" type="text">
+                </div>
 
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                <div class="form-row">
+                    <label>Mobile Number</label>
+                    <input id="mobile" type="tel">
+                </div>
 
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                <div class="form-row">
+                    <label>WhatsApp Number</label>
+                    <input id="whatsapp" type="tel">
+                </div>
 
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                <div class="form-row">
+                    <label>Email ID</label>
+                    <input id="email" type="email">
+                </div>
 
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                <div class="form-row">
+                    <label></label>
 
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                    <div>
+                        <button type="button" class="hidden-btn" id="sendOtpBtn" onclick="sendOTP()">
+                            📧 Send OTP
+                        </button>
+
+                        |
+
+                        <button type="button" id="resendOtpLink" class="hidden-btn" onclick="resendOTP()"
+                            style="display:none;">
+                            🔄 Resend OTP
+                        </button>
+
+                        <span id="otpTimer" style="color:red;font-weight:bold;">
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label>Email OTP</label>
+
+                    <div class="otp-container">
+
+                        <input class="otp-box" maxlength="1" inputmode="numeric">
+
+                        <input class="otp-box" maxlength="1" inputmode="numeric">
+
+                        <input class="otp-box" maxlength="1" inputmode="numeric">
+
+                        <input class="otp-box" maxlength="1" inputmode="numeric">
+
+                        <input class="otp-box" maxlength="1" inputmode="numeric">
+
+                        <input class="otp-box" maxlength="1" inputmode="numeric">
+
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label></label>
+
+                    <div>
+                        <button type="button" class="hidden-btn" id="verifyOtpBtn" onclick="verifyOTP()">
+                            ✅ Verify OTP
+                        </button>
+
+                        <span id="verifyTimer" style="color:red;font-weight:bold;">
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label>Create Password</label>
+                    <input id="password" type="password" placeholder="Upper + Lower + Number + Special Character"
+                        autocomplete="new-password">
+                </div>
+
+                <div class="form-row">
+                    <label>Confirm Password</label>
+                    <input id="confirmPassword" type="password" placeholder="Confirm Password"
+                        autocomplete="new-password">
+                </div>
+                <div id="msg" class="error-message"></div>
+
+                <div class="form-row">
+                    <label>Reset Password</label>
+                    <input type="email" placeholder="Enter Email">
+                </div>
+
+                <div class="form-row">
+                    <label>ID Proof Type</label>
+
+                    <select id="idType">
+                        <option value="">Select ID Proof</option>
+                        <option value="Aadhaar Card">Aadhaar Card</option>
+                        <option value="PAN Card">PAN Card</option>
+                        <option value="Voter ID Card">Voter ID Card</option>
+                        <option value="10th Certificate">10th Certificate</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label>ID Proof Number</label>
+
+                    <input type="text" id="idNumber" placeholder="Enter ID Number">
+                </div>
+
+
+
+                <div class="form-row">
+                    <label>ID Proof Upload</label>
+                    <input id="idProof" type="file">
+                    <small style="color:#ffd700">
+                        Supported:
+                        Aadhaar, PAN, Voter ID,
+                        10th Certificate (JPG, PNG, PDF)
+                    </small>
+
+                    <button type="button" class="hidden-btn" onclick="document.getElementById('idProof').click()">
+                        Upload
+                    </button>
+                </div>
+
+                <div class="form-row">
+                    <label>Profile Photo (Optional)</label>
+                    <input id="profilePhoto" type="file">
+
+                    <button type="button" class="btn btn-outline-warning"
+                        onclick="document.getElementById('profilePhoto').click()">
+                        Upload
+                    </button>
+                </div>
+
+                <div class="form-row">
+                    <label>Role</label>
+
+                    <select id="role">
+                        <option value="Super Admin">Super Admin</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label>Create Date</label>
+                    <input type="date">
+                </div>
+
+                <div class="form-row">
+                    <label>Signature Upload</label>
+                    <input id="signature" type="file">
+                    <button type="button" class="btn btn-outline-warning"
+                        onclick="document.getElementById('signature').click()">
+                        Upload
+                    </button>
+
 
                 </div>
-            </div>
 
-            <div class="form-row">
-                <label></label>
+                <div class="form-row">
+                    <label>Gender</label>
 
-                <div>
-                    <button type="button"
-        class="hidden-btn"
-        id="verifyOtpBtn"
-        onclick="verifyOTP()">
-    ✅ Verify OTP
-</button>
-
-                    <span id="verifyTimer" style="color:red;font-weight:bold;">
-                    </span>
+                    <div class="check-group">
+                        <label><input type="radio" name="gender"> Male</label>
+                        <label><input type="radio" name="gender"> Female</label>
+                        <label><input type="radio" name="gender"> Other</label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-row">
-                <label>Create Password</label>
-                <input type="password" placeholder="Upper + Lower + Number + Special Character">
-            </div>
-
-            <div class="form-row">
-                <label>Confirm Password</label>
-                <input id="pass" type="password">
-            </div>
-            <div id="msg" class="error-message"></div>
-
-            <div class="form-row">
-                <label>Reset Password</label>
-                <input type="email" placeholder="Enter Email">
-            </div>
-
-            <div class="form-row">
-                <label>ID Proof Type</label>
-
-                <select id="idType">
-                    <option value="">Select ID Proof</option>
-                    <option value="Aadhaar Card">Aadhaar Card</option>
-                    <option value="PAN Card">PAN Card</option>
-                    <option value="Voter ID Card">Voter ID Card</option>
-                    <option value="10th Certificate">10th Certificate</option>
-                </select>
-            </div>
-
-            <div class="form-row">
-                <label>ID Proof Number</label>
-
-                <input type="text" id="idNumber" placeholder="Enter ID Number">
-            </div>
-
-            <div class="form-row">
-                <label>ID Verification Status</label>
-
-                <div class="check-group">
-                    <label>
-                        <input type="radio" name="idverify" value="Pending" checked>
-                        Pending
-                    </label>
-
-                    <label>
-                        <input type="radio" name="idverify" value="Verified">
-                        Verified
-                    </label>
-
-                    <label>
-                        <input type="radio" name="idverify" value="Rejected">
-                        Rejected
-                    </label>
+                <div class="section-title">
+                    2. ADMIN RULES & REGULATIONS
                 </div>
-            </div>
 
-            <div class="form-row">
-                <label>ID Proof Upload</label>
-                <input id="idProof" type="file">
-                <small style="color:#ffd700">
-                    Supported:
-                    Aadhaar, PAN, Voter ID,
-                    10th Certificate (JPG, PNG, PDF)
-                </small>
+                <div class="rule-box">
 
-                <button type="button" class="hidden-btn" onclick="document.getElementById('idProof').click()">
-                    Upload
+                    <p>
+                        <label>
+                            <input type="checkbox" required>
+                            I Accept All Admin Rules & Regulations
+                        </label>
+                    </p>
+
+                    <p>
+                        <label>
+                            <input type="checkbox">
+                            Admin Fee Applicable
+                        </label>
+                    </p>
+
+                    <p>
+                        <label>
+                            <input type="checkbox">
+                            Manager Entry Free
+                        </label>
+                    </p>
+
+                </div>
+
+                <br>
+
+                <button type="submit" class="btn btn-warning">
+                    Create Admin Account
                 </button>
-            </div>
-
-            <div class="form-row">
-                <label>Profile Photo (Optional)</label>
-                <input id="profilePhoto" type="file">
-
-                <button type="button" class="btn btn-outline-warning"
-                    onclick="document.getElementById('profilePhoto').click()">
-                    Upload
-                </button>
-            </div>
-
-            <div class="form-row">
-                <label>Role</label>
-
-                <select id="role">
-                    <option value="Super Admin">Super Admin</option>
-                    <option value="Admin">Admin</option>
-                    <option value="Manager">Manager</option>
-                </select>
-            </div>
-
-            <div class="form-row">
-                <label>Create Date</label>
-                <input type="date">
-            </div>
-
-            <div class="form-row">
-                <label>Signature Upload</label>
-                <input id="signature" type="file">
-                <button type="button" class="btn btn-outline-warning"
-                    onclick="document.getElementById('signature').click()">
-                    Upload
-                </button>
-
-
-            </div>
-
-            <div class="form-row">
-                <label>Gender</label>
-
-                <div class="check-group">
-                    <label><input type="radio" name="gender"> Male</label>
-                    <label><input type="radio" name="gender"> Female</label>
-                    <label><input type="radio" name="gender"> Other</label>
-                </div>
-            </div>
-
-            <div class="section-title">
-                2. ADMIN RULES & REGULATIONS
-            </div>
-
-            <div class="rule-box">
-
-                <p>
-                    <label>
-                        <input type="checkbox" required>
-                        I Accept All Admin Rules & Regulations
-                    </label>
-                </p>
-
-                <p>
-                    <label>
-                        <input type="checkbox">
-                        Admin Fee Applicable
-                    </label>
-                </p>
-
-                <p>
-                    <label>
-                        <input type="checkbox">
-                        Manager Entry Free
-                    </label>
-                </p>
-
-            </div>
-
-            <br>
-
-            <button class="btn btn-warning" onclick="signup()">
-                Create Admin Account
-            </button>
+            </form>
         </div>
 
     </div>
