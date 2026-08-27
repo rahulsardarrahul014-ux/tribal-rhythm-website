@@ -1055,17 +1055,33 @@ window.verifyClassOTP = async function () {
 
         localStorage.setItem("classVerified", "true");
         localStorage.setItem("classEmail", email);
-        localStorage.setItem("selectedClassName", selectedClassName);
-        localStorage.setItem("selectedClassFee", selectedClassFee);
+        localStorage.setItem("className", selectedClassName);
+        localStorage.setItem("classFee", selectedClassFee);
+        localStorage.setItem(
+            "classMobile",
+            document.getElementById("classMobile").value.trim()
+        );
 
         document.getElementById("classOtpSection").style.display = "none";
 
-        const successBox = document.getElementById("classSuccessMessage");
+        const successBox =
+            document.getElementById("classSuccessMessage");
+
         successBox.style.display = "block";
-        successBox.innerHTML =
-            `✓ OTP verified! <br>
-             <b>${selectedClassName}</b> registration successful.<br>
-             Monthly Fee: <b>₹${selectedClassFee}</b>`;
+
+        successBox.innerHTML = `
+    ✓ Email OTP Verified Successfully!<br><br>
+
+    <b>${selectedClassName}</b><br>
+    Monthly Fee: <b>₹${selectedClassFee}</b><br><br>
+
+    <button
+        type="button"
+        class="btn btn-warning"
+        onclick="payForClass()">
+        💳 Pay ₹${selectedClassFee} & Join Class
+    </button>
+`;
 
         Swal.fire(
             "Registration Successful",
@@ -1080,6 +1096,448 @@ window.verifyClassOTP = async function () {
             "error"
         );
     }
+};
+
+
+// =====================================================
+// DANCE CLASS RAZORPAY PAYMENT
+// =====================================================
+
+window.payForClass = async function () {
+
+    try {
+
+        // ================= OTP CHECK =================
+
+        const verified =
+            localStorage.getItem("classVerified");
+
+        const verifiedEmail =
+            localStorage.getItem("classEmail");
+
+        const email =
+            document.getElementById("classEmail")
+                .value
+                .trim()
+                .toLowerCase();
+
+        if (
+            verified !== "true" ||
+            !verifiedEmail ||
+            verifiedEmail !== email
+        ) {
+
+            Swal.fire(
+                "Tribal Rhythm",
+                "Please verify Email OTP first.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        // ================= USER DETAILS =================
+
+        const name =
+            document.getElementById("className")
+                .value
+                .trim();
+
+        const mobile =
+            document.getElementById("classMobile")
+                .value
+                .trim();
+
+        const className =
+            selectedClassName;
+
+        const classFee =
+            Number(selectedClassFee);
+
+
+        // ================= VALIDATION =================
+
+        if (!name || name.length < 3) {
+
+            Swal.fire(
+                "Tribal Rhythm",
+                "Please enter valid name.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        if (!/^[6-9]\d{9}$/.test(mobile)) {
+
+            Swal.fire(
+                "Tribal Rhythm",
+                "Please enter valid 10 digit mobile number.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        if (!className || !classFee) {
+
+            Swal.fire(
+                "Tribal Rhythm",
+                "Please select a dance class.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        // ================= CREATE ORDER =================
+
+        Swal.fire({
+            title: "Preparing Payment...",
+            text: "Please wait",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+
+        const orderResponse =
+            await fetch(
+                `${API_URL}/create-class-order`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        name,
+                        mobile,
+                        email,
+                        className,
+                        classFee
+
+                    })
+                }
+            );
+
+
+        const orderData =
+            await orderResponse.json();
+
+
+        console.log(
+            "CLASS ORDER:",
+            orderData
+        );
+
+
+        if (
+            !orderResponse.ok ||
+            !orderData.success
+        ) {
+
+            Swal.close();
+
+            Swal.fire(
+                "Payment Error",
+                orderData.message ||
+                "Unable to create payment order.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        Swal.close();
+
+
+        // ================= RAZORPAY =================
+
+        const options = {
+
+            key:
+                orderData.key,
+
+            amount:
+                orderData.amount,
+
+            currency:
+                orderData.currency,
+
+            order_id:
+                orderData.id,
+
+            name:
+                "Tribal Rhythm",
+
+            description:
+                `${className} Dance Class`,
+
+            prefill: {
+
+                name,
+                email,
+                contact:
+                    mobile
+
+            },
+
+            theme: {
+                color: "#FFD700"
+            },
+
+
+            // ================= PAYMENT SUCCESS =================
+
+            handler:
+                async function (response) {
+
+                    try {
+
+                        Swal.fire({
+
+                            title:
+                                "Verifying Payment...",
+
+                            text:
+                                "Please wait",
+
+                            allowOutsideClick:
+                                false,
+
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+
+                        });
+
+
+                        // ================= VERIFY =================
+
+                        const verifyResponse =
+                            await fetch(
+                                `${API_URL}/verify-class-payment`,
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+
+                                            ...response,
+
+                                            name,
+                                            mobile,
+                                            email,
+                                            className
+
+                                        })
+                                }
+                            );
+
+
+                        const result =
+                            await verifyResponse.json();
+
+
+                        console.log(
+                            "CLASS PAYMENT RESULT:",
+                            result
+                        );
+
+
+                        if (
+                            !verifyResponse.ok ||
+                            !result.success
+                        ) {
+
+                            Swal.close();
+
+                            Swal.fire(
+                                "Payment Verification Failed",
+                                result.message ||
+                                "Unable to verify payment.",
+                                "error"
+                            );
+
+                            return;
+                        }
+
+
+                        // ================= SUCCESS =================
+
+                        Swal.close();
+
+
+                        localStorage.setItem(
+                            "classPaymentVerified",
+                            "true"
+                        );
+
+                        localStorage.setItem(
+                            "classBookingId",
+                            result.bookingId
+                        );
+
+
+                        Swal.fire({
+
+                            icon: "success",
+
+                            title:
+                                "Payment Successful 🎉",
+
+                            html: `
+
+                                <p>
+                                    Welcome to
+                                    <b>Tribal Rhythm</b>
+                                </p>
+
+                                <p>
+                                    Class:
+                                    <b>${className}</b>
+                                </p>
+
+                                <p>
+                                    Amount Paid:
+                                    <b>₹${result.amount}</b>
+                                </p>
+
+                                <p>
+                                    Booking ID:
+                                    <b>${result.bookingId}</b>
+                                </p>
+
+                                <hr>
+
+                                <p>
+                                    📧 Confirmation Email:
+                                    ${result.emailSent
+                                    ? "Sent ✅"
+                                    : "Failed ⚠️"}
+                                </p>
+
+                                <p>
+                                    📱 Message:
+                                    ${result.smsSent
+                                    ? "Sent ✅"
+                                    : "Failed ⚠️"}
+                                </p>
+
+                                <br>
+
+                                <a
+                                    href="${result.whatsappLink}"
+                                    target="_blank"
+                                    class="btn btn-success">
+                                    💬 Open WhatsApp Class
+                                </a>
+
+                            `,
+
+                            confirmButtonText:
+                                "OK"
+
+                        });
+
+                    }
+
+                    catch (error) {
+
+                        console.error(
+                            "CLASS PAYMENT ERROR:",
+                            error
+                        );
+
+                        Swal.close();
+
+                        Swal.fire(
+                            "Error",
+                            "Payment may have succeeded. Please contact Tribal Rhythm.",
+                            "error"
+                        );
+
+                    }
+
+                },
+
+
+            modal: {
+
+                ondismiss:
+                    function () {
+
+                        console.log(
+                            "Class payment window closed"
+                        );
+
+                    }
+
+            }
+
+        };
+
+
+        const rzp =
+            new Razorpay(options);
+
+
+        rzp.on(
+            "payment.failed",
+            function (response) {
+
+                console.error(
+                    "CLASS PAYMENT FAILED:",
+                    response
+                );
+
+                Swal.fire(
+                    "Payment Failed",
+                    response.error?.description ||
+                    "Payment could not be completed.",
+                    "error"
+                );
+
+            }
+        );
+
+
+        rzp.open();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "CLASS PAYMENT START ERROR:",
+            error
+        );
+
+        Swal.close();
+
+        Swal.fire(
+            "Error",
+            "Unable to start payment.",
+            "error"
+        );
+
+    }
+
 };
 
 

@@ -1710,6 +1710,787 @@ app.post("/create-order", async (req, res) => {
 });
 
 
+// =====================================================
+// CREATE DANCE CLASS PAYMENT ORDER
+// =====================================================
+
+app.post("/create-class-order", async (req, res) => {
+
+    try {
+
+        const {
+            name,
+            mobile,
+            email,
+            className,
+            classFee
+        } = req.body;
+
+
+        const cleanName =
+            String(name || "")
+                .trim()
+                .slice(0, 100);
+
+        const normalizedEmail =
+            normalizeEmail(email);
+
+        const normalizedMobile =
+            normalizeMobile(mobile);
+
+        const fee =
+            Number(classFee);
+
+
+        // ================= VALIDATION =================
+
+        if (!cleanName || cleanName.length < 3) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid name"
+            });
+
+        }
+
+
+        if (!isValidEmail(normalizedEmail)) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid email"
+            });
+
+        }
+
+
+        if (!/^[6-9]\d{9}$/.test(normalizedMobile)) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid mobile number"
+            });
+
+        }
+
+
+        if (!className) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Please select a class"
+            });
+
+        }
+
+
+        if (!Number.isFinite(fee) || fee <= 0) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid class fee"
+            });
+
+        }
+
+
+        // =================================================
+        // IMPORTANT:
+        // Production me class fee server-side fixed rakhein.
+        // Frontend se aayi fee ko blindly trust mat karein.
+        // =================================================
+
+        const CLASS_FEES = {
+
+            "Bhumij Dance": 499,
+
+            "Santali Dance": 499,
+
+            "Traditional Song": 399
+
+        };
+
+
+        const expectedFee =
+            CLASS_FEES[className];
+
+
+        if (!expectedFee) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid class selected"
+            });
+
+        }
+
+
+
+
+        // =====================================================
+        // VERIFY DANCE CLASS PAYMENT
+        // =====================================================
+
+        app.post("/verify-class-payment", async (req, res) => {
+
+            try {
+
+                const {
+                    razorpay_order_id,
+                    razorpay_payment_id,
+                    razorpay_signature,
+
+                    name,
+                    mobile,
+                    email,
+                    className
+                } = req.body;
+
+
+                // ================= VALIDATION =================
+
+                if (
+                    !razorpay_order_id ||
+                    !razorpay_payment_id ||
+                    !razorpay_signature
+                ) {
+
+                    return res.status(400).json({
+
+                        success: false,
+
+                        message:
+                            "Missing Razorpay payment details"
+
+                    });
+
+                }
+
+
+                const cleanName =
+                    String(name || "")
+                        .trim()
+                        .slice(0, 100);
+
+                const normalizedEmail =
+                    normalizeEmail(email);
+
+                const normalizedMobile =
+                    normalizeMobile(mobile);
+
+
+                if (!cleanName) {
+
+                    return res.status(400).json({
+                        success: false,
+                        message: "Name required"
+                    });
+
+                }
+
+
+                if (!isValidEmail(normalizedEmail)) {
+
+                    return res.status(400).json({
+                        success: false,
+                        message: "Invalid email"
+                    });
+
+                }
+
+
+                if (!/^[6-9]\d{9}$/.test(normalizedMobile)) {
+
+                    return res.status(400).json({
+                        success: false,
+                        message: "Invalid mobile number"
+                    });
+
+                }
+
+
+                // ================= CLASS FEE =================
+
+                const CLASS_FEES = {
+
+                    "Bhumij Dance": 499,
+
+                    "Santali Dance": 499,
+
+                    "Traditional Song": 399
+
+                };
+
+
+                const expectedAmount =
+                    CLASS_FEES[className];
+
+
+                if (!expectedAmount) {
+
+                    return res.status(400).json({
+
+                        success: false,
+
+                        message:
+                            "Invalid class"
+
+                    });
+
+                }
+
+
+                // ================= SIGNATURE =================
+
+                const signatureBody =
+                    razorpay_order_id +
+                    "|" +
+                    razorpay_payment_id;
+
+
+                const expectedSignature =
+                    crypto
+                        .createHmac(
+                            "sha256",
+                            process.env.RAZORPAY_KEY_SECRET
+                        )
+                        .update(signatureBody)
+                        .digest("hex");
+
+
+                const expectedBuffer =
+                    Buffer.from(
+                        expectedSignature,
+                        "hex"
+                    );
+
+                const receivedBuffer =
+                    Buffer.from(
+                        razorpay_signature,
+                        "hex"
+                    );
+
+
+                if (
+                    receivedBuffer.length !==
+                    expectedBuffer.length ||
+                    !crypto.timingSafeEqual(
+                        expectedBuffer,
+                        receivedBuffer
+                    )
+                ) {
+
+                    return res.status(400).json({
+
+                        success: false,
+
+                        message:
+                            "Invalid payment signature"
+
+                    });
+
+                }
+
+
+                // ================= RAZORPAY VERIFY =================
+
+                const razorpayPayment =
+                    await razorpay.payments.fetch(
+                        razorpay_payment_id
+                    );
+
+
+                const razorpayOrder =
+                    await razorpay.orders.fetch(
+                        razorpay_order_id
+                    );
+
+
+                // ================= PAYMENT CAPTURED =================
+
+                if (
+                    razorpayPayment.status !==
+                    "captured"
+                ) {
+
+                    return res.status(400).json({
+
+                        success: false,
+
+                        message:
+                            "Payment has not been captured"
+
+                    });
+
+                }
+
+
+                // ================= ORDER PAID =================
+
+                if (
+                    razorpayOrder.status !==
+                    "paid"
+                ) {
+
+                    return res.status(400).json({
+
+                        success: false,
+
+                        message:
+                            "Order is not paid"
+
+                    });
+
+                }
+
+
+                // ================= AMOUNT CHECK =================
+
+                if (
+                    razorpayPayment.amount !==
+                    expectedAmount * 100
+                ) {
+
+                    return res.status(400).json({
+
+                        success: false,
+
+                        message:
+                            "Payment amount mismatch"
+
+                    });
+
+                }
+
+
+                // ================= DUPLICATE CHECK =================
+
+                const existing =
+                    await db
+                        .collection("classBookings")
+                        .where(
+                            "paymentId",
+                            "==",
+                            razorpay_payment_id
+                        )
+                        .limit(1)
+                        .get();
+
+
+                if (!existing.empty) {
+
+                    const booking =
+                        existing.docs[0].data();
+
+                    return res.json({
+
+                        success: true,
+
+                        alreadyProcessed: true,
+
+                        bookingId:
+                            booking.bookingId,
+
+                        amount:
+                            booking.amount,
+
+                        className:
+                            booking.className,
+
+                        whatsappLink:
+                            booking.whatsappLink
+
+                    });
+
+                }
+
+
+                // ================= BOOKING ID =================
+
+                const bookingId =
+                    `TR-CLASS-${new Date()
+                        .getFullYear()}${String(
+                            new Date().getMonth() + 1
+                        ).padStart(2, "0")}${String(
+                            new Date().getDate()
+                        ).padStart(2, "0")}-${crypto
+                            .randomBytes(4)
+                            .toString("hex")
+                            .toUpperCase()}`;
+
+
+                // =================================================
+                // WHATSAPP CLASS LINK
+                // =================================================
+
+                const whatsappClassLink =
+                    process.env.WHATSAPP_CLASS_LINK;
+
+
+                // ================= BOOKING DATA =================
+
+                const bookingData = {
+
+                    bookingId,
+
+                    name:
+                        cleanName,
+
+                    mobile:
+                        normalizedMobile,
+
+                    email:
+                        normalizedEmail,
+
+                    className,
+
+                    amount:
+                        expectedAmount,
+
+                    paymentId:
+                        razorpay_payment_id,
+
+                    orderId:
+                        razorpay_order_id,
+
+                    paymentStatus:
+                        "paid",
+
+                    status:
+                        "active",
+
+                    whatsappLink:
+                        whatsappClassLink,
+
+                    createdAt:
+                        admin.firestore.Timestamp.now()
+
+                };
+
+
+                // ================= SAVE FIRESTORE =================
+
+                await db
+                    .collection("classBookings")
+                    .add(
+                        bookingData
+                    );
+
+
+                console.log(
+                    "✅ CLASS BOOKING SAVED:",
+                    bookingId
+                );
+
+
+                // =================================================
+                // EMAIL
+                // =================================================
+
+                let emailSent =
+                    false;
+
+
+                try {
+
+                    await sendBrevoEmail({
+
+                        to:
+                            normalizedEmail,
+
+                        name:
+                            cleanName,
+
+                        subject:
+                            "🎉 Tribal Rhythm Dance Class Payment Successful",
+
+                        html: `
+
+                    <div style="
+                        font-family:Arial;
+                        max-width:600px;
+                        margin:auto;
+                        padding:30px;
+                        background:#111;
+                        color:#fff;
+                        border-radius:15px;
+                    ">
+
+                        <h2 style="
+                            color:#FFD700;
+                        ">
+                            Payment Successful 🎉
+                        </h2>
+
+                        <p>
+                            Hello
+                            <b>${cleanName}</b>,
+                        </p>
+
+                        <p>
+                            Your Tribal Rhythm
+                            dance class booking
+                            is confirmed.
+                        </p>
+
+                        <p>
+                            <b>Class:</b>
+                            ${className}
+                        </p>
+
+                        <p>
+                            <b>Amount Paid:</b>
+                            ₹${expectedAmount}
+                        </p>
+
+                        <p>
+                            <b>Booking ID:</b>
+                            ${bookingId}
+                        </p>
+
+                        <hr>
+
+                        <p>
+                            🎥 <b>Join Class:</b>
+                        </p>
+
+                        <p>
+                            <a
+                                href="${whatsappClassLink}"
+                                target="_blank"
+                                style="
+                                    display:inline-block;
+                                    padding:12px 20px;
+                                    background:#25D366;
+                                    color:white;
+                                    text-decoration:none;
+                                    border-radius:8px;
+                                "
+                            >
+                                Join WhatsApp Class
+                            </a>
+                        </p>
+
+                        <hr>
+
+                        <p>
+                            Tribal Rhythm
+                        </p>
+
+                        <p>
+                            Powered by
+                            <b style="
+                                color:#FFD700;
+                            ">
+                                Zentro Nex
+                            </b>
+                        </p>
+
+                    </div>
+
+                `
+
+                    });
+
+
+                    emailSent =
+                        true;
+
+                }
+
+                catch (emailError) {
+
+                    console.error(
+                        "CLASS EMAIL ERROR:",
+                        emailError.response?.data ||
+                        emailError.message
+                    );
+
+                }
+
+
+                // =================================================
+                // SMS
+                // =================================================
+
+                let smsSent =
+                    false;
+
+
+                try {
+
+                    await sendClassPaymentSMS({
+
+                        name:
+                            cleanName,
+
+                        mobile:
+                            normalizedMobile,
+
+                        bookingId,
+
+                        amount:
+                            expectedAmount,
+
+                        className,
+
+                        whatsappLink:
+                            whatsappClassLink
+
+                    });
+
+
+                    smsSent =
+                        true;
+
+                }
+
+                catch (smsError) {
+
+                    console.error(
+                        "CLASS SMS ERROR:",
+                        smsError.response?.data ||
+                        smsError.message
+                    );
+
+                }
+
+
+                // ================= FINAL RESPONSE =================
+
+                return res.status(200).json({
+
+                    success: true,
+
+                    message:
+                        "Class payment verified successfully",
+
+                    bookingId,
+
+                    amount:
+                        expectedAmount,
+
+                    className,
+
+                    emailSent,
+
+                    smsSent,
+
+                    whatsappLink:
+                        whatsappClassLink
+
+                });
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "VERIFY CLASS PAYMENT ERROR:",
+                    error.response?.data ||
+                    error.message
+                );
+
+
+                return res.status(500).json({
+
+                    success: false,
+
+                    message:
+                        "Class payment verification failed"
+
+                });
+
+            }
+
+        });
+
+
+        // ================= RAZORPAY ORDER =================
+
+        const order =
+            await razorpay.orders.create({
+
+                amount:
+                    expectedFee * 100,
+
+                currency:
+                    "INR",
+
+                receipt:
+                    `CLASS_${Date.now()}_${crypto
+                        .randomBytes(3)
+                        .toString("hex")
+                        .toUpperCase()}`,
+
+                notes: {
+
+                    name:
+                        cleanName,
+
+                    email:
+                        normalizedEmail,
+
+                    mobile:
+                        normalizedMobile,
+
+                    className:
+                        className,
+
+                    classFee:
+                        String(expectedFee),
+
+                    product:
+                        "Tribal Rhythm Dance Class"
+
+                }
+
+            });
+
+
+        return res.status(200).json({
+
+            success: true,
+
+            id:
+                order.id,
+
+            amount:
+                order.amount,
+
+            currency:
+                order.currency,
+
+            key:
+                process.env.RAZORPAY_KEY_ID
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "CREATE CLASS ORDER ERROR:",
+            error.response?.data ||
+            error.message
+        );
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Unable to create class payment order"
+
+        });
+
+    }
+
+});
+
+
 
 // ================= VERIFY RAZORPAY PAYMENT =================
 // PRODUCTION SECURE VERSION
@@ -3078,6 +3859,101 @@ const sendPaymentSuccessSMS = async ({
             timeout: 30000
         }
     );
+};
+
+
+// =====================================================
+// CLASS PAYMENT SUCCESS SMS
+// =====================================================
+
+const sendClassPaymentSMS = async ({
+    name,
+    mobile,
+    bookingId,
+    amount,
+    className,
+    whatsappLink
+}) => {
+
+    return await axios.post(
+
+        "https://control.msg91.com/api/v5/oneapi/api/flow/class-payment-success/run",
+
+        {
+
+            data: {
+
+                sendTo: [
+
+                    {
+
+                        to: [
+
+                            {
+
+                                mobiles:
+                                    "91" + mobile,
+
+                                variables: {
+
+                                    name: {
+                                        value:
+                                            name
+                                    },
+
+                                    bookingId: {
+                                        value:
+                                            bookingId
+                                    },
+
+                                    className: {
+                                        value:
+                                            className
+                                    },
+
+                                    amount: {
+                                        value:
+                                            amount
+                                    },
+
+                                    whatsappLink: {
+                                        value:
+                                            whatsappLink
+                                    }
+
+                                }
+
+                            }
+
+                        ]
+
+                    }
+
+                ]
+
+            }
+
+        },
+
+        {
+
+            headers: {
+
+                authkey:
+                    process.env.MSG91_AUTH_KEY,
+
+                "Content-Type":
+                    "application/json"
+
+            },
+
+            timeout:
+                30000
+
+        }
+
+    );
+
 };
 
 // ================= PAYMENT SUCCESS SMS =================
