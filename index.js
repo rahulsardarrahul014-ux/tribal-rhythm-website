@@ -921,6 +921,169 @@ window.verifyOTP = async function () {
 };
 
 
+
+// ================= DANCE CLASS SELECTION =================
+let selectedClassName = "";
+let selectedClassFee = 0;
+
+window.selectClass = function (className, fee) {
+    selectedClassName = className;
+    selectedClassFee = fee;
+
+    localStorage.removeItem("classVerified");
+    localStorage.removeItem("classEmail");
+
+    document.getElementById("classFormBox").style.display = "block";
+
+    document.getElementById("selectedClassText").innerHTML =
+        `<b>${className}</b><br>Monthly Fee: <b>₹${fee}</b>`;
+
+    document.getElementById("classSuccessMessage").style.display = "none";
+    document.getElementById("classOtpSection").style.display = "none";
+    document.getElementById("classOTP").value = "";
+
+    document.getElementById("classFormBox").scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+};
+
+
+// ================= SEND CLASS EMAIL OTP =================
+window.sendClassOTP = async function () {
+    const name = document.getElementById("className").value.trim();
+    const mobile = document.getElementById("classMobile").value.trim();
+    const email = document.getElementById("classEmail").value.trim().toLowerCase();
+
+    if (!selectedClassName) {
+        Swal.fire("Tribal Rhythm", "Please select a class first.", "warning");
+        return;
+    }
+
+    if (!name || name.length < 3) {
+        Swal.fire("Tribal Rhythm", "Please enter a valid full name.", "warning");
+        document.getElementById("className").focus();
+        return;
+    }
+
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+        Swal.fire("Tribal Rhythm", "Enter a valid 10 digit mobile number.", "warning");
+        document.getElementById("classMobile").focus();
+        return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        Swal.fire("Tribal Rhythm", "Please enter a valid email address.", "warning");
+        document.getElementById("classEmail").focus();
+        return;
+    }
+
+    try {
+        Swal.fire({
+            title: "Sending OTP...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        const response = await fetch(`${API_URL}/send-otp`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                mobile,
+                email
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || "Unable to send OTP.");
+        }
+
+        document.getElementById("classOtpSection").style.display = "block";
+        document.getElementById("classOTP").value = "";
+        document.getElementById("classOTP").focus();
+
+        Swal.fire("OTP Sent", "OTP has been sent to your email address.", "success");
+
+    } catch (error) {
+        Swal.fire(
+            "Tribal Rhythm",
+            error.message || "Unable to send OTP. Please try again.",
+            "error"
+        );
+    }
+};
+
+
+// ================= VERIFY CLASS EMAIL OTP =================
+window.verifyClassOTP = async function () {
+    const email = document.getElementById("classEmail").value.trim().toLowerCase();
+    const otp = document.getElementById("classOTP").value.trim();
+
+    if (otp.length !== 6) {
+        Swal.fire("Tribal Rhythm", "Enter the 6 digit OTP.", "warning");
+        return;
+    }
+
+    try {
+        Swal.fire({
+            title: "Verifying OTP...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        const response = await fetch(`${API_URL}/verify-otp`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email,
+                otp
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || "Invalid OTP.");
+        }
+
+        localStorage.setItem("classVerified", "true");
+        localStorage.setItem("classEmail", email);
+        localStorage.setItem("selectedClassName", selectedClassName);
+        localStorage.setItem("selectedClassFee", selectedClassFee);
+
+        document.getElementById("classOtpSection").style.display = "none";
+
+        const successBox = document.getElementById("classSuccessMessage");
+        successBox.style.display = "block";
+        successBox.innerHTML =
+            `✓ OTP verified! <br>
+             <b>${selectedClassName}</b> registration successful.<br>
+             Monthly Fee: <b>₹${selectedClassFee}</b>`;
+
+        Swal.fire(
+            "Registration Successful",
+            `${selectedClassName} class ke liye aapka registration successful hai.`,
+            "success"
+        );
+
+    } catch (error) {
+        Swal.fire(
+            "Verification Failed",
+            error.message || "OTP verification failed. Please try again.",
+            "error"
+        );
+    }
+};
+
+
+
 function escapeHTML(value) {
 
     return String(value ?? "")

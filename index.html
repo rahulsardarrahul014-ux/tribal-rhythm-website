@@ -365,199 +365,92 @@
 
     </section>
 
-    <!-- ================= BOOK YOUR SPOT ================= -->
-    <section id="booking" class="py-5">
-
-        <div class="container">
-
-            <h2 class="text-center text-warning mb-4">
-                🎫 BOOK YOUR SPOT
-            </h2>
-
-            <p class="text-center text-light mb-5">
-                Feel the Rhythm. Live the Culture.
-            </p>
-
-
-            <!-- ================= ROW START ================= -->
-            <div class="row g-4">
-
-
-                <!-- ================= EVENT CARD ================= -->
-                <div class="col-md-4">
-
-                    <div class="gold-premium-card">
-
-                        <img src="banner2.png" class="gold-img">
-
-                        <div class="gold-content">
-
-                            <h3>RATHA YATRA</h3>
-
-                            <p>📍 RAIRANGPUR BLOCK PADIA</p>
-
-                            <p>📅 JULY 16 2026 TO 24 JULY 2026</p>
-
-                            <p>💰 FREE</p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- ================= USER DETAILS ================= -->
-                <div class="col-md-4">
-
-                    <div class="gold-premium-card">
-
-                        <h3>👤 Your Details</h3>
-
-
-                        <input type="text" id="ticketName" placeholder="Full Name">
-
-
-                        <input type="number" id="ticketPhone" placeholder="Mobile Number">
-
-
-                        <small id="phoneWarning" style="color:red;display:none;">
-                            Only 10 digit mobile number allowed
-                        </small>
-
-
-                        <input type="email" id="ticketEmail" placeholder="Enter Email Address">
-
-
-                        <select id="ticketQuantity">
-
-                            <option value="">
-                                Number of Tickets
-                            </option>
-
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-
-                        </select>
-
-
-                        <!-- Send OTP button -->
-                        <button id="sendOtpBtn" class="send-otp-btn" type="button" onclick="sendOTP()">
-                            Send Email OTP
-                        </button>
-
-
-                        <!-- ================= OTP SECTION ================= -->
-                        <div id="otpSection" style="display:none;">
-
-                            <input type="text" id="ticketOTP" maxlength="6" inputmode="numeric"
-                                autocomplete="one-time-code" placeholder="Enter Email OTP" class="form-control mb-2">
-
-                            <button type="button" id="verifyOtpBtn" class="btn btn-success w-100"
-                                onclick="verifyOTP()"></button>
-
-                            Verify OTP
-
-                            </button>
-
-                            <!-- RESEND OTP -->
-                            <div class="text-center mt-2">
-
-                                <span id="otpTimer" style="color:white;"></span>
-
-                                <button type="button" id="resendOtpLink" onclick="resendOTP()" style="
-        color:#ffc107;
-        background:none;
-        border:none;
-        text-decoration:none;
-        display:none;
-        cursor:pointer;
-        margin-left:8px;
-    ">
-                                    Resend OTP
-                                </button>
-
-                            </div>
-
-                            <!-- VERIFIED MESSAGE -->
-                            <div id="otpVerifiedMessage" style="
-            display:none;
-            color:#00ff88;
-            text-align:center;
-            margin-top:10px;
-            font-weight:bold;
-        ">
-
-                                ✓ OTP Verified Successfully
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- BOOK TICKET BUTTON -->
-                    <button type="button" onclick="goToTicket()">
-                        Book Ticket
-                    </button>
-
-                </div>
-
-
-                <!-- ================= PASS CARD ================= -->
-                <div class="col-md-4">
-
-                    <div class="gold-premium-card">
-
-                        <h3>👑 Choose Pass</h3>
-
-
-                        <label class="pass-box">
-
-                            <input type="radio" name="ticketType" value="General">
-
-                            🎫 General Pass - ₹499
-
-                        </label>
-
-
-                        <label class="pass-box">
-
-                            <input type="radio" name="ticketType" value="VIP">
-
-                            👑 VIP Pass - ₹999
-
-                        </label>
-
-
-                        <label class="pass-box">
-
-                            <input type="radio" name="ticketType" value="Group">
-
-                            👥 Group Pass - ₹399 / Person
-
-                        </label>
-
-
-                        <button type="button" onclick="payNow()">
-                            Confirm & Pay
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- ================= ROW END ================= -->
-            </div>
-
+    ```html
+<!-- ================= DANCE CLASS BOOKING ================= -->
+<section id="booking" class="py-5">
+  <div class="container">
+    <h2 class="text-center text-warning mb-3">💃 Book Your Dance Class</h2>
+    <p class="text-center text-light mb-5">
+      Learn, preserve and celebrate our traditional culture.
+    </p>
+
+    <div class="row g-4 justify-content-center">
+
+      <div class="col-md-4">
+        <div class="gold-premium-card text-center">
+          <h3>🌿 Santali Dance</h3>
+          <p>Traditional Santali dance training</p>
+          <h4 class="text-warning">₹499 / Month</h4>
+          <button type="button" onclick="selectClass('Santali Dance', 499)">
+            Join Santali Class
+          </button>
         </div>
+      </div>
 
-    </section>
+      <div class="col-md-4">
+        <div class="gold-premium-card text-center">
+          <h3>🥁 Bhumij Dance</h3>
+          <p>Traditional Bhumij dance training</p>
+          <h4 class="text-warning">₹499 / Month</h4>
+          <button type="button" onclick="selectClass('Bhumij Dance', 499)">
+            Join Bhumij Class
+          </button>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="gold-premium-card text-center">
+          <h3>🎤 Traditional Song</h3>
+          <p>Folk and traditional song training</p>
+          <h4 class="text-warning">₹399 / Month</h4>
+          <button type="button" onclick="selectClass('Traditional Song', 399)">
+            Join Song Class
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Class Registration Form -->
+    <div id="classFormBox" class="gold-premium-card mt-5 mx-auto"
+      style="max-width:600px; display:none;">
+
+      <h3 class="text-center text-warning">Class Registration</h3>
+
+      <p id="selectedClassText" class="text-center text-light"></p>
+
+      <input type="text" id="className" placeholder="Full Name">
+
+      <input type="tel" id="classMobile"
+        placeholder="10 Digit Mobile Number"
+        maxlength="10">
+
+      <input type="email" id="classEmail"
+        placeholder="Email Address for OTP">
+
+      <button type="button" class="send-otp-btn" onclick="sendClassOTP()">
+        Send Email OTP
+      </button>
+
+      <div id="classOtpSection" style="display:none;" class="mt-3">
+        <input type="text" id="classOTP"
+          maxlength="6"
+          placeholder="Enter 6 Digit OTP">
+
+        <button type="button" class="btn btn-success w-100"
+          onclick="verifyClassOTP()">
+          Verify OTP & Register
+        </button>
+      </div>
+
+      <div id="classSuccessMessage"
+        style="display:none; color:#00ff88; text-align:center; margin-top:15px; font-weight:bold;">
+      </div>
+
+    </div>
+  </div>
+</section>
+```
 
 
     <!-- ================= LIVE SECTION ================= -->
