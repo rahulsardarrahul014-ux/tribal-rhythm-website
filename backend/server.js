@@ -3281,53 +3281,477 @@ app.post("/verify-payment", async (req, res) => {
 
 
 
-// ================= WEBHOOK (SECURE) =================
+// ================= RAZORPAY WEBHOOK (PRODUCTION SECURE) =================
+
 app.post("/razorpay-webhook", async (req, res) => {
+
     try {
-        const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
-        const shasum = crypto.createHmac("sha256", secret);
-        shasum.update(req.rawBody);
-        const digest = shasum.digest("hex");
+        // =====================================================
+        // 1. WEBHOOK SECRET CHECK
+        // =====================================================
 
-        const signature = req.headers["x-razorpay-signature"];
+        const webhookSecret =
+            process.env.RAZORPAY_WEBHOOK_SECRET;
 
-        if (!signature || signature !== digest) {
-            return res.status(400).send("Invalid signature");
+        if (!webhookSecret) {
+
+            console.error(
+                "❌ RAZORPAY_WEBHOOK_SECRET is missing"
+            );
+
+            return res.status(500).send(
+                "Webhook configuration error"
+            );
         }
 
-        const payment = req.body?.payload?.payment?.entity;
 
-        if (!payment) return res.status(400).send("No payment");
+        // =====================================================
+        // 2. VERIFY RAZORPAY SIGNATURE
+        // =====================================================
 
-        const email = payment.notes?.email;
+        const signature =
+            req.headers["x-razorpay-signature"];
 
-        if (!email) return res.status(400).send("No email");
+        if (!signature || !req.rawBody) {
 
-        await db.collection("payments").add({
+            console.error(
+                "❌ Missing webhook signature or raw body"
+            );
+
+            return res.status(400).send(
+                "Invalid webhook request"
+            );
+        }
+
+
+        const expectedSignature =
+            crypto
+                .createHmac(
+                    "sha256",
+                    webhookSecret
+                )
+                .update(req.rawBody)
+                .digest("hex");
+
+
+        const expectedBuffer =
+            Buffer.from(
+                expectedSignature,
+                "hex"
+            );
+
+        const receivedBuffer =
+            Buffer.from(
+                String(signature),
+                "hex"
+            );
+
+
+        if (
+            receivedBuffer.length !==
+            expectedBuffer.length ||
+            !crypto.timingSafeEqual(
+                expectedBuffer,
+                receivedBuffer
+            )
+        ) {
+
+            console.error(
+                "❌ RAZORPAY WEBHOOK SIGNATURE INVALID"
+            );
+
+            return res.status(400).send(
+                "Invalid signature"
+            );
+        }
+
+
+        console.log(
+            "✅ Razorpay webhook signature verified"
+        );
+
+
+        // =====================================================
+        // 3. READ EVENT
+        // =====================================================
+
+        const event =
+            req.body?.event;
+
+
+        if (!event) {
+
+            return res.status(400).send(
+                "Missing event"
+            );
+        }
+
+
+        console.log(
+            "📩 Razorpay Webhook Event:",
+            event
+        );
+
+
+        // =====================================================
+        // 4. PROCESS ONLY SUCCESSFUL PAYMENT EVENTS
+        // =====================================================
+
+        const allowedEvents = [
+            "payment.captured"
+        ];
+
+
+        if (!allowedEvents.includes(event)) {
+
+            // Important:
+            // Unknown/unneeded events should still receive 200
+            // so Razorpay does not repeatedly retry them.
+
+            return res.status(200).json({
+                success: true,
+                ignored: true,
+                event
+            });
+        }
+
+
+        // =====================================================
+        // 5. PAYMENT OBJECT
+        // =====================================================
+
+        const payment =
+            req.body?.payload
+                ?.payment
+                ?.entity;
+
+
+        if (!payment) {
+
+            return res.status(400).send(
+                "Payment data missing"
+            );
+        }
+
+
+        const paymentId =
+            String(payment.id || "")
+                .trim();
+
+
+        const orderId =
+            String(payment.order_id || "")
+                .trim();
+
+
+        if (!paymentId || !orderId) {
+
+            return res.status(400).send(
+                "Payment or order ID missing"
+            );
+        }
+
+
+        // =====================================================
+        // 6. BASIC PAYMENT VALIDATION
+        // =====================================================
+
+        if (payment.status !== "captured") {
+
+            return res.status(200).json({
+                success: true,
+                ignored: true,
+                reason: "Payment not captured"
+            });
+        }
+
+
+        if (payment.currency !== "INR") {
+
+            console.error(
+                "❌ Invalid payment currency:",
+                payment.currency
+            );
+
+            return res.status(400).send(
+                "Invalid currency"
+            );
+        }
+
+
+        if (
+            !Number.isInteger(
+                Number(payment.amount)
+            ) ||
+            Number(payment.amount) <= 0
+        ) {
+
+            return res.status(400).send(
+                "Invalid payment amount"
+            );
+        }
+
+
+        // =====================================================
+        // 7. FETCH ACTUAL RAZORPAY ORDER
+        // =====================================================
+
+        const razorpayOrder =
+            await razorpay.orders.fetch(
+                orderId
+            );
+
+
+        if (!razorpayOrder) {
+
+            return res.status(400).send(
+                "Order not found"
+            );
+        }
+
+
+        // =====================================================
+        // 8. PAYMENT MUST BELONG TO THIS ORDER
+        // =====================================================
+
+        if (
+            String(payment.order_id) !==
+            String(razorpayOrder.id)
+        ) {
+
+            console.error(
+                "❌ Payment / Order mismatch"
+            );
+
+            return res.status(400).send(
+                "Payment order mismatch"
+            );
+        }
+
+
+        // =====================================================
+        // 9. AMOUNT MATCH
+        // =====================================================
+
+        if (
+            Number(payment.amount) !==
+            Number(razorpayOrder.amount)
+        ) {
+
+            console.error(
+                "❌ Payment amount mismatch",
+                {
+                    paymentAmount:
+                        payment.amount,
+
+                    orderAmount:
+                        razorpayOrder.amount
+                }
+            );
+
+            return res.status(400).send(
+                "Payment amount mismatch"
+            );
+        }
+
+
+        // =====================================================
+        // 10. CURRENCY MATCH
+        // =====================================================
+
+        if (
+            payment.currency !==
+            razorpayOrder.currency
+        ) {
+
+            return res.status(400).send(
+                "Currency mismatch"
+            );
+        }
+
+
+        // =====================================================
+        // 11. READ ORDER NOTES
+        // =====================================================
+
+        const notes =
+            razorpayOrder.notes || {};
+
+
+        const email =
+            normalizeEmail(
+                notes.email ||
+                payment.email ||
+                ""
+            );
+
+
+        // =====================================================
+        // 12. EMAIL VALIDATION
+        // =====================================================
+
+        if (!isValidEmail(email)) {
+
+            console.error(
+                "❌ Invalid email in order notes"
+            );
+
+            return res.status(400).send(
+                "Invalid email"
+            );
+        }
+
+
+        // =====================================================
+        // 13. IDEMPOTENCY / DUPLICATE PAYMENT CHECK
+        // =====================================================
+
+        const paymentRef =
+            db
+                .collection("payments")
+                .doc(paymentId);
+
+
+        const existingPayment =
+            await paymentRef.get();
+
+
+        if (existingPayment.exists) {
+
+            console.log(
+                "⚠️ Webhook already processed:",
+                paymentId
+            );
+
+            return res.status(200).json({
+
+                success: true,
+
+                alreadyProcessed: true,
+
+                paymentId
+            });
+        }
+
+
+        // =====================================================
+        // 14. SAVE PAYMENT
+        // =====================================================
+
+        await paymentRef.set({
+
+            paymentId,
+
+            orderId,
+
             email,
-            amount: payment.amount / 100,
-            paymentId: payment.id,
-            status: "paid",
-            time: new Date()
+
+            amount:
+                Number(payment.amount) / 100,
+
+            amountPaise:
+                Number(payment.amount),
+
+            currency:
+                payment.currency,
+
+            status:
+                "paid",
+
+            razorpayStatus:
+                payment.status,
+
+            event,
+
+            createdAt:
+                admin.firestore.Timestamp.now()
+
         });
 
-        const userRef = db.collection("users").doc(email);
+
+        // =====================================================
+        // 15. UPDATE USER
+        // =====================================================
+
+        const userRef =
+            db
+                .collection("users")
+                .doc(email);
+
 
         await userRef.set({
-            paymentStatus: "paid",
-            status: "approved",
-            paymentId: payment.id,
-            amount: payment.amount / 100,
-            paymentDate: new Date()
-        }, { merge: true });
 
-        res.json({ success: true });
+            paymentStatus:
+                "paid",
 
-    } catch (err) {
-        console.log(err);
-        res.status(500).send("Webhook error");
+            status:
+                "approved",
+
+            paymentId,
+
+            orderId,
+
+            amount:
+                Number(payment.amount) / 100,
+
+            currency:
+                payment.currency,
+
+            paymentDate:
+                admin.firestore.Timestamp.now()
+
+        }, {
+
+            merge: true
+
+        });
+
+
+        // =====================================================
+        // 16. SUCCESS
+        // =====================================================
+
+        console.log(
+            "✅ Razorpay webhook processed:",
+            {
+                paymentId,
+                orderId,
+                email,
+                amount:
+                    Number(payment.amount) / 100
+            }
+        );
+
+
+        return res.status(200).json({
+
+            success: true,
+
+            processed: true,
+
+            paymentId,
+
+            orderId
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ RAZORPAY WEBHOOK ERROR:",
+            error.response?.data ||
+            error.message ||
+            error
+        );
+
+
+        return res.status(500).send(
+            "Webhook error"
+        );
     }
+
 });
 
 // ================= ENTRY CHECK =================
@@ -3735,7 +4159,7 @@ app.post("/send-bulk-sms", checkAdmin, async (req, res) => {
 
             await axios.post(
 
-                "https://control.msg91.com/api/v5/oneapi/api/flow/tribalrhythmotp/run",
+                "https://control.msg91.com/api/v5/oneapi/api/flow/Tribal_Rhythm_Official_Update/run",
 
                 {
 
@@ -3826,7 +4250,7 @@ const sendPaymentSuccessSMS = async ({
 }) => {
 
     return await axios.post(
-        "https://control.msg91.com/api/v5/oneapi/api/flow/payment-success/run",
+        "https://control.msg91.com/api/v5/oneapi/api/flow/Tribal_Rhythm_Payment_Success/run",
         {
             data: {
                 sendTo: [
@@ -4148,7 +4572,7 @@ app.post("/send-winner-sms", checkAdmin, async (req, res) => {
 
         await axios.post(
 
-            "https://control.msg91.com/api/v5/oneapi/api/flow/winner-message/run",
+            "https://control.msg91.com/api/v5/oneapi/api/flow/Tribal_Rhythm_Competition_Result/run",
 
             {
 
@@ -4299,7 +4723,7 @@ app.post("/send-certificate-ready", checkAdmin, async (req, res) => {
         // SMS
         await axios.post(
 
-            "https://control.msg91.com/api/v5/oneapi/api/flow/certificate-ready/run",
+            "https://control.msg91.com/api/v5/oneapi/api/flow/Tribal_Rhythm_Certificate_Ready/run",
 
             {
 
