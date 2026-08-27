@@ -2762,47 +2762,44 @@ window.goCompetition = function () {
 };
 
 
-document
-    .getElementById("ticketPhone")
-    .addEventListener("input", function () {
 
+// ================= TICKET PHONE VALIDATION =================
+const ticketPhoneInput = document.getElementById("ticketPhone");
+
+if (ticketPhoneInput) {
+    ticketPhoneInput.addEventListener("input", function () {
         if (this.value.length > 10) {
-            this.value =
-                this.value.slice(0, 10);
+            this.value = this.value.slice(0, 10);
         }
 
-        document
-            .getElementById("phoneWarning")
-            .style.display =
-            this.value.length === 10
-                ? "none"
-                : "block";
+        const phoneWarning = document.getElementById("phoneWarning");
+
+        if (phoneWarning) {
+            phoneWarning.style.display =
+                this.value.length === 10 ? "none" : "block";
+        }
     });
+}
 
 
 // ================= EMAIL CHANGE SECURITY =================
+const ticketEmailInput = document.getElementById("ticketEmail");
 
-document
-    .getElementById("ticketEmail")
-    .addEventListener("input", function () {
+if (ticketEmailInput) {
+    ticketEmailInput.addEventListener("input", function () {
+        const verifiedEmail = localStorage.getItem("ticketEmail");
+        const currentEmail = this.value.trim().toLowerCase();
 
-        const verifiedEmail =
-            localStorage.getItem("ticketEmail");
-
-        const currentEmail =
-            this.value.trim().toLowerCase();
-
-        if (
-            verifiedEmail &&
-            verifiedEmail !== currentEmail
-        ) {
-
+        if (verifiedEmail && verifiedEmail !== currentEmail) {
             localStorage.removeItem("ticketVerified");
             localStorage.removeItem("ticketEmail");
 
-            document.getElementById(
-                "otpVerifiedMessage"
-            ).style.display = "none";
+            const verifiedMessage =
+                document.getElementById("otpVerifiedMessage");
+
+            if (verifiedMessage) {
+                verifiedMessage.style.display = "none";
+            }
 
             Swal.fire(
                 "Tribal Rhythm",
@@ -2810,8 +2807,9 @@ document
                 "warning"
             );
         }
-
     });
+}
+
 
 
 onAuthStateChanged(auth, (user) => {
