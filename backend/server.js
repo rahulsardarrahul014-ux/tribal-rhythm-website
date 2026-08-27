@@ -1539,6 +1539,32 @@ app.post("/admin/verify-otp", async (req, res) => {
 
 
 
+// ================= RAZORPAY PRICE CONFIG =================
+
+const TICKET_PRICES = Object.freeze({
+    General: 499,
+    VIP: 999,
+    Group: 399
+});
+
+const MAX_TICKET_QUANTITY = 10;
+
+const paymentOrderLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 20,
+    standardHeaders: true,
+    legacyHeaders: false,
+
+    message: {
+        success: false,
+        message:
+            "Too many payment order requests. Please try again later."
+    }
+});
+
+app.use("/create-order", paymentOrderLimiter);
+
+
 // ================= CREATE RAZORPAY ORDER =================
 
 app.post("/create-order", async (req, res) => {
@@ -1557,14 +1583,6 @@ app.post("/create-order", async (req, res) => {
         const quantity =
             Number(ticketQuantity);
 
-        console.log("CREATE ORDER REQUEST:", {
-            email,
-            normalizedEmail,
-            ticketType,
-            ticketQuantity,
-            quantity
-        });
-
         // ================= VALIDATION =================
 
         if (!isValidEmail(normalizedEmail)) {
@@ -1576,7 +1594,11 @@ app.post("/create-order", async (req, res) => {
 
         }
 
-        if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
+        if (
+            !Number.isInteger(quantity) ||
+            quantity < 1 ||
+            quantity > MAX_TICKET_QUANTITY
+        ) {
 
             return res.status(400).json({
                 success: false,
@@ -1587,13 +1609,8 @@ app.post("/create-order", async (req, res) => {
 
         // ================= SERVER-SIDE PRICE =================
 
-        const amountMap = {
-            General: 499,
-            VIP: 999,
-            Group: 399
-        };
-
-        const price = amountMap[ticketType];
+        const price =
+            TICKET_PRICES[ticketType];
 
         if (!price) {
 
@@ -1604,7 +1621,7 @@ app.post("/create-order", async (req, res) => {
 
         }
 
-        // INR -> PAISE
+        // ================= FINAL AMOUNT =================
 
         const finalAmount =
             price * quantity * 100;
@@ -1627,7 +1644,10 @@ app.post("/create-order", async (req, res) => {
                 currency: "INR",
 
                 receipt:
-                    `TR_${Date.now()}`,
+                    `TR_${Date.now()}_${crypto
+                        .randomBytes(3)
+                        .toString("hex")
+                        .toUpperCase()}`,
 
                 notes: {
 
@@ -1638,7 +1658,13 @@ app.post("/create-order", async (req, res) => {
                         ticketType,
 
                     ticketQuantity:
-                        String(quantity)
+                        String(quantity),
+
+                    expectedAmount:
+                        String(price * quantity),
+                    product:
+                        "Tribal Rhythm Ticket"
+
 
                 }
 
@@ -1666,7 +1692,8 @@ app.post("/create-order", async (req, res) => {
 
         console.error(
             "CREATE ORDER ERROR:",
-            error
+            error.response?.data ||
+            error.message
         );
 
         return res.status(500).json({
@@ -1685,6 +1712,7 @@ app.post("/create-order", async (req, res) => {
 
 
 // ================= VERIFY RAZORPAY PAYMENT =================
+// PRODUCTION SECURE VERSION
 
 app.post("/verify-payment", async (req, res) => {
 
@@ -1694,31 +1722,39 @@ app.post("/verify-payment", async (req, res) => {
             razorpay_order_id,
             razorpay_payment_id,
             razorpay_signature,
+
             email,
             name,
             phone,
+
             ticketType,
             ticketQuantity
         } = req.body;
 
-        // ================= VALIDATION =================
+
+        // =====================================================
+        // 1. BASIC VALIDATION
+        // =====================================================
 
         const normalizedEmail =
             normalizeEmail(email);
 
+        const cleanName =
+            String(name || "")
+                .trim()
+                .slice(0, 100);
+
+        const normalizedPhone =
+            normalizeMobile(phone);
+
         const quantity =
             Number(ticketQuantity);
+
 
         if (
             !razorpay_order_id ||
             !razorpay_payment_id ||
-            !razorpay_signature ||
-            !isValidEmail(normalizedEmail) ||
-            !name ||
-            !isValidMobile(phone) ||
-            !ticketType ||
-            !Number.isInteger(quantity) ||
-            quantity < 1
+            !razorpay_signature
         ) {
 
             return res.status(400).json({
@@ -1726,98 +1762,80 @@ app.post("/verify-payment", async (req, res) => {
                 success: false,
 
                 message:
-                    "Invalid payment verification request"
+                    "Missing Razorpay payment details"
 
             });
 
         }
 
-        // ================= SIGNATURE VERIFY =================
 
-        const body =
-            razorpay_order_id +
-            "|" +
-            razorpay_payment_id;
+        if (!isValidEmail(normalizedEmail)) {
 
-        const expectedSignature =
-            crypto
-                .createHmac(
-                    "sha256",
-                    process.env.RAZORPAY_KEY_SECRET
-                )
-                .update(body)
-                .digest("hex");
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Invalid email"
+
+            });
+
+        }
+
+
+        if (!cleanName) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Name is required"
+
+            });
+
+        }
+
+
+        if (!/^[6-9]\d{9}$/.test(normalizedPhone)) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Invalid mobile number"
+
+            });
+
+        }
+
 
         if (
-            expectedSignature !==
-            razorpay_signature
+            !Number.isInteger(quantity) ||
+            quantity < 1 ||
+            quantity > MAX_TICKET_QUANTITY
         ) {
-
-            console.error(
-                "RAZORPAY SIGNATURE MISMATCH"
-            );
 
             return res.status(400).json({
 
                 success: false,
 
                 message:
-                    "Payment verification failed"
+                    "Invalid ticket quantity"
 
             });
 
         }
 
-        console.log(
-            "✅ Razorpay signature verified"
-        );
 
-        // ================= CHECK DUPLICATE PAYMENT =================
-
-        const existingPayment =
-            await db
-                .collection("bookings")
-                .where(
-                    "paymentId",
-                    "==",
-                    razorpay_payment_id
-                )
-                .limit(1)
-                .get();
-
-        if (!existingPayment.empty) {
-
-            const existingBooking =
-                existingPayment.docs[0].data();
-
-            return res.json({
-
-                success: true,
-
-                message:
-                    "Payment already verified",
-
-                ticketId:
-                    existingBooking.ticketId
-
-            });
-
-        }
-
-        // ================= SERVER-SIDE PRICE =================
-
-        const amountMap = {
-
-            General: 499,
-
-            VIP: 999,
-
-            Group: 399
-
-        };
+        // =====================================================
+        // 2. SERVER-SIDE TICKET PRICE
+        // =====================================================
 
         const price =
-            amountMap[ticketType];
+            TICKET_PRICES[ticketType];
+
 
         if (!price) {
 
@@ -1832,19 +1850,379 @@ app.post("/verify-payment", async (req, res) => {
 
         }
 
-        const amount =
+
+        const expectedAmount =
             price * quantity;
 
-        // ================= GENERATE TICKET ID =================
+
+        const expectedAmountPaise =
+            expectedAmount * 100;
+
+
+        // =====================================================
+        // 3. VERIFY RAZORPAY SIGNATURE
+        // =====================================================
+
+        const signatureBody =
+            razorpay_order_id +
+            "|" +
+            razorpay_payment_id;
+
+
+        const expectedSignature =
+            crypto
+                .createHmac(
+                    "sha256",
+                    process.env.RAZORPAY_KEY_SECRET
+                )
+                .update(signatureBody)
+                .digest("hex");
+
+
+        const expectedBuffer =
+            Buffer.from(expectedSignature, "hex");
+
+        const receivedBuffer =
+            Buffer.from(razorpay_signature, "hex");
+
+        if (
+            receivedBuffer.length !== expectedBuffer.length ||
+            !crypto.timingSafeEqual(
+                expectedBuffer,
+                receivedBuffer
+            )
+        ) {
+
+            console.error(
+                "❌ RAZORPAY SIGNATURE MISMATCH"
+            );
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Payment verification failed"
+
+            });
+
+        }
+
+
+        console.log(
+            "✅ Razorpay signature verified"
+        );
+
+
+        // =====================================================
+        // 4. FETCH ACTUAL ORDER FROM RAZORPAY
+        // =====================================================
+
+        const razorpayOrder =
+            await razorpay.orders.fetch(
+                razorpay_order_id
+            );
+
+
+        // =====================================================
+        // 5. VERIFY ORDER AMOUNT
+        // =====================================================
+
+        if (
+            Number(razorpayOrder.amount) !==
+            expectedAmountPaise
+        ) {
+
+            console.error(
+                "❌ ORDER AMOUNT MISMATCH",
+                {
+                    razorpayAmount:
+                        razorpayOrder.amount,
+
+                    expectedAmount:
+                        expectedAmountPaise
+                }
+            );
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Payment amount mismatch"
+
+            });
+
+        }
+
+
+        // =====================================================
+        // 6. VERIFY ORDER CURRENCY
+        // =====================================================
+
+        if (
+            razorpayOrder.currency !== "INR"
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Invalid payment currency"
+
+            });
+
+        }
+
+
+        // =====================================================
+        // 7. VERIFY ORDER NOTES
+        // =====================================================
+
+        const orderNotes =
+            razorpayOrder.notes || {};
+
+
+        if (
+            orderNotes.ticketType &&
+            orderNotes.ticketType !== ticketType
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Ticket type mismatch"
+
+            });
+
+        }
+
+
+        if (
+            orderNotes.ticketQuantity &&
+            Number(orderNotes.ticketQuantity) !== quantity
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Ticket quantity mismatch"
+
+            });
+
+        }
+
+
+        // =====================================================
+        // 8. FETCH ACTUAL PAYMENT FROM RAZORPAY
+        // =====================================================
+
+        const razorpayPayment =
+            await razorpay.payments.fetch(
+                razorpay_payment_id
+            );
+
+
+        // =====================================================
+        // 9. VERIFY PAYMENT BELONGS TO THIS ORDER
+        // =====================================================
+
+        if (
+            razorpayPayment.order_id !==
+            razorpay_order_id
+        ) {
+
+            console.error(
+                "❌ PAYMENT ORDER ID MISMATCH"
+            );
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Payment does not belong to this order"
+
+            });
+
+        }
+
+
+        // =====================================================
+        // 10. VERIFY PAYMENT AMOUNT
+        // =====================================================
+
+        if (
+            Number(razorpayPayment.amount) !==
+            expectedAmountPaise
+        ) {
+
+            console.error(
+                "❌ PAYMENT AMOUNT MISMATCH"
+            );
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Payment amount mismatch"
+
+            });
+
+        }
+
+
+        // =====================================================
+        // 11. VERIFY PAYMENT CURRENCY
+        // =====================================================
+
+        if (
+            razorpayPayment.currency !== "INR"
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Invalid payment currency"
+
+            });
+
+        }
+
+
+        // =====================================================
+        // 12. PAYMENT MUST BE CAPTURED
+        // =====================================================
+
+        if (
+            razorpayPayment.status !== "captured"
+        ) {
+
+            console.error(
+                "❌ PAYMENT NOT CAPTURED:",
+                razorpayPayment.status
+            );
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Payment has not been captured"
+
+            });
+
+        }
+
+
+        // =====================================================
+        // 13. VERIFY ORDER STATUS
+        // =====================================================
+
+        if (
+            razorpayOrder.status !== "paid"
+        ) {
+
+            console.error(
+                "❌ ORDER NOT PAID:",
+                razorpayOrder.status
+            );
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Razorpay order is not paid"
+
+            });
+
+        }
+
+
+        console.log(
+            "✅ Razorpay order + payment verified"
+        );
+
+
+        // =====================================================
+        // 14. DUPLICATE PAYMENT PROTECTION
+        // =====================================================
+
+        const existingPayment =
+            await db
+                .collection("bookings")
+                .where(
+                    "paymentId",
+                    "==",
+                    razorpay_payment_id
+                )
+                .limit(1)
+                .get();
+
+
+        if (!existingPayment.empty) {
+
+            const existingBooking =
+                existingPayment.docs[0].data();
+
+
+            console.log(
+                "⚠️ Payment already processed:",
+                razorpay_payment_id
+            );
+
+
+            return res.json({
+
+                success: true,
+
+                verified: true,
+
+                alreadyProcessed: true,
+
+                message:
+                    "Payment already verified",
+
+                ticketId:
+                    existingBooking.ticketId,
+
+                amount:
+                    existingBooking.amount,
+
+                ticketType:
+                    existingBooking.ticketType,
+
+                ticketQuantity:
+                    existingBooking.ticketQuantity
+
+            });
+
+        }
+
+
+        // =====================================================
+        // 15. GENERATE SECURE TICKET ID
+        // =====================================================
 
         const now =
             new Date();
+
 
         const random =
             crypto
                 .randomBytes(4)
                 .toString("hex")
                 .toUpperCase();
+
 
         const ticketId =
             `TR-${now.getFullYear()}${String(
@@ -1853,17 +2231,20 @@ app.post("/verify-payment", async (req, res) => {
                 now.getDate()
             ).padStart(2, "0")}-${random}`;
 
-        // ================= SAVE BOOKING =================
+
+        // =====================================================
+        // 16. BOOKING DATA
+        // =====================================================
 
         const bookingData = {
 
             ticketId,
 
             name:
-                String(name).trim(),
+                cleanName,
 
             phone:
-                normalizeMobile(phone),
+                normalizedPhone,
 
             email:
                 normalizedEmail,
@@ -1873,13 +2254,20 @@ app.post("/verify-payment", async (req, res) => {
             ticketQuantity:
                 quantity,
 
-            amount,
+            amount:
+                expectedAmount,
 
             paymentId:
                 razorpay_payment_id,
 
             orderId:
                 razorpay_order_id,
+
+            razorpayStatus:
+                razorpayPayment.status,
+
+            currency:
+                razorpayPayment.currency,
 
             status:
                 "success",
@@ -1892,20 +2280,28 @@ app.post("/verify-payment", async (req, res) => {
 
         };
 
+
+        // =====================================================
+        // 17. SAVE BOOKING
+        // =====================================================
+
         await db
             .collection("bookings")
             .add(bookingData);
+
 
         console.log(
             "✅ Booking saved:",
             ticketId
         );
 
+
         // =====================================================
-        // PAYMENT SUCCESS EMAIL
+        // 18. PAYMENT SUCCESS EMAIL
         // =====================================================
 
         let emailSent = false;
+
 
         try {
 
@@ -1915,7 +2311,7 @@ app.post("/verify-payment", async (req, res) => {
                     normalizedEmail,
 
                 name:
-                    name,
+                    cleanName,
 
                 subject:
                     "🎟️ Tribal Rhythm Ticket Booking Successful",
@@ -1937,7 +2333,7 @@ app.post("/verify-payment", async (req, res) => {
                     </h2>
 
                     <p>
-                        Hello <b>${name}</b>,
+                        Hello <b>${cleanName}</b>,
                     </p>
 
                     <p>
@@ -1962,7 +2358,7 @@ app.post("/verify-payment", async (req, res) => {
 
                     <p>
                         <b>Amount Paid:</b>
-                        ₹${amount}
+                        ₹${expectedAmount}
                     </p>
 
                     <p>
@@ -1985,11 +2381,14 @@ app.post("/verify-payment", async (req, res) => {
 
             });
 
+
             emailSent = true;
+
 
             console.log(
                 "✅ Confirmation email sent"
             );
+
 
         } catch (emailError) {
 
@@ -2001,35 +2400,40 @@ app.post("/verify-payment", async (req, res) => {
 
         }
 
+
         // =====================================================
-        // PAYMENT SUCCESS SMS
+        // 19. PAYMENT SUCCESS SMS
         // =====================================================
 
         let smsSent = false;
+
 
         try {
 
             await sendPaymentSuccessSMS({
 
                 name:
-                    name,
+                    cleanName,
 
                 mobile:
-                    normalizeMobile(phone),
+                    normalizedPhone,
 
                 ticketId:
                     ticketId,
 
                 amount:
-                    amount
+                    expectedAmount
 
             });
 
+
             smsSent = true;
+
 
             console.log(
                 "✅ Payment success SMS sent"
             );
+
 
         } catch (smsError) {
 
@@ -2041,8 +2445,9 @@ app.post("/verify-payment", async (req, res) => {
 
         }
 
+
         // =====================================================
-        // FINAL RESPONSE
+        // 20. FINAL RESPONSE
         // =====================================================
 
         return res.status(200).json({
@@ -2060,7 +2465,8 @@ app.post("/verify-payment", async (req, res) => {
 
             smsSent,
 
-            amount,
+            amount:
+                expectedAmount,
 
             ticketType,
 
@@ -2069,12 +2475,15 @@ app.post("/verify-payment", async (req, res) => {
 
         });
 
+
     } catch (error) {
 
         console.error(
-            "VERIFY PAYMENT ERROR:",
-            error
+            "❌ VERIFY PAYMENT ERROR:",
+            error.response?.data ||
+            error.message
         );
+
 
         return res.status(500).json({
 

@@ -221,7 +221,7 @@ window.login = async () => {
         document.getElementById("email").value.trim();
 
     const passValue =
-        document.getElementById("pass").value.trim();
+    document.getElementById("password").value.trim();
 
     if (!emailValue || !passValue) {
 
@@ -359,7 +359,14 @@ window.resetPass = () => {
         });
 
 };
-window.signup = async () => {
+window.signup = async (event) => {
+
+    // 🔥 IMPORTANT: Form submit ko page reload karne se roko
+    if (event) {
+        event.preventDefault();
+    }
+
+    console.log("🔥 CREATE ADMIN ACCOUNT BUTTON CLICKED");
 
     // ==============================
     // 1. OTP CHECK
@@ -375,41 +382,84 @@ window.signup = async () => {
         return;
     }
 
-
     // ==============================
     // 2. GET FORM VALUES
     // ==============================
 
+    const emailElement =
+        document.getElementById("email");
+
+    const passwordElement =
+        document.getElementById("password");
+
+    const adminNameElement =
+        document.getElementById("adminName");
+
+    const mobileElement =
+        document.getElementById("mobile");
+
+    const whatsappElement =
+        document.getElementById("whatsapp");
+
+    const roleElement =
+        document.getElementById("role");
+
+    const idTypeElement =
+        document.getElementById("idType");
+
+    const idNumberElement =
+        document.getElementById("idNumber");
+
+    // 🔥 ELEMENT CHECK
+    if (
+        !emailElement ||
+        !passwordElement ||
+        !adminNameElement ||
+        !mobileElement ||
+        !roleElement ||
+        !idTypeElement ||
+        !idNumberElement
+    ) {
+
+        showError(
+            "Some registration form fields are missing. Please check admin.html.",
+            "Form Error"
+        );
+
+        console.error("❌ Required form element missing");
+
+        return;
+    }
+
     const emailValue =
-        document.getElementById("email").value.trim();
+        emailElement.value.trim();
 
     const passValue =
-        document.getElementById("pass").value.trim();
+        passwordElement.value.trim();
 
     const adminName =
-        document.getElementById("adminName").value.trim();
+        adminNameElement.value.trim();
 
     const mobile =
-        document.getElementById("mobile").value.trim();
+        mobileElement.value.trim();
 
     const whatsapp =
-        document.getElementById("whatsapp").value.trim();
+        whatsappElement?.value.trim() || "";
 
     const role =
-        document.getElementById("role").value;
+        roleElement.value;
 
     const idType =
-        document.getElementById("idType").value;
+        idTypeElement.value;
 
     const idNumber =
-        document.getElementById("idNumber").value.trim();
+        idNumberElement.value.trim();
 
     const photoFile =
-        document.getElementById("profilePhoto").files[0];
+        document.getElementById("profilePhoto")?.files[0];
 
     const idFile =
-        document.getElementById("idProof").files[0];
-
+        document.getElementById("idProof")?.files[0];
 
     // ==============================
     // 3. REQUIRED FIELD CHECK
@@ -432,24 +482,36 @@ window.signup = async () => {
         return;
     }
 
-
     // ==============================
     // 4. OWNER EMAIL CHECK
     // ==============================
 
-    if (emailValue !== OWNER_EMAIL) {
+    if (emailValue.toLowerCase() !== OWNER_EMAIL.toLowerCase()) {
 
         showError(
-            "Only the owner can create an admin account.",
+            "Only the owner email can create an admin account.",
             "Access Denied"
         );
 
         return;
     }
 
+    // ==============================
+    // 5. MOBILE VALIDATION
+    // ==============================
+
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+
+        showWarning(
+            "Please enter a valid 10-digit Indian mobile number.",
+            "Invalid Mobile"
+        );
+
+        return;
+    }
 
     // ==============================
-    // 5. PASSWORD VALIDATION
+    // 6. PASSWORD VALIDATION
     // ==============================
 
     const passwordRegex =
@@ -458,21 +520,57 @@ window.signup = async () => {
     if (!passwordRegex.test(passValue)) {
 
         showWarning(
-            "Password must contain uppercase, lowercase, number and special character.",
+            "Password must contain at least 8 characters, uppercase, lowercase, number and special character.",
             "Weak Password"
         );
 
         return;
     }
 
+    // ==============================
+    // 7. CONFIRM PASSWORD
+    // ==============================
+
+    const confirmPassword =
+        document.getElementById("confirmPassword")?.value.trim();
+
+    if (!confirmPassword) {
+
+        showWarning(
+            "Please enter confirm password.",
+            "Password Required"
+        );
+
+        return;
+    }
+
+    if (passValue !== confirmPassword) {
+
+        showError(
+            "Password and Confirm Password do not match.",
+            "Password Mismatch"
+        );
+
+        return;
+    }
 
     // ==============================
-    // 6. CREATE FIREBASE AUTH ACCOUNT
+    // 8. CREATE FIREBASE AUTH ACCOUNT
     // ==============================
 
     let user = null;
 
     try {
+
+        Swal.fire({
+            title: "Creating Admin Account...",
+            text: "Please wait while your account is being created.",
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
         const userCredential =
             await createUserWithEmailAndPassword(
@@ -481,18 +579,17 @@ window.signup = async () => {
                 passValue
             );
 
-        user = userCredential.user;
+        user =
+            userCredential.user;
 
         console.log(
-            "Firebase Auth account created:",
+            "✅ Firebase Auth account created:",
             user.uid
         );
 
-
-        // =================================================
-        // 7. ACCOUNT CREATE HO GAYA
-        // AB PROFILE PHOTO UPLOAD HOGA
-        // =================================================
+        // ==============================
+        // 9. PROFILE PHOTO UPLOAD
+        // ==============================
 
         let photoURL = "";
 
@@ -515,18 +612,11 @@ window.signup = async () => {
 
             photoURL =
                 await getDownloadURL(photoRef);
-
-            console.log(
-                "Profile photo uploaded:",
-                photoURL
-            );
         }
 
-
-        // =================================================
-        // 8. ID PROOF UPLOAD
-        // ACCOUNT CREATE KE BAAD
-        // =================================================
+        // ==============================
+        // 10. ID PROOF UPLOAD
+        // ==============================
 
         let idProofURL = "";
 
@@ -549,17 +639,11 @@ window.signup = async () => {
 
             idProofURL =
                 await getDownloadURL(idRef);
-
-            console.log(
-                "ID proof uploaded:",
-                idProofURL
-            );
         }
 
-
-        // =================================================
-        // 9. FIRESTORE ADMIN DATA SAVE
-        // =================================================
+        // ==============================
+        // 11. FIRESTORE ADMIN DATA
+        // ==============================
 
         await setDoc(
             doc(db, "admins", user.uid),
@@ -596,47 +680,68 @@ window.signup = async () => {
             }
         );
 
-
         console.log(
-            "Admin data saved to Firestore."
+            "✅ Admin Firestore document created."
         );
 
-
-        // =================================================
-        // 10. SEND FIREBASE EMAIL VERIFICATION
-        // =================================================
+        // ==============================
+        // 12. FIREBASE EMAIL VERIFICATION
+        // ==============================
 
         await sendEmailVerification(user);
 
+        // ==============================
+        // 13. SUCCESS SWEETALERT
+        // ==============================
 
-        // =================================================
-        // 11. SUCCESS
-        // =================================================
+        await Swal.fire({
+            icon: "success",
+            title: "🎉 Admin Account Created",
+            html: `
+                <div style="text-align:left">
+                    <b>Admin:</b> ${adminName}<br>
+                    <b>Email:</b> ${emailValue}<br>
+                    <b>Status:</b> Pending Approval<br><br>
 
-        await showSuccess(
-            "Admin account created successfully. Verification email has been sent.",
-            "Admin Created"
-        );
+                    Verification email has been sent to your email address.
+                    <br><br>
 
+                    Please verify your email and wait for owner approval.
+                </div>
+            `,
+            confirmButtonText: "OK",
+            confirmButtonColor: "#d4af37"
+        });
 
-        // =================================================
-        // 12. LOGOUT AFTER ACCOUNT CREATION
-        // =================================================
+        // ==============================
+        // 14. LOGOUT
+        // ==============================
 
         await signOut(auth);
 
+        // ==============================
+        // 15. RESET FORM
+        // ==============================
+
+        document
+            .getElementById("adminRegistrationForm")
+            ?.reset();
+
+        otpVerified = false;
 
     } catch (e) {
 
         console.error(
-            "Admin signup error:",
+            "❌ Admin signup error:",
             e
         );
 
+        // Loading SweetAlert close
+        Swal.close();
 
-        // =================================================
-        // CLEANUP
-        // =================================================
+        // ==============================
+        // CLEANUP AUTH ACCOUNT
+        // ==============================
 
         if (user) {
 
@@ -657,10 +762,9 @@ window.signup = async () => {
             }
         }
 
-
-        // =================================================
-        // ERROR MESSAGE
-        // =================================================
+        // ==============================
+        // ERROR SWEETALERT
+        // ==============================
 
         if (e.code === "auth/email-already-in-use") {
 
@@ -669,7 +773,27 @@ window.signup = async () => {
                 "Account Already Exists"
             );
 
-        } else {
+        }
+
+        else if (e.code === "auth/invalid-email") {
+
+            showError(
+                "Please enter a valid email address.",
+                "Invalid Email"
+            );
+
+        }
+
+        else if (e.code === "auth/weak-password") {
+
+            showError(
+                "Firebase rejected this password. Please use a stronger password.",
+                "Weak Password"
+            );
+
+        }
+
+        else {
 
             showError(
                 e.message ||
