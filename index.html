@@ -611,50 +611,151 @@
 
         </div>
     </div>
-    <!-- ================= TICKET BOOKING PREMIUM ================= -->
-    <section id="ticket" class="ticket-section py-5">
+    
 
-        <div class="container text-center">
+    
+<!-- ================= TICKET BOOKING PREMIUM ================= -->
+<section id="ticket" class="ticket-section py-5">
+  <div class="container">
 
-            <h2 class="text-warning mb-4">🎟 Book Your Ticket</h2>
+    <div class="text-center">
+      <h2 class="text-warning mb-2">🎟 Book Your Event Ticket</h2>
+      <p class="text-light mb-4">
+        Ratha Yatra 2026 — Rairangpur Block Padia
+      </p>
+    </div>
 
-            <div class="row g-4">
+    <!-- Ticket pass cards -->
+    <div class="row g-4 mb-5">
 
-                <!-- CARD 1 -->
-                <div class="col-md-4">
-                    <div class="ticket-card">
-                        <h3>🎫 General</h3>
-                        <p>Entry Pass</p>
-                        <h4>₹499</h4>
-                        <button type="button" onclick="bookNow()">Book Now</button>
-                    </div>
-                </div>
+      <div class="col-md-4">
+        <div class="ticket-card text-center">
+          <h3>🎫 General Pass</h3>
+          <p>Regular event entry</p>
+          <h4>₹499</h4>
+          <button type="button" onclick="selectTicket('General')">
+            Select General Pass
+          </button>
+        </div>
+      </div>
 
-                <!-- CARD 2 -->
-                <div class="col-md-4">
-                    <div class="ticket-card vip">
-                        <h3>👑 VIP</h3>
-                        <p>Front Seat + Special Entry</p>
-                        <h4>₹999</h4>
-                        <button type="button" onclick="bookNow()">Book Now</button>
-                    </div>
-                </div>
+      <div class="col-md-4">
+        <div class="ticket-card vip text-center">
+          <h3>👑 VIP Pass</h3>
+          <p>Front seat + special entry</p>
+          <h4>₹999</h4>
+          <button type="button" onclick="selectTicket('VIP')">
+            Select VIP Pass
+          </button>
+        </div>
+      </div>
 
-                <!-- CARD 3 -->
-                <div class="col-md-4">
-                    <div class="ticket-card group">
-                        <h3>👥 Group</h3>
-                        <p>Minimum 5 People</p>
-                        <h4>₹399</h4>
-                        <button type="button" onclick="bookNow()">Book Now</button>
-                    </div>
-                </div>
+      <div class="col-md-4">
+        <div class="ticket-card group text-center">
+          <h3>👥 Group Pass</h3>
+          <p>Minimum 5 people · ₹399 per person</p>
+          <h4>₹399 / Person</h4>
+          <button type="button" onclick="selectTicket('Group')">
+            Select Group Pass
+          </button>
+        </div>
+      </div>
 
-            </div>
+    </div>
 
+    <!-- Ticket details + Email OTP -->
+    <div id="ticketFormBox" class="gold-premium-card mx-auto" style="max-width:650px;">
+      <h3 class="text-center text-warning">Complete Your Ticket Booking</h3>
+
+      <p id="selectedTicketText" class="text-center text-light">
+        Please select a pass above.
+      </p>
+
+      <!-- Pass selection: index.js uses name="ticketType" -->
+      <div class="mb-3">
+        <label class="pass-box">
+          <input type="radio" name="ticketType" value="General">
+          🎫 General Pass — ₹499
+        </label>
+
+        <label class="pass-box">
+          <input type="radio" name="ticketType" value="VIP">
+          👑 VIP Pass — ₹999
+        </label>
+
+        <label class="pass-box">
+          <input type="radio" name="ticketType" value="Group">
+          👥 Group Pass — ₹399 / Person
+        </label>
+      </div>
+
+      <input type="text" id="ticketName" placeholder="Full Name">
+
+      <input type="tel" id="ticketPhone"
+        placeholder="10 Digit Mobile Number"
+        maxlength="10">
+
+      <small id="phoneWarning" style="color:red; display:none;">
+        Only 10 digit mobile number allowed
+      </small>
+
+      <input type="email" id="ticketEmail"
+        placeholder="Email Address for OTP">
+
+      <select id="ticketQuantity">
+        <option value="">Select Number of Tickets</option>
+        <option value="1">1 Ticket</option>
+        <option value="2">2 Tickets</option>
+        <option value="3">3 Tickets</option>
+        <option value="4">4 Tickets</option>
+        <option value="5">5 Tickets</option>
+      </select>
+
+      <!-- OTP send button -->
+      <button id="sendOtpBtn" class="send-otp-btn"
+        type="button" onclick="sendOTP()">
+        Send Email OTP
+      </button>
+
+      <!-- OTP verification area -->
+      <div id="otpSection" style="display:none;" class="mt-3">
+        <input type="text" id="ticketOTP"
+          maxlength="6"
+          inputmode="numeric"
+          placeholder="Enter 6 Digit OTP">
+
+        <button type="button" id="verifyOtpBtn"
+          class="btn btn-success w-100 mt-2"
+          onclick="verifyOTP()">
+          Verify OTP
+        </button>
+
+        <div class="text-center mt-2">
+          <span id="otpTimer" style="color:white;"></span>
+
+          <button type="button" id="resendOtpLink"
+            onclick="resendOTP()"
+            style="display:none; color:#ffc107; background:none; border:none;">
+            Resend OTP
+          </button>
         </div>
 
-    </section>
+        <div id="otpVerifiedMessage"
+          style="display:none; color:#00ff88; text-align:center; margin-top:10px; font-weight:bold;">
+          ✓ OTP Verified Successfully
+        </div>
+      </div>
+
+      <!-- Payment button: OTP verified hone ke baad hi payNow() payment allow karega -->
+      <button type="button" class="btn btn-warning w-100 mt-3"
+        onclick="bookNow()">
+        Proceed to Payment
+      </button>
+
+    </div>
+  </div>
+</section>
+
 
 
 

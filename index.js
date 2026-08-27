@@ -2975,6 +2975,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+// ================= SELECT TICKET PASS =================
+window.selectTicket = function (ticketType) {
+    const radio = document.querySelector(
+        `input[name="ticketType"][value="${ticketType}"]`
+    );
+
+    if (radio) {
+        radio.checked = true;
+    }
+
+    const ticketPrices = {
+        General: "₹499",
+        VIP: "₹999",
+        Group: "₹399 / Person"
+    };
+
+    const selectedTicketText =
+        document.getElementById("selectedTicketText");
+
+    if (selectedTicketText) {
+        selectedTicketText.innerHTML =
+            `<b>${ticketType} Pass Selected</b><br>Price: <b>${ticketPrices[ticketType]}</b>`;
+    }
+
+    document.getElementById("ticketFormBox").scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+};
+
+
+
 
 
 window.bookNow = function () {
