@@ -664,6 +664,32 @@ function startOtpTimer() {
 
 window.resendOTP = async function () {
 
+
+    // ================= RESEND COOLDOWN CHECK =================
+
+    const now = Date.now();
+
+    if (
+        lastResendTime !== 0 &&
+        now - lastResendTime < resendCooldown * 1000
+    ) {
+
+        const remaining = Math.ceil(
+            (
+                resendCooldown * 1000 -
+                (now - lastResendTime)
+            ) / 1000
+        );
+
+        Swal.fire(
+            "Please Wait",
+            `Please wait ${remaining} seconds before requesting another OTP.`,
+            "warning"
+        );
+
+        return;
+    }
+
     // ================= USER DETAILS =================
 
     const name =
@@ -789,6 +815,13 @@ window.resendOTP = async function () {
         }
 
 
+        // ================= RESEND SUCCESS =================
+
+        // 🔴 ADD THESE TWO LINES HERE
+        startOtpTimer();
+        lastResendTime = Date.now();
+
+
         Swal.fire(
             "Tribal Rhythm",
             "New OTP sent successfully.",
@@ -860,7 +893,7 @@ window.verifyOTP = async function () {
 
             return;
         }
-        localStorage.setItem("ticketId", data.ticketId);
+        // localStorage.setItem("ticketId", data.ticketId);
 
 
         localStorage.setItem(
@@ -2498,227 +2531,247 @@ window.payNow = async function () {
             // 9. RAZORPAY SUCCESS
             // =================================================
 
-            handler:
-                async function (response) {
+            handler: async function (response) {
 
-                    console.log(
-                        "RAZORPAY RESPONSE:",
-                        response
+                console.log("RAZORPAY RESPONSE:", response);
+
+                console.log("PAYMENT PHONE VALUE:", phone);
+                console.log("PAYMENT PHONE TYPE:", typeof phone);
+                console.log("PAYMENT PHONE LENGTH:", String(phone).length);
+
+                try {
+
+                    Swal.fire({
+                        title: "Verifying Payment...",
+                        text: "Please wait. Do not close this window.",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    // ================= VERIFY PAYMENT =================
+
+                    const verifyResponse = await fetch(
+                        `${API_URL}/verify-payment`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                razorpay_payment_id:
+                                    response.razorpay_payment_id,
+
+                                razorpay_order_id:
+                                    response.razorpay_order_id,
+
+                                razorpay_signature:
+                                    response.razorpay_signature,
+
+                                name: name,
+
+                                mobile: phone,
+
+                                email: email,
+
+                                ticketType: type,
+
+                                ticketQuantity: ticketQuantity
+
+                            })
+                        }
                     );
 
+                    // ================= SAFE RESPONSE =================
+
+                    const responseText =
+                        await verifyResponse.text();
+
+                    console.log(
+                        "VERIFY PAYMENT RAW RESPONSE:",
+                        responseText
+                    );
+
+                    let result;
+
                     try {
+                        result = JSON.parse(responseText);
+                    } catch (jsonError) {
 
-                        Swal.fire({
-
-                            title:
-                                "Verifying Payment...",
-
-                            text:
-                                "Please do not close this window.",
-
-                            allowOutsideClick:
-                                false,
-
-                            didOpen: () => {
-
-                                Swal.showLoading();
-
-                            }
-
-                        });
-
-                        // =====================================
-                        // 10. VERIFY PAYMENT
-                        // =====================================
-
-                        const verifyResponse =
-                            await fetch(
-                                `${API_URL}/verify-payment`,
-                                {
-
-                                    method: "POST",
-
-                                    headers: {
-
-                                        "Content-Type":
-                                            "application/json"
-
-                                    },
-
-                                    body:
-                                        JSON.stringify({
-
-                                            ...response,
-
-                                            name,
-
-                                            phone,
-
-                                            email,
-
-                                            ticketType:
-                                                type,
-
-                                            ticketQuantity:
-                                                ticketQuantity
-
-                                        })
-
-                                }
-                            );
-
-                        const result =
-                            await verifyResponse.json();
-
-                        console.log(
-                            "VERIFY PAYMENT RESPONSE:",
-                            result
+                        console.error(
+                            "VERIFY PAYMENT JSON ERROR:",
+                            jsonError
                         );
-
-                        if (
-                            !verifyResponse.ok ||
-                            !result.success
-                        ) {
-
-                            Swal.close();
-
-                            await Swal.fire(
-
-                                "Payment Verification Failed",
-
-                                result.message ||
-                                "Unable to verify payment.",
-
-                                "error"
-
-                            );
-
-                            return;
-
-                        }
-
-                        // =====================================
-                        // 11. PAYMENT SUCCESS
-                        // =====================================
 
                         Swal.close();
 
-                        // Save only verified state
-                        localStorage.setItem(
-                            "paymentVerified",
-                            "true"
+                        await Swal.fire(
+                            "Payment Successful",
+                            "Payment was successful, but the verification server returned an invalid response. Payment ID: " +
+                            response.razorpay_payment_id,
+                            "warning"
                         );
+
+                        return;
+                    }
+
+                    console.log(
+                        "VERIFY PAYMENT RESPONSE:",
+                        result
+                    );
+
+                    // ================= BACKEND ERROR =================
+
+                    if (!verifyResponse.ok || !result.success) {
+
+                        Swal.close();
+
+                        await Swal.fire(
+                            "Payment Verification Failed",
+                            result.message ||
+                            "Payment was received but verification failed.",
+                            "error"
+                        );
+
+                        return;
+                    }
+
+                    // ================= VERIFIED SUCCESS =================
+
+                    Swal.close();
+
+                    localStorage.setItem(
+                        "paymentVerified",
+                        "true"
+                    );
+
+                    if (result.ticketId) {
 
                         localStorage.setItem(
                             "ticketId",
                             result.ticketId
                         );
 
-                        // =====================================
-                        // 12. GENERATE PDF
-                        // =====================================
-
-                        generateTicketPDF(
-
-                            name,
-
-                            phone,
-
-                            type,
-
-                            response.razorpay_payment_id,
-
-                            result.ticketId
-
-                        );
-
-                        // =====================================
-                        // 13. FINAL SUCCESS
-                        // =====================================
-
-                        await Swal.fire({
-
-                            icon:
-                                "success",
-
-                            title:
-                                "Booking Successful 🎉",
-
-                            html: `
-
-                                <h3>
-                                    Ticket Booked Successfully
-                                </h3>
-
-                                <p>
-                                    Your payment has been
-                                    verified successfully.
-                                </p>
-
-                                <p>
-                                    🎟️ Ticket ID:
-                                    <b>
-                                        ${result.ticketId}
-                                    </b>
-                                </p>
-
-                                <p>
-                                    💰 Amount Paid:
-                                    <b>
-                                        ₹${result.amount}
-                                    </b>
-                                </p>
-
-                                <p>
-                                    📧 Email:
-                                    ${result.emailSent
-                                    ? "Sent ✅"
-                                    : "Failed ⚠️"
-                                }
-                                </p>
-
-                                <p>
-                                    📱 SMS:
-                                    ${result.smsSent
-                                    ? "Sent ✅"
-                                    : "Failed ⚠️"
-                                }
-                                </p>
-
-                                <p>
-                                    🎫 PDF Ticket Generated
-                                </p>
-
-                            `,
-
-                            confirmButtonText:
-                                "OK"
-
-                        });
-
-                    } catch (error) {
-
-                        console.error(
-                            "PAYMENT VERIFY ERROR:",
-                            error
-                        );
-
-                        Swal.close();
-
-                        await Swal.fire(
-
-                            "Verification Error",
-
-                            "Payment may have succeeded, but verification response was not received. Please contact support with your Razorpay Payment ID: " +
-                            response.razorpay_payment_id,
-
-                            "error"
-
-                        );
-
                     }
 
-                },
+                    // ================= GENERATE PDF =================
+
+                    generateTicketPDF(
+                        name,
+                        phone,
+                        type,
+                        response.razorpay_payment_id,
+                        result.ticketId,
+                        "Ratha Yatra 2026",
+                        "Rairangpur, Odisha",
+                        "16 July 2026",
+                        ticketQuantity,
+                        result.amount
+                    );
+
+                    // ================= FINAL SUCCESS =================
+
+                    await Swal.fire({
+
+                        icon: "success",
+
+                        title: "Booking Successful 🎉",
+
+                        html: `
+
+                <h3>
+                    Ticket Booked Successfully
+                </h3>
+
+                <p>
+                    Your payment has been
+                    verified successfully.
+                </p>
+
+                <p>
+                    🎟️ Ticket ID:
+                    <b>
+                        ${result.ticketId || "Generated"}
+                    </b>
+                </p>
+
+                <p>
+                    💰 Amount Paid:
+                    <b>
+                        ₹${result.amount || 0}
+                    </b>
+                </p>
+
+                <p>
+                    📧 Email:
+                    ${result.emailSent
+                                ? "Sent ✅"
+                                : "Failed ⚠️"
+                            }
+                </p>
+
+                <p>
+                    📱 SMS:
+                    ${result.smsSent
+                                ? "Sent ✅"
+                                : "Failed ⚠️"
+                            }
+                </p>
+
+                <p>
+                    🎫 PDF Ticket Generated
+                </p>
+
+            `,
+
+                        confirmButtonText: "OK"
+
+                    });
+
+                } catch (error) {
+
+                    console.error(
+                        "PAYMENT VERIFY ERROR:",
+                        error
+                    );
+
+                    Swal.close();
+
+                    await Swal.fire({
+
+                        icon: "warning",
+
+                        title: "Payment Successful",
+
+                        html: `
+                <p>
+                    Your payment may have been successful,
+                    but the verification response could not
+                    be received.
+                </p>
+
+                <p>
+                    <b>Razorpay Payment ID:</b><br>
+                    ${response.razorpay_payment_id}
+                </p>
+
+                <small>
+                    Please keep this Payment ID for support.
+                </small>
+            `,
+
+                        confirmButtonText: "OK"
+
+                    });
+
+                }
+
+            },
 
             // =================================================
             // 14. PAYMENT FAILED
@@ -2798,412 +2851,1131 @@ window.payNow = async function () {
 
 
 
+// =====================================================
+// PREMIUM TRIBAL RHYTHM TICKET PDF GENERATOR
+// =====================================================
+
 window.generateTicketPDF = function (
     name,
     phone,
     type,
     paymentId,
-    ticketId
+    ticketId,
+    eventName = "Tribal Rhythm Event",
+    venue = "Rairangpur, Odisha",
+    eventDate = "",
+    quantity = 1,
+    amount = 0
 ) {
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+    try {
 
-    const logo = new Image();
-    logo.src = "tribalweblogo.png";
+        // ===============================
+        // CHECK LIBRARIES
+        // ===============================
 
-    // ===============================
-    // PART 1 : PREMIUM HEADER DESIGN
-    // ===============================
+        if (!window.jspdf || !window.jspdf.jsPDF) {
+            console.error("jsPDF library not found.");
+            Swal.fire(
+                "PDF Error",
+                "PDF library is not loaded.",
+                "error"
+            );
+            return;
+        }
 
-
-    // Page Border
-    doc.setDrawColor(212, 175, 55);
-    doc.setLineWidth(2);
-    doc.roundedRect(5, 5, 200, 287, 5, 5);
-
-    // Inner Border
-    doc.setDrawColor(255, 215, 0);
-    doc.setLineWidth(0.5);
-    doc.roundedRect(8, 8, 194, 281, 4, 4);
-
-    // Header Background
-    doc.setFillColor(18, 18, 18);
-    doc.rect(5, 5, 200, 35, "F");
-
-    // Golden Line
-    doc.setDrawColor(255, 215, 0);
-    doc.setLineWidth(1.5);
-    doc.line(5, 40, 205, 40);
-
-    // Title
-    doc.setTextColor(255, 215, 0);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(22);
-    doc.text("TRIBAL RHYTHM", 60, 20);
-
-    // Subtitle
-    doc.setFontSize(11);
-    doc.text("OFFICIAL EVENT ENTRY PASS", 60, 28);
-
-    // Verified
-    doc.setFontSize(9);
-    doc.text("Verified Digital Ticket", 60, 34);
-
-    // Powered By
-    doc.setFontSize(8);
-    doc.setTextColor(220, 220, 220);
-    doc.text("Powered by Zentro Nex", 60, 38);
-
-    // Reset Text Color
-    doc.setTextColor(0, 0, 0);
-
-    // Divider
-    doc.setDrawColor(180, 180, 180);
-    doc.line(20, 48, 190, 48);
-
-    // User Information Title
-    doc.setFontSize(15);
-    doc.setFont("helvetica", "bold");
-    doc.text("ATTENDEE DETAILS", 20, 58);
-
-    // Normal Font
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-
-    // Details
-    doc.text("Name :", 20, 72);
-    doc.text(name, 60, 72);
-
-    doc.text("Phone :", 20, 82);
-    doc.text(phone, 60, 82);
-
-    doc.text("Ticket :", 20, 92);
-    doc.text(type, 60, 92);
-
-    doc.text("Payment ID :", 20, 102);
-    doc.text(paymentId, 60, 102);
-
-    // Event Box
-    doc.setFillColor(245, 245, 245);
-    doc.roundedRect(20, 112, 170, 42, 3, 3, "F");
-
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(13);
-    doc.text("EVENT DETAILS", 28, 122);
-
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(11);
-
-    doc.text("Event : Ratha Yatra 2026", 28, 132);
-    doc.text("Venue : Rairangpur, Odisha", 28, 140);
-    doc.text("Date : 16 July 2026", 28, 148);
-
-    // ==========================================
-    // PART 2 : WATERMARK + SECURITY BACKGROUND
-    // ==========================================
-    // Logo
-    doc.addImage(logo, "PNG", 15, 10, 28, 28);
-
-    // Light Gray Watermark
-    doc.setTextColor(235, 235, 235);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(28);
-
-    for (let y = 30; y <= 280; y += 35) {
-        doc.text("TRIBAL RHYTHM", 15, y, { angle: 45 });
-    }
-
-    // Reset Text Color
-    doc.setTextColor(0, 0, 0);
-
-    // ----------------------------
-    // SECURITY PATTERN
-    // ----------------------------
-
-    doc.setDrawColor(240, 240, 240);
-
-    for (let x = 10; x <= 200; x += 8) {
-        doc.line(x, 40, x, 285);
-    }
-
-    for (let y = 40; y <= 285; y += 8) {
-        doc.line(10, y, 200, y);
-    }
-
-    // ----------------------------
-    // GOLD SECURITY LINE
-    // ----------------------------
-
-    doc.setDrawColor(255, 215, 0);
-    doc.setLineWidth(0.8);
-
-    doc.line(15, 160, 195, 160);
-
-    // ----------------------------
-    // SECURITY CODE
-    // ----------------------------
-
-    const securityCode =
-        Math.random()
-            .toString(36)
-            .substring(2, 10)
-            .toUpperCase();
-
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(12);
-
-    doc.text(
-        "Security Code : " + securityCode,
-        20,
-        170
-    );
-
-    // ----------------------------
-    // UNIQUE TICKET ID
-    // ----------------------------
-
-    // const ticketId =
-    //     "TR-" +
-    //     Date.now();
-
-    doc.text(
-        "Ticket ID : " + ticketId,
-        20,
-        180
-    );
-
-    // ----------------------------
-    // VERIFIED STAMP
-    // ----------------------------
-
-    doc.setFillColor(0, 170, 70);
-    doc.circle(170, 170, 13, "F");
-
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(10);
-    doc.text("VERIFIED", 159, 172);
-
-    // Reset Color
-    doc.setTextColor(0, 0, 0);
-
-    // ----------------------------
-    // OFFICIAL SEAL
-    // ----------------------------
-
-    doc.setDrawColor(255, 180, 0);
-    doc.setLineWidth(1);
-
-    doc.circle(170, 210, 18);
-
-    doc.setFontSize(8);
-    doc.text("TRIBAL", 162, 206);
-    doc.text("RHYTHM", 160, 212);
-    doc.text("OFFICIAL", 160, 218);
+        if (typeof QRCode === "undefined") {
+            console.error("QRCode library not found.");
+            Swal.fire(
+                "PDF Error",
+                "QR Code library is not loaded.",
+                "error"
+            );
+            return;
+        }
 
 
-    // =======================================
-    // PART 3 : QR + SECURITY + FOOTER
-    // =======================================
+        const { jsPDF } = window.jspdf;
 
-    // Ticket Number
-    const ticketNumber =
-        "TR-" +
-        new Date().getFullYear() +
-        "-" +
-        Math.floor(Math.random() * 999999);
+        const doc = new jsPDF();
 
-    // QR Data
-    const qrData =
-        `TRIBAL RHYTHM
-Ticket No : ${ticketNumber}
+        // ===============================
+        // SAFE VALUES
+        // ===============================
+
+        name = String(name || "Guest");
+        phone = String(phone || "");
+        type = String(type || "General");
+        paymentId = String(paymentId || "N/A");
+        ticketId = String(ticketId || "N/A");
+        eventName = String(eventName || "Tribal Rhythm Event");
+        venue = String(venue || "Rairangpur, Odisha");
+        eventDate = String(eventDate || "Date Not Announced");
+        quantity = Number(quantity) || 1;
+        amount = Number(amount) || 0;
+
+
+        // ===============================
+        // LOGO
+        // ===============================
+
+        const logo = new Image();
+
+        logo.src = "tribalweblogo.png";
+
+        // const signature = new Image();
+        // signature.src = "rahul-signature.png";
+
+
+        // ===============================
+        // PAGE BORDER
+        // ===============================
+
+        doc.setDrawColor(212, 175, 55);
+        doc.setLineWidth(2);
+
+        doc.roundedRect(
+            5,
+            5,
+            200,
+            287,
+            5,
+            5
+        );
+
+
+        // ===============================
+        // INNER BORDER
+        // ===============================
+
+        doc.setDrawColor(255, 215, 0);
+        doc.setLineWidth(0.5);
+
+        doc.roundedRect(
+            8,
+            8,
+            194,
+            281,
+            4,
+            4
+        );
+
+
+        // ===============================
+        // HEADER BACKGROUND
+        // ===============================
+
+        doc.setFillColor(18, 18, 18);
+
+        doc.rect(
+            5,
+            5,
+            200,
+            35,
+            "F"
+        );
+
+
+        // ===============================
+        // GOLD HEADER LINE
+        // ===============================
+
+        doc.setDrawColor(255, 215, 0);
+        doc.setLineWidth(1.5);
+
+        doc.line(
+            5,
+            40,
+            205,
+            40
+        );
+
+
+        // ===============================
+        // HEADER TITLE
+        // ===============================
+
+        doc.setTextColor(255, 215, 0);
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(22);
+
+        doc.text(
+            "TRIBAL RHYTHM",
+            60,
+            20
+        );
+
+
+        // ===============================
+        // SUBTITLE
+        // ===============================
+
+        doc.setFontSize(11);
+
+        doc.text(
+            "OFFICIAL EVENT ENTRY PASS",
+            60,
+            28
+        );
+
+
+        // ===============================
+        // VERIFIED
+        // ===============================
+
+        doc.setFontSize(9);
+
+        doc.text(
+            "Verified Digital Ticket",
+            60,
+            34
+        );
+
+
+        // ===============================
+        // POWERED BY
+        // ===============================
+
+        doc.setFontSize(8);
+
+        doc.setTextColor(
+            220,
+            220,
+            220
+        );
+
+        doc.text(
+            "Powered by Zentro Nex",
+            60,
+            38
+        );
+
+
+        // ===============================
+        // RESET COLOR
+        // ===============================
+
+        doc.setTextColor(
+            0,
+            0,
+            0
+        );
+
+
+        // ===============================
+        // DIVIDER
+        // ===============================
+
+        doc.setDrawColor(
+            180,
+            180,
+            180
+        );
+
+        doc.line(
+            20,
+            48,
+            190,
+            48
+        );
+
+
+        // ===============================
+        // ATTENDEE DETAILS
+        // ===============================
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(15);
+
+        doc.text(
+            "ATTENDEE DETAILS",
+            20,
+            58
+        );
+
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.setFontSize(11);
+
+
+        // NAME
+
+        doc.text(
+            "Name :",
+            20,
+            70
+        );
+
+        doc.text(
+            name,
+            60,
+            70
+        );
+
+
+        // PHONE
+
+        doc.text(
+            "Phone :",
+            20,
+            80
+        );
+
+        doc.text(
+            phone,
+            60,
+            80
+        );
+
+
+        // TICKET
+
+        doc.text(
+            "Ticket :",
+            20,
+            90
+        );
+
+        doc.text(
+            type,
+            60,
+            90
+        );
+
+
+        // QUANTITY
+
+        doc.text(
+            "Quantity :",
+            20,
+            100
+        );
+
+        doc.text(
+            String(quantity),
+            60,
+            100
+        );
+
+
+        // PAYMENT ID
+
+        doc.text(
+            "Payment ID :",
+            20,
+            110
+        );
+
+        doc.setFontSize(9);
+
+        doc.text(
+            paymentId,
+            60,
+            110
+        );
+
+
+        // ===============================
+        // EVENT BOX
+        // ===============================
+
+        doc.setFillColor(
+            245,
+            245,
+            245
+        );
+
+        doc.roundedRect(
+            20,
+            120,
+            170,
+            42,
+            3,
+            3,
+            "F"
+        );
+
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(13);
+
+        doc.text(
+            "EVENT DETAILS",
+            28,
+            130
+        );
+
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.setFontSize(10);
+
+
+        // EVENT
+
+        doc.text(
+            "Event : " + eventName,
+            28,
+            140
+        );
+
+
+        // VENUE
+
+        doc.text(
+            "Venue : " + venue,
+            28,
+            148
+        );
+
+
+        // DATE
+
+        doc.text(
+            "Date : " + eventDate,
+            28,
+            156
+        );
+
+
+        // ===============================
+        // WATERMARK
+        // ===============================
+
+        doc.setTextColor(
+            235,
+            235,
+            235
+        );
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(28);
+
+
+        for (
+            let y = 30;
+            y <= 280;
+            y += 35
+        ) {
+
+            doc.text(
+                "TRIBAL RHYTHM",
+                15,
+                y,
+                {
+                    angle: 45
+                }
+            );
+
+        }
+
+
+        // ===============================
+        // RESET
+        // ===============================
+
+        doc.setTextColor(
+            0,
+            0,
+            0
+        );
+
+
+        // ===============================
+        // SECURITY GRID
+        // ===============================
+
+        doc.setDrawColor(
+            240,
+            240,
+            240
+        );
+
+        doc.setLineWidth(0.2);
+
+
+        for (
+            let x = 10;
+            x <= 200;
+            x += 8
+        ) {
+
+            doc.line(
+                x,
+                40,
+                x,
+                285
+            );
+
+        }
+
+
+        for (
+            let y = 40;
+            y <= 285;
+            y += 8
+        ) {
+
+            doc.line(
+                10,
+                y,
+                200,
+                y
+            );
+
+        }
+
+
+        // ===============================
+        // GOLD SECURITY LINE
+        // ===============================
+
+        doc.setDrawColor(
+            255,
+            215,
+            0
+        );
+
+        doc.setLineWidth(0.8);
+
+        doc.line(
+            15,
+            168,
+            195,
+            168
+        );
+
+
+        // ===============================
+        // SECURITY CODE
+        // ===============================
+
+        const securityCode =
+            Math.random()
+                .toString(36)
+                .substring(2, 10)
+                .toUpperCase();
+
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(11);
+
+        doc.text(
+            "Security Code : " +
+            securityCode,
+            20,
+            178
+        );
+
+
+        // ===============================
+        // TICKET ID
+        // ===============================
+
+        doc.text(
+            "Ticket ID : " +
+            ticketId,
+            20,
+            188
+        );
+
+
+        // ===============================
+        // VERIFIED STAMP
+        // ===============================
+
+        doc.setFillColor(
+            0,
+            170,
+            70
+        );
+
+        doc.circle(
+            170,
+            175,
+            13,
+            "F"
+        );
+
+
+        doc.setTextColor(
+            255,
+            255,
+            255
+        );
+
+        doc.setFontSize(9);
+
+        doc.text(
+            "VERIFIED",
+            158,
+            177
+        );
+
+
+        // ===============================
+        // RESET COLOR
+        // ===============================
+
+        doc.setTextColor(
+            0,
+            0,
+            0
+        );
+
+
+        // ===============================
+        // QR CODE DATA
+        // ===============================
+
+        const qrData =
+            `TRIBAL RHYTHM
+Event : ${eventName}
+Ticket ID : ${ticketId}
 Name : ${name}
 Phone : ${phone}
 Ticket : ${type}
-Payment : ${paymentId}`;
+Quantity : ${quantity}
+Amount : ₹${amount}
+Payment : ${paymentId}
+Security : ${securityCode}`;
 
-    // QR Container
-    const qrDiv = document.createElement("div");
 
-    new QRCode(qrDiv, {
-        text: qrData,
-        width: 80,
-        height: 80
-    });
+        // ===============================
+        // QR CONTAINER
+        // ===============================
 
-    // QR Image
-    const qrImage =
-        qrDiv.querySelector("img");
+        const qrDiv =
+            document.createElement("div");
 
-    if (qrImage) {
+        qrDiv.style.position =
+            "absolute";
 
-        doc.addImage(
-            qrImage.src,
-            "PNG",
-            145,
-            185,
+        qrDiv.style.left =
+            "-9999px";
+
+        document.body.appendChild(
+            qrDiv
+        );
+
+
+        // ===============================
+        // GENERATE QR
+        // ===============================
+
+        new QRCode(
+            qrDiv,
+            {
+                text: qrData,
+                width: 150,
+                height: 150,
+                correctLevel:
+                    QRCode.CorrectLevel.H
+            }
+        );
+
+
+        // ===============================
+        // ENTRY STATUS
+        // ===============================
+
+        doc.setTextColor(
+            0,
+            130,
+            0
+        );
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(13);
+
+        doc.text(
+            "ENTRY STATUS : VERIFIED",
+            20,
+            214
+        );
+
+
+        // ===============================
+        // RESET
+        // ===============================
+
+        doc.setTextColor(
+            0,
+            0,
+            0
+        );
+
+
+        // ===============================
+        // SECURITY NOTICE
+        // ===============================
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.setFontSize(9);
+
+
+        doc.text(
+            "✓ QR Verification Required",
+            20,
+            224
+        );
+
+
+        doc.text(
+            "✓ Duplicate Ticket Invalid",
+            20,
+            231
+        );
+
+
+        doc.text(
+            "✓ Tampered Ticket Rejected",
+            20,
+            238
+        );
+
+
+        doc.text(
+            "✓ Carry Valid Photo ID",
+            20,
+            245
+        );
+
+
+        // ===============================
+        // AMOUNT
+        // ===============================
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(11);
+
+        doc.text(
+            "Amount Paid : ₹" +
+            amount,
+            20,
+            252
+        );
+
+
+        // ===============================
+        // IMPORTANT RULES
+        // ===============================
+
+        doc.setDrawColor(
+            255,
+            215,
+            0
+        );
+
+        doc.setLineWidth(0.8);
+
+        doc.line(
+            20,
+            258,
+            190,
+            258
+        );
+
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(9);
+
+        doc.text(
+            "IMPORTANT RULES",
+            20,
+            266
+        );
+
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.setFontSize(7.5);
+
+
+        doc.text(
+            "• Carry a valid Photo ID.",
+            20,
+            272
+        );
+
+
+        doc.text(
+            "• QR Code must be scanned at entry.",
+            20,
+            277
+        );
+
+
+        doc.text(
+            "• Duplicate or edited tickets may be rejected.",
+            20,
+            282
+        );
+
+
+        // ===============================
+        // RAHUL SARDAR REAL HAND SIGNATURE
+        // ===============================
+
+        const signature = new Image();
+
+        signature.src = "rahul-signature.png";
+
+
+        // ===============================
+        // FOOTER
+        // ===============================
+
+        doc.setFontSize(7);
+
+        doc.setTextColor(
+            100,
+            100,
+            100
+        );
+
+        doc.text(
+            "Official Ticket - Tribal Rhythm",
+            20,
+            288
+        );
+
+
+        doc.text(
+            "TR-V3.0",
+            180,
+            288
+        );
+
+
+        // ===============================
+        // VIP BADGE
+        // ===============================
+
+        doc.setFillColor(
+            255,
+            215,
+            0
+        );
+
+        doc.circle(
+            180,
             40,
-            40);
+            10,
+            "F"
+        );
+
+
+        doc.setTextColor(
+            0,
+            0,
+            0
+        );
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(7);
+
+        doc.text(
+            type === "VIP"
+                ? "VIP"
+                : "PASS",
+            175,
+            42
+        );
+
+
+        // ===============================
+        // OFFICIAL SEAL
+        // ===============================
+
+        doc.setDrawColor(
+            255,
+            180,
+            0
+        );
+
+        doc.setLineWidth(1);
+
+        doc.circle(
+            180,
+            65,
+            12
+        );
+
+
+        doc.setFontSize(6.5);
+
+        doc.text(
+            "TRIBAL",
+            174,
+            62
+        );
+
+        doc.text(
+            "RHYTHM",
+            172,
+            66
+        );
+
+        doc.text(
+            "OFFICIAL",
+            171,
+            70
+        );
+
+
+        // ===============================
+        // LOGO LOAD
+        // ===============================
+
+        logo.onload = function () {
+
+            try {
+
+                doc.addImage(
+                    logo,
+                    "PNG",
+                    15,
+                    10,
+                    28,
+                    28
+                );
+
+            } catch (logoError) {
+
+                console.warn(
+                    "Logo could not be added:",
+                    logoError
+                );
+
+            }
+
+
+            // ===============================
+            // ADD QR CODE
+            // ===============================
+
+            setTimeout(
+                function () {
+
+                    try {
+
+                        const qrCanvas =
+                            qrDiv.querySelector(
+                                "canvas"
+                            );
+
+                        const qrImage =
+                            qrDiv.querySelector(
+                                "img"
+                            );
+
+
+                        if (qrCanvas) {
+
+                            doc.addImage(
+                                qrCanvas.toDataURL(
+                                    "image/png"
+                                ),
+                                "PNG",
+                                145,
+                                185,
+                                40,
+                                40
+                            );
+
+                        } else if (qrImage) {
+
+                            doc.addImage(
+                                qrImage.src,
+                                "PNG",
+                                145,
+                                185,
+                                40,
+                                40
+                            );
+
+                        }
+
+
+                    } catch (qrError) {
+
+                        console.error(
+                            "QR Error:",
+                            qrError
+                        );
+
+                    }
+
+
+                    // ===============================
+                    // REMOVE QR CONTAINER
+                    // ===============================
+
+                    qrDiv.remove();
+
+
+                    // ===============================
+                    // SAVE PDF
+                    // ===============================
+
+                    doc.save(
+                        "TribalRhythm-" +
+                        ticketId +
+                        ".pdf"
+                    );
+
+                },
+                300
+            );
+
+        };
+
+
+        // ===============================
+        // LOGO ERROR
+        // ===============================
+
+        logo.onerror = function () {
+
+            console.warn(
+                "Logo not loaded. Saving PDF without logo."
+            );
+
+
+            setTimeout(
+                function () {
+
+                    try {
+
+                        const qrCanvas =
+                            qrDiv.querySelector(
+                                "canvas"
+                            );
+
+                        const qrImage =
+                            qrDiv.querySelector(
+                                "img"
+                            );
+
+
+                        if (qrCanvas) {
+
+                            doc.addImage(
+                                qrCanvas.toDataURL(
+                                    "image/png"
+                                ),
+                                "PNG",
+                                145,
+                                185,
+                                40,
+                                40
+                            );
+
+                        } else if (qrImage) {
+
+                            doc.addImage(
+                                qrImage.src,
+                                "PNG",
+                                145,
+                                185,
+                                40,
+                                40
+                            );
+
+                        }
+
+                    } catch (error) {
+
+                        console.error(
+                            "QR Error:",
+                            error
+                        );
+
+                    }
+
+
+                    qrDiv.remove();
+
+
+                    doc.save(
+                        "TribalRhythm-" +
+                        ticketId +
+                        ".pdf"
+                    );
+
+                },
+                300
+            );
+
+        };
+
+    } catch (error) {
+
+        console.error(
+            "GENERATE PDF ERROR:",
+            error
+        );
+
+        Swal.fire(
+            "PDF Error",
+            "Unable to generate ticket PDF.",
+            "error"
+        );
 
     }
 
-    // Ticket Number
-    doc.setFontSize(11);
-    doc.setFont("helvetica", "bold");
-
-    doc.text(
-        "Ticket No : " + ticketNumber,
-        20,
-        195
-    );
-
-    // Entry Status
-    doc.setTextColor(0, 130, 0);
-
-    doc.setFontSize(14);
-
-    doc.text(
-        "ENTRY STATUS : VERIFIED",
-        20,
-        205
-    );
-
-    doc.setTextColor(0, 0, 0);
-
-    // Security Notice
-    doc.setFontSize(10);
-
-    doc.text(
-        "✓ QR Verification Required",
-        20,
-        218
-    );
-
-    doc.text(
-        "✓ Duplicate Ticket Invalid",
-        20,
-        226
-    );
-
-    doc.text(
-        "✓ Tampered Ticket Rejected",
-        20,
-        234
-    );
-
-    doc.text(
-        "✓ Carry Valid ID Proof",
-        20,
-        242
-    );
-
-    // Footer Line
-    doc.setDrawColor(255, 215, 0);
-
-    doc.line(
-        15,
-        255,
-        195,
-        255
-    );
-
-    // Footer
-    doc.setFontSize(9);
-
-    doc.text(
-        "Official Ticket - Tribal Rhythm",
-        20,
-        265
-    );
-
-    doc.setFontSize(8);
-
-    doc.text(
-        "Powered & Operated by Zentro Nex",
-        20,
-        271
-    );
-
-    doc.text(
-        "www.tribalrhythm.in",
-        20,
-        277
-    );
-
-    // Digital Signature
-    doc.setFont("courier", "bold");
-
-    doc.setFontSize(13);
-
-    doc.text(
-        "Authorized Signature",
-        135,
-        272
-    );
-
-
-    // =======================================
-    // PART 4 : FINAL PREMIUM FINISH
-    // =======================================
-
-    // Gold Hologram Badge
-    doc.setFillColor(255, 215, 0);
-    doc.circle(180, 40, 10, "F");
-
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(7);
-    doc.setFont("helvetica", "bold");
-    doc.text("VIP", 176, 42);
-
-    // Reset
-    doc.setTextColor(0, 0, 0);
-
-    // Official Seal
-    doc.setDrawColor(255, 180, 0);
-    doc.setLineWidth(1);
-
-    doc.circle(180, 65, 12);
-
-    doc.setFontSize(7);
-    doc.text("TRIBAL", 174, 62);
-    doc.text("RHYTHM", 172, 66);
-    doc.text("OFFICIAL", 171, 70);
-
-    // Premium Divider
-    doc.setDrawColor(255, 215, 0);
-    doc.setLineWidth(0.8);
-
-    doc.line(20, 248, 190, 248);
-
-    // Rules
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10);
-
-    doc.text("IMPORTANT RULES", 20, 255);
-
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(8);
-
-    doc.text("• Carry a valid Photo ID.", 20, 262);
-    doc.text("• QR Code must be scanned at entry.", 20, 267);
-    doc.text("• Ticket is valid for one person only.", 20, 272);
-    doc.text("• Screenshot or edited ticket may be rejected.", 20, 277);
-
-    // Version
-    doc.setFontSize(7);
-    doc.setTextColor(120, 120, 120);
-
-    doc.text("Ticket Version : TR-V2.0", 145, 286);
-
-    doc.setTextColor(0, 0, 0);
-
-    logo.onload = function () {
-
-        doc.addImage(logo, "PNG", 15, 8, 28, 28);
-
-        doc.save("TribalTicket.pdf");
-
-    };
 };
 
 
