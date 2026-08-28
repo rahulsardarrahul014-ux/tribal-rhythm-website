@@ -930,6 +930,21 @@ window.verifyOTP = async function () {
         document.getElementById("otpVerifiedMessage")
             .style.display = "block";
 
+        // ================= SHOW TICKET SECTION AFTER OTP =================
+
+        const ticketSection = document.getElementById("ticket");
+
+        if (ticketSection) {
+            ticketSection.style.display = "block";
+
+            setTimeout(() => {
+                ticketSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }, 300);
+        }
+
 
         Swal.fire(
             "Success",
@@ -2210,16 +2225,24 @@ window.goToTicket = function () {
     }
 
     // ================= ALL VALID =================
-    document.getElementById("ticket").scrollIntoView({
-        behavior: "smooth"
+
+    // OTP verified + all details filled
+    const ticketSection = document.getElementById("ticket");
+
+    if (!ticketSection) {
+        console.error("Ticket section not found.");
+        return;
+    }
+
+    ticketSection.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
     });
 
-    const section = document.getElementById("ticket");
-
-    section.style.border = "2px solid gold";
+    ticketSection.style.border = "2px solid gold";
 
     setTimeout(() => {
-        section.style.border = "none";
+        ticketSection.style.border = "none";
     }, 2000);
 };
 
