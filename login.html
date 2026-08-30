@@ -2139,20 +2139,65 @@ font-weight:600;">
                 // const maskedPhone = maskPhone(mobile);
 
                 await TribalAlert.fire({
-                    title: "📧 Email Verified",
+                    title: "📧 Email OTP Verified Successfully",
                     html: `
-        <b>Email OTP verified successfully.</b>
-        <br><br>
-        Now verify your phone number.
+        <div style="font-size:14px; line-height:1.6;">
+
+            <div style="
+                color:#00ff88;
+                font-size:16px;
+                font-weight:800;
+                margin-bottom:12px;
+            ">
+                ✓ Your Email has been verified successfully
+            </div>
+
+            <div style="
+                color:#ffffff;
+                margin-bottom:15px;
+            ">
+                Now you can verify your phone number.
+            </div>
+
+            <div style="
+                background:rgba(255,215,0,0.10);
+                border:1px solid rgba(255,215,0,0.35);
+                padding:12px;
+                border-radius:12px;
+                color:#FFD700;
+                font-weight:600;
+            ">
+                📱 Click <b>Send Phone OTP</b> to continue.
+            </div>
+
+        </div>
     `,
                     icon: "success",
-                    timer: 1800,
-                    showConfirmButton: false,
+                    confirmButtonText: "📱 Continue to Phone OTP",
                     allowOutsideClick: false,
                     allowEscapeKey: false
-                });
+                }).then(() => {
 
-                document.getElementById("sendPhoneOtpBtn").style.display = "block";
+                    /* ==========================================
+                       SHOW PHONE OTP BUTTON
+                    ========================================== */
+
+                    const phoneButton =
+                        document.getElementById("sendPhoneOtpBtn");
+
+                    if (phoneButton) {
+
+                        phoneButton.style.display = "block";
+
+                        /* Scroll smoothly to Phone OTP button */
+                        phoneButton.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+
+                    }
+
+                });
 
 
             } catch (error) {
