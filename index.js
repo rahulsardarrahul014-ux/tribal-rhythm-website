@@ -1601,48 +1601,396 @@ function escapeHTML(value) {
 }
 
 
+// =====================================================
+// NEWS SYSTEM
+// =====================================================
+
+// ================= LOAD LATEST NEWS =================
+
 async function loadNews() {
+
+    const marquee =
+        document.getElementById("newsMarquee");
+
+    if (!marquee) {
+        console.warn("newsMarquee element not found.");
+        return;
+    }
 
     try {
 
         const snapshot =
-            await getDocs(collection(db, "news"));
+            await getDocs(
+                collection(db, "news")
+            );
 
         let newsHTML = "";
 
-        snapshot.forEach(doc => {
+        snapshot.forEach((newsDoc) => {
 
-            const data = doc.data();
+            const data =
+                newsDoc.data();
+
+            const text =
+                String(data.text || "").trim();
+
+            if (!text) return;
 
             newsHTML += `
                 <span class="news-item">
-                    🔥 ${escapeHTML(data.text || "")}
+                    🔥 ${escapeHTML(text)}
                 </span>
             `;
 
         });
 
-        document.getElementById("newsMarquee").innerHTML =
-            newsHTML ||
-            `
+
+        // ================= NEWS AVAILABLE =================
+
+        if (newsHTML.trim()) {
+
+            marquee.innerHTML =
+                newsHTML;
+
+        }
+
+        // ================= NO NEWS =================
+
+        else {
+
+            marquee.innerHTML = `
                 <span class="news-item">
+
                     🛕 Welcome to Tribal Rhythm 2026 |
+
                     📍 Padia, Rairangpur Block |
+
                     📅 16 July 2026 – 24 July 2026 |
+
                     🎭 Traditional Dance • Music • Culture • Food • Exhibition |
+
                     🙏 Jai Jagannath 🙏
+
                 </span>
             `;
 
+        }
+
     } catch (error) {
 
-        console.error("News Error:", error);
+        console.error(
+            "News Loading Error:",
+            error
+        );
 
-        document.getElementById("newsMarquee").innerHTML =
-            "Failed To Load News";
+        marquee.innerHTML = `
+            <span class="news-item">
+                📢 Unable to load latest news.
+            </span>
+        `;
 
     }
+
 }
+
+
+
+// =====================================================
+// OPEN OLD NEWS HISTORY
+// =====================================================
+
+window.openNewsHistory = async function () {
+
+    const modal =
+        document.getElementById(
+            "newsHistoryModal"
+        );
+
+    const list =
+        document.getElementById(
+            "oldNewsList"
+        );
+
+
+    if (!modal || !list) {
+
+        console.error(
+            "News History HTML elements not found."
+        );
+
+        return;
+
+    }
+
+
+    // ================= OPEN MODAL =================
+
+    modal.style.display =
+        "flex";
+
+
+    // ================= LOADING =================
+
+    list.innerHTML = `
+        <p class="text-light text-center">
+            ⏳ Loading old news...
+        </p>
+    `;
+
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(db, "news")
+            );
+
+
+        // ================= NO NEWS =================
+
+        if (snapshot.empty) {
+
+            list.innerHTML = `
+                <p class="text-light text-center">
+                    📰 No news available.
+                </p>
+            `;
+
+            return;
+
+        }
+
+
+        let oldNewsHTML = "";
+
+
+        // ================= ALL NEWS =================
+
+        snapshot.forEach((newsDoc) => {
+
+            const data =
+                newsDoc.data();
+
+
+            const text =
+                String(
+                    data.text ||
+                    "News Update"
+                ).trim();
+
+
+            if (!text) return;
+
+
+            // ================= DATE =================
+
+            let dateText = "";
+
+
+            if (data.createdAt) {
+
+                try {
+
+                    let newsDate;
+
+
+                    // Firestore Timestamp
+
+                    if (
+                        typeof data.createdAt.toDate ===
+                        "function"
+                    ) {
+
+                        newsDate =
+                            data.createdAt.toDate();
+
+                    }
+
+                    // JavaScript Date / String
+
+                    else {
+
+                        newsDate =
+                            new Date(
+                                data.createdAt
+                            );
+
+                    }
+
+
+                    if (
+                        !Number.isNaN(
+                            newsDate.getTime()
+                        )
+                    ) {
+
+                        dateText =
+                            newsDate.toLocaleDateString(
+                                "en-IN",
+                                {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric"
+                                }
+                            );
+
+                    }
+
+                } catch (dateError) {
+
+                    console.warn(
+                        "News date error:",
+                        dateError
+                    );
+
+                }
+
+            }
+
+
+            oldNewsHTML += `
+
+                <div
+                    class="news-history-item"
+                    style="
+                        padding:15px;
+                        margin-bottom:12px;
+                        border:1px solid rgba(255,215,0,0.35);
+                        border-radius:12px;
+                        background:rgba(255,255,255,0.05);
+                    "
+                >
+
+                    <div
+                        class="news-history-text"
+                        style="
+                            color:#ffffff;
+                            font-size:15px;
+                            line-height:1.6;
+                        "
+                    >
+
+                        📰
+                        ${escapeHTML(text)}
+
+                    </div>
+
+
+                    ${
+                        dateText
+                            ? `
+                                <div
+                                    class="news-history-date"
+                                    style="
+                                        color:#ffd700;
+                                        font-size:12px;
+                                        margin-top:8px;
+                                    "
+                                >
+                                    📅 ${dateText}
+                                </div>
+                            `
+                            : ""
+                    }
+
+                </div>
+
+            `;
+
+        });
+
+
+        // ================= DISPLAY =================
+
+        if (oldNewsHTML.trim()) {
+
+            list.innerHTML =
+                oldNewsHTML;
+
+        } else {
+
+            list.innerHTML = `
+                <p class="text-light text-center">
+                    📰 No news available.
+                </p>
+            `;
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "News History Error:",
+            error
+        );
+
+
+        list.innerHTML = `
+            <p
+                class="text-danger text-center"
+            >
+                ❌ Failed to load old news.
+            </p>
+        `;
+
+    }
+
+};
+
+
+
+// =====================================================
+// CLOSE OLD NEWS HISTORY
+// =====================================================
+
+window.closeNewsHistory = function () {
+
+    const modal =
+        document.getElementById(
+            "newsHistoryModal"
+        );
+
+
+    if (modal) {
+
+        modal.style.display =
+            "none";
+
+    }
+
+};
+
+
+
+// =====================================================
+// CLOSE MODAL WHEN CLICKING OUTSIDE
+// =====================================================
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const modal =
+            document.getElementById(
+                "newsHistoryModal"
+            );
+
+
+        if (!modal) return;
+
+
+        if (
+            event.target === modal
+        ) {
+
+            modal.style.display =
+                "none";
+
+        }
+
+    }
+);
 
 
 // load up coming section
@@ -1738,38 +2086,89 @@ async function loadUpcoming() {
 window.loadUpcoming = loadUpcoming;
 
 function updateCountdown() {
+
     document.querySelectorAll(".countdown").forEach((card) => {
+
         const startTime = Number(card.dataset.start);
         const endTime = Number(card.dataset.end);
         const now = Date.now();
 
+
+        // ================= DATE NOT AVAILABLE =================
+
         if (!startTime) {
-            card.innerHTML = "⚠️ Date not available";
+
+            card.innerHTML =
+                "⚠️ Date not available";
+
             return;
         }
 
+
+        // ================= PROGRAM NOT STARTED =================
+
         if (now < startTime) {
+
             let diff = startTime - now;
 
-            const days = Math.floor(diff / 86400000);
+            const days =
+                Math.floor(diff / 86400000);
+
             diff %= 86400000;
-            const hours = Math.floor(diff / 3600000);
+
+            const hours =
+                Math.floor(diff / 3600000);
+
             diff %= 3600000;
-            const minutes = Math.floor(diff / 60000);
-            const seconds = Math.floor((diff % 60000) / 1000);
+
+            const minutes =
+                Math.floor(diff / 60000);
+
+            const seconds =
+                Math.floor((diff % 60000) / 1000);
+
 
             card.innerHTML =
                 `⏳ Starts in: <b>${days}d ${hours}h ${minutes}m ${seconds}s</b>`;
+
             return;
         }
 
-        if (!endTime || now <= endTime) {
-            card.innerHTML = "🎉 Program is live now";
+
+        // ================= PROGRAM LIVE =================
+
+        if (endTime && now <= endTime) {
+
+            card.innerHTML =
+                "🎉 Program is live now";
+
             return;
         }
 
-        card.innerHTML = "❌ Program Ended";
+
+        // ================= PROGRAM ENDED =================
+
+        card.innerHTML = `
+            <div style="
+                color:#ffd700;
+                font-weight:700;
+                line-height:1.6;
+            ">
+                📅 Program Ended
+                <br>
+
+                <span style="
+                    color:#ffffff;
+                    font-weight:500;
+                ">
+                    New program is announced soon by
+                    Tribal Rhythm Team.
+                </span>
+            </div>
+        `;
+
     });
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -4220,10 +4619,10 @@ document.addEventListener(
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//     updateCountdown();
+//     setInterval(updateCountdown, 1000);
+// });
 
 
 
@@ -4278,13 +4677,13 @@ window.bookNow = function () {
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
+// document.addEventListener("DOMContentLoaded", function () {
 
-    if (typeof window.loadUpcoming === "function") {
-        window.loadUpcoming();
-    }
+//     if (typeof window.loadUpcoming === "function") {
+//         window.loadUpcoming();
+//     }
 
-});
+// });
 
 
 
