@@ -1,322 +1,1580 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-    <!-- BASIC -->
+    <!-- ================= BASIC ================= -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Shipping & Delivery Policy | TribalRhythm</title>
+    <title>Shipping & Delivery Policy | TribalRhythm by Zentro Nex</title>
 
-    <!-- SEO -->
+    <!-- ================= SEO ================= -->
     <meta name="description"
-        content="Official Shipping & Delivery Policy of TribalRhythm for digital tickets, registrations, competitions and online services.">
+        content="Official Shipping & Delivery Policy of TribalRhythm by Zentro Nex for digital tickets, registrations, competitions and online services.">
 
     <meta name="keywords"
-        content="TribalRhythm Shipping Policy, Digital Ticket Delivery, Event Registration, Competition Ticket">
+        content="TribalRhythm Shipping Policy, Zentro Nex, Digital Ticket Delivery, Event Registration, Competition Ticket">
 
-    <meta name="author" content="TribalRhythm">
+    <meta name="author" content="TribalRhythm by Zentro Nex">
 
     <meta name="robots" content="index,follow">
 
     <meta name="theme-color" content="#0a0a0a">
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Shipping & Delivery Policy | TribalRhythm">
+    <!-- ================= OPEN GRAPH ================= -->
+    <meta property="og:title"
+        content="Shipping & Delivery Policy | TribalRhythm by Zentro Nex">
+
     <meta property="og:description"
-        content="Official Digital Shipping & Delivery Policy of TribalRhythm.">
+        content="Official Shipping & Delivery Policy of TribalRhythm by Zentro Nex.">
+
     <meta property="og:type" content="website">
 
-    <!-- Twitter -->
+    <!-- ================= TWITTER ================= -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Shipping & Delivery Policy | TribalRhythm">
-    <meta name="twitter:description"
-        content="Digital ticket and registration delivery policy of TribalRhythm.">
 
-    <!-- Favicon -->
+    <meta name="twitter:title"
+        content="Shipping & Delivery Policy | TribalRhythm by Zentro Nex">
+
+    <meta name="twitter:description"
+        content="Digital ticket and registration delivery policy of TribalRhythm by Zentro Nex.">
+
+    <!-- ================= FAVICON ================= -->
     <link rel="icon" type="image/png" href="logo.png">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <!-- ================= GOOGLE FONT ================= -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Noto+Sans+Oriya:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- ================= BOOTSTRAP ================= -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- ================= STYLE ================= -->
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            background: #0b0b0b;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
+        html {
+            scroll-behavior: smooth;
         }
 
-        .container {
-            max-width: 1000px;
+        body {
+
+            background:
+                radial-gradient(circle at top right,
+                    rgba(255, 215, 0, 0.08),
+                    transparent 30%),
+
+                radial-gradient(circle at bottom left,
+                    rgba(30, 144, 255, 0.07),
+                    transparent 30%),
+
+                #080808;
+
+            color: #ffffff;
+
+            font-family: 'Poppins',
+                'Noto Sans Devanagari',
+                'Noto Sans Oriya',
+                sans-serif;
+
+            min-height: 100vh;
+        }
+
+        /* ================= HEADER ================= */
+
+        .top-header {
+
+            width: 100%;
+
+            padding: 18px 20px;
+
+            border-bottom: 1px solid
+                rgba(255,255,255,0.10);
+
+            background:
+                rgba(5,5,5,0.92);
+
+            backdrop-filter: blur(15px);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+        .header-inner {
+
+            max-width: 1100px;
+
             margin: auto;
-            padding: 45px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        /* ================= LOGO ================= */
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            text-decoration: none;
+
+            color: white;
+        }
+
+        .brand img {
+
+            width: 52px;
+
+            height: 52px;
+
+            object-fit: contain;
+
+            border-radius: 12px;
+
+            filter:
+                drop-shadow(0 0 8px
+                rgba(255,215,0,0.25));
+        }
+
+        .brand-text {
+
+            display: flex;
+
+            flex-direction: column;
+
+            line-height: 1.2;
+        }
+
+        .brand-name {
+
+            color: #FFD700;
+
+            font-size: 20px;
+
+            font-weight: 700;
+        }
+
+        .brand-powered {
+
+            color: #a5a5a5;
+
+            font-size: 11px;
+
+            letter-spacing: .5px;
+        }
+
+        .zentro {
+
+            color: #ffffff;
+
+            font-weight: 600;
+        }
+
+        /* ================= LANGUAGE ================= */
+
+        .language-box {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 5px;
+
+            border: 1px solid
+                rgba(255,255,255,0.15);
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,255,255,0.04);
+        }
+
+        .lang-btn {
+
+            border: none;
+
+            background: transparent;
+
+            color: #bdbdbd;
+
+            padding: 7px 10px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: 500;
+
+            transition: .25s;
+        }
+
+        .lang-btn:hover {
+
+            color: white;
+
+            background:
+                rgba(255,215,0,0.10);
+        }
+
+        .lang-btn.active {
+
+            background: #FFD700;
+
+            color: #080808;
+
+            font-weight: 700;
+
+        }
+
+        /* ================= MAIN ================= */
+
+        .container-main {
+
+            max-width: 1050px;
+
+            margin: auto;
+
+            padding: 55px 20px 40px;
         }
 
         .policy-card {
-            background: rgba(255,255,255,.05);
-            border: 1px solid rgba(255,255,255,.12);
-            border-radius: 20px;
-            padding: 35px;
-            box-shadow: 0 15px 40px rgba(0,0,0,.35);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.065),
+                    rgba(255,255,255,.025)
+                );
+
+            border: 1px solid
+                rgba(255,255,255,.12);
+
+            border-radius: 24px;
+
+            padding: 42px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0,0,0,.45);
+
+            backdrop-filter: blur(15px);
         }
+
+        /* ================= TITLE ================= */
 
         h1 {
+
             text-align: center;
-            color: gold;
-            margin-bottom: 10px;
+
+            color: #FFD700;
+
+            font-size: 36px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+
+            text-shadow:
+                0 0 18px
+                rgba(255,215,0,.18);
         }
 
+        .subtitle {
+
+            text-align: center;
+
+            color: #9ca3af;
+
+            font-size: 14px;
+
+            margin-bottom: 25px;
+        }
+
+        .intro {
+
+            color: #dedede;
+
+            line-height: 1.9;
+
+            font-size: 15px;
+        }
+
+        /* ================= SECTION ================= */
+
         h2 {
+
             color: #FFD700;
-            margin-top: 28px;
-            margin-bottom: 15px;
+
+            font-size: 22px;
+
+            margin-top: 34px;
+
+            margin-bottom: 14px;
+
+            font-weight: 600;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        h2::before {
+
+            content: "";
+
+            width: 4px;
+
+            height: 25px;
+
+            background: #FFD700;
+
+            border-radius: 5px;
+
+            display: inline-block;
         }
 
         p,
         li {
-            color: #d8d8d8;
+
+            color: #d7d7d7;
+
             line-height: 1.9;
+
+            font-size: 15px;
         }
 
         ul {
+
             margin-left: 22px;
+
+            margin-top: 8px;
         }
 
-        a {
-            color: #38bdf8;
-            text-decoration: none;
+        li {
+
+            margin-bottom: 8px;
+
+            padding-left: 4px;
         }
 
-        a:hover {
-            color: gold;
+        li::marker {
+
+            color: #FFD700;
+        }
+
+        strong,
+        b {
+
+            color: #ffffff;
         }
 
         hr {
-            border-color: rgba(255,255,255,.15);
+
+            border-color:
+                rgba(255,255,255,.14);
+
+            margin: 25px 0;
         }
 
-        footer {
-            margin-top: 40px;
+        /* ================= CONTACT ================= */
+
+        .contact-box {
+
+            margin-top: 15px;
+
+            padding: 22px;
+
+            border-radius: 16px;
+
+            border: 1px solid
+                rgba(255,215,0,.15);
+
+            background:
+                rgba(255,215,0,.035);
+        }
+
+        .contact-box a {
+
+            color: #38bdf8;
+
+            text-decoration: none;
+
+            transition: .2s;
+        }
+
+        .contact-box a:hover {
+
+            color: #FFD700;
+
+            text-decoration: underline;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+
             text-align: center;
-            color: #9ca3af;
-            font-size: 14px;
+
+            margin-top: 35px;
+
+            padding-top: 25px;
+
+            border-top: 1px solid
+                rgba(255,255,255,.10);
+
+            color: #8f8f8f;
+
+            font-size: 13px;
+
+            line-height: 1.8;
         }
 
-        @media (max-width:768px) {
+        .footer-brand {
+
+            color: #FFD700;
+
+            font-weight: 600;
+        }
+
+        .footer-zentro {
+
+            color: white;
+
+            font-weight: 600;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 768px) {
+
+            .top-header {
+
+                padding: 13px 14px;
+            }
+
+            .header-inner {
+
+                flex-direction: column;
+
+                gap: 12px;
+            }
+
+            .brand {
+
+                width: 100%;
+
+                justify-content: center;
+            }
+
+            .language-box {
+
+                width: 100%;
+
+                justify-content: center;
+            }
+
+            .container-main {
+
+                padding: 25px 12px;
+            }
 
             .policy-card {
-                padding: 22px;
+
+                padding: 24px 18px;
+
+                border-radius: 18px;
             }
 
             h1 {
-                font-size: 30px;
+
+                font-size: 28px;
             }
 
             h2 {
-                font-size: 22px;
+
+                font-size: 20px;
+            }
+
+            p,
+            li {
+
+                font-size: 14px;
+
+                line-height: 1.85;
             }
 
         }
 
+        /* ================= SMALL MOBILE ================= */
+
+        @media (max-width: 420px) {
+
+            .brand-name {
+
+                font-size: 18px;
+            }
+
+            .brand img {
+
+                width: 45px;
+
+                height: 45px;
+            }
+
+            .lang-btn {
+
+                padding: 7px 8px;
+
+                font-size: 12px;
+            }
+
+            h1 {
+
+                font-size: 24px;
+            }
+
+        }
+
+        /* ================= SCROLLBAR ================= */
+
         ::-webkit-scrollbar {
+
             width: 8px;
         }
 
+        ::-webkit-scrollbar-track {
+
+            background: #080808;
+        }
+
         ::-webkit-scrollbar-thumb {
-            background: gold;
+
+            background: #FFD700;
+
             border-radius: 10px;
         }
+
+        ::-webkit-scrollbar-thumb:hover {
+
+            background: #ffffff;
+        }
+
     </style>
 
 </head>
 
+
 <body>
 
-    <div class="container">
 
-        <div class="policy-card">
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-            <h1>Shipping & Delivery Policy</h1>
+    <header class="top-header">
 
-            <p style="text-align:center;">
-                Last Updated: August 2026
-            </p>
+        <div class="header-inner">
 
-            <hr>
+            <a href="index.html" class="brand">
 
-            <p>
+                <img
+                    src="logo.png"
+                    alt="TribalRhythm Logo">
 
-                Thank you for choosing <b>TribalRhythm</b>.
+                <div class="brand-text">
 
-                TribalRhythm is an online platform for dance competitions,
-                cultural events, registrations and digital ticket booking.
+                    <span class="brand-name">
+                        TribalRhythm
+                    </span>
 
-                We do not sell or deliver physical products. All services
-                are provided digitally.
+                    <span class="brand-powered">
+                        Powered by
+                        <span class="zentro">
+                            Zentro Nex
+                        </span>
+                    </span>
 
-            </p>
+                </div>
 
-            <h2>1. Nature of Delivery</h2>
+            </a>
 
-            <p>
 
-                TribalRhythm provides only digital services including:
+            <!-- LANGUAGE SWITCHER -->
 
-            </p>
+            <div class="language-box">
 
-            <ul>
+                <button
+                    class="lang-btn active"
+                    onclick="changeLanguage('en')"
+                    id="btn-en">
 
-                <li>Competition Registration</li>
+                    English
 
-                <li>Event Ticket Booking</li>
+                </button>
 
-                <li>Digital Ticket ID</li>
+                <button
+                    class="lang-btn"
+                    onclick="changeLanguage('hi')"
+                    id="btn-hi">
 
-                <li>Email Confirmation</li>
+                    हिंदी
 
-                <li>SMS Confirmation</li>
+                </button>
 
-                <li>Online Participation Details</li>
+                <button
+                    class="lang-btn"
+                    onclick="changeLanguage('od')"
+                    id="btn-od">
 
-            </ul>
+                    ଓଡ଼ିଆ
 
-            <h2>2. Delivery Time</h2>
+                </button>
 
-            <p>
-
-                After successful payment confirmation, your digital ticket,
-                registration confirmation or booking details are generally
-                delivered instantly or within a few minutes.
-
-            </p>
-
-            <p>
-
-                In rare situations due to internet issues, payment gateway
-                delays or server maintenance, delivery may take up to
-                <b>24 hours</b>.
-
-            </p>
-
-            <h2>3. Delivery Method</h2>
-
-            <p>
-
-                Your booking confirmation may be delivered through:
-
-            </p>
-
-            <ul>
-
-                <li>Email Confirmation</li>
-
-                <li>SMS Notification</li>
-
-                <li>Website Dashboard</li>
-
-                <li>Ticket ID displayed after successful payment</li>
-
-            </ul>
-
-            <h2>4. No Physical Shipping</h2>
-
-            <p>
-
-                TribalRhythm does not ship any physical goods,
-                products or printed tickets.
-
-                No courier, postal or logistics service is involved.
-
-            </p>
-
-            <h2>5. Incorrect Information</h2>
-
-            <p>
-
-                Users are responsible for providing the correct email
-                address and mobile number during registration.
-
-                TribalRhythm is not responsible for delivery failures
-                caused by incorrect information submitted by the user.
-
-            </p>
-
-            <h2>6. Failed Delivery</h2>
-
-            <p>
-
-                If you do not receive your confirmation within the expected
-                time, please:
-
-            </p>
-
-            <ul>
-
-                <li>Check your Spam/Junk email folder.</li>
-
-                <li>Verify your registered email address.</li>
-
-                <li>Verify your registered mobile number.</li>
-
-                <li>Contact TribalRhythm support.</li>
-
-            </ul>
-
-            <h2>7. Service Availability</h2>
-
-            <p>
-
-                Delivery times may be affected by scheduled maintenance,
-                internet outages, payment gateway processing delays,
-                or force majeure events beyond our control.
-
-            </p>
-
-            <h2>8. Contact Us</h2>
-
-            <p>
-
-                <strong>TribalRhythm</strong>
-
-                <br><br>
-
-                Email:
-
-                <a href="mailto:rahulsardarrahul014@gmail.com">
-                    rahulsardarrahul014@gmail.com
-                </a>
-
-                <br><br>
-
-                Phone:
-
-                <a href="tel:+917903946369">
-                    +91 7903946369
-                </a>
-
-            </p>
-
-            <footer>
-
-                © 2026 TribalRhythm. All Rights Reserved.
-
-            </footer>
+            </div>
 
         </div>
 
-    </div>
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="container-main">
+
+        <div class="policy-card">
+
+
+            <!-- =================================================
+                 ENGLISH
+            ================================================== -->
+
+            <div id="content-en" class="language-content">
+
+                <h1>
+                    Shipping & Delivery Policy
+                </h1>
+
+                <div class="subtitle">
+                    Last Updated: August 2026
+                </div>
+
+                <hr>
+
+                <p class="intro">
+
+                    Thank you for choosing
+                    <b>TribalRhythm</b>.
+
+                    TribalRhythm is an online platform for
+                    dance competitions, cultural events,
+                    registrations and digital ticket booking.
+
+                    TribalRhythm does not sell or deliver
+                    physical products. All applicable services
+                    are provided digitally.
+
+                </p>
+
+
+                <h2>
+                    1. Nature of Delivery
+                </h2>
+
+                <p>
+                    TribalRhythm provides digital services
+                    including:
+                </p>
+
+                <ul>
+
+                    <li>Competition Registration</li>
+
+                    <li>Event Ticket Booking</li>
+
+                    <li>Digital Ticket ID</li>
+
+                    <li>Email Confirmation</li>
+
+                    <li>SMS Confirmation</li>
+
+                    <li>Online Participation Details</li>
+
+                    <li>Digital Certificates, where applicable</li>
+
+                </ul>
+
+
+                <h2>
+                    2. Delivery Time
+                </h2>
+
+                <p>
+
+                    After successful payment confirmation,
+                    your digital ticket, registration
+                    confirmation or booking details are
+                    generally delivered instantly or within
+                    a few minutes.
+
+                </p>
+
+                <p>
+
+                    In rare situations caused by internet
+                    issues, payment gateway delays, technical
+                    problems or scheduled maintenance,
+                    delivery may take up to
+                    <b>24 hours</b>.
+
+                </p>
+
+
+                <h2>
+                    3. Delivery Method
+                </h2>
+
+                <p>
+                    Your booking or registration confirmation
+                    may be delivered through:
+                </p>
+
+                <ul>
+
+                    <li>Email Confirmation</li>
+
+                    <li>SMS Notification</li>
+
+                    <li>Website Dashboard</li>
+
+                    <li>Ticket ID displayed after successful payment</li>
+
+                    <li>Other digital communication methods
+                        provided by TribalRhythm</li>
+
+                </ul>
+
+
+                <h2>
+                    4. No Physical Shipping
+                </h2>
+
+                <p>
+
+                    TribalRhythm does not ship any physical
+                    goods, products or printed tickets.
+
+                    No courier, postal or logistics service
+                    is involved in the delivery of our
+                    digital services.
+
+                </p>
+
+
+                <h2>
+                    5. Incorrect Information
+                </h2>
+
+                <p>
+
+                    Users are responsible for providing
+                    accurate and complete information,
+                    including their email address and mobile
+                    number, during registration or booking.
+
+                    TribalRhythm is not responsible for
+                    delivery failures caused by incorrect,
+                    incomplete or outdated information
+                    submitted by the user.
+
+                </p>
+
+
+                <h2>
+                    6. Failed or Delayed Delivery
+                </h2>
+
+                <p>
+
+                    If you do not receive your confirmation
+                    within the expected time, please:
+
+                </p>
+
+                <ul>
+
+                    <li>Check your Spam or Junk email folder.</li>
+
+                    <li>Verify your registered email address.</li>
+
+                    <li>Verify your registered mobile number.</li>
+
+                    <li>Check your TribalRhythm account/dashboard.</li>
+
+                    <li>Contact TribalRhythm support.</li>
+
+                </ul>
+
+
+                <h2>
+                    7. Service Availability
+                </h2>
+
+                <p>
+
+                    Delivery times may be affected by scheduled
+                    maintenance, internet outages, payment
+                    gateway processing delays, server issues,
+                    third-party service interruptions or other
+                    force majeure events beyond our reasonable
+                    control.
+
+                </p>
+
+
+                <h2>
+                    8. Payment Confirmation
+                </h2>
+
+                <p>
+
+                    Digital delivery is initiated only after
+                    successful payment confirmation where
+                    payment is required.
+
+                    If a payment is pending, failed, reversed
+                    or not confirmed by the payment gateway,
+                    the associated digital service may not be
+                    delivered until the payment status is
+                    successfully verified.
+
+                </p>
+
+
+                <h2>
+                    9. Contact Us
+                </h2>
+
+                <div class="contact-box">
+
+                    <strong>
+                        TribalRhythm
+                    </strong>
+
+                    <br>
+
+                    Powered by
+                    <span class="footer-zentro">
+                        Zentro Nex
+                    </span>
+
+                    <br><br>
+
+                    Email:
+
+                    <a href="mailto:rahulsardarrahul014@gmail.com">
+                        rahulsardarrahul014@gmail.com
+                    </a>
+
+                    <br><br>
+
+                    Phone:
+
+                    <a href="tel:+917903946369">
+                        +91 7903946369
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 HINDI
+            ================================================== -->
+
+            <div
+                id="content-hi"
+                class="language-content"
+                style="display:none;">
+
+                <h1>
+                    शिपिंग एवं डिलीवरी नीति
+                </h1>
+
+                <div class="subtitle">
+                    अंतिम अपडेट: अगस्त 2026
+                </div>
+
+                <hr>
+
+                <p class="intro">
+
+                    <b>TribalRhythm</b> चुनने के लिए धन्यवाद।
+
+                    TribalRhythm एक ऑनलाइन प्लेटफॉर्म है
+                    जो डांस प्रतियोगिताओं, सांस्कृतिक कार्यक्रमों,
+                    रजिस्ट्रेशन और डिजिटल टिकट बुकिंग की
+                    सुविधाएं प्रदान करता है।
+
+                    TribalRhythm किसी भी भौतिक उत्पाद की
+                    बिक्री या डिलीवरी नहीं करता है।
+                    हमारी संबंधित सेवाएं डिजिटल रूप से
+                    प्रदान की जाती हैं।
+
+                </p>
+
+
+                <h2>
+                    1. डिलीवरी की प्रकृति
+                </h2>
+
+                <p>
+                    TribalRhythm निम्नलिखित डिजिटल सेवाएं
+                    प्रदान करता है:
+                </p>
+
+                <ul>
+
+                    <li>प्रतियोगिता रजिस्ट्रेशन</li>
+
+                    <li>इवेंट टिकट बुकिंग</li>
+
+                    <li>डिजिटल टिकट आईडी</li>
+
+                    <li>ईमेल पुष्टि</li>
+
+                    <li>SMS पुष्टि</li>
+
+                    <li>ऑनलाइन भागीदारी की जानकारी</li>
+
+                    <li>जहां लागू हो, डिजिटल प्रमाणपत्र</li>
+
+                </ul>
+
+
+                <h2>
+                    2. डिलीवरी का समय
+                </h2>
+
+                <p>
+
+                    सफल भुगतान की पुष्टि होने के बाद
+                    आपका डिजिटल टिकट, रजिस्ट्रेशन कन्फर्मेशन
+                    या बुकिंग विवरण सामान्यतः तुरंत या
+                    कुछ मिनटों के भीतर उपलब्ध करा दिया जाता है।
+
+                </p>
+
+                <p>
+
+                    इंटरनेट समस्या, पेमेंट गेटवे में देरी,
+                    तकनीकी समस्या या निर्धारित रखरखाव जैसी
+                    दुर्लभ परिस्थितियों में डिलीवरी में
+                    <b>24 घंटे</b> तक का समय लग सकता है।
+
+                </p>
+
+
+                <h2>
+                    3. डिलीवरी का माध्यम
+                </h2>
+
+                <p>
+                    आपकी बुकिंग या रजिस्ट्रेशन पुष्टि
+                    निम्न माध्यमों से दी जा सकती है:
+                </p>
+
+                <ul>
+
+                    <li>ईमेल कन्फर्मेशन</li>
+
+                    <li>SMS सूचना</li>
+
+                    <li>वेबसाइट डैशबोर्ड</li>
+
+                    <li>सफल भुगतान के बाद प्रदर्शित टिकट आईडी</li>
+
+                    <li>TribalRhythm द्वारा उपलब्ध अन्य डिजिटल माध्यम</li>
+
+                </ul>
+
+
+                <h2>
+                    4. कोई भौतिक शिपिंग नहीं
+                </h2>
+
+                <p>
+
+                    TribalRhythm किसी भी भौतिक सामान,
+                    उत्पाद या प्रिंटेड टिकट की डिलीवरी
+                    नहीं करता है।
+
+                    हमारी डिजिटल सेवाओं के लिए किसी
+                    कूरियर, डाक या लॉजिस्टिक्स सेवा का
+                    उपयोग नहीं किया जाता है।
+
+                </p>
+
+
+                <h2>
+                    5. गलत जानकारी
+                </h2>
+
+                <p>
+
+                    रजिस्ट्रेशन या बुकिंग के समय सही और
+                    पूर्ण जानकारी देना उपयोगकर्ता की
+                    जिम्मेदारी है, जिसमें ईमेल पता और
+                    मोबाइल नंबर भी शामिल हैं।
+
+                    उपयोगकर्ता द्वारा गलत, अधूरी या पुरानी
+                    जानकारी दिए जाने के कारण होने वाली
+                    डिलीवरी समस्या के लिए TribalRhythm
+                    जिम्मेदार नहीं होगा।
+
+                </p>
+
+
+                <h2>
+                    6. डिलीवरी में देरी या विफलता
+                </h2>
+
+                <p>
+                    यदि आपको निर्धारित समय में पुष्टि
+                    प्राप्त नहीं होती है, तो कृपया:
+                </p>
+
+                <ul>
+
+                    <li>Spam/Junk ईमेल फोल्डर जांचें।</li>
+
+                    <li>अपना रजिस्टर्ड ईमेल पता जांचें।</li>
+
+                    <li>अपना रजिस्टर्ड मोबाइल नंबर जांचें।</li>
+
+                    <li>अपने TribalRhythm अकाउंट/डैशबोर्ड को जांचें।</li>
+
+                    <li>TribalRhythm सपोर्ट से संपर्क करें।</li>
+
+                </ul>
+
+
+                <h2>
+                    7. सेवा उपलब्धता
+                </h2>
+
+                <p>
+
+                    निर्धारित रखरखाव, इंटरनेट समस्या,
+                    पेमेंट गेटवे प्रोसेसिंग में देरी,
+                    सर्वर समस्या, थर्ड-पार्टी सेवाओं में
+                    रुकावट या हमारे उचित नियंत्रण से बाहर
+                    किसी अन्य परिस्थिति के कारण डिलीवरी
+                    समय प्रभावित हो सकता है।
+
+                </p>
+
+
+                <h2>
+                    8. भुगतान की पुष्टि
+                </h2>
+
+                <p>
+
+                    जहां भुगतान आवश्यक है, वहां सफल
+                    भुगतान की पुष्टि के बाद ही डिजिटल
+                    डिलीवरी शुरू की जाती है।
+
+                    यदि भुगतान लंबित, विफल, रिवर्स या
+                    पेमेंट गेटवे द्वारा अपुष्ट है, तो
+                    भुगतान सफलतापूर्वक सत्यापित होने तक
+                    संबंधित डिजिटल सेवा उपलब्ध नहीं कराई
+                    जा सकती है।
+
+                </p>
+
+
+                <h2>
+                    9. संपर्क करें
+                </h2>
+
+                <div class="contact-box">
+
+                    <strong>
+                        TribalRhythm
+                    </strong>
+
+                    <br>
+
+                    Powered by
+                    <span class="footer-zentro">
+                        Zentro Nex
+                    </span>
+
+                    <br><br>
+
+                    ईमेल:
+
+                    <a href="mailto:rahulsardarrahul014@gmail.com">
+                        rahulsardarrahul014@gmail.com
+                    </a>
+
+                    <br><br>
+
+                    फोन:
+
+                    <a href="tel:+917903946369">
+                        +91 7903946369
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ODIA
+            ================================================== -->
+
+            <div
+                id="content-od"
+                class="language-content"
+                style="display:none;">
+
+                <h1>
+                    ଶିପିଂ ଏବଂ ଡେଲିଭରୀ ନୀତି
+                </h1>
+
+                <div class="subtitle">
+                    ଶେଷ ଅଦ୍ୟତନ: ଅଗଷ୍ଟ 2026
+                </div>
+
+                <hr>
+
+                <p class="intro">
+
+                    <b>TribalRhythm</b> ବାଛିଥିବାରୁ ଧନ୍ୟବାଦ।
+
+                    TribalRhythm ହେଉଛି ଏକ ଅନଲାଇନ୍ ପ୍ଲାଟଫର୍ମ,
+                    ଯାହା ନୃତ୍ୟ ପ୍ରତିଯୋଗିତା, ସାଂସ୍କୃତିକ
+                    କାର୍ଯ୍ୟକ୍ରମ, ପଞ୍ଜୀକରଣ ଏବଂ ଡିଜିଟାଲ୍
+                    ଟିକେଟ୍ ବୁକିଂ ସେବା ପ୍ରଦାନ କରେ।
+
+                    TribalRhythm କୌଣସି ଭୌତିକ ଉତ୍ପାଦ
+                    ବିକ୍ରି କିମ୍ବା ଡେଲିଭରୀ କରେ ନାହିଁ।
+                    ସମ୍ପୃକ୍ତ ସେବାଗୁଡ଼ିକ ଡିଜିଟାଲ୍ ଭାବରେ
+                    ପ୍ରଦାନ କରାଯାଏ।
+
+                </p>
+
+
+                <h2>
+                    ୧. ଡେଲିଭରୀର ପ୍ରକୃତି
+                </h2>
+
+                <p>
+                    TribalRhythm ନିମ୍ନଲିଖିତ ଡିଜିଟାଲ୍
+                    ସେବା ପ୍ରଦାନ କରେ:
+                </p>
+
+                <ul>
+
+                    <li>ପ୍ରତିଯୋଗିତା ପଞ୍ଜୀକରଣ</li>
+
+                    <li>ଇଭେଣ୍ଟ ଟିକେଟ୍ ବୁକିଂ</li>
+
+                    <li>ଡିଜିଟାଲ୍ ଟିକେଟ୍ ID</li>
+
+                    <li>ଇମେଲ୍ ନିଶ୍ଚିତକରଣ</li>
+
+                    <li>SMS ନିଶ୍ଚିତକରଣ</li>
+
+                    <li>ଅନଲାଇନ୍ ଅଂଶଗ୍ରହଣ ସୂଚନା</li>
+
+                    <li>ଯେଉଁଠାରେ ପ୍ରଯୋଜ୍ୟ, ଡିଜିଟାଲ୍ ସାର୍ଟିଫିକେଟ୍</li>
+
+                </ul>
+
+
+                <h2>
+                    ୨. ଡେଲିଭରୀ ସମୟ
+                </h2>
+
+                <p>
+
+                    ସଫଳ ପେମେଣ୍ଟ ନିଶ୍ଚିତ ହେବା ପରେ
+                    ଆପଣଙ୍କ ଡିଜିଟାଲ୍ ଟିକେଟ୍, ପଞ୍ଜୀକରଣ
+                    ନିଶ୍ଚିତକରଣ କିମ୍ବା ବୁକିଂ ବିବରଣୀ
+                    ସାଧାରଣତଃ ତୁରନ୍ତ କିମ୍ବା କିଛି ମିନିଟ୍
+                    ମଧ୍ୟରେ ପ୍ରଦାନ କରାଯାଏ।
+
+                </p>
+
+                <p>
+
+                    ଇଣ୍ଟରନେଟ୍ ସମସ୍ୟା, ପେମେଣ୍ଟ ଗେଟୱେ
+                    ବିଳମ୍ବ, ପ୍ରାଯୁକ୍ତିକ ସମସ୍ୟା କିମ୍ବା
+                    ନିର୍ଦ୍ଧାରିତ ମେଣ୍ଟେନାନ୍ସ ଯୋଗୁଁ
+                    ବିରଳ ପରିସ୍ଥିତିରେ ଡେଲିଭରୀ ପାଇଁ
+                    <b>24 ଘଣ୍ଟା</b> ପର୍ଯ୍ୟନ୍ତ ସମୟ
+                    ଲାଗିପାରେ।
+
+                </p>
+
+
+                <h2>
+                    ୩. ଡେଲିଭରୀ ମାଧ୍ୟମ
+                </h2>
+
+                <p>
+                    ଆପଣଙ୍କ ବୁକିଂ କିମ୍ବା ପଞ୍ଜୀକରଣ
+                    ନିଶ୍ଚିତକରଣ ନିମ୍ନଲିଖିତ ମାଧ୍ୟମରେ
+                    ପ୍ରଦାନ କରାଯାଇପାରେ:
+                </p>
+
+                <ul>
+
+                    <li>ଇମେଲ୍ ନିଶ୍ଚିତକରଣ</li>
+
+                    <li>SMS ସୂଚନା</li>
+
+                    <li>ୱେବସାଇଟ୍ ଡ୍ୟାସବୋର୍ଡ</li>
+
+                    <li>ସଫଳ ପେମେଣ୍ଟ ପରେ ପ୍ରଦର୍ଶିତ ଟିକେଟ୍ ID</li>
+
+                    <li>TribalRhythm ଦ୍ୱାରା ଉପଲବ୍ଧ
+                        ଅନ୍ୟ ଡିଜିଟାଲ୍ ମାଧ୍ୟମ</li>
+
+                </ul>
+
+
+                <h2>
+                    ୪. କୌଣସି ଭୌତିକ ଶିପିଂ ନାହିଁ
+                </h2>
+
+                <p>
+
+                    TribalRhythm କୌଣସି ଭୌତିକ ସାମଗ୍ରୀ,
+                    ଉତ୍ପାଦ କିମ୍ବା ପ୍ରିଣ୍ଟେଡ୍ ଟିକେଟ୍
+                    ଡେଲିଭରୀ କରେ ନାହିଁ।
+
+                    ଆମର ଡିଜିଟାଲ୍ ସେବା ପାଇଁ କୌଣସି
+                    କୁରିଅର୍, ଡାକ କିମ୍ବା ଲଜିଷ୍ଟିକ୍ସ
+                    ସେବା ବ୍ୟବହାର କରାଯାଏ ନାହିଁ।
+
+                </p>
+
+
+                <h2>
+                    ୫. ଭୁଲ ସୂଚନା
+                </h2>
+
+                <p>
+
+                    ପଞ୍ଜୀକରଣ କିମ୍ବା ବୁକିଂ ସମୟରେ
+                    ସଠିକ୍ ଏବଂ ସମ୍ପୂର୍ଣ୍ଣ ସୂଚନା
+                    ପ୍ରଦାନ କରିବା ଉପଭୋକ୍ତାଙ୍କ
+                    ଦାୟିତ୍ୱ ଅଟେ।
+
+                    ଉପଭୋକ୍ତାଙ୍କ ଦ୍ୱାରା ଭୁଲ, ଅସମ୍ପୂର୍ଣ୍ଣ
+                    କିମ୍ବା ପୁରୁଣା ସୂଚନା ଦିଆଯିବା ଯୋଗୁଁ
+                    ହୋଇଥିବା ଡେଲିଭରୀ ବିଫଳତା ପାଇଁ
+                    TribalRhythm ଦାୟୀ ରହିବ ନାହିଁ।
+
+                </p>
+
+
+                <h2>
+                    ୬. ଡେଲିଭରୀ ବିଳମ୍ବ କିମ୍ବା ବିଫଳତା
+                </h2>
+
+                <p>
+
+                    ଯଦି ଆପଣ ଆଶା କରାଯାଇଥିବା ସମୟରେ
+                    ନିଶ୍ଚିତକରଣ ପାଇନାହାନ୍ତି, ତେବେ:
+
+                </p>
+
+                <ul>
+
+                    <li>Spam/Junk ଇମେଲ୍ ଫୋଲ୍ଡର୍ ଯାଞ୍ଚ କରନ୍ତୁ।</li>
+
+                    <li>ଆପଣଙ୍କ ପଞ୍ଜୀକୃତ ଇମେଲ୍ ଯାଞ୍ଚ କରନ୍ତୁ।</li>
+
+                    <li>ଆପଣଙ୍କ ପଞ୍ଜୀକୃତ ମୋବାଇଲ୍ ନମ୍ବର ଯାଞ୍ଚ କରନ୍ତୁ।</li>
+
+                    <li>ଆପଣଙ୍କ TribalRhythm ଆକାଉଣ୍ଟ/
+                        ଡ୍ୟାସବୋର୍ଡ ଯାଞ୍ଚ କରନ୍ତୁ।</li>
+
+                    <li>TribalRhythm ସପୋର୍ଟ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ।</li>
+
+                </ul>
+
+
+                <h2>
+                    ୭. ସେବା ଉପଲବ୍ଧତା
+                </h2>
+
+                <p>
+
+                    ନିର୍ଦ୍ଧାରିତ ମେଣ୍ଟେନାନ୍ସ,
+                    ଇଣ୍ଟରନେଟ୍ ବିଘ୍ନ, ପେମେଣ୍ଟ ଗେଟୱେ
+                    ପ୍ରୋସେସିଂ ବିଳମ୍ବ, ସର୍ଭର ସମସ୍ୟା,
+                    ଥାର୍ଡ-ପାର୍ଟି ସେବା ବିଘ୍ନ କିମ୍ବା
+                    ଆମର ଯୁକ୍ତିସଙ୍ଗତ ନିୟନ୍ତ୍ରଣ ବାହାରର
+                    ଅନ୍ୟ କୌଣସି ପରିସ୍ଥିତି ଯୋଗୁଁ
+                    ଡେଲିଭରୀ ସମୟ ପ୍ରଭାବିତ ହୋଇପାରେ।
+
+                </p>
+
+
+                <h2>
+                    ୮. ପେମେଣ୍ଟ ନିଶ୍ଚିତକରଣ
+                </h2>
+
+                <p>
+
+                    ଯେଉଁଠାରେ ପେମେଣ୍ଟ ଆବଶ୍ୟକ,
+                    ସେଠାରେ ସଫଳ ପେମେଣ୍ଟ ନିଶ୍ଚିତ ହେବା
+                    ପରେ ଡିଜିଟାଲ୍ ଡେଲିଭରୀ ଆରମ୍ଭ ହୁଏ।
+
+                    ଯଦି ପେମେଣ୍ଟ pending, failed, reversed
+                    କିମ୍ବା payment gateway ଦ୍ୱାରା
+                    confirm ହୋଇନାହିଁ, ତେବେ ପେମେଣ୍ଟ
+                    ସଫଳ ଭାବରେ verify ହେବା ପର୍ଯ୍ୟନ୍ତ
+                    ସମ୍ପୃକ୍ତ ଡିଜିଟାଲ୍ ସେବା ପ୍ରଦାନ
+                    କରାଯାଇନପାରେ।
+
+                </p>
+
+
+                <h2>
+                    ୯. ଯୋଗାଯୋଗ କରନ୍ତୁ
+                </h2>
+
+                <div class="contact-box">
+
+                    <strong>
+                        TribalRhythm
+                    </strong>
+
+                    <br>
+
+                    Powered by
+                    <span class="footer-zentro">
+                        Zentro Nex
+                    </span>
+
+                    <br><br>
+
+                    ଇମେଲ୍:
+
+                    <a href="mailto:rahulsardarrahul014@gmail.com">
+                        rahulsardarrahul014@gmail.com
+                    </a>
+
+                    <br><br>
+
+                    ଫୋନ୍:
+
+                    <a href="tel:+917903946369">
+                        +91 7903946369
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <div class="footer">
+
+                © 2026
+                <span class="footer-brand">
+                    TribalRhythm
+                </span>.
+
+                All Rights Reserved.
+
+                <br>
+
+                Powered by
+                <span class="footer-zentro">
+                    Zentro Nex
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         LANGUAGE SCRIPT
+    ====================================================== -->
+
+    <script>
+
+        function changeLanguage(language) {
+
+            /*
+             * Hide all language content
+             */
+
+            document
+                .querySelectorAll('.language-content')
+                .forEach(function (content) {
+
+                    content.style.display = 'none';
+
+                });
+
+
+            /*
+             * Remove active class
+             */
+
+            document
+                .querySelectorAll('.lang-btn')
+                .forEach(function (button) {
+
+                    button.classList.remove('active');
+
+                });
+
+
+            /*
+             * Show selected language
+             */
+
+            const selectedContent =
+                document.getElementById(
+                    'content-' + language
+                );
+
+            const selectedButton =
+                document.getElementById(
+                    'btn-' + language
+                );
+
+
+            if (selectedContent) {
+
+                selectedContent.style.display = 'block';
+
+            }
+
+
+            if (selectedButton) {
+
+                selectedButton.classList.add('active');
+
+            }
+
+
+            /*
+             * Change HTML language
+             */
+
+            if (language === 'hi') {
+
+                document.documentElement.lang = 'hi';
+
+            }
+
+            else if (language === 'od') {
+
+                document.documentElement.lang = 'or';
+
+            }
+
+            else {
+
+                document.documentElement.lang = 'en';
+
+            }
+
+
+            /*
+             * Save selected language
+             */
+
+            localStorage.setItem(
+                'tribalrhythm-language',
+                language
+            );
+
+        }
+
+
+
+        /*
+         * Load saved language
+         */
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function () {
+
+                const savedLanguage =
+                    localStorage.getItem(
+                        'tribalrhythm-language'
+                    ) || 'en';
+
+                changeLanguage(savedLanguage);
+
+            }
+        );
+
+    </script>
+
 
 </body>
 
 </html>
+```

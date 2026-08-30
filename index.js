@@ -250,6 +250,24 @@ window.sendOTP = async function () {
     const sendBtn =
         document.getElementById("sendOtpBtn");
 
+    // ================= TICKET TYPE CHECK =================
+
+    const selectedTicket =
+        document.querySelector(
+            'input[name="ticketType"]:checked'
+        );
+
+    if (!selectedTicket) {
+
+        Swal.fire(
+            "Tribal Rhythm",
+            "Please select Ticket Type first.",
+            "warning"
+        );
+
+        return;
+    }
+
     // ================= GET USER DETAILS =================
 
     const ticketQuantity =
@@ -1876,9 +1894,8 @@ window.openNewsHistory = async function () {
                     </div>
 
 
-                    ${
-                        dateText
-                            ? `
+                    ${dateText
+                    ? `
                                 <div
                                     class="news-history-date"
                                     style="
@@ -1890,8 +1907,8 @@ window.openNewsHistory = async function () {
                                     📅 ${dateText}
                                 </div>
                             `
-                            : ""
-                    }
+                    : ""
+                }
 
                 </div>
 
@@ -3292,509 +3309,689 @@ window.generateTicketPDF = function (
 
     try {
 
-        // ===============================
+        // =====================================================
         // CHECK LIBRARIES
-        // ===============================
+        // =====================================================
 
         if (!window.jspdf || !window.jspdf.jsPDF) {
-            console.error("jsPDF library not found.");
+
             Swal.fire(
                 "PDF Error",
-                "PDF library is not loaded.",
+                "jsPDF library is not loaded.",
                 "error"
             );
+
             return;
         }
 
+
         if (typeof QRCode === "undefined") {
-            console.error("QRCode library not found.");
+
             Swal.fire(
                 "PDF Error",
                 "QR Code library is not loaded.",
                 "error"
             );
+
+            return;
+        }
+
+
+        if (typeof JsBarcode === "undefined") {
+
+            Swal.fire(
+                "PDF Error",
+                "Barcode library is not loaded.",
+                "error"
+            );
+
             return;
         }
 
 
         const { jsPDF } = window.jspdf;
 
-        const doc = new jsPDF();
 
-        // ===============================
+        // =====================================================
         // SAFE VALUES
-        // ===============================
+        // =====================================================
 
         name = String(name || "Guest");
+
         phone = String(phone || "");
-        type = String(type || "General");
+
+        type = String(type || "GENERAL").toUpperCase();
+
         paymentId = String(paymentId || "N/A");
+
         ticketId = String(ticketId || "N/A");
-        eventName = String(eventName || "Tribal Rhythm Event");
-        venue = String(venue || "Rairangpur, Odisha");
-        eventDate = String(eventDate || "Date Not Announced");
+
+        eventName = String(
+            eventName || "Tribal Rhythm Event"
+        );
+
+        venue = String(
+            venue || "Rairangpur, Odisha"
+        );
+
+        eventDate = String(
+            eventDate || "Date Not Announced"
+        );
+
         quantity = Number(quantity) || 1;
+
         amount = Number(amount) || 0;
 
 
-        // ===============================
+        // =====================================================
+        // CATEGORY
+        // =====================================================
+
+        let category = "GENERAL";
+
+        if (type.includes("VIP")) {
+
+            category = "VIP";
+
+        } else if (
+            type.includes("GROUP")
+        ) {
+
+            category = "GROUP";
+
+        } else {
+
+            category = "GENERAL";
+
+        }
+
+
+        // =====================================================
+        // PDF - ATM CARD SIZE
+        // =====================================================
+
+        // 85.60mm x 53.98mm
+        const doc = new jsPDF({
+            orientation: "landscape",
+            unit: "mm",
+            format: [85.6, 53.98]
+        });
+
+
+        // =====================================================
+        // COLORS
+        // =====================================================
+
+        const BLACK = [12, 12, 12];
+
+        const DARK_BLACK = [5, 5, 5];
+
+        const GOLD = [212, 175, 55];
+
+        const BRIGHT_GOLD = [255, 215, 0];
+
+        const WHITE = [255, 255, 255];
+
+        const GREY = [170, 170, 170];
+
+        const GREEN = [0, 170, 90];
+
+
+        // =====================================================
+        // CATEGORY DESIGN
+        // =====================================================
+
+        let categoryText = "GENERAL PASS";
+
+        let categoryGold = GOLD;
+
+
+        if (category === "VIP") {
+
+            categoryText = "VIP PREMIUM PASS";
+
+            categoryGold = BRIGHT_GOLD;
+
+        }
+
+        else if (category === "GROUP") {
+
+            categoryText = "GROUP PASS";
+
+            categoryGold = [230, 190, 60];
+
+        }
+
+        else {
+
+            categoryText = "GENERAL PASS";
+
+            categoryGold = GOLD;
+
+        }
+
+
+        // =====================================================
+        // BACKGROUND
+        // =====================================================
+
+        doc.setFillColor(...DARK_BLACK);
+
+        doc.rect(
+            0,
+            0,
+            85.6,
+            53.98,
+            "F"
+        );
+
+
+        // =====================================================
+        // GOLD OUTER BORDER
+        // =====================================================
+
+        doc.setDrawColor(...categoryGold);
+
+        doc.setLineWidth(0.8);
+
+        doc.roundedRect(
+            1.5,
+            1.5,
+            82.6,
+            50.98,
+            3,
+            3
+        );
+
+
+        // =====================================================
+        // INNER BORDER
+        // =====================================================
+
+        doc.setDrawColor(80, 70, 40);
+
+        doc.setLineWidth(0.25);
+
+        doc.roundedRect(
+            3,
+            3,
+            79.6,
+            47.98,
+            2,
+            2
+        );
+
+
+        // =====================================================
+        // HEADER GOLD LINE
+        // =====================================================
+
+        doc.setFillColor(...categoryGold);
+
+        doc.rect(
+            3,
+            3,
+            79.6,
+            0.8,
+            "F"
+        );
+
+
+        // =====================================================
         // LOGO
-        // ===============================
+        // =====================================================
 
         const logo = new Image();
 
         logo.src = "tribalweblogo.png";
 
-        // const signature = new Image();
-        // signature.src = "rahul-signature.png";
 
+        // =====================================================
+        // HEADER
+        // =====================================================
 
-        // ===============================
-        // PAGE BORDER
-        // ===============================
-
-        doc.setDrawColor(212, 175, 55);
-        doc.setLineWidth(2);
-
-        doc.roundedRect(
-            5,
-            5,
-            200,
-            287,
-            5,
-            5
-        );
-
-
-        // ===============================
-        // INNER BORDER
-        // ===============================
-
-        doc.setDrawColor(255, 215, 0);
-        doc.setLineWidth(0.5);
-
-        doc.roundedRect(
-            8,
-            8,
-            194,
-            281,
-            4,
-            4
-        );
-
-
-        // ===============================
-        // HEADER BACKGROUND
-        // ===============================
-
-        doc.setFillColor(18, 18, 18);
-
-        doc.rect(
-            5,
-            5,
-            200,
-            35,
-            "F"
-        );
-
-
-        // ===============================
-        // GOLD HEADER LINE
-        // ===============================
-
-        doc.setDrawColor(255, 215, 0);
-        doc.setLineWidth(1.5);
-
-        doc.line(
-            5,
-            40,
-            205,
-            40
-        );
-
-
-        // ===============================
-        // HEADER TITLE
-        // ===============================
-
-        doc.setTextColor(255, 215, 0);
+        doc.setTextColor(...categoryGold);
 
         doc.setFont(
             "helvetica",
             "bold"
         );
 
-        doc.setFontSize(22);
-
-        doc.text(
-            "TRIBAL RHYTHM",
-            60,
-            20
-        );
-
-
-        // ===============================
-        // SUBTITLE
-        // ===============================
-
         doc.setFontSize(11);
 
         doc.text(
-            "OFFICIAL EVENT ENTRY PASS",
-            60,
-            28
+            "TRIBAL RHYTHM",
+            7,
+            10
         );
 
 
-        // ===============================
-        // VERIFIED
-        // ===============================
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
 
-        doc.setFontSize(9);
+        doc.setFontSize(4.2);
+
+        doc.setTextColor(...WHITE);
 
         doc.text(
-            "Verified Digital Ticket",
-            60,
+            "OFFICIAL EVENT ENTRY PASS",
+            7,
+            13.5
+        );
+
+
+        // =====================================================
+        // CATEGORY BADGE
+        // =====================================================
+
+        doc.setFillColor(...categoryGold);
+
+        doc.roundedRect(
+            48,
+            6,
+            29,
+            7,
+            1.5,
+            1.5,
+            "F"
+        );
+
+
+        doc.setTextColor(...BLACK);
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(5.2);
+
+        doc.text(
+            categoryText,
+            62.5,
+            10.3,
+            {
+                align: "center"
+            }
+        );
+
+
+        // =====================================================
+        // HEADER DIVIDER
+        // =====================================================
+
+        doc.setDrawColor(
+            100,
+            90,
+            60
+        );
+
+        doc.setLineWidth(0.25);
+
+        doc.line(
+            5,
+            16,
+            80,
+            16
+        );
+
+
+        // =====================================================
+        // EVENT NAME
+        // =====================================================
+
+        doc.setTextColor(...WHITE);
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(7.5);
+
+
+        let eventDisplay = eventName;
+
+        if (eventDisplay.length > 32) {
+
+            eventDisplay =
+                eventDisplay.substring(
+                    0,
+                    32
+                ) + "...";
+
+        }
+
+
+        doc.text(
+            eventDisplay,
+            7,
+            21
+        );
+
+
+        // =====================================================
+        // EVENT DETAILS
+        // =====================================================
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.setFontSize(4.6);
+
+        doc.setTextColor(...GREY);
+
+
+        doc.text(
+            "DATE",
+            7,
+            26
+        );
+
+        doc.text(
+            eventDate,
+            7,
+            29
+        );
+
+
+        doc.text(
+            "VENUE",
+            25,
+            26
+        );
+
+        let venueDisplay = venue;
+
+        if (venueDisplay.length > 23) {
+
+            venueDisplay =
+                venueDisplay.substring(
+                    0,
+                    23
+                ) + "...";
+
+        }
+
+        doc.text(
+            venueDisplay,
+            25,
+            29
+        );
+
+
+        doc.text(
+            "QTY",
+            58,
+            26
+        );
+
+        doc.setTextColor(...WHITE);
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(6);
+
+        doc.text(
+            String(quantity),
+            58,
+            29
+        );
+
+
+        // =====================================================
+        // ATTENDEE
+        // =====================================================
+
+        doc.setTextColor(...GREY);
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.setFontSize(4.3);
+
+        doc.text(
+            "ATTENDEE",
+            7,
             34
         );
 
 
-        // ===============================
-        // POWERED BY
-        // ===============================
+        doc.setTextColor(...WHITE);
 
-        doc.setFontSize(8);
-
-        doc.setTextColor(
-            220,
-            220,
-            220
+        doc.setFont(
+            "helvetica",
+            "bold"
         );
 
+        doc.setFontSize(6.5);
+
+
+        let nameDisplay = name;
+
+        if (nameDisplay.length > 25) {
+
+            nameDisplay =
+                nameDisplay.substring(
+                    0,
+                    25
+                ) + "...";
+
+        }
+
+
         doc.text(
-            "Powered by Zentro Nex",
-            60,
+            nameDisplay,
+            7,
             38
         );
 
 
-        // ===============================
-        // RESET COLOR
-        // ===============================
+        // =====================================================
+        // PHONE
+        // =====================================================
 
-        doc.setTextColor(
-            0,
-            0,
-            0
-        );
-
-
-        // ===============================
-        // DIVIDER
-        // ===============================
-
-        doc.setDrawColor(
-            180,
-            180,
-            180
-        );
-
-        doc.line(
-            20,
-            48,
-            190,
-            48
-        );
-
-
-        // ===============================
-        // ATTENDEE DETAILS
-        // ===============================
-
-        doc.setFont(
-            "helvetica",
-            "bold"
-        );
-
-        doc.setFontSize(15);
-
-        doc.text(
-            "ATTENDEE DETAILS",
-            20,
-            58
-        );
-
+        doc.setTextColor(...GREY);
 
         doc.setFont(
             "helvetica",
             "normal"
         );
 
-        doc.setFontSize(11);
-
-
-        // NAME
+        doc.setFontSize(4.3);
 
         doc.text(
-            "Name :",
-            20,
-            70
-        );
-
-        doc.text(
-            name,
-            60,
-            70
+            "PHONE",
+            7,
+            42
         );
 
 
-        // PHONE
+        doc.setTextColor(...WHITE);
 
-        doc.text(
-            "Phone :",
-            20,
-            80
-        );
+        doc.setFontSize(5.2);
 
         doc.text(
             phone,
-            60,
-            80
+            7,
+            45
         );
 
 
-        // TICKET
+        // =====================================================
+        // AMOUNT
+        // =====================================================
+
+        doc.setTextColor(...GREY);
+
+        doc.setFontSize(4.3);
 
         doc.text(
-            "Ticket :",
-            20,
-            90
+            "AMOUNT PAID",
+            35,
+            42
         );
+
+
+        doc.setTextColor(...categoryGold);
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(7);
 
         doc.text(
-            type,
-            60,
-            90
+            "Rs. " + amount,
+            35,
+            46
         );
 
 
-        // QUANTITY
+        // =====================================================
+        // TICKET ID
+        // =====================================================
+
+        doc.setTextColor(...GREY);
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.setFontSize(4);
 
         doc.text(
-            "Quantity :",
-            20,
-            100
+            "TICKET ID",
+            53,
+            34
         );
+
+
+        doc.setTextColor(...WHITE);
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(4.5);
+
+
+        let ticketDisplay = ticketId;
+
+        if (ticketDisplay.length > 17) {
+
+            ticketDisplay =
+                ticketDisplay.substring(
+                    0,
+                    17
+                );
+
+        }
+
 
         doc.text(
-            String(quantity),
-            60,
-            100
+            ticketDisplay,
+            53,
+            37.5
         );
 
 
+        // =====================================================
         // PAYMENT ID
+        // =====================================================
+
+        doc.setTextColor(...GREY);
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.setFontSize(3.8);
 
         doc.text(
-            "Payment ID :",
-            20,
-            110
+            "PAYMENT",
+            53,
+            41.5
         );
 
-        doc.setFontSize(9);
+
+        doc.setTextColor(...WHITE);
+
+        doc.setFontSize(3.8);
+
+
+        let paymentDisplay = paymentId;
+
+        if (paymentDisplay.length > 18) {
+
+            paymentDisplay =
+                paymentDisplay.substring(
+                    0,
+                    18
+                );
+
+        }
+
 
         doc.text(
-            paymentId,
-            60,
-            110
+            paymentDisplay,
+            53,
+            44.5
         );
 
 
-        // ===============================
-        // EVENT BOX
-        // ===============================
+        // =====================================================
+        // VERIFIED
+        // =====================================================
 
-        doc.setFillColor(
-            245,
-            245,
-            245
-        );
+        doc.setFillColor(...GREEN);
 
         doc.roundedRect(
+            53,
+            46,
             20,
-            120,
-            170,
-            42,
-            3,
-            3,
+            4.2,
+            1,
+            1,
             "F"
         );
 
 
-        doc.setFont(
-            "helvetica",
-            "bold"
-        );
-
-        doc.setFontSize(13);
-
-        doc.text(
-            "EVENT DETAILS",
-            28,
-            130
-        );
-
-
-        doc.setFont(
-            "helvetica",
-            "normal"
-        );
-
-        doc.setFontSize(10);
-
-
-        // EVENT
-
-        doc.text(
-            "Event : " + eventName,
-            28,
-            140
-        );
-
-
-        // VENUE
-
-        doc.text(
-            "Venue : " + venue,
-            28,
-            148
-        );
-
-
-        // DATE
-
-        doc.text(
-            "Date : " + eventDate,
-            28,
-            156
-        );
-
-
-        // ===============================
-        // WATERMARK
-        // ===============================
-
-        doc.setTextColor(
-            235,
-            235,
-            235
-        );
+        doc.setTextColor(...WHITE);
 
         doc.setFont(
             "helvetica",
             "bold"
         );
 
-        doc.setFontSize(28);
+        doc.setFontSize(3.8);
 
-
-        for (
-            let y = 30;
-            y <= 280;
-            y += 35
-        ) {
-
-            doc.text(
-                "TRIBAL RHYTHM",
-                15,
-                y,
-                {
-                    angle: 45
-                }
-            );
-
-        }
-
-
-        // ===============================
-        // RESET
-        // ===============================
-
-        doc.setTextColor(
-            0,
-            0,
-            0
+        doc.text(
+            "✓ VERIFIED",
+            63,
+            48.8,
+            {
+                align: "center"
+            }
         );
 
 
-        // ===============================
-        // SECURITY GRID
-        // ===============================
-
-        doc.setDrawColor(
-            240,
-            240,
-            240
-        );
-
-        doc.setLineWidth(0.2);
-
-
-        for (
-            let x = 10;
-            x <= 200;
-            x += 8
-        ) {
-
-            doc.line(
-                x,
-                40,
-                x,
-                285
-            );
-
-        }
-
-
-        for (
-            let y = 40;
-            y <= 285;
-            y += 8
-        ) {
-
-            doc.line(
-                10,
-                y,
-                200,
-                y
-            );
-
-        }
-
-
-        // ===============================
-        // GOLD SECURITY LINE
-        // ===============================
-
-        doc.setDrawColor(
-            255,
-            215,
-            0
-        );
-
-        doc.setLineWidth(0.8);
-
-        doc.line(
-            15,
-            168,
-            195,
-            168
-        );
-
-
-        // ===============================
+        // =====================================================
         // SECURITY CODE
-        // ===============================
+        // =====================================================
 
         const securityCode =
             Math.random()
@@ -3803,100 +4000,30 @@ window.generateTicketPDF = function (
                 .toUpperCase();
 
 
-        doc.setFont(
-            "helvetica",
-            "bold"
-        );
-
-        doc.setFontSize(11);
-
-        doc.text(
-            "Security Code : " +
-            securityCode,
-            20,
-            178
-        );
-
-
-        // ===============================
-        // TICKET ID
-        // ===============================
-
-        doc.text(
-            "Ticket ID : " +
-            ticketId,
-            20,
-            188
-        );
-
-
-        // ===============================
-        // VERIFIED STAMP
-        // ===============================
-
-        doc.setFillColor(
-            0,
-            170,
-            70
-        );
-
-        doc.circle(
-            170,
-            175,
-            13,
-            "F"
-        );
-
-
-        doc.setTextColor(
-            255,
-            255,
-            255
-        );
-
-        doc.setFontSize(9);
-
-        doc.text(
-            "VERIFIED",
-            158,
-            177
-        );
-
-
-        // ===============================
-        // RESET COLOR
-        // ===============================
-
-        doc.setTextColor(
-            0,
-            0,
-            0
-        );
-
-
-        // ===============================
-        // QR CODE DATA
-        // ===============================
+        // =====================================================
+        // QR DATA
+        // =====================================================
 
         const qrData =
             `TRIBAL RHYTHM
-Event : ${eventName}
-Ticket ID : ${ticketId}
-Name : ${name}
-Phone : ${phone}
-Ticket : ${type}
-Quantity : ${quantity}
-Amount : ₹${amount}
-Payment : ${paymentId}
-Security : ${securityCode}`;
+Event: ${eventName}
+Ticket ID: ${ticketId}
+Name: ${name}
+Phone: ${phone}
+Category: ${category}
+Quantity: ${quantity}
+Amount: Rs.${amount}
+Payment: ${paymentId}
+Security: ${securityCode}`;
 
 
-        // ===============================
+        // =====================================================
         // QR CONTAINER
-        // ===============================
+        // =====================================================
 
         const qrDiv =
             document.createElement("div");
+
 
         qrDiv.style.position =
             "absolute";
@@ -3904,329 +4031,126 @@ Security : ${securityCode}`;
         qrDiv.style.left =
             "-9999px";
 
+
         document.body.appendChild(
             qrDiv
         );
 
 
-        // ===============================
+        // =====================================================
         // GENERATE QR
-        // ===============================
+        // =====================================================
 
         new QRCode(
             qrDiv,
             {
                 text: qrData,
-                width: 150,
-                height: 150,
+
+                width: 250,
+
+                height: 250,
+
                 correctLevel:
                     QRCode.CorrectLevel.H
             }
         );
 
 
-        // ===============================
-        // ENTRY STATUS
-        // ===============================
+        // =====================================================
+        // BARCODE CONTAINER
+        // =====================================================
 
-        doc.setTextColor(
-            0,
-            130,
-            0
-        );
-
-        doc.setFont(
-            "helvetica",
-            "bold"
-        );
-
-        doc.setFontSize(13);
-
-        doc.text(
-            "ENTRY STATUS : VERIFIED",
-            20,
-            214
-        );
+        const barcodeCanvas =
+            document.createElement(
+                "canvas"
+            );
 
 
-        // ===============================
-        // RESET
-        // ===============================
+        barcodeCanvas.style.position =
+            "absolute";
 
-        doc.setTextColor(
-            0,
-            0,
-            0
+        barcodeCanvas.style.left =
+            "-9999px";
+
+
+        document.body.appendChild(
+            barcodeCanvas
         );
 
 
-        // ===============================
-        // SECURITY NOTICE
-        // ===============================
+        // =====================================================
+        // BARCODE DATA
+        // =====================================================
 
-        doc.setFont(
-            "helvetica",
-            "normal"
-        );
-
-        doc.setFontSize(9);
+        const barcodeData =
+            ticketId !== "N/A"
+                ? ticketId
+                : securityCode;
 
 
-        doc.text(
-            "✓ QR Verification Required",
-            20,
-            224
-        );
+        // =====================================================
+        // GENERATE BARCODE
+        // =====================================================
 
+        JsBarcode(
+            barcodeCanvas,
+            barcodeData,
+            {
+                format: "CODE128",
 
-        doc.text(
-            "✓ Duplicate Ticket Invalid",
-            20,
-            231
-        );
+                width: 2,
 
+                height: 45,
 
-        doc.text(
-            "✓ Tampered Ticket Rejected",
-            20,
-            238
-        );
+                displayValue: true,
 
+                fontSize: 12,
 
-        doc.text(
-            "✓ Carry Valid Photo ID",
-            20,
-            245
+                margin: 5,
+
+                background: "#ffffff",
+
+                lineColor: "#000000"
+            }
         );
 
 
-        // ===============================
-        // AMOUNT
-        // ===============================
-
-        doc.setFont(
-            "helvetica",
-            "bold"
-        );
-
-        doc.setFontSize(11);
-
-        doc.text(
-            "Amount Paid : ₹" +
-            amount,
-            20,
-            252
-        );
-
-
-        // ===============================
-        // IMPORTANT RULES
-        // ===============================
-
-        doc.setDrawColor(
-            255,
-            215,
-            0
-        );
-
-        doc.setLineWidth(0.8);
-
-        doc.line(
-            20,
-            258,
-            190,
-            258
-        );
-
-
-        doc.setFont(
-            "helvetica",
-            "bold"
-        );
-
-        doc.setFontSize(9);
-
-        doc.text(
-            "IMPORTANT RULES",
-            20,
-            266
-        );
-
-
-        doc.setFont(
-            "helvetica",
-            "normal"
-        );
-
-        doc.setFontSize(7.5);
-
-
-        doc.text(
-            "• Carry a valid Photo ID.",
-            20,
-            272
-        );
-
-
-        doc.text(
-            "• QR Code must be scanned at entry.",
-            20,
-            277
-        );
-
-
-        doc.text(
-            "• Duplicate or edited tickets may be rejected.",
-            20,
-            282
-        );
-
-
-        // ===============================
-        // RAHUL SARDAR REAL HAND SIGNATURE
-        // ===============================
-
-        const signature = new Image();
-
-        signature.src = "rahul-signature.png";
-
-
-        // ===============================
-        // FOOTER
-        // ===============================
-
-        doc.setFontSize(7);
-
-        doc.setTextColor(
-            100,
-            100,
-            100
-        );
-
-        doc.text(
-            "Official Ticket - Tribal Rhythm",
-            20,
-            288
-        );
-
-
-        doc.text(
-            "TR-V3.0",
-            180,
-            288
-        );
-
-
-        // ===============================
-        // VIP BADGE
-        // ===============================
-
-        doc.setFillColor(
-            255,
-            215,
-            0
-        );
-
-        doc.circle(
-            180,
-            40,
-            10,
-            "F"
-        );
-
-
-        doc.setTextColor(
-            0,
-            0,
-            0
-        );
-
-        doc.setFont(
-            "helvetica",
-            "bold"
-        );
-
-        doc.setFontSize(7);
-
-        doc.text(
-            type === "VIP"
-                ? "VIP"
-                : "PASS",
-            175,
-            42
-        );
-
-
-        // ===============================
-        // OFFICIAL SEAL
-        // ===============================
-
-        doc.setDrawColor(
-            255,
-            180,
-            0
-        );
-
-        doc.setLineWidth(1);
-
-        doc.circle(
-            180,
-            65,
-            12
-        );
-
-
-        doc.setFontSize(6.5);
-
-        doc.text(
-            "TRIBAL",
-            174,
-            62
-        );
-
-        doc.text(
-            "RHYTHM",
-            172,
-            66
-        );
-
-        doc.text(
-            "OFFICIAL",
-            171,
-            70
-        );
-
-
-        // ===============================
-        // LOGO LOAD
-        // ===============================
+        // =====================================================
+        // SAVE PDF AFTER ASSETS READY
+        // =====================================================
 
         logo.onload = function () {
 
             try {
 
+                // =================================================
+                // ADD LOGO
+                // =================================================
+
                 doc.addImage(
                     logo,
                     "PNG",
-                    15,
-                    10,
-                    28,
-                    28
+                    76,
+                    16.8,
+                    4.5,
+                    4.5
                 );
 
-            } catch (logoError) {
+            }
+
+            catch (logoError) {
 
                 console.warn(
-                    "Logo could not be added:",
+                    "Logo error:",
                     logoError
                 );
 
             }
 
 
-            // ===============================
-            // ADD QR CODE
-            // ===============================
+            // =================================================
+            // QR
+            // =================================================
 
             setTimeout(
                 function () {
@@ -4238,11 +4162,6 @@ Security : ${securityCode}`;
                                 "canvas"
                             );
 
-                        const qrImage =
-                            qrDiv.querySelector(
-                                "img"
-                            );
-
 
                         if (qrCanvas) {
 
@@ -4251,27 +4170,17 @@ Security : ${securityCode}`;
                                     "image/png"
                                 ),
                                 "PNG",
-                                145,
-                                185,
-                                40,
-                                40
-                            );
-
-                        } else if (qrImage) {
-
-                            doc.addImage(
-                                qrImage.src,
-                                "PNG",
-                                145,
-                                185,
-                                40,
-                                40
+                                75,
+                                23,
+                                6.5,
+                                6.5
                             );
 
                         }
 
+                    }
 
-                    } catch (qrError) {
+                    catch (qrError) {
 
                         console.error(
                             "QR Error:",
@@ -4281,16 +4190,47 @@ Security : ${securityCode}`;
                     }
 
 
-                    // ===============================
-                    // REMOVE QR CONTAINER
-                    // ===============================
+                    // =================================================
+                    // BARCODE
+                    // =================================================
+
+                    try {
+
+                        doc.addImage(
+                            barcodeCanvas.toDataURL(
+                                "image/png"
+                            ),
+                            "PNG",
+                            7,
+                            47.5,
+                            40,
+                            5
+                        );
+
+                    }
+
+                    catch (barcodeError) {
+
+                        console.error(
+                            "Barcode Error:",
+                            barcodeError
+                        );
+
+                    }
+
+
+                    // =================================================
+                    // CLEANUP
+                    // =================================================
 
                     qrDiv.remove();
 
+                    barcodeCanvas.remove();
 
-                    // ===============================
-                    // SAVE PDF
-                    // ===============================
+
+                    // =================================================
+                    // SAVE
+                    // =================================================
 
                     doc.save(
                         "TribalRhythm-" +
@@ -4298,21 +4238,22 @@ Security : ${securityCode}`;
                         ".pdf"
                     );
 
+
                 },
-                300
+                500
             );
 
         };
 
 
-        // ===============================
+        // =====================================================
         // LOGO ERROR
-        // ===============================
+        // =====================================================
 
         logo.onerror = function () {
 
             console.warn(
-                "Logo not loaded. Saving PDF without logo."
+                "Logo not loaded."
             );
 
 
@@ -4326,11 +4267,6 @@ Security : ${securityCode}`;
                                 "canvas"
                             );
 
-                        const qrImage =
-                            qrDiv.querySelector(
-                                "img"
-                            );
-
 
                         if (qrCanvas) {
 
@@ -4339,29 +4275,37 @@ Security : ${securityCode}`;
                                     "image/png"
                                 ),
                                 "PNG",
-                                145,
-                                185,
-                                40,
-                                40
-                            );
-
-                        } else if (qrImage) {
-
-                            doc.addImage(
-                                qrImage.src,
-                                "PNG",
-                                145,
-                                185,
-                                40,
-                                40
+                                75,
+                                23,
+                                6.5,
+                                6.5
                             );
 
                         }
 
-                    } catch (error) {
+
+                        // =============================================
+                        // BARCODE
+                        // =============================================
+
+                        doc.addImage(
+                            barcodeCanvas.toDataURL(
+                                "image/png"
+                            ),
+                            "PNG",
+                            7,
+                            47.5,
+                            40,
+                            5
+                        );
+
+
+                    }
+
+                    catch (error) {
 
                         console.error(
-                            "QR Error:",
+                            "Ticket asset error:",
                             error
                         );
 
@@ -4370,6 +4314,8 @@ Security : ${securityCode}`;
 
                     qrDiv.remove();
 
+                    barcodeCanvas.remove();
+
 
                     doc.save(
                         "TribalRhythm-" +
@@ -4377,18 +4323,23 @@ Security : ${securityCode}`;
                         ".pdf"
                     );
 
+
                 },
-                300
+                500
             );
 
         };
 
-    } catch (error) {
+
+    }
+
+    catch (error) {
 
         console.error(
             "GENERATE PDF ERROR:",
             error
         );
+
 
         Swal.fire(
             "PDF Error",

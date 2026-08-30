@@ -1,375 +1,2500 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-    <!-- BASIC -->
+    <!-- =========================================================
+         BASIC
+    ========================================================== -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Terms & Conditions | TribalRhythm</title>
 
-    <!-- SEO -->
+    <!-- =========================================================
+         SEO
+    ========================================================== -->
+
     <meta name="description"
         content="Read the official Terms & Conditions of TribalRhythm for event registration, competitions, ticket booking, payments, and website usage.">
 
     <meta name="keywords"
-        content="TribalRhythm Terms, Terms and Conditions, Dance Competition Rules, Ticket Booking Policy">
+        content="TribalRhythm Terms, Terms and Conditions, Tribal Dance Competition Rules, Ticket Booking Policy, Zentro Nex">
 
     <meta name="author" content="TribalRhythm">
 
     <meta name="robots" content="index,follow">
 
-    <meta name="theme-color" content="#0a0a0a">
+    <meta name="theme-color" content="#080808">
 
-    <!-- Open Graph -->
+    <!-- =========================================================
+         OPEN GRAPH
+    ========================================================== -->
+
     <meta property="og:title" content="Terms & Conditions | TribalRhythm">
+
     <meta property="og:description"
         content="Official Terms & Conditions for TribalRhythm users, participants and visitors.">
+
     <meta property="og:type" content="website">
 
-    <!-- Twitter -->
+    <!-- =========================================================
+         TWITTER
+    ========================================================== -->
+
     <meta name="twitter:card" content="summary_large_image">
+
     <meta name="twitter:title" content="Terms & Conditions | TribalRhythm">
+
     <meta name="twitter:description"
         content="Read the official TribalRhythm Terms & Conditions.">
 
-    <!-- Favicon -->
+    <!-- =========================================================
+         FAVICON / LOGO
+    ========================================================== -->
+
     <link rel="icon" type="image/png" href="logo.png">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <!-- =========================================================
+         GOOGLE FONT
+    ========================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Oriya:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- =========================================================
+         BOOTSTRAP
+    ========================================================== -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- =========================================================
+         ICONS
+    ========================================================== -->
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 
     <style>
+
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            background: #0a0a0a;
-            color: white;
-            font-family: 'Poppins', sans-serif;
+        html {
+            scroll-behavior: smooth;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            padding: 40px 20px;
+        body {
+
+            min-height: 100vh;
+
+            font-family: 'Poppins',
+                'Noto Sans Devanagari',
+                'Noto Sans Oriya',
+                sans-serif;
+
+            color: #ffffff;
+
+            background:
+
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(255, 193, 7, 0.18),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(0, 191, 255, 0.15),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 50% 90%,
+                    rgba(255, 0, 128, 0.12),
+                    transparent 35%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #050505,
+                    #0b0b16,
+                    #10100b,
+                    #050505
+                );
+
+            background-attachment: fixed;
+
+            overflow-x: hidden;
         }
+
+
+        /* =====================================================
+           ANIMATED BACKGROUND
+        ====================================================== */
+
+        body::before {
+
+            content: "";
+
+            position: fixed;
+
+            width: 450px;
+            height: 450px;
+
+            top: -150px;
+            left: -150px;
+
+            background: rgba(255, 215, 0, 0.08);
+
+            filter: blur(80px);
+
+            border-radius: 50%;
+
+            animation: floatGlow 8s infinite alternate ease-in-out;
+
+            pointer-events: none;
+
+            z-index: -1;
+        }
+
+
+        body::after {
+
+            content: "";
+
+            position: fixed;
+
+            width: 400px;
+            height: 400px;
+
+            right: -150px;
+            bottom: -150px;
+
+            background: rgba(0, 191, 255, 0.08);
+
+            filter: blur(90px);
+
+            border-radius: 50%;
+
+            animation: floatGlow2 10s infinite alternate ease-in-out;
+
+            pointer-events: none;
+
+            z-index: -1;
+        }
+
+
+        @keyframes floatGlow {
+
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(180px, 100px);
+            }
+
+        }
+
+
+        @keyframes floatGlow2 {
+
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(-150px, -100px);
+            }
+
+        }
+
+
+        /* =====================================================
+           MAIN CONTAINER
+        ====================================================== */
+
+        .main-container {
+
+            width: 100%;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 30px 18px 50px;
+        }
+
+
+        /* =====================================================
+           TOP BAR
+        ====================================================== */
+
+        .top-bar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+
+            padding: 12px 16px;
+
+            border-radius: 16px;
+
+            background: rgba(255,255,255,0.055);
+
+            border: 1px solid rgba(255,255,255,0.10);
+
+            backdrop-filter: blur(15px);
+
+            box-shadow:
+                0 10px 35px rgba(0,0,0,0.25);
+        }
+
+
+        /* =====================================================
+           BRAND
+        ====================================================== */
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            text-decoration: none;
+
+            color: white;
+        }
+
+
+        .brand img {
+
+            width: 48px;
+
+            height: 48px;
+
+            object-fit: contain;
+
+            border-radius: 12px;
+
+            background: rgba(255,255,255,0.08);
+
+            padding: 4px;
+
+            box-shadow:
+                0 0 20px rgba(255,215,0,0.18);
+        }
+
+
+        .brand-name {
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+            letter-spacing: .4px;
+        }
+
+
+        .brand-sub {
+
+            display: block;
+
+            font-size: 11px;
+
+            color: #aaa;
+        }
+
+
+        /* =====================================================
+           LANGUAGE BUTTONS
+        ====================================================== */
+
+        .language-buttons {
+
+            display: flex;
+
+            gap: 6px;
+
+            flex-wrap: wrap;
+
+            justify-content: center;
+        }
+
+
+        .lang-btn {
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            background: rgba(255,255,255,0.06);
+
+            color: #ddd;
+
+            border-radius: 10px;
+
+            padding: 8px 13px;
+
+            font-size: 12px;
+
+            cursor: pointer;
+
+            transition: .3s;
+        }
+
+
+        .lang-btn:hover {
+
+            border-color: #ffd700;
+
+            color: #ffd700;
+
+            transform: translateY(-2px);
+        }
+
+
+        .lang-btn.active {
+
+            background: linear-gradient(
+                135deg,
+                #ffd700,
+                #ff9d00
+            );
+
+            color: #000;
+
+            border-color: transparent;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           HERO
+        ====================================================== */
+
+        .hero {
+
+            text-align: center;
+
+            padding: 25px 15px 30px;
+        }
+
+
+        .hero-logo {
+
+            width: 95px;
+
+            height: 95px;
+
+            object-fit: contain;
+
+            margin-bottom: 15px;
+
+            filter:
+                drop-shadow(0 0 20px rgba(255,215,0,.25));
+        }
+
+
+        .hero h1 {
+
+            font-size: clamp(30px, 5vw, 52px);
+
+            font-weight: 800;
+
+            margin-bottom: 10px;
+
+            background: linear-gradient(
+                90deg,
+                #fff,
+                #ffd700,
+                #ffae00,
+                #fff
+            );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            background-size: 200% auto;
+
+            animation: shine 4s linear infinite;
+        }
+
+
+        @keyframes shine {
+
+            to {
+                background-position: 200% center;
+            }
+
+        }
+
+
+        /* =====================================================
+           TYPEWRITER
+        ====================================================== */
+
+        .typewriter-box {
+
+            min-height: 32px;
+
+            margin-top: 8px;
+
+            color: #00d9ff;
+
+            font-size: 16px;
+
+            font-weight: 500;
+        }
+
+
+        .cursor {
+
+            display: inline-block;
+
+            width: 2px;
+
+            height: 20px;
+
+            background: #ffd700;
+
+            margin-left: 4px;
+
+            vertical-align: middle;
+
+            animation: blink .7s infinite;
+        }
+
+
+        @keyframes blink {
+
+            50% {
+                opacity: 0;
+            }
+
+        }
+
+
+        .last-updated {
+
+            color: #999;
+
+            font-size: 13px;
+
+            margin-top: 12px;
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ====================================================== */
+
+        .action-buttons {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+            margin: 10px 0 25px;
+        }
+
+
+        .action-btn {
+
+            border: none;
+
+            border-radius: 12px;
+
+            padding: 10px 18px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: .3s;
+        }
+
+
+        .print-btn {
+
+            background: linear-gradient(
+                135deg,
+                #ffd700,
+                #ff9f00
+            );
+
+            color: #000;
+
+            box-shadow:
+                0 5px 20px rgba(255,215,0,.18);
+        }
+
+
+        .print-btn:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 8px 25px rgba(255,215,0,.30);
+        }
+
+
+        .home-btn {
+
+            background: rgba(255,255,255,.07);
+
+            border: 1px solid rgba(255,255,255,.15);
+
+            color: white;
+        }
+
+
+        .home-btn:hover {
+
+            border-color: #00bfff;
+
+            color: #00bfff;
+
+            transform: translateY(-3px);
+        }
+
+
+        /* =====================================================
+           POLICY CARD
+        ====================================================== */
 
         .card-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
-            padding: 35px;
+
+            position: relative;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.075),
+                    rgba(255,255,255,.025)
+                );
+
+            border:
+
+                1px solid
+                rgba(255,255,255,.12);
+
+            border-radius: 24px;
+
+            padding: 40px;
+
+            backdrop-filter: blur(20px);
+
+            box-shadow:
+
+                0 25px 70px
+                rgba(0,0,0,.45);
+
+            overflow: hidden;
         }
 
-        h1 {
-            color: gold;
-            text-align: center;
-            margin-bottom: 10px;
+
+        .card-box::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 3px;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    #ffd700,
+                    #00bfff,
+                    #ff00a8,
+                    #ffd700
+                );
+
+            background-size: 300%;
+
+            animation: borderMove 5s linear infinite;
         }
+
+
+        @keyframes borderMove {
+
+            to {
+                background-position: 300% center;
+            }
+
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ====================================================== */
+
+        .intro-box {
+
+            padding: 18px;
+
+            margin-bottom: 25px;
+
+            border-left: 3px solid #ffd700;
+
+            background: rgba(255,215,0,.045);
+
+            border-radius: 10px;
+        }
+
 
         h2 {
-            color: #FFD700;
-            margin-top: 30px;
-            margin-bottom: 15px;
+
+            color: #ffd700;
+
+            font-size: 22px;
+
+            margin-top: 32px;
+
+            margin-bottom: 14px;
+
+            font-weight: 700;
         }
+
+
+        h2 i {
+
+            margin-right: 7px;
+
+            color: #00cfff;
+        }
+
 
         p,
         li {
-            color: #d7d7d7;
-            line-height: 1.8;
-        }
 
-        ul {
-            margin-left: 20px;
-        }
+            color: #d8d8d8;
 
-        a {
-            color: #00bfff;
-            text-decoration: none;
-        }
+            line-height: 1.85;
 
-        a:hover {
-            color: gold;
-        }
-
-        hr {
-            border-color: rgba(255,255,255,.15);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #999;
             font-size: 14px;
         }
 
-        @media(max-width:768px){
 
-            .card-box{
-                padding:20px;
+        ul {
+
+            padding-left: 22px;
+
+            margin-bottom: 15px;
+        }
+
+
+        li {
+
+            margin-bottom: 7px;
+        }
+
+
+        li::marker {
+
+            color: #ffd700;
+        }
+
+
+        strong,
+        b {
+
+            color: #ffffff;
+        }
+
+
+        a {
+
+            color: #00cfff;
+
+            text-decoration: none;
+        }
+
+
+        a:hover {
+
+            color: #ffd700;
+
+            text-decoration: underline;
+        }
+
+
+        hr {
+
+            border-color: rgba(255,255,255,.12);
+
+            margin: 25px 0;
+        }
+
+
+        /* =====================================================
+           CONTACT BOX
+        ====================================================== */
+
+        .contact-box {
+
+            margin-top: 20px;
+
+            padding: 20px;
+
+            border-radius: 16px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    rgba(0,191,255,.07),
+                    rgba(255,215,0,.05)
+                );
+
+            border:
+
+                1px solid
+                rgba(255,255,255,.10);
+        }
+
+
+        .contact-item {
+
+            margin: 10px 0;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .contact-item i {
+
+            color: #ffd700;
+
+            font-size: 18px;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        footer {
+
+            text-align: center;
+
+            margin-top: 35px;
+
+            color: #888;
+
+            font-size: 13px;
+        }
+
+
+        .powered {
+
+            margin-top: 8px;
+
+            color: #aaa;
+
+            font-size: 13px;
+        }
+
+
+        .powered span {
+
+            color: #ffd700;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media(max-width:768px) {
+
+            .main-container {
+
+                padding: 15px 10px 35px;
             }
 
-            h1{
-                font-size:30px;
+
+            .top-bar {
+
+                flex-direction: column;
+
+                align-items: stretch;
             }
 
-            h2{
-                font-size:22px;
+
+            .brand {
+
+                justify-content: center;
+            }
+
+
+            .language-buttons {
+
+                width: 100%;
+            }
+
+
+            .lang-btn {
+
+                flex: 1;
+            }
+
+
+            .card-box {
+
+                padding: 22px 17px;
+
+                border-radius: 18px;
+            }
+
+
+            .hero {
+
+                padding: 15px 5px 20px;
+            }
+
+
+            .hero-logo {
+
+                width: 75px;
+
+                height: 75px;
+            }
+
+
+            .hero h1 {
+
+                font-size: 31px;
+            }
+
+
+            .typewriter-box {
+
+                font-size: 13px;
+            }
+
+
+            h2 {
+
+                font-size: 19px;
+
+                margin-top: 26px;
+            }
+
+
+            p,
+            li {
+
+                font-size: 13px;
+
+                line-height: 1.75;
             }
 
         }
 
-        ::-webkit-scrollbar{
-            width:8px;
+
+        /* =====================================================
+           PRINT
+        ====================================================== */
+
+        @media print {
+
+            body {
+
+                background: white !important;
+
+                color: black !important;
+            }
+
+
+            body::before,
+            body::after {
+
+                display: none !important;
+            }
+
+
+            .top-bar,
+            .action-buttons,
+            .language-buttons {
+
+                display: none !important;
+            }
+
+
+            .main-container {
+
+                max-width: 100%;
+
+                padding: 0;
+            }
+
+
+            .hero {
+
+                padding-top: 0;
+            }
+
+
+            .hero h1 {
+
+                color: #000 !important;
+
+                background: none !important;
+
+                -webkit-text-fill-color: #000 !important;
+            }
+
+
+            .typewriter-box {
+
+                color: #333 !important;
+            }
+
+
+            .card-box {
+
+                background: white !important;
+
+                color: black !important;
+
+                border: none !important;
+
+                box-shadow: none !important;
+
+                padding: 0;
+            }
+
+
+            .card-box::before {
+
+                display: none;
+            }
+
+
+            p,
+            li {
+
+                color: #222 !important;
+            }
+
+
+            h2 {
+
+                color: #111 !important;
+            }
+
+
+            footer {
+
+                color: #333 !important;
+            }
+
         }
 
-        ::-webkit-scrollbar-thumb{
-            background:gold;
-            border-radius:20px;
+
+        /* =====================================================
+           SCROLLBAR
+        ====================================================== */
+
+        ::-webkit-scrollbar {
+
+            width: 8px;
+        }
+
+
+        ::-webkit-scrollbar-track {
+
+            background: #080808;
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+
+            background: linear-gradient(
+                #ffd700,
+                #ff9f00
+            );
+
+            border-radius: 20px;
         }
 
     </style>
 
 </head>
 
+
 <body>
 
-<div class="container">
 
-<div class="card-box">
+<div class="main-container">
 
-<h1>Terms & Conditions</h1>
 
-<p style="text-align:center;">
-Last Updated: August 2026
-</p>
+    <!-- =====================================================
+         TOP BAR
+    ====================================================== -->
 
-<hr>
+    <div class="top-bar">
 
-<p>
 
-Welcome to <b>TribalRhythm</b>.
+        <a href="index.html" class="brand">
 
-By accessing this website, registering an account, purchasing tickets,
-joining competitions or using our services, you agree to comply with
-these Terms & Conditions.
+            <img src="logo.png"
+                 alt="TribalRhythm Logo">
 
-</p>
+            <div>
 
-<h2>1. Acceptance of Terms</h2>
+                <div class="brand-name">
+                    TribalRhythm
+                </div>
 
-<p>
+                <span class="brand-sub">
+                    Cultural • Digital • Community
+                </span>
 
-By using TribalRhythm, you agree to follow all applicable laws,
-competition rules and these Terms & Conditions.
+            </div>
 
-</p>
+        </a>
 
-<h2>2. User Registration</h2>
 
-<ul>
+        <!-- LANGUAGE -->
 
-<li>You must provide correct and complete information.</li>
+        <div class="language-buttons">
 
-<li>You are responsible for keeping your account credentials secure.</li>
+            <button class="lang-btn active"
+                    onclick="changeLanguage('en')">
+                English
+            </button>
 
-<li>One user may register only one account.</li>
+            <button class="lang-btn"
+                    onclick="changeLanguage('hi')">
+                हिन्दी
+            </button>
 
-<li>Providing false information may result in account suspension.</li>
+            <button class="lang-btn"
+                    onclick="changeLanguage('od')">
+                ଓଡ଼ିଆ
+            </button>
 
-</ul>
+        </div>
 
-<h2>3. OTP Verification</h2>
 
-<p>
+    </div>
 
-Email OTP and Mobile OTP are used only for identity verification.
 
-Users must not share OTP with anyone.
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
 
-</p>
+    <section class="hero">
 
-<h2>4. Competition Rules</h2>
+        <img src="logo.png"
+             class="hero-logo"
+             alt="TribalRhythm Logo">
 
-<ul>
 
-<li>Participants must follow all competition guidelines.</li>
+        <h1 id="pageTitle">
+            Terms & Conditions
+        </h1>
 
-<li>Only original performances are allowed.</li>
 
-<li>Any abusive or offensive content is prohibited.</li>
+        <div class="typewriter-box">
 
-<li>Judges' decisions will be final.</li>
+            <span id="typewriter"></span>
 
-<li>Violation of rules may lead to disqualification.</li>
+            <span class="cursor"></span>
 
-</ul>
+        </div>
 
-<h2>5. Ticket Booking</h2>
 
-<ul>
+        <div class="last-updated"
+             id="lastUpdated">
 
-<li>Tickets are generated only after successful payment.</li>
+            Last Updated: August 2026
 
-<li>Each ticket contains a unique Ticket ID.</li>
+        </div>
 
-<li>Tickets are non-transferable.</li>
+    </section>
 
-<li>Duplicate or fake tickets will not be accepted.</li>
 
-</ul>
+    <!-- =====================================================
+         ACTION BUTTONS
+    ====================================================== -->
 
-<h2>6. Payments</h2>
+    <div class="action-buttons">
 
-<p>
 
-Payments are securely processed through Razorpay.
+        <button class="action-btn print-btn"
+                onclick="window.print()">
 
-TribalRhythm does not store your debit card,
-credit card, CVV, UPI PIN or banking passwords.
+            <i class="bi bi-printer-fill"></i>
 
-</p>
+            <span id="printText">
+                Print Terms
+            </span>
 
-<h2>7. Refund & Cancellation</h2>
+        </button>
 
-<p>
 
-Unless otherwise mentioned for a specific event,
-registration fees and ticket payments are generally
-non-refundable after successful payment.
+        <a href="index.html"
+           class="action-btn home-btn">
 
-In case of duplicate payment caused by a technical error,
-please contact us for assistance.
+            <i class="bi bi-house-fill"></i>
 
-</p>
+            <span id="homeText">
+                Back to Home
+            </span>
 
-<h2>8. Privacy</h2>
+        </a>
 
-<p>
 
-Your personal information is handled according to our
-Privacy Policy.
+    </div>
 
-</p>
 
-<h2>9. Intellectual Property</h2>
+    <!-- =====================================================
+         TERMS CARD
+    ====================================================== -->
 
-<p>
+    <div class="card-box"
+         id="termsContent">
 
-All logos, designs, images, videos, text,
-branding and website content belong to TribalRhythm.
 
-Copying or reproducing content without permission
-is prohibited.
+        <!-- =================================================
+             ENGLISH
+        ================================================== -->
 
-</p>
+        <div class="language-content"
+             id="content-en">
 
-<h2>10. Prohibited Activities</h2>
 
-<ul>
+            <div class="intro-box">
 
-<li>Fake registrations</li>
+                <p>
 
-<li>Fraudulent payments</li>
+                    Welcome to <b>TribalRhythm</b>.
 
-<li>Uploading illegal content</li>
+                    By accessing this website, registering an account,
+                    purchasing tickets, joining competitions or using
+                    our services, you agree to comply with these
+                    Terms & Conditions.
 
-<li>Attempting to hack or misuse the website</li>
+                </p>
 
-<li>Impersonating another user</li>
+            </div>
 
-</ul>
 
-<h2>11. Account Suspension</h2>
+            <h2>
+                <i class="bi bi-check-circle-fill"></i>
+                1. Acceptance of Terms
+            </h2>
 
-<p>
+            <p>
 
-TribalRhythm reserves the right to suspend or terminate
-any account involved in fraudulent or illegal activities.
+                By using TribalRhythm, you agree to follow all
+                applicable laws, competition rules and these
+                Terms & Conditions.
 
-</p>
+            </p>
 
-<h2>12. Limitation of Liability</h2>
 
-<p>
+            <h2>
+                <i class="bi bi-person-check-fill"></i>
+                2. User Registration
+            </h2>
 
-TribalRhythm shall not be responsible for losses caused by:
+            <ul>
 
-</p>
+                <li>
+                    You must provide correct and complete information.
+                </li>
 
-<ul>
+                <li>
+                    You are responsible for keeping your account
+                    credentials secure.
+                </li>
 
-<li>Internet interruption</li>
+                <li>
+                    One user should maintain only one account unless
+                    otherwise permitted by TribalRhythm.
+                </li>
 
-<li>Technical issues</li>
+                <li>
+                    Providing false or misleading information may
+                    result in account suspension or cancellation.
+                </li>
 
-<li>Third-party payment gateway failures</li>
+            </ul>
 
-<li>User device problems</li>
 
-</ul>
+            <h2>
+                <i class="bi bi-shield-lock-fill"></i>
+                3. OTP Verification
+            </h2>
 
-<h2>13. Changes to Terms</h2>
+            <p>
 
-<p>
+                Email OTP and Mobile OTP may be used for identity
+                verification and account security.
 
-We may update these Terms & Conditions at any time.
+                Users must not share their OTP with any other person.
 
-The latest version will always be available on this page.
+                TribalRhythm will not be responsible for losses
+                resulting from voluntarily sharing OTP credentials.
 
-</p>
+            </p>
 
-<h2>14. Governing Law</h2>
 
-<p>
+            <h2>
+                <i class="bi bi-trophy-fill"></i>
+                4. Competition Rules
+            </h2>
 
-These Terms & Conditions shall be governed by the laws of India.
+            <ul>
 
-Any disputes shall be subject to the jurisdiction of the competent courts in India.
+                <li>
+                    Participants must follow all competition guidelines.
+                </li>
 
-</p>
+                <li>
+                    Participants must submit genuine and original
+                    performances or content.
+                </li>
 
-<h2>15. Contact Us</h2>
+                <li>
+                    Abusive, hateful, threatening, obscene or offensive
+                    content is prohibited.
+                </li>
 
-<p>
+                <li>
+                    Participants must follow the instructions provided
+                    for each competition.
+                </li>
 
-<b>TribalRhythm</b>
+                <li>
+                    Judges' decisions will be final, subject to the
+                    applicable competition rules.
+                </li>
 
-<br><br>
+                <li>
+                    Violation of competition rules may result in
+                    disqualification.
+                </li>
 
-Email:
-<a href="mailto:rahulsardarrahul014@gmail.com">
-rahulsardarrahul014@gmail.com
-</a>
+            </ul>
 
-<br><br>
 
-Phone:
-<a href="tel:+917903946369">
-+91 7903946369
-</a>
+            <h2>
+                <i class="bi bi-ticket-perforated-fill"></i>
+                5. Ticket Booking
+            </h2>
 
-</p>
+            <ul>
 
-<footer>
+                <li>
+                    Tickets are generated only after successful payment
+                    and confirmation.
+                </li>
 
-© 2026 TribalRhythm. All Rights Reserved.
+                <li>
+                    Each ticket may contain a unique Ticket ID.
+                </li>
 
-</footer>
+                <li>
+                    Tickets may be non-transferable unless explicitly
+                    permitted for a particular event.
+                </li>
+
+                <li>
+                    Duplicate, altered, fraudulent or fake tickets
+                    will not be accepted.
+                </li>
+
+                <li>
+                    Users are responsible for keeping their ticket
+                    information secure.
+                </li>
+
+            </ul>
+
+
+            <h2>
+                <i class="bi bi-credit-card-fill"></i>
+                6. Payments
+            </h2>
+
+            <p>
+
+                Payments may be securely processed through
+                third-party payment gateways such as Razorpay.
+
+                TribalRhythm does not intentionally store your debit
+                card number, credit card number, CVV, UPI PIN or
+                banking password.
+
+            </p>
+
+
+            <h2>
+                <i class="bi bi-arrow-counterclockwise"></i>
+                7. Refund & Cancellation
+            </h2>
+
+            <p>
+
+                Unless otherwise mentioned for a specific event,
+                registration fees and ticket payments are generally
+                non-refundable after successful payment.
+
+                In case of duplicate payment or a payment-related
+                technical issue, users should contact TribalRhythm
+                with the relevant transaction details.
+
+                Refund eligibility, if applicable, will be handled
+                according to the applicable event and refund policy.
+
+            </p>
+
+
+            <h2>
+                <i class="bi bi-lock-fill"></i>
+                8. Privacy
+            </h2>
+
+            <p>
+
+                Personal information submitted through TribalRhythm
+                is handled according to our Privacy Policy.
+
+                Users should review the Privacy Policy before using
+                services that require personal information.
+
+            </p>
+
+
+            <h2>
+                <i class="bi bi-c-circle-fill"></i>
+                9. Intellectual Property
+            </h2>
+
+            <p>
+
+                All logos, designs, images, videos, text, branding,
+                graphics and website content belonging to TribalRhythm
+                are protected by applicable intellectual property laws.
+
+                Copying, reproducing, modifying or commercially using
+                such content without appropriate permission is prohibited.
+
+            </p>
+
+
+            <h2>
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                10. Prohibited Activities
+            </h2>
+
+            <ul>
+
+                <li>Fake registrations</li>
+
+                <li>Fraudulent payments</li>
+
+                <li>Uploading illegal or harmful content</li>
+
+                <li>Attempting to hack or misuse the website</li>
+
+                <li>Impersonating another person or user</li>
+
+                <li>Attempting to bypass security or verification systems</li>
+
+                <li>Using the website for unlawful activities</li>
+
+            </ul>
+
+
+            <h2>
+                <i class="bi bi-person-x-fill"></i>
+                11. Account Suspension
+            </h2>
+
+            <p>
+
+                TribalRhythm reserves the right to suspend, restrict
+                or terminate access to an account where there is
+                suspected fraud, abuse, unlawful activity, security
+                risk or serious violation of these Terms.
+
+            </p>
+
+
+            <h2>
+                <i class="bi bi-shield-exclamation"></i>
+                12. Limitation of Liability
+            </h2>
+
+            <p>
+
+                To the extent permitted by applicable law,
+                TribalRhythm shall not be responsible for losses
+                caused by circumstances outside its reasonable control,
+                including:
+
+            </p>
+
+            <ul>
+
+                <li>Internet interruption</li>
+
+                <li>Server or technical issues</li>
+
+                <li>Third-party payment gateway failures</li>
+
+                <li>User device or network problems</li>
+
+                <li>Unforeseen service interruptions</li>
+
+            </ul>
+
+
+            <h2>
+                <i class="bi bi-arrow-repeat"></i>
+                13. Changes to Terms
+            </h2>
+
+            <p>
+
+                TribalRhythm may update these Terms & Conditions from
+                time to time.
+
+                The latest version will be published on this page.
+
+                Continued use of the website after an update may
+                constitute acceptance of the updated Terms.
+
+            </p>
+
+
+            <h2>
+                <i class="bi bi-bank2"></i>
+                14. Governing Law
+            </h2>
+
+            <p>
+
+                These Terms & Conditions shall be governed by the
+                applicable laws of India.
+
+                Any dispute shall be subject to the jurisdiction of
+                the competent courts in India, subject to applicable law.
+
+            </p>
+
+
+            <h2>
+                <i class="bi bi-envelope-fill"></i>
+                15. Contact Us
+            </h2>
+
+
+            <div class="contact-box">
+
+                <p>
+                    <b>TribalRhythm</b>
+                </p>
+
+
+                <div class="contact-item">
+
+                    <i class="bi bi-envelope-fill"></i>
+
+                    <span>
+                        Email:
+                        <a href="mailto:rahulsardarrahul014@gmail.com">
+                            rahulsardarrahul014@gmail.com
+                        </a>
+                    </span>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <i class="bi bi-telephone-fill"></i>
+
+                    <span>
+                        Phone:
+                        <a href="tel:+917903946369">
+                            +91 7903946369
+                        </a>
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             HINDI
+        ================================================== -->
+
+        <div class="language-content"
+             id="content-hi"
+             style="display:none;">
+
+            <div class="intro-box">
+
+                <p>
+
+                    <b>TribalRhythm</b> में आपका स्वागत है।
+
+                    इस वेबसाइट का उपयोग करने, अकाउंट बनाने,
+                    टिकट खरीदने, प्रतियोगिता में भाग लेने या
+                    हमारी सेवाओं का उपयोग करने पर आप इन
+                    नियम एवं शर्तों से सहमत होते हैं।
+
+                </p>
+
+            </div>
+
+
+            <h2>1. नियमों की स्वीकृति</h2>
+
+            <p>
+
+                TribalRhythm का उपयोग करके आप भारत के लागू कानूनों,
+                प्रतियोगिता के नियमों और इन नियम एवं शर्तों का पालन
+                करने के लिए सहमत होते हैं।
+
+            </p>
+
+
+            <h2>2. उपयोगकर्ता पंजीकरण</h2>
+
+            <ul>
+
+                <li>
+                    आपको सही और पूर्ण जानकारी प्रदान करनी होगी।
+                </li>
+
+                <li>
+                    अपने अकाउंट की सुरक्षा की जिम्मेदारी आपकी होगी।
+                </li>
+
+                <li>
+                    सामान्यतः एक उपयोगकर्ता का एक ही अकाउंट होना चाहिए।
+                </li>
+
+                <li>
+                    गलत या भ्रामक जानकारी देने पर अकाउंट निलंबित
+                    या रद्द किया जा सकता है।
+                </li>
+
+            </ul>
+
+
+            <h2>3. OTP सत्यापन</h2>
+
+            <p>
+
+                Email OTP और Mobile OTP का उपयोग पहचान सत्यापन और
+                अकाउंट सुरक्षा के लिए किया जा सकता है।
+
+                OTP किसी अन्य व्यक्ति के साथ साझा न करें।
+
+            </p>
+
+
+            <h2>4. प्रतियोगिता के नियम</h2>
+
+            <ul>
+
+                <li>
+                    सभी प्रतिभागियों को प्रतियोगिता के नियमों का पालन करना होगा।
+                </li>
+
+                <li>
+                    प्रतिभागियों द्वारा वास्तविक और मौलिक प्रदर्शन या सामग्री
+                    प्रस्तुत की जानी चाहिए।
+                </li>
+
+                <li>
+                    अपमानजनक, हिंसक, धमकीपूर्ण, अश्लील या आपत्तिजनक
+                    सामग्री प्रतिबंधित है।
+                </li>
+
+                <li>
+                    प्रतियोगिता के प्रत्येक विशेष निर्देश का पालन करना आवश्यक है।
+                </li>
+
+                <li>
+                    लागू प्रतियोगिता नियमों के अधीन निर्णायकों का निर्णय अंतिम होगा।
+                </li>
+
+                <li>
+                    नियमों का उल्लंघन करने पर प्रतिभागी को अयोग्य घोषित किया
+                    जा सकता है।
+                </li>
+
+            </ul>
+
+
+            <h2>5. टिकट बुकिंग</h2>
+
+            <ul>
+
+                <li>
+                    सफल भुगतान और पुष्टि के बाद ही टिकट जारी किया जाएगा।
+                </li>
+
+                <li>
+                    प्रत्येक टिकट में एक यूनिक Ticket ID हो सकती है।
+                </li>
+
+                <li>
+                    टिकट सामान्यतः हस्तांतरणीय नहीं होंगे, जब तक किसी
+                    विशेष कार्यक्रम में इसकी अनुमति न हो।
+                </li>
+
+                <li>
+                    नकली, बदले हुए या डुप्लीकेट टिकट स्वीकार नहीं किए जाएंगे।
+                </li>
+
+            </ul>
+
+
+            <h2>6. भुगतान</h2>
+
+            <p>
+
+                भुगतान Razorpay जैसे तृतीय-पक्ष भुगतान गेटवे के माध्यम
+                से सुरक्षित रूप से संसाधित किया जा सकता है।
+
+                TribalRhythm आपके कार्ड नंबर, CVV, UPI PIN या बैंकिंग
+                पासवर्ड को जानबूझकर स्टोर नहीं करता।
+
+            </p>
+
+
+            <h2>7. रिफंड और कैंसिलेशन</h2>
+
+            <p>
+
+                किसी विशेष कार्यक्रम में अलग से उल्लेख न होने पर
+                सफल भुगतान के बाद पंजीकरण शुल्क और टिकट भुगतान
+                सामान्यतः वापस नहीं किया जाएगा।
+
+                डुप्लीकेट भुगतान या तकनीकी समस्या होने पर उपयोगकर्ता
+                संबंधित transaction details के साथ TribalRhythm से
+                संपर्क कर सकता है।
+
+            </p>
+
+
+            <h2>8. गोपनीयता</h2>
+
+            <p>
+
+                TribalRhythm के माध्यम से प्राप्त व्यक्तिगत जानकारी को
+                हमारी Privacy Policy के अनुसार संभाला जाता है।
+
+            </p>
+
+
+            <h2>9. बौद्धिक संपदा</h2>
+
+            <p>
+
+                TribalRhythm के लोगो, डिजाइन, फोटो, वीडियो, टेक्स्ट,
+                ब्रांडिंग और वेबसाइट सामग्री का उपयोग उचित अनुमति
+                के बिना कॉपी या व्यावसायिक रूप से नहीं किया जा सकता।
+
+            </p>
+
+
+            <h2>10. प्रतिबंधित गतिविधियां</h2>
+
+            <ul>
+
+                <li>फर्जी पंजीकरण</li>
+
+                <li>धोखाधड़ी वाला भुगतान</li>
+
+                <li>अवैध या हानिकारक सामग्री अपलोड करना</li>
+
+                <li>वेबसाइट को हैक या दुरुपयोग करने का प्रयास</li>
+
+                <li>किसी अन्य व्यक्ति की पहचान का उपयोग करना</li>
+
+                <li>सुरक्षा प्रणाली को बायपास करने का प्रयास</li>
+
+                <li>वेबसाइट का गैरकानूनी उपयोग</li>
+
+            </ul>
+
+
+            <h2>11. अकाउंट निलंबन</h2>
+
+            <p>
+
+                धोखाधड़ी, दुरुपयोग, अवैध गतिविधि, सुरक्षा जोखिम या
+                नियमों के गंभीर उल्लंघन की स्थिति में TribalRhythm
+                किसी अकाउंट को निलंबित या समाप्त कर सकता है।
+
+            </p>
+
+
+            <h2>12. जिम्मेदारी की सीमा</h2>
+
+            <p>
+
+                लागू कानून की सीमा तक TribalRhythm ऐसी समस्याओं के लिए
+                जिम्मेदार नहीं होगा जो उसके उचित नियंत्रण से बाहर हों,
+                जैसे इंटरनेट समस्या, सर्वर समस्या, भुगतान गेटवे समस्या
+                या उपयोगकर्ता के डिवाइस की समस्या।
+
+            </p>
+
+
+            <h2>13. नियमों में परिवर्तन</h2>
+
+            <p>
+
+                TribalRhythm समय-समय पर इन नियम एवं शर्तों को अपडेट
+                कर सकता है। नवीनतम संस्करण इसी पेज पर उपलब्ध होगा।
+
+            </p>
+
+
+            <h2>14. लागू कानून</h2>
+
+            <p>
+
+                ये नियम एवं शर्तें भारत के लागू कानूनों के अनुसार
+                नियंत्रित होंगी। किसी विवाद के लिए भारत की सक्षम
+                अदालतों का अधिकार क्षेत्र लागू होगा।
+
+            </p>
+
+
+            <h2>15. संपर्क करें</h2>
+
+            <div class="contact-box">
+
+                <p>
+                    <b>TribalRhythm</b>
+                </p>
+
+                <div class="contact-item">
+
+                    <i class="bi bi-envelope-fill"></i>
+
+                    <span>
+                        Email:
+                        <a href="mailto:rahulsardarrahul014@gmail.com">
+                            rahulsardarrahul014@gmail.com
+                        </a>
+                    </span>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <i class="bi bi-telephone-fill"></i>
+
+                    <span>
+                        Phone:
+                        <a href="tel:+917903946369">
+                            +91 7903946369
+                        </a>
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ODIA
+        ================================================== -->
+
+        <div class="language-content"
+             id="content-od"
+             style="display:none;">
+
+            <div class="intro-box">
+
+                <p>
+
+                    <b>TribalRhythm</b> କୁ ସ୍ୱାଗତ।
+
+                    ଏହି ୱେବସାଇଟ୍ ବ୍ୟବହାର କରିବା, ଆକାଉଣ୍ଟ୍
+                    ପଞ୍ଜୀକରଣ କରିବା, ଟିକେଟ୍ କିଣିବା, ପ୍ରତିଯୋଗିତାରେ
+                    ଅଂଶଗ୍ରହଣ କରିବା କିମ୍ବା ଆମ ସେବା ବ୍ୟବହାର କରିବା
+                    ଦ୍ୱାରା ଆପଣ ଏହି ନିୟମ ଏବଂ ସର୍ତ୍ତାବଳୀକୁ
+                    ସ୍ୱୀକାର କରୁଛନ୍ତି।
+
+                </p>
+
+            </div>
+
+
+            <h2>୧. ନିୟମର ସ୍ୱୀକୃତି</h2>
+
+            <p>
+
+                TribalRhythm ବ୍ୟବହାର କରିବା ସମୟରେ ଆପଣ ଭାରତର
+                ପ୍ରଚଳିତ ଆଇନ, ପ୍ରତିଯୋଗିତା ନିୟମ ଏବଂ ଏହି
+                ନିୟମ ଓ ସର୍ତ୍ତାବଳୀ ପାଳନ କରିବାକୁ ସମ୍ମତ ହୁଅନ୍ତି।
+
+            </p>
+
+
+            <h2>୨. ବ୍ୟବହାରକାରୀ ପଞ୍ଜୀକରଣ</h2>
+
+            <ul>
+
+                <li>
+                    ଆପଣଙ୍କୁ ସଠିକ୍ ଏବଂ ସମ୍ପୂର୍ଣ୍ଣ ତଥ୍ୟ ଦେବାକୁ ପଡିବ।
+                </li>
+
+                <li>
+                    ଆପଣଙ୍କ ଆକାଉଣ୍ଟ୍ ସୁରକ୍ଷିତ ରଖିବାର ଦାୟିତ୍ୱ ଆପଣଙ୍କର।
+                </li>
+
+                <li>
+                    ସାଧାରଣତଃ ଜଣେ ବ୍ୟବହାରକାରୀଙ୍କର ଗୋଟିଏ ଆକାଉଣ୍ଟ୍
+                    ରହିବା ଉଚିତ।
+                </li>
+
+                <li>
+                    ଭୁଲ କିମ୍ବା ଭ୍ରାମକ ତଥ୍ୟ ଦେଲେ ଆକାଉଣ୍ଟ୍
+                    ନିଲମ୍ବିତ କିମ୍ବା ବାତିଲ ହୋଇପାରେ।
+                </li>
+
+            </ul>
+
+
+            <h2>୩. OTP ଯାଞ୍ଚ</h2>
+
+            <p>
+
+                Email OTP ଏବଂ Mobile OTP ପରିଚୟ ଯାଞ୍ଚ ଏବଂ
+                ଆକାଉଣ୍ଟ୍ ସୁରକ୍ଷା ପାଇଁ ବ୍ୟବହାର କରାଯାଇପାରେ।
+
+                OTP କାହା ସହିତ ମଧ୍ୟ ସେୟାର କରନ୍ତୁ ନାହିଁ।
+
+            </p>
+
+
+            <h2>୪. ପ୍ରତିଯୋଗିତା ନିୟମ</h2>
+
+            <ul>
+
+                <li>
+                    ସମସ୍ତ ଅଂଶଗ୍ରହଣକାରୀଙ୍କୁ ପ୍ରତିଯୋଗିତାର
+                    ନିୟମ ପାଳନ କରିବାକୁ ପଡିବ।
+                </li>
+
+                <li>
+                    ମୌଳିକ ଏବଂ ସତ୍ୟ ପ୍ରଦର୍ଶନ କିମ୍ବା ବିଷୟବସ୍ତୁ
+                    ଦାଖଲ କରିବାକୁ ପଡିବ।
+                </li>
+
+                <li>
+                    ଅପମାନଜନକ, ଧମକପୂର୍ଣ୍ଣ, ଅଶ୍ଳୀଳ କିମ୍ବା
+                    ଆପତ୍ତିଜନକ ବିଷୟବସ୍ତୁ ନିଷେଧ।
+                </li>
+
+                <li>
+                    ପ୍ରତିଯୋଗିତା ପାଇଁ ଦିଆଯାଇଥିବା ବିଶେଷ
+                    ନିର୍ଦ୍ଦେଶ ପାଳନ କରିବା ଆବଶ୍ୟକ।
+                </li>
+
+                <li>
+                    ପ୍ରଯୁଜ୍ୟ ପ୍ରତିଯୋଗିତା ନିୟମ ଅନୁସାରେ
+                    ବିଚାରକଙ୍କ ନିଷ୍ପତ୍ତି ଚୂଡ଼ାନ୍ତ ହେବ।
+                </li>
+
+                <li>
+                    ନିୟମ ଉଲ୍ଲଂଘନ କଲେ ପ୍ରତିଯୋଗୀଙ୍କୁ
+                    ଅଯୋଗ୍ୟ ଘୋଷଣା କରାଯାଇପାରେ।
+                </li>
+
+            </ul>
+
+
+            <h2>୫. ଟିକେଟ୍ ବୁକିଂ</h2>
+
+            <ul>
+
+                <li>
+                    ସଫଳ ପେମେଣ୍ଟ୍ ଏବଂ ନିଶ୍ଚିତକରଣ ପରେ ଟିକେଟ୍
+                    ଜାରି କରାଯିବ।
+                </li>
+
+                <li>
+                    ପ୍ରତ୍ୟେକ ଟିକେଟ୍‌ରେ ଏକ Unique Ticket ID
+                    ରହିପାରେ।
+                </li>
+
+                <li>
+                    ଟିକେଟ୍ ସାଧାରଣତଃ ହସ୍ତାନ୍ତରଯୋଗ୍ୟ ନୁହେଁ,
+                    ଯଦି କୌଣସି ବିଶେଷ କାର୍ଯ୍ୟକ୍ରମରେ ଅନୁମତି
+                    ନ ଦିଆଯାଇଥାଏ।
+                </li>
+
+                <li>
+                    ନକଲି, ପରିବର୍ତ୍ତିତ କିମ୍ବା ଡୁପ୍ଲିକେଟ୍ ଟିକେଟ୍
+                    ଗ୍ରହଣ କରାଯିବ ନାହିଁ।
+                </li>
+
+            </ul>
+
+
+            <h2>୬. ପେମେଣ୍ଟ୍</h2>
+
+            <p>
+
+                Razorpay ପରି ତୃତୀୟ ପକ୍ଷ ପେମେଣ୍ଟ୍ ଗେଟୱେ ମାଧ୍ୟମରେ
+                ପେମେଣ୍ଟ୍ ସୁରକ୍ଷିତ ଭାବରେ ପ୍ରକ୍ରିୟା କରାଯାଇପାରେ।
+
+                TribalRhythm ଆପଣଙ୍କ କାର୍ଡ ନମ୍ବର, CVV, UPI PIN
+                କିମ୍ବା ବ୍ୟାଙ୍କିଂ ପାସୱାର୍ଡକୁ ଜାଣିଶୁଣି ସଂରକ୍ଷଣ କରେ ନାହିଁ।
+
+            </p>
+
+
+            <h2>୭. ରିଫଣ୍ଡ୍ ଏବଂ ବାତିଲ</h2>
+
+            <p>
+
+                କୌଣସି ବିଶେଷ କାର୍ଯ୍ୟକ୍ରମରେ ଭିନ୍ନ ନିୟମ ଉଲ୍ଲେଖ
+                ନଥିଲେ, ସଫଳ ପେମେଣ୍ଟ୍ ପରେ ପଞ୍ଜୀକରଣ ଶୁଳ୍କ ଏବଂ
+                ଟିକେଟ୍ ପେମେଣ୍ଟ୍ ସାଧାରଣତଃ ରିଫଣ୍ଡ୍ ହେବ ନାହିଁ।
+
+                ଡୁପ୍ଲିକେଟ୍ ପେମେଣ୍ଟ୍ କିମ୍ବା ଟେକ୍ନିକାଲ୍ ସମସ୍ୟା
+                ହେଲେ ଆବଶ୍ୟକ transaction details ସହିତ
+                TribalRhythm ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ।
+
+            </p>
+
+
+            <h2>୮. ଗୋପନୀୟତା</h2>
+
+            <p>
+
+                TribalRhythm ମାଧ୍ୟମରେ ପ୍ରାପ୍ତ ବ୍ୟକ୍ତିଗତ ତଥ୍ୟ
+                ଆମ Privacy Policy ଅନୁସାରେ ପରିଚାଳିତ ହେବ।
+
+            </p>
+
+
+            <h2>୯. ବୌଦ୍ଧିକ ସମ୍ପତ୍ତି</h2>
+
+            <p>
+
+                TribalRhythm ର ଲୋଗୋ, ଡିଜାଇନ୍, ଫଟୋ, ଭିଡିଓ,
+                ଟେକ୍ସଟ୍, ବ୍ରାଣ୍ଡିଂ ଏବଂ ୱେବସାଇଟ୍ ବିଷୟବସ୍ତୁକୁ
+                ଅନୁମତି ବିନା କପି, ପୁନଃବ୍ୟବହାର କିମ୍ବା ବ୍ୟବସାୟିକ
+                ଭାବରେ ବ୍ୟବହାର କରିବା ନିଷେଧ।
+
+            </p>
+
+
+            <h2>୧୦. ନିଷିଦ୍ଧ କାର୍ଯ୍ୟକଳାପ</h2>
+
+            <ul>
+
+                <li>ନକଲି ପଞ୍ଜୀକରଣ</li>
+
+                <li>ଜାଲିଆତି ପେମେଣ୍ଟ୍</li>
+
+                <li>ଅବୈଧ କିମ୍ବା କ୍ଷତିକାରକ ବିଷୟବସ୍ତୁ ଅପଲୋଡ୍</li>
+
+                <li>ୱେବସାଇଟ୍ ହ୍ୟାକ୍ କିମ୍ବା ଦୁରୁପଯୋଗ କରିବା</li>
+
+                <li>ଅନ୍ୟ ବ୍ୟକ୍ତିଙ୍କ ପରିଚୟ ବ୍ୟବହାର କରିବା</li>
+
+                <li>ସୁରକ୍ଷା ବ୍ୟବସ୍ଥାକୁ ବାଇପାସ୍ କରିବା</li>
+
+                <li>ଅବୈଧ କାର୍ଯ୍ୟ ପାଇଁ ୱେବସାଇଟ୍ ବ୍ୟବହାର କରିବା</li>
+
+            </ul>
+
+
+            <h2>୧୧. ଆକାଉଣ୍ଟ୍ ନିଲମ୍ବନ</h2>
+
+            <p>
+
+                ଜାଲିଆତି, ଦୁରୁପଯୋଗ, ଅବୈଧ କାର୍ଯ୍ୟ, ସୁରକ୍ଷା ଝୁମ୍ପ
+                କିମ୍ବା ଏହି ନିୟମର ଗୁରୁତର ଉଲ୍ଲଂଘନ ହେଲେ
+                TribalRhythm ଆକାଉଣ୍ଟ୍‌କୁ ନିଲମ୍ବିତ କିମ୍ବା
+                ବନ୍ଦ କରିପାରେ।
+
+            </p>
+
+
+            <h2>୧୨. ଦାୟିତ୍ୱର ସୀମା</h2>
+
+            <p>
+
+                ପ୍ରଯୁଜ୍ୟ ଆଇନ ଅନୁମତି ଦେଇଥିବା ସୀମା ପର୍ଯ୍ୟନ୍ତ,
+                ଇଣ୍ଟରନେଟ୍ ସମସ୍ୟା, ସର୍ଭର ସମସ୍ୟା, ତୃତୀୟ ପକ୍ଷ
+                ପେମେଣ୍ଟ୍ ଗେଟୱେ ସମସ୍ୟା କିମ୍ବା ବ୍ୟବହାରକାରୀଙ୍କ
+                ଡିଭାଇସ୍ ସମସ୍ୟା ପାଇଁ TribalRhythm ଦାୟୀ ରହିବ ନାହିଁ।
+
+            </p>
+
+
+            <h2>୧୩. ନିୟମରେ ପରିବର୍ତ୍ତନ</h2>
+
+            <p>
+
+                TribalRhythm ସମୟ ସମୟରେ ଏହି ନିୟମ ଏବଂ ସର୍ତ୍ତାବଳୀ
+                ପରିବର୍ତ୍ତନ କିମ୍ବା ଅପଡେଟ୍ କରିପାରେ।
+
+                ନୂତନ ସଂସ୍କରଣ ଏହି ପୃଷ୍ଠାରେ ପ୍ରକାଶ କରାଯିବ।
+
+            </p>
+
+
+            <h2>୧୪. ପ୍ରଯୁଜ୍ୟ ଆଇନ</h2>
+
+            <p>
+
+                ଏହି ନିୟମ ଏବଂ ସର୍ତ୍ତାବଳୀ ଭାରତର ପ୍ରଯୁଜ୍ୟ
+                ଆଇନ ଅନୁସାରେ ପରିଚାଳିତ ହେବ।
+
+                କୌଣସି ବିବାଦ ହେଲେ ଭାରତର ସକ୍ଷମ ଅଦାଲତର
+                ଅଧିକାର କ୍ଷେତ୍ର ଲାଗୁ ହେବ।
+
+            </p>
+
+
+            <h2>୧୫. ଯୋଗାଯୋଗ</h2>
+
+            <div class="contact-box">
+
+                <p>
+                    <b>TribalRhythm</b>
+                </p>
+
+
+                <div class="contact-item">
+
+                    <i class="bi bi-envelope-fill"></i>
+
+                    <span>
+
+                        Email:
+
+                        <a href="mailto:rahulsardarrahul014@gmail.com">
+
+                            rahulsardarrahul014@gmail.com
+
+                        </a>
+
+                    </span>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <i class="bi bi-telephone-fill"></i>
+
+                    <span>
+
+                        Phone:
+
+                        <a href="tel:+917903946369">
+
+                            +91 7903946369
+
+                        </a>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <div>
+
+            © 2026 TribalRhythm. All Rights Reserved.
+
+        </div>
+
+
+        <div class="powered">
+
+            Powered by
+            <span>Zentro Nex</span>
+
+        </div>
+
+    </footer>
+
 
 </div>
 
-</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
+<script>
+
+
+    /* ========================================================
+       LANGUAGE DATA
+    ========================================================= */
+
+    const languageData = {
+
+        en: {
+
+            title: "Terms & Conditions",
+
+            welcome:
+                "Welcome to TribalRhythm — Your Cultural Digital Platform",
+
+            updated:
+                "Last Updated: August 2026",
+
+            print:
+                "Print Terms",
+
+            home:
+                "Back to Home"
+
+        },
+
+
+        hi: {
+
+            title:
+                "नियम एवं शर्तें",
+
+            welcome:
+                "TribalRhythm में आपका स्वागत है — आपकी सांस्कृतिक डिजिटल प्लेटफॉर्म",
+
+            updated:
+                "अंतिम अपडेट: अगस्त 2026",
+
+            print:
+                "नियम प्रिंट करें",
+
+            home:
+                "होम पर वापस जाएं"
+
+        },
+
+
+        od: {
+
+            title:
+                "ନିୟମ ଏବଂ ସର୍ତ୍ତାବଳୀ",
+
+            welcome:
+                "TribalRhythm କୁ ସ୍ୱାଗତ — ଆପଣଙ୍କ ସାଂସ୍କୃତିକ ଡିଜିଟାଲ୍ ପ୍ଲାଟଫର୍ମ",
+
+            updated:
+                "ଶେଷ ଅପଡେଟ୍: ଅଗଷ୍ଟ 2026",
+
+            print:
+                "ନିୟମ ପ୍ରିଣ୍ଟ୍ କରନ୍ତୁ",
+
+            home:
+                "ହୋମ୍‌କୁ ଫେରନ୍ତୁ"
+
+        }
+
+    };
+
+
+    /* ========================================================
+       TYPEWRITER
+    ========================================================= */
+
+    let typingTimer;
+
+    let currentLanguage = "en";
+
+
+    function startTypewriter(text) {
+
+        clearTimeout(typingTimer);
+
+        const element =
+            document.getElementById("typewriter");
+
+        element.textContent = "";
+
+        let index = 0;
+
+
+        function type() {
+
+            if (index < text.length) {
+
+                element.textContent +=
+                    text.charAt(index);
+
+                index++;
+
+                typingTimer =
+                    setTimeout(type, 45);
+
+            }
+
+        }
+
+
+        type();
+
+    }
+
+
+    /* ========================================================
+       CHANGE LANGUAGE
+    ========================================================= */
+
+    function changeLanguage(language) {
+
+        currentLanguage = language;
+
+
+        /* Hide all content */
+
+        document
+            .querySelectorAll(".language-content")
+            .forEach(function(section) {
+
+                section.style.display = "none";
+
+            });
+
+
+        /* Show selected */
+
+        document
+            .getElementById("content-" + language)
+            .style.display = "block";
+
+
+        /* Update buttons */
+
+        document
+            .querySelectorAll(".lang-btn")
+            .forEach(function(button) {
+
+                button.classList.remove("active");
+
+            });
+
+
+        document
+            .querySelectorAll(".lang-btn")
+            .forEach(function(button) {
+
+                const buttonText =
+                    button.textContent.trim();
+
+                if (
+
+                    (language === "en" &&
+                        buttonText === "English")
+
+                    ||
+
+                    (language === "hi" &&
+                        buttonText === "हिन्दी")
+
+                    ||
+
+                    (language === "od" &&
+                        buttonText === "ଓଡ଼ିଆ")
+
+                ) {
+
+                    button.classList.add("active");
+
+                }
+
+            });
+
+
+        /* Update title */
+
+        document
+            .getElementById("pageTitle")
+            .textContent =
+            languageData[language].title;
+
+
+        /* Update last updated */
+
+        document
+            .getElementById("lastUpdated")
+            .textContent =
+            languageData[language].updated;
+
+
+        /* Update print */
+
+        document
+            .getElementById("printText")
+            .textContent =
+            languageData[language].print;
+
+
+        /* Update home */
+
+        document
+            .getElementById("homeText")
+            .textContent =
+            languageData[language].home;
+
+
+        /* Restart typewriter */
+
+        startTypewriter(
+            languageData[language].welcome
+        );
+
+
+        /* Update HTML language */
+
+        if (language === "en") {
+
+            document.documentElement.lang = "en";
+
+        }
+
+        else if (language === "hi") {
+
+            document.documentElement.lang = "hi";
+
+        }
+
+        else {
+
+            document.documentElement.lang = "or";
+
+        }
+
+
+        /* Save preference */
+
+        localStorage.setItem(
+            "tribalrhythm-language",
+            language
+        );
+
+    }
+
+
+    /* ========================================================
+       LOAD SAVED LANGUAGE
+    ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            const savedLanguage =
+                localStorage.getItem(
+                    "tribalrhythm-language"
+                );
+
+
+            if (
+                savedLanguage &&
+                languageData[savedLanguage]
+            ) {
+
+                changeLanguage(savedLanguage);
+
+            }
+
+            else {
+
+                changeLanguage("en");
+
+            }
+
+        }
+    );
+
+
+</script>
+
 
 </body>
 
 </html>
+```

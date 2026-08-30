@@ -3,18 +3,25 @@
 
 <head>
 
-    <!-- BASIC -->
+    <!-- =====================================================
+         BASIC
+    ====================================================== -->
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Refund & Cancellation Policy | TribalRhythm</title>
 
-    <!-- SEO -->
+    <!-- =====================================================
+         SEO
+    ====================================================== -->
+
     <meta name="description"
-        content="Read the official Refund & Cancellation Policy of TribalRhythm for event registration, competition fees and ticket booking.">
+        content="Official Refund & Cancellation Policy of TribalRhythm, powered by Zentro Nex, covering event registration, competition fees, ticket bookings, failed transactions and refunds.">
 
     <meta name="keywords"
-        content="TribalRhythm Refund Policy, Cancellation Policy, Ticket Refund, Competition Registration">
+        content="TribalRhythm Refund Policy, TribalRhythm Cancellation Policy, Ticket Refund, Competition Refund, Zentro Nex">
 
     <meta name="author" content="TribalRhythm">
 
@@ -22,287 +29,2261 @@
 
     <meta name="theme-color" content="#0a0a0a">
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Refund & Cancellation Policy | TribalRhythm">
-    <meta property="og:description" content="Official Refund & Cancellation Policy of TribalRhythm.">
-    <meta property="og:type" content="website">
+    <!-- =====================================================
+         OPEN GRAPH
+    ====================================================== -->
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Refund & Cancellation Policy | TribalRhythm">
-    <meta name="twitter:description" content="Official Refund & Cancellation Policy for TribalRhythm users.">
+    <meta property="og:title"
+        content="Refund & Cancellation Policy | TribalRhythm">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="logo.png">
+    <meta property="og:description"
+        content="Official Refund & Cancellation Policy of TribalRhythm powered by Zentro Nex.">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <meta property="og:type"
+        content="website">
+
+    <!-- =====================================================
+         TWITTER
+    ====================================================== -->
+
+    <meta name="twitter:card"
+        content="summary_large_image">
+
+    <meta name="twitter:title"
+        content="Refund & Cancellation Policy | TribalRhythm">
+
+    <meta name="twitter:description"
+        content="Official Refund & Cancellation Policy for TribalRhythm users.">
+
+    <!-- =====================================================
+         FAVICON
+    ====================================================== -->
+
+    <link rel="icon"
+        type="image/png"
+        href="logo.png">
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Noto+Sans+Oriya:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- =====================================================
+         STYLE
+    ====================================================== -->
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            background: #0a0a0a;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
+        html {
+            scroll-behavior: smooth;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            padding: 40px 20px;
+        body {
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(255, 215, 0, 0.08),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(0, 191, 255, 0.05),
+                    transparent 35%
+                ),
+                #080808;
+
+            color: #ffffff;
+
+            font-family: 'Poppins',
+                'Noto Sans Devanagari',
+                'Noto Sans Oriya',
+                sans-serif;
+
+            min-height: 100vh;
         }
+
+
+        /* =====================================================
+           MAIN CONTAINER
+        ====================================================== */
+
+        .main-container {
+
+            width: 100%;
+
+            max-width: 1050px;
+
+            margin: auto;
+
+            padding: 30px 18px 50px;
+        }
+
+
+        /* =====================================================
+           TOP BRAND
+        ====================================================== */
+
+        .brand-header {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+        }
+
+        .brand-title {
+
+            font-size: 15px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+            color: #aaaaaa;
+
+            margin-bottom: 5px;
+        }
+
+        .brand-title span {
+
+            color: #FFD700;
+
+            font-weight: 700;
+        }
+
+        .powered {
+
+            font-size: 13px;
+
+            color: #777;
+
+        }
+
+        .powered strong {
+
+            color: #00bfff;
+        }
+
+
+        /* =====================================================
+           LANGUAGE SWITCHER
+        ====================================================== */
+
+        .language-bar {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 25px;
+        }
+
+        .language-btn {
+
+            border: 1px solid rgba(255, 215, 0, 0.25);
+
+            background: rgba(255, 255, 255, 0.04);
+
+            color: #cccccc;
+
+            padding: 9px 18px;
+
+            border-radius: 30px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            transition: 0.3s;
+
+            font-family: inherit;
+        }
+
+        .language-btn:hover {
+
+            border-color: #FFD700;
+
+            color: #FFD700;
+
+            transform: translateY(-2px);
+        }
+
+        .language-btn.active {
+
+            background: linear-gradient(
+                135deg,
+                #FFD700,
+                #f5a900
+            );
+
+            color: #111;
+
+            border-color: #FFD700;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 5px 20px
+                rgba(255, 215, 0, 0.18);
+        }
+
+
+        /* =====================================================
+           POLICY BOX
+        ====================================================== */
 
         .policy-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, .10);
-            border-radius: 18px;
-            padding: 35px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.07),
+                    rgba(255, 255, 255, 0.025)
+                );
+
+            border:
+
+                1px solid
+                rgba(255, 255, 255, 0.10);
+
+            border-radius: 22px;
+
+            padding: 42px;
+
+            box-shadow:
+
+                0 25px 70px
+                rgba(0, 0, 0, 0.5);
+
+            backdrop-filter: blur(12px);
         }
 
-        h1 {
+
+        /* =====================================================
+           TITLE
+        ====================================================== */
+
+        .policy-title {
+
             text-align: center;
-            color: gold;
-            margin-bottom: 10px;
+
+            margin-bottom: 8px;
+
+            color: #FFD700;
+
+            font-size: 38px;
+
+            font-weight: 700;
+
+            letter-spacing: -0.5px;
         }
 
-        h2 {
+        .policy-subtitle {
+
+            text-align: center;
+
+            color: #999;
+
+            font-size: 14px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ====================================================== */
+
+        .action-buttons {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin: 25px 0;
+        }
+
+        .action-btn {
+
+            border: none;
+
+            padding: 11px 20px;
+
+            border-radius: 30px;
+
+            cursor: pointer;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .print-btn {
+
+            background: #FFD700;
+
+            color: #111;
+        }
+
+        .pdf-btn {
+
+            background: #222;
+
+            color: #fff;
+
+            border: 1px solid #444;
+        }
+
+        .action-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(0,0,0,0.35);
+        }
+
+
+        /* =====================================================
+           DIVIDER
+        ====================================================== */
+
+        .gold-divider {
+
+            border: 0;
+
+            height: 1px;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,215,0,0.6),
+                    transparent
+                );
+
+            margin: 25px 0;
+        }
+
+
+        /* =====================================================
+           INTRO
+        ====================================================== */
+
+        .intro-box {
+
+            background:
+                rgba(255, 215, 0, 0.045);
+
+            border-left:
+
+                3px solid #FFD700;
+
+            padding: 18px 20px;
+
+            border-radius: 8px;
+
+            margin-bottom: 30px;
+        }
+
+
+        /* =====================================================
+           SECTION
+        ====================================================== */
+
+        .policy-section {
+
+            margin-top: 32px;
+        }
+
+        .policy-section h2 {
+
             color: #FFD700;
-            margin-top: 30px;
-            margin-bottom: 15px;
+
+            font-size: 21px;
+
+            margin-bottom: 12px;
+
+            font-weight: 600;
+        }
+
+        .policy-section h2 span {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 31px;
+
+            height: 31px;
+
+            background:
+                rgba(255,215,0,0.10);
+
+            border:
+                1px solid rgba(255,215,0,0.25);
+
+            border-radius: 50%;
+
+            font-size: 13px;
+
+            margin-right: 8px;
+
+            color: #FFD700;
         }
 
         p,
         li {
-            color: #d8d8d8;
-            line-height: 1.8;
+
+            color: #d4d4d4;
+
+            line-height: 1.85;
+
+            font-size: 14.5px;
         }
 
         ul {
-            margin-left: 22px;
+
+            padding-left: 25px;
+
+            margin-top: 10px;
+        }
+
+        li {
+
+            margin-bottom: 8px;
+        }
+
+        strong,
+        b {
+
+            color: #ffffff;
+        }
+
+
+        /* =====================================================
+           IMPORTANT BOX
+        ====================================================== */
+
+        .important-box {
+
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 193, 7, 0.06);
+
+            border:
+                1px solid rgba(255,193,7,0.18);
+        }
+
+        .important-box strong {
+
+            color: #FFD700;
+        }
+
+
+        /* =====================================================
+           CONTACT
+        ====================================================== */
+
+        .contact-card {
+
+            margin-top: 20px;
+
+            padding: 22px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255,255,255,0.035);
+
+            border:
+                1px solid rgba(255,255,255,0.08);
+        }
+
+        .contact-item {
+
+            margin-bottom: 12px;
+        }
+
+        .contact-item:last-child {
+
+            margin-bottom: 0;
         }
 
         a {
+
             color: #00bfff;
+
             text-decoration: none;
+
+            transition: 0.2s;
         }
 
         a:hover {
-            color: gold;
+
+            color: #FFD700;
+
+            text-decoration: underline;
         }
 
-        hr {
-            border-color: rgba(255, 255, 255, .15);
-        }
 
-        footer {
-            margin-top: 40px;
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .footer {
+
             text-align: center;
-            color: #888;
-            font-size: 14px;
+
+            margin-top: 35px;
+
+            padding-top: 25px;
+
+            border-top:
+
+                1px solid
+                rgba(255,255,255,0.08);
+
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.8;
         }
 
-        @media(max-width:768px) {
+        .footer .tribal {
 
-            .policy-box {
-                padding: 20px;
-            }
+            color: #FFD700;
 
-            h1 {
-                font-size: 30px;
-            }
-
-            h2 {
-                font-size: 22px;
-            }
-
+            font-weight: 600;
         }
+
+        .footer .zentro {
+
+            color: #00bfff;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           LANGUAGE CONTENT
+        ====================================================== */
+
+        .language-content {
+
+            display: none;
+        }
+
+        .language-content.active {
+
+            display: block;
+        }
+
+
+        /* =====================================================
+           SCROLLBAR
+        ====================================================== */
 
         ::-webkit-scrollbar {
+
             width: 8px;
         }
 
+        ::-webkit-scrollbar-track {
+
+            background: #080808;
+        }
+
         ::-webkit-scrollbar-thumb {
-            background: gold;
+
+            background: #FFD700;
+
             border-radius: 20px;
         }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media(max-width: 768px) {
+
+            .main-container {
+
+                padding:
+                    20px 12px 40px;
+            }
+
+            .policy-box {
+
+                padding: 22px 18px;
+
+                border-radius: 16px;
+            }
+
+            .policy-title {
+
+                font-size: 29px;
+            }
+
+            .policy-section h2 {
+
+                font-size: 19px;
+            }
+
+            p,
+            li {
+
+                font-size: 14px;
+            }
+
+            .language-btn {
+
+                padding:
+                    8px 14px;
+            }
+
+        }
+
+
+        @media print {
+
+            body {
+
+                background: #ffffff;
+
+                color: #000000;
+            }
+
+            .main-container {
+
+                max-width: 100%;
+
+                padding: 0;
+            }
+
+            .policy-box {
+
+                background: #ffffff;
+
+                color: #000000;
+
+                border: none;
+
+                box-shadow: none;
+
+                padding: 10px;
+            }
+
+            .language-bar,
+            .action-buttons {
+
+                display: none !important;
+            }
+
+            p,
+            li {
+
+                color: #222222;
+            }
+
+            .policy-section h2,
+            .policy-title {
+
+                color: #111111;
+            }
+
+            .footer {
+
+                color: #555;
+            }
+
+            .important-box,
+            .intro-box {
+
+                border-color: #777;
+
+                background: #f5f5f5;
+            }
+
+            a {
+
+                color: #111;
+            }
+
+        }
+
     </style>
 
 </head>
 
+
 <body>
 
-    <div class="container">
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <div class="main-container">
+
+
+        <!-- =================================================
+             BRAND
+        ================================================== -->
+
+        <div class="brand-header">
+
+            <div class="brand-title">
+
+                <span>TribalRhythm</span>
+
+                Official Policy
+
+            </div>
+
+            <div class="powered">
+
+                Powered by
+                <strong>Zentro Nex</strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             LANGUAGE SWITCHER
+        ================================================== -->
+
+        <div class="language-bar">
+
+            <button
+                class="language-btn active"
+                onclick="changeLanguage('en', this)">
+
+                English
+
+            </button>
+
+            <button
+                class="language-btn"
+                onclick="changeLanguage('hi', this)">
+
+                हिन्दी
+
+            </button>
+
+            <button
+                class="language-btn"
+                onclick="changeLanguage('or', this)">
+
+                ଓଡ଼ିଆ
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             POLICY BOX
+        ================================================== -->
 
         <div class="policy-box">
 
-            <h1>Refund & Cancellation Policy</h1>
 
-            <p style="text-align:center;">
-                Last Updated: August 2026
-            </p>
+            <!-- =================================================
+                 ENGLISH
+            ================================================== -->
 
-            <hr>
+            <div
+                id="content-en"
+                class="language-content active">
 
-            <p>
+                <h1 class="policy-title">
 
-                Thank you for choosing <b>TribalRhythm</b>.
+                    Refund & Cancellation Policy
 
-                This Refund & Cancellation Policy explains the conditions under which refunds or cancellations may be
-                requested for registrations, competitions, events and ticket bookings.
+                </h1>
 
-            </p>
+                <div class="policy-subtitle">
 
-            <h2>1. Registration Fees</h2>
+                    Last Updated: August 2026
 
-            <p>
+                </div>
 
-                Registration fees paid for competitions, dance classes or events are generally <b>non-refundable</b>
-                once payment has been successfully completed.
 
-            </p>
+                <div class="action-buttons">
 
-            <h2>2. Ticket Cancellation</h2>
+                    <button
+                        class="action-btn print-btn"
+                        onclick="window.print()">
 
-            <ul>
+                        🖨 Print Policy
 
-                <li>Tickets cannot be cancelled after successful payment.</li>
+                    </button>
 
-                <li>Each Ticket ID is unique and cannot be transferred to another person.</li>
+                    <button
+                        class="action-btn pdf-btn"
+                        onclick="downloadPDF()">
 
-                <li>Lost or deleted tickets can be re-issued after identity verification.</li>
+                        📄 Download Policy PDF
 
-            </ul>
+                    </button>
 
-            <h2>3. Duplicate Payment</h2>
+                </div>
 
-            <p>
 
-                If your account is charged more than once for the same booking due to a technical issue, please contact
-                us with your payment details.
+                <hr class="gold-divider">
 
-                After verification, the duplicate payment will be refunded to the original payment method.
 
-            </p>
+                <div class="intro-box">
 
-            <h2>4. Event Cancellation by TribalRhythm</h2>
+                    Thank you for choosing
+                    <b>TribalRhythm</b>.
 
-            <p>
+                    This Refund & Cancellation Policy explains
+                    the conditions applicable to payments made for
+                    registrations, competitions, dance classes,
+                    events and ticket bookings.
 
-                If TribalRhythm cancels an event or competition due to unforeseen circumstances, participants may
-                receive:
+                    TribalRhythm is powered by
+                    <b>Zentro Nex</b>.
 
-            </p>
+                </div>
 
-            <ul>
 
-                <li>A full refund, or</li>
+                <div class="policy-section">
 
-                <li>The option to transfer the registration to another event.</li>
+                    <h2>
+                        <span>1</span>
+                        Registration Fees
+                    </h2>
 
-            </ul>
+                    <p>
 
-            <h2>5. Failed Transactions</h2>
+                        Registration fees paid for competitions,
+                        dance classes, workshops or events are
+                        generally <b>non-refundable</b> once the
+                        payment has been successfully completed.
 
-            <p>
+                    </p>
 
-                If payment fails but money is deducted from your account, the amount is usually automatically reversed
-                by your bank or payment provider.
+                </div>
 
-                If the amount is not reversed within the expected time, please contact your bank first and then contact
-                TribalRhythm with your transaction details.
 
-            </p>
+                <div class="policy-section">
 
-            <h2>6. Refund Processing Time</h2>
+                    <h2>
+                        <span>2</span>
+                        Ticket Cancellation
+                    </h2>
 
-            <p>
+                    <ul>
 
-                Approved refunds are generally processed within <b>5–10 business days</b>.
+                        <li>
+                            Tickets cannot normally be cancelled
+                            after successful payment.
+                        </li>
 
-                The exact credit time depends on your bank, UPI provider or card issuer.
+                        <li>
+                            Each Ticket ID is unique and may be
+                            linked to the registered participant.
+                        </li>
 
-            </p>
+                        <li>
+                            Tickets should not be transferred or
+                            resold without written authorization.
+                        </li>
 
-            <h2>7. Non-Refundable Situations</h2>
+                        <li>
+                            Lost or deleted tickets may be
+                            re-issued after identity verification.
+                        </li>
 
-            <ul>
+                    </ul>
 
-                <li>User entered incorrect information.</li>
+                </div>
 
-                <li>User missed the event.</li>
 
-                <li>User voluntarily cancelled participation.</li>
+                <div class="policy-section">
 
-                <li>Violation of competition rules.</li>
+                    <h2>
+                        <span>3</span>
+                        Duplicate Payment
+                    </h2>
 
-                <li>Account suspension due to fraudulent activity.</li>
+                    <p>
 
-            </ul>
+                        If your bank account, card or UPI account
+                        is charged more than once for the same
+                        booking due to a technical issue, please
+                        contact TribalRhythm with the relevant
+                        transaction details.
 
-            <h2>8. How to Request a Refund</h2>
+                        After verification, the duplicate payment
+                        may be refunded to the original payment
+                        method.
 
-            <p>
+                    </p>
 
-                To request a refund (where applicable), please contact us with:
+                </div>
 
-            </p>
 
-            <ul>
+                <div class="policy-section">
 
-                <li>Full Name</li>
+                    <h2>
+                        <span>4</span>
+                        Event Cancellation by TribalRhythm
+                    </h2>
 
-                <li>Registered Email</li>
+                    <p>
 
-                <li>Mobile Number</li>
+                        If TribalRhythm cancels an event,
+                        competition, workshop or program due to
+                        unforeseen circumstances, operational
+                        reasons or other circumstances beyond
+                        reasonable control, TribalRhythm may
+                        provide one of the following options,
+                        subject to the applicable event terms:
 
-                <li>Ticket ID</li>
+                    </p>
 
-                <li>Payment ID</li>
+                    <ul>
 
-                <li>Reason for refund request</li>
+                        <li>
+                            Full or partial refund, where applicable.
+                        </li>
 
-            </ul>
+                        <li>
+                            Transfer of registration to a
+                            rescheduled event.
+                        </li>
 
-            <h2>9. Contact Us</h2>
+                        <li>
+                            Credit or alternative participation
+                            option, where applicable.
+                        </li>
 
-            <p>
+                    </ul>
 
-                <b>TribalRhythm</b>
+                </div>
 
-                <br><br>
 
-                Email:
-                <a href="mailto:rahulsardarrahul014@gmail.com">
-                    rahulsardarrahul014@gmail.com
-                </a>
+                <div class="policy-section">
 
-                <br><br>
+                    <h2>
+                        <span>5</span>
+                        Failed Transactions
+                    </h2>
 
-                Phone:
-                <a href="tel:+917903946369">
-                    +91 7903946369
-                </a>
+                    <p>
 
-            </p>
+                        If a payment fails but money is deducted
+                        from your bank account, the amount may
+                        automatically be reversed by your bank,
+                        UPI provider or payment gateway.
 
-            <footer>
+                        If the amount is not reversed within the
+                        applicable banking/payment-provider
+                        timeline, please contact your bank or
+                        payment provider first and then contact
+                        TribalRhythm with transaction details.
 
-                © 2026 TribalRhythm. All Rights Reserved.
+                    </p>
 
-            </footer>
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>6</span>
+                        Refund Processing Time
+                    </h2>
+
+                    <p>
+
+                        Approved refunds are generally initiated
+                        within <b>5–10 business days</b> after
+                        verification and approval.
+
+                        The actual time required for the amount
+                        to appear in your account may vary
+                        depending on your bank, UPI provider,
+                        card issuer or payment gateway.
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>7</span>
+                        Non-Refundable Situations
+                    </h2>
+
+                    <ul>
+
+                        <li>
+                            Incorrect information entered by the user.
+                        </li>
+
+                        <li>
+                            User does not attend the event.
+                        </li>
+
+                        <li>
+                            User voluntarily withdraws from
+                            participation.
+                        </li>
+
+                        <li>
+                            Violation of competition or event rules.
+                        </li>
+
+                        <li>
+                            Fraudulent, suspicious or unauthorized
+                            activity associated with the account.
+                        </li>
+
+                        <li>
+                            Services or participation already
+                            provided to the user.
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>8</span>
+                        Refund Eligibility
+                    </h2>
+
+                    <p>
+
+                        Refund requests are reviewed individually.
+                        Submission of a refund request does not
+                        automatically guarantee approval.
+
+                        TribalRhythm may request additional
+                        information or documents to verify the
+                        transaction and eligibility.
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>9</span>
+                        How to Request a Refund
+                    </h2>
+
+                    <p>
+
+                        Where a refund is applicable, please
+                        contact us with the following information:
+
+                    </p>
+
+                    <ul>
+
+                        <li>Full Name</li>
+
+                        <li>Registered Email Address</li>
+
+                        <li>Registered Mobile Number</li>
+
+                        <li>Ticket ID, if applicable</li>
+
+                        <li>Payment ID / Transaction ID</li>
+
+                        <li>Date of Payment</li>
+
+                        <li>Reason for Refund Request</li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>10</span>
+                        Payment Gateway
+                    </h2>
+
+                    <p>
+
+                        Payments may be processed through third-party
+                        payment gateways or financial service providers.
+
+                        TribalRhythm does not control the processing
+                        timelines of banks, UPI providers, card issuers
+                        or payment gateways.
+
+                    </p>
+
+                </div>
+
+
+                <div class="important-box">
+
+                    <strong>Important:</strong>
+
+                    Please keep your payment receipt, Payment ID,
+                    Ticket ID and transaction details until your
+                    registration or booking has been successfully
+                    completed.
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>11</span>
+                        Contact Us
+                    </h2>
+
+
+                    <div class="contact-card">
+
+                        <div class="contact-item">
+
+                            <b>TribalRhythm</b>
+
+                        </div>
+
+                        <div class="contact-item">
+
+                            Powered by
+                            <b style="color:#00bfff;">
+                                Zentro Nex
+                            </b>
+
+                        </div>
+
+                        <div class="contact-item">
+
+                            📧 Email:
+
+                            <a href="mailto:rahulsardarrahul014@gmail.com">
+
+                                rahulsardarrahul014@gmail.com
+
+                            </a>
+
+                        </div>
+
+                        <div class="contact-item">
+
+                            📞 Phone:
+
+                            <a href="tel:+917903946369">
+
+                                +91 7903946369
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="footer">
+
+                    © 2026
+                    <span class="tribal">
+                        TribalRhythm
+                    </span>.
+
+                    All Rights Reserved.
+
+                    <br>
+
+                    Powered by
+                    <span class="zentro">
+                        Zentro Nex
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 HINDI
+            ================================================== -->
+
+            <div
+                id="content-hi"
+                class="language-content">
+
+                <h1 class="policy-title">
+
+                    रिफंड एवं कैंसिलेशन नीति
+
+                </h1>
+
+                <div class="policy-subtitle">
+
+                    अंतिम अपडेट: अगस्त 2026
+
+                </div>
+
+
+                <div class="action-buttons">
+
+                    <button
+                        class="action-btn print-btn"
+                        onclick="window.print()">
+
+                        🖨 नीति प्रिंट करें
+
+                    </button>
+
+                    <button
+                        class="action-btn pdf-btn"
+                        onclick="downloadPDF()">
+
+                        📄 PDF डाउनलोड करें
+
+                    </button>
+
+                </div>
+
+
+                <hr class="gold-divider">
+
+
+                <div class="intro-box">
+
+                    <b>TribalRhythm</b> चुनने के लिए धन्यवाद।
+
+                    यह रिफंड एवं कैंसिलेशन नीति प्रतियोगिता,
+                    डांस क्लास, वर्कशॉप, कार्यक्रम और टिकट
+                    बुकिंग के लिए किए गए भुगतान से संबंधित
+                    नियमों को स्पष्ट करती है।
+
+                    TribalRhythm,
+                    <b>Zentro Nex</b> द्वारा powered है।
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>1</span>
+                        रजिस्ट्रेशन शुल्क
+                    </h2>
+
+                    <p>
+
+                        प्रतियोगिता, डांस क्लास, वर्कशॉप या
+                        कार्यक्रम के लिए सफलतापूर्वक भुगतान
+                        पूरा होने के बाद रजिस्ट्रेशन शुल्क
+                        सामान्यतः <b>वापस नहीं किया जाएगा।</b>
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>2</span>
+                        टिकट कैंसिलेशन
+                    </h2>
+
+                    <ul>
+
+                        <li>
+                            सफल भुगतान के बाद टिकट सामान्यतः
+                            कैंसिल नहीं किया जा सकता।
+                        </li>
+
+                        <li>
+                            प्रत्येक Ticket ID यूनिक होती है।
+                        </li>
+
+                        <li>
+                            बिना अनुमति टिकट को किसी अन्य व्यक्ति
+                            को ट्रांसफर या दोबारा बेचने की अनुमति
+                            नहीं है।
+                        </li>
+
+                        <li>
+                            टिकट खो जाने या डिलीट होने पर पहचान
+                            सत्यापन के बाद टिकट दोबारा जारी किया
+                            जा सकता है।
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>3</span>
+                        डुप्लीकेट पेमेंट
+                    </h2>
+
+                    <p>
+
+                        यदि तकनीकी समस्या के कारण एक ही बुकिंग
+                        के लिए आपके बैंक, कार्ड या UPI खाते से
+                        एक से अधिक बार राशि कट जाती है, तो
+                        भुगतान की जानकारी के साथ TribalRhythm
+                        से संपर्क करें।
+
+                        सत्यापन के बाद अतिरिक्त भुगतान को मूल
+                        भुगतान माध्यम में वापस किया जा सकता है।
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>4</span>
+                        TribalRhythm द्वारा कार्यक्रम रद्द करना
+                    </h2>
+
+                    <p>
+
+                        यदि किसी अप्रत्याशित परिस्थिति, संचालन
+                        संबंधी कारण या अन्य उचित कारण से
+                        TribalRhythm किसी कार्यक्रम या प्रतियोगिता
+                        को रद्द करता है, तो लागू नियमों के अनुसार
+                        निम्न विकल्प दिए जा सकते हैं:
+
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            पूर्ण या आंशिक रिफंड, जहां लागू हो।
+                        </li>
+
+                        <li>
+                            पुनर्निर्धारित कार्यक्रम में
+                            रजिस्ट्रेशन ट्रांसफर।
+                        </li>
+
+                        <li>
+                            क्रेडिट या वैकल्पिक भागीदारी विकल्प,
+                            जहां लागू हो।
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>5</span>
+                        असफल भुगतान
+                    </h2>
+
+                    <p>
+
+                        यदि पेमेंट असफल हो जाता है लेकिन आपके
+                        बैंक खाते से राशि कट जाती है, तो बैंक,
+                        UPI प्रदाता या पेमेंट गेटवे द्वारा राशि
+                        अपने आप वापस की जा सकती है।
+
+                        यदि निर्धारित समय में राशि वापस नहीं आती,
+                        तो पहले अपने बैंक या भुगतान प्रदाता से
+                        संपर्क करें और उसके बाद Transaction ID
+                        के साथ TribalRhythm से संपर्क करें।
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>6</span>
+                        रिफंड प्रोसेसिंग समय
+                    </h2>
+
+                    <p>
+
+                        स्वीकृत रिफंड सामान्यतः सत्यापन और
+                        अनुमोदन के बाद <b>5–10 कार्य दिवस</b>
+                        के अंदर शुरू किया जाता है।
+
+                        वास्तविक राशि आपके खाते में आने का समय
+                        बैंक, UPI प्रदाता, कार्ड जारीकर्ता या
+                        पेमेंट गेटवे पर निर्भर कर सकता है।
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>7</span>
+                        गैर-रिफंड योग्य स्थिति
+                    </h2>
+
+                    <ul>
+
+                        <li>
+                            उपयोगकर्ता द्वारा गलत जानकारी भरना।
+                        </li>
+
+                        <li>
+                            उपयोगकर्ता द्वारा कार्यक्रम में भाग
+                            नहीं लेना।
+                        </li>
+
+                        <li>
+                            उपयोगकर्ता द्वारा अपनी इच्छा से
+                            भागीदारी रद्द करना।
+                        </li>
+
+                        <li>
+                            प्रतियोगिता या कार्यक्रम के नियमों
+                            का उल्लंघन।
+                        </li>
+
+                        <li>
+                            धोखाधड़ी या संदिग्ध गतिविधि।
+                        </li>
+
+                        <li>
+                            सेवा या भागीदारी पहले ही प्रदान की
+                            जा चुकी हो।
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>8</span>
+                        रिफंड पात्रता
+                    </h2>
+
+                    <p>
+
+                        प्रत्येक रिफंड अनुरोध की समीक्षा की जाएगी।
+                        केवल रिफंड का अनुरोध करने से रिफंड की
+                        स्वीकृति की गारंटी नहीं होती।
+
+                        सत्यापन के लिए अतिरिक्त जानकारी या
+                        दस्तावेज मांगे जा सकते हैं।
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>9</span>
+                        रिफंड कैसे अनुरोध करें
+                    </h2>
+
+                    <p>
+
+                        जहां रिफंड लागू हो, वहां निम्न जानकारी
+                        के साथ हमसे संपर्क करें:
+
+                    </p>
+
+                    <ul>
+
+                        <li>पूरा नाम</li>
+
+                        <li>रजिस्टर्ड ईमेल</li>
+
+                        <li>रजिस्टर्ड मोबाइल नंबर</li>
+
+                        <li>Ticket ID</li>
+
+                        <li>Payment ID / Transaction ID</li>
+
+                        <li>भुगतान की तारीख</li>
+
+                        <li>रिफंड का कारण</li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>10</span>
+                        पेमेंट गेटवे
+                    </h2>
+
+                    <p>
+
+                        भुगतान के लिए थर्ड-पार्टी पेमेंट गेटवे
+                        या वित्तीय सेवा प्रदाताओं का उपयोग किया
+                        जा सकता है।
+
+                        बैंक, UPI प्रदाता, कार्ड जारीकर्ता या
+                        पेमेंट गेटवे की प्रोसेसिंग टाइमलाइन
+                        TribalRhythm के नियंत्रण में नहीं होती।
+
+                    </p>
+
+                </div>
+
+
+                <div class="important-box">
+
+                    <strong>महत्वपूर्ण:</strong>
+
+                    कृपया अपनी Payment Receipt, Payment ID,
+                    Ticket ID और Transaction Details को
+                    रजिस्ट्रेशन या बुकिंग पूरा होने तक सुरक्षित रखें।
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>11</span>
+                        संपर्क करें
+                    </h2>
+
+
+                    <div class="contact-card">
+
+                        <div class="contact-item">
+
+                            <b>TribalRhythm</b>
+
+                        </div>
+
+                        <div class="contact-item">
+
+                            Powered by
+                            <b style="color:#00bfff;">
+                                Zentro Nex
+                            </b>
+
+                        </div>
+
+                        <div class="contact-item">
+
+                            📧 ईमेल:
+
+                            <a href="mailto:rahulsardarrahul014@gmail.com">
+
+                                rahulsardarrahul014@gmail.com
+
+                            </a>
+
+                        </div>
+
+                        <div class="contact-item">
+
+                            📞 फोन:
+
+                            <a href="tel:+917903946369">
+
+                                +91 7903946369
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="footer">
+
+                    © 2026
+                    <span class="tribal">
+                        TribalRhythm
+                    </span>.
+                    सर्वाधिकार सुरक्षित।
+
+                    <br>
+
+                    Powered by
+                    <span class="zentro">
+                        Zentro Nex
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ODIA
+            ================================================== -->
+
+            <div
+                id="content-or"
+                class="language-content">
+
+                <h1 class="policy-title">
+
+                    ରିଫଣ୍ଡ ଏବଂ ବାତିଲ ନୀତି
+
+                </h1>
+
+                <div class="policy-subtitle">
+
+                    ଶେଷ ଅଦ୍ୟତନ: ଅଗଷ୍ଟ 2026
+
+                </div>
+
+
+                <div class="action-buttons">
+
+                    <button
+                        class="action-btn print-btn"
+                        onclick="window.print()">
+
+                        🖨 ନୀତି ପ୍ରିଣ୍ଟ କରନ୍ତୁ
+
+                    </button>
+
+                    <button
+                        class="action-btn pdf-btn"
+                        onclick="downloadPDF()">
+
+                        📄 PDF ଡାଉନଲୋଡ୍ କରନ୍ତୁ
+
+                    </button>
+
+                </div>
+
+
+                <hr class="gold-divider">
+
+
+                <div class="intro-box">
+
+                    <b>TribalRhythm</b> ବାଛିଥିବାରୁ ଧନ୍ୟବାଦ।
+
+                    ଏହି ରିଫଣ୍ଡ ଏବଂ ବାତିଲ ନୀତିରେ
+                    ରେଜିଷ୍ଟ୍ରେସନ, ପ୍ରତିଯୋଗିତା,
+                    ଡାନ୍ସ କ୍ଲାସ, କାର୍ଯ୍ୟକ୍ରମ ଏବଂ
+                    ଟିକେଟ୍ ବୁକିଂ ପାଇଁ କରାଯାଇଥିବା
+                    ପେମେଣ୍ଟ ସମ୍ପର୍କିତ ନିୟମ ବର୍ଣ୍ଣନା
+                    କରାଯାଇଛି।
+
+                    TribalRhythm,
+                    <b>Zentro Nex</b> ଦ୍ୱାରା powered ଅଟେ।
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>1</span>
+                        ରେଜିଷ୍ଟ୍ରେସନ ଫି
+                    </h2>
+
+                    <p>
+
+                        ପ୍ରତିଯୋଗିତା, ଡାନ୍ସ କ୍ଲାସ,
+                        ୱର୍କଶପ୍ କିମ୍ବା କାର୍ଯ୍ୟକ୍ରମ ପାଇଁ
+                        ସଫଳତାର ସହ ପେମେଣ୍ଟ ହୋଇଗଲା ପରେ
+                        ରେଜିଷ୍ଟ୍ରେସନ ଫି ସାଧାରଣତଃ
+                        <b>ରିଫଣ୍ଡ ହେବ ନାହିଁ।</b>
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>2</span>
+                        ଟିକେଟ୍ ବାତିଲ
+                    </h2>
+
+                    <ul>
+
+                        <li>
+                            ସଫଳ ପେମେଣ୍ଟ ପରେ ଟିକେଟ୍
+                            ସାଧାରଣତଃ ବାତିଲ କରାଯାଇପାରିବ ନାହିଁ।
+                        </li>
+
+                        <li>
+                            ପ୍ରତ୍ୟେକ Ticket ID ସ୍ୱତନ୍ତ୍ର ଅଟେ।
+                        </li>
+
+                        <li>
+                            ଅନୁମତି ବିନା ଟିକେଟ୍ ଅନ୍ୟ ବ୍ୟକ୍ତିଙ୍କୁ
+                            ଟ୍ରାନ୍ସଫର କିମ୍ବା ପୁନଃ ବିକ୍ରି
+                            କରାଯାଇପାରିବ ନାହିଁ।
+                        </li>
+
+                        <li>
+                            ଟିକେଟ୍ ହଜିଗଲେ କିମ୍ବା ଡିଲିଟ୍ ହେଲେ
+                            ପରିଚୟ ଯାଞ୍ଚ ପରେ ପୁନଃ ଜାରି
+                            କରାଯାଇପାରେ।
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>3</span>
+                        ଡୁପ୍ଲିକେଟ୍ ପେମେଣ୍ଟ
+                    </h2>
+
+                    <p>
+
+                        ଯଦି କୌଣସି ପ୍ରାଯୁକ୍ତିକ ସମସ୍ୟା କାରଣରୁ
+                        ସମାନ ବୁକିଂ ପାଇଁ ଆପଣଙ୍କ ବ୍ୟାଙ୍କ,
+                        କାର୍ଡ କିମ୍ବା UPI ଆକାଉଣ୍ଟରୁ ଏକାଧିକ
+                        ଥର ଟଙ୍କା କଟିଯାଏ, ତେବେ ପେମେଣ୍ଟ
+                        ବିବରଣୀ ସହ TribalRhythm ସହିତ
+                        ଯୋଗାଯୋଗ କରନ୍ତୁ।
+
+                        ଯାଞ୍ଚ ପରେ ଅତିରିକ୍ତ ପେମେଣ୍ଟକୁ
+                        ମୂଳ ପେମେଣ୍ଟ ମାଧ୍ୟମକୁ ରିଫଣ୍ଡ
+                        କରାଯାଇପାରେ।
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>4</span>
+                        TribalRhythm ଦ୍ୱାରା କାର୍ଯ୍ୟକ୍ରମ ବାତିଲ
+                    </h2>
+
+                    <p>
+
+                        ଅପ୍ରତ୍ୟାଶିତ ପରିସ୍ଥିତି, ପରିଚାଳନାଗତ
+                        କାରଣ କିମ୍ବା ଅନ୍ୟାନ୍ୟ ଯୁକ୍ତିସଙ୍ଗତ
+                        କାରଣରୁ TribalRhythm କୌଣସି
+                        କାର୍ଯ୍ୟକ୍ରମ କିମ୍ବା ପ୍ରତିଯୋଗିତା
+                        ବାତିଲ କଲେ, ପ୍ରଯୁଜ୍ୟ ନିୟମ ଅନୁଯାୟୀ
+                        ନିମ୍ନଲିଖିତ ବିକଳ୍ପ ଦିଆଯାଇପାରେ:
+
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            ପୂର୍ଣ୍ଣ କିମ୍ବା ଆଂଶିକ ରିଫଣ୍ଡ,
+                            ଯେଉଁଠାରେ ପ୍ରଯୁଜ୍ୟ।
+                        </li>
+
+                        <li>
+                            ପୁନଃ ନିର୍ଦ୍ଧାରିତ କାର୍ଯ୍ୟକ୍ରମକୁ
+                            ରେଜିଷ୍ଟ୍ରେସନ ଟ୍ରାନ୍ସଫର।
+                        </li>
+
+                        <li>
+                            ପ୍ରଯୁଜ୍ୟ ହେଲେ କ୍ରେଡିଟ୍ କିମ୍ବା
+                            ବିକଳ୍ପ ଅଂଶଗ୍ରହଣ ସୁଯୋଗ।
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>5</span>
+                        ବିଫଳ ପେମେଣ୍ଟ
+                    </h2>
+
+                    <p>
+
+                        ପେମେଣ୍ଟ ବିଫଳ ହେଲେ କିନ୍ତୁ ଆପଣଙ୍କ
+                        ବ୍ୟାଙ୍କ ଆକାଉଣ୍ଟରୁ ଟଙ୍କା କଟିଗଲେ,
+                        ବ୍ୟାଙ୍କ, UPI ପ୍ରଦାନକାରୀ କିମ୍ବା
+                        ପେମେଣ୍ଟ ଗେଟୱେ ଦ୍ୱାରା ଟଙ୍କା
+                        ସ୍ୱୟଂଚାଳିତ ଭାବରେ ଫେରସ୍ତ
+                        ହୋଇପାରେ।
+
+                        ନିର୍ଦ୍ଧାରିତ ସମୟ ମଧ୍ୟରେ ଟଙ୍କା
+                        ଫେରସ୍ତ ନହେଲେ ପ୍ରଥମେ ବ୍ୟାଙ୍କ
+                        କିମ୍ବା ପେମେଣ୍ଟ ପ୍ରଦାନକାରୀଙ୍କୁ
+                        ଯୋଗାଯୋଗ କରନ୍ତୁ।
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>6</span>
+                        ରିଫଣ୍ଡ ପ୍ରୋସେସିଂ ସମୟ
+                    </h2>
+
+                    <p>
+
+                        ଅନୁମୋଦିତ ରିଫଣ୍ଡ ସାଧାରଣତଃ
+                        ଯାଞ୍ଚ ଏବଂ ଅନୁମୋଦନ ପରେ
+                        <b>5–10 କାର୍ଯ୍ୟଦିବସ</b> ମଧ୍ୟରେ
+                        ଆରମ୍ଭ କରାଯାଏ।
+
+                        ଆପଣଙ୍କ ଆକାଉଣ୍ଟରେ ଟଙ୍କା ପହଞ୍ଚିବା
+                        ସମୟ ବ୍ୟାଙ୍କ, UPI ପ୍ରଦାନକାରୀ,
+                        କାର୍ଡ ଜାରିକର୍ତ୍ତା କିମ୍ବା ପେମେଣ୍ଟ
+                        ଗେଟୱେ ଉପରେ ନିର୍ଭର କରିପାରେ।
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>7</span>
+                        ରିଫଣ୍ଡ ନହେବାର ପରିସ୍ଥିତି
+                    </h2>
+
+                    <ul>
+
+                        <li>
+                            ବ୍ୟବହାରକାରୀ ଭୁଲ ସୂଚନା ଦେଇଥିଲେ।
+                        </li>
+
+                        <li>
+                            ବ୍ୟବହାରକାରୀ କାର୍ଯ୍ୟକ୍ରମରେ
+                            ଯୋଗ ଦେଇନଥିଲେ।
+                        </li>
+
+                        <li>
+                            ବ୍ୟବହାରକାରୀ ନିଜ ଇଚ୍ଛାରେ
+                            ଅଂଶଗ୍ରହଣ ବାତିଲ କରିଥିଲେ।
+                        </li>
+
+                        <li>
+                            ପ୍ରତିଯୋଗିତା କିମ୍ବା କାର୍ଯ୍ୟକ୍ରମର
+                            ନିୟମ ଉଲ୍ଲଂଘନ କରିଥିଲେ।
+                        </li>
+
+                        <li>
+                            ଠକେଇ କିମ୍ବା ସନ୍ଦେହଜନକ କାର୍ଯ୍ୟକଳାପ
+                            ମିଳିଥିଲେ।
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>8</span>
+                        ରିଫଣ୍ଡ ପାଇବାର ଯୋଗ୍ୟତା
+                    </h2>
+
+                    <p>
+
+                        ପ୍ରତ୍ୟେକ ରିଫଣ୍ଡ ଅନୁରୋଧକୁ ଅଲଗା ଭାବରେ
+                        ଯାଞ୍ଚ କରାଯିବ।
+
+                        କେବଳ ରିଫଣ୍ଡ ଅନୁରୋଧ କରିବା ଦ୍ୱାରା
+                        ରିଫଣ୍ଡ ନିଶ୍ଚିତ ହୁଏ ନାହିଁ।
+
+                        ଯାଞ୍ଚ ପାଇଁ ଅତିରିକ୍ତ ସୂଚନା କିମ୍ବା
+                        ଡକ୍ୟୁମେଣ୍ଟ ମଗାଯାଇପାରେ।
+
+                    </p>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>9</span>
+                        ରିଫଣ୍ଡ କିପରି ଅନୁରୋଧ କରିବେ
+                    </h2>
+
+                    <p>
+
+                        ଯେଉଁଠାରେ ରିଫଣ୍ଡ ପ୍ରଯୁଜ୍ୟ,
+                        ନିମ୍ନଲିଖିତ ସୂଚନା ସହିତ
+                        ଆମ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ:
+
+                    </p>
+
+                    <ul>
+
+                        <li>ପୂର୍ଣ୍ଣ ନାମ</li>
+
+                        <li>ରେଜିଷ୍ଟର୍ଡ ଇମେଲ୍</li>
+
+                        <li>ରେଜିଷ୍ଟର୍ଡ ମୋବାଇଲ୍ ନମ୍ବର</li>
+
+                        <li>Ticket ID</li>
+
+                        <li>Payment ID / Transaction ID</li>
+
+                        <li>ପେମେଣ୍ଟ ତାରିଖ</li>
+
+                        <li>ରିଫଣ୍ଡର କାରଣ</li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>10</span>
+                        ପେମେଣ୍ଟ ଗେଟୱେ
+                    </h2>
+
+                    <p>
+
+                        ପେମେଣ୍ଟ ପାଇଁ ଥାର୍ଡ-ପାର୍ଟି
+                        ପେମେଣ୍ଟ ଗେଟୱେ କିମ୍ବା ଆର୍ଥିକ
+                        ସେବା ପ୍ରଦାନକାରୀ ବ୍ୟବହାର
+                        କରାଯାଇପାରେ।
+
+                        ବ୍ୟାଙ୍କ, UPI ପ୍ରଦାନକାରୀ,
+                        କାର୍ଡ ଜାରିକର୍ତ୍ତା କିମ୍ବା
+                        ପେମେଣ୍ଟ ଗେଟୱେର ପ୍ରୋସେସିଂ
+                        ସମୟ TribalRhythm ର ନିୟନ୍ତ୍ରଣରେ
+                        ନଥାଏ।
+
+                    </p>
+
+                </div>
+
+
+                <div class="important-box">
+
+                    <strong>ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ:</strong>
+
+                    ଦୟାକରି Payment Receipt, Payment ID,
+                    Ticket ID ଏବଂ Transaction Details
+                    ରେଜିଷ୍ଟ୍ରେସନ କିମ୍ବା ବୁକିଂ ସମ୍ପୂର୍ଣ୍ଣ
+                    ହେବା ପର୍ଯ୍ୟନ୍ତ ସୁରକ୍ଷିତ ରଖନ୍ତୁ।
+
+                </div>
+
+
+                <div class="policy-section">
+
+                    <h2>
+                        <span>11</span>
+                        ଯୋଗାଯୋଗ
+                    </h2>
+
+
+                    <div class="contact-card">
+
+                        <div class="contact-item">
+
+                            <b>TribalRhythm</b>
+
+                        </div>
+
+                        <div class="contact-item">
+
+                            Powered by
+                            <b style="color:#00bfff;">
+                                Zentro Nex
+                            </b>
+
+                        </div>
+
+                        <div class="contact-item">
+
+                            📧 ଇମେଲ୍:
+
+                            <a href="mailto:rahulsardarrahul014@gmail.com">
+
+                                rahulsardarrahul014@gmail.com
+
+                            </a>
+
+                        </div>
+
+                        <div class="contact-item">
+
+                            📞 ଫୋନ୍:
+
+                            <a href="tel:+917903946369">
+
+                                +91 7903946369
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="footer">
+
+                    © 2026
+                    <span class="tribal">
+                        TribalRhythm
+                    </span>.
+                    ସମସ୍ତ ଅଧିକାର ସଂରକ୍ଷିତ।
+
+                    <br>
+
+                    Powered by
+                    <span class="zentro">
+                        Zentro Nex
+                    </span>
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        /* =====================================================
+           LANGUAGE SWITCH
+        ====================================================== */
+
+        function changeLanguage(language, button) {
+
+            document
+                .querySelectorAll('.language-content')
+                .forEach(function(content) {
+
+                    content.classList.remove('active');
+
+                });
+
+
+            document
+                .querySelectorAll('.language-btn')
+                .forEach(function(btn) {
+
+                    btn.classList.remove('active');
+
+                });
+
+
+            const selectedContent =
+                document.getElementById(
+                    'content-' + language
+                );
+
+
+            if (selectedContent) {
+
+                selectedContent.classList.add('active');
+
+            }
+
+
+            if (button) {
+
+                button.classList.add('active');
+
+            }
+
+
+            /* Change HTML language */
+
+            if (language === 'hi') {
+
+                document.documentElement.lang = 'hi';
+
+            }
+
+            else if (language === 'or') {
+
+                document.documentElement.lang = 'or';
+
+            }
+
+            else {
+
+                document.documentElement.lang = 'en';
+
+            }
+
+
+            /* Save selected language */
+
+            localStorage.setItem(
+                'tribalrhythm_policy_language',
+                language
+            );
+
+
+            /* Scroll to top */
+
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+        }
+
+
+        /* =====================================================
+           LOAD SAVED LANGUAGE
+        ====================================================== */
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function() {
+
+                const savedLanguage =
+                    localStorage.getItem(
+                        'tribalrhythm_policy_language'
+                    );
+
+
+                if (
+                    savedLanguage === 'hi' ||
+                    savedLanguage === 'or'
+                ) {
+
+                    const button =
+                        document.querySelector(
+                            '.language-btn[onclick*="' +
+                            savedLanguage +
+                            '"]'
+                        );
+
+
+                    changeLanguage(
+                        savedLanguage,
+                        button
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           PDF DOWNLOAD
+           
+           Uses browser print dialog.
+           User can select:
+           "Save as PDF"
+        ====================================================== */
+
+        function downloadPDF() {
+
+            window.print();
+
+        }
+
+    </script>
+
 
 </body>
 

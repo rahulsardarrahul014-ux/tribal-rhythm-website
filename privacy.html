@@ -1,259 +1,2100 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-    <!-- BASIC -->
+    <!-- =========================================================
+         BASIC
+    ========================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Privacy Policy | TribalRhythm</title>
+    <title>Privacy Policy | TribalRhythm - Powered by Zentro Nex</title>
 
-    <!-- SEO -->
+    <!-- =========================================================
+         SEO
+    ========================================================== -->
     <meta name="description"
-        content="Read the official TribalRhythm privacy policy to understand how user data, registration information, payments, and personal details are collected and protected.">
+        content="Read the official TribalRhythm Privacy Policy to understand how personal information, registration data, payment details, OTP verification and event participation data are collected, used and protected.">
 
     <meta name="keywords"
-        content="TribalRhythm Privacy Policy, Data Protection, User Privacy, Dance Studio Privacy, Event Registration Policy">
+        content="TribalRhythm Privacy Policy, Zentro Nex Privacy Policy, Data Protection, User Privacy, Dance Competition Privacy, Event Registration Privacy">
 
-    <meta name="author" content="TribalRhythm">
+    <meta name="author" content="TribalRhythm - Powered by Zentro Nex">
 
-    <!-- ROBOTS -->
     <meta name="robots" content="index,follow">
 
-    <!-- THEME -->
+    <!-- =========================================================
+         THEME
+    ========================================================== -->
     <meta name="theme-color" content="#0a0a0a">
 
-    <!-- OPEN GRAPH -->
-    <meta property="og:title" content="Privacy Policy | TribalRhythm">
+    <!-- =========================================================
+         OPEN GRAPH
+    ========================================================== -->
+    <meta property="og:title"
+        content="Privacy Policy | TribalRhythm - Powered by Zentro Nex">
+
     <meta property="og:description"
-        content="Official privacy policy and data protection information for TribalRhythm users and participants.">
+        content="Official TribalRhythm Privacy Policy and information about data protection, registration, OTP verification, payments and communications.">
+
     <meta property="og:type" content="website">
 
-    <!-- TWITTER -->
+    <!-- =========================================================
+         TWITTER
+    ========================================================== -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Privacy Policy | TribalRhythm">
-    <meta name="twitter:description" content="Learn how TribalRhythm protects user privacy and personal data.">
 
-    <!-- FAVICON -->
+    <meta name="twitter:title"
+        content="Privacy Policy | TribalRhythm - Powered by Zentro Nex">
+
+    <meta name="twitter:description"
+        content="Learn how TribalRhythm protects user privacy and personal information.">
+
+    <!-- =========================================================
+         FAVICON
+    ========================================================== -->
     <link rel="icon" type="image/png" href="logo.png">
 
-    <!-- PERFORMANCE -->
+    <!-- =========================================================
+         PERFORMANCE
+    ========================================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
 
-    <!-- GOOGLE FONT -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <!-- =========================================================
+         GOOGLE FONT
+    ========================================================== -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <!-- BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- =========================================================
+         BOOTSTRAP
+    ========================================================== -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 
-    <!-- SECURITY -->
+    <!-- =========================================================
+         SECURITY
+    ========================================================== -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <!-- STYLE -->
+    <!-- =========================================================
+         STYLE
+    ========================================================== -->
     <style>
+
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: #0a0a0a;
-            color: white;
+            background:
+                radial-gradient(circle at top left,
+                    rgba(255, 215, 0, 0.08),
+                    transparent 30%),
+                radial-gradient(circle at bottom right,
+                    rgba(0, 170, 255, 0.05),
+                    transparent 30%),
+                #080808;
+
+            color: #ffffff;
             overflow-x: hidden;
         }
 
-        .container {
-            padding: 40px 20px;
+        ::selection {
+            background: gold;
+            color: #000;
         }
 
-        h1,
-        h2 {
+        /* =====================================================
+           TOP HEADER
+        ====================================================== */
+
+        .top-header {
+            position: relative;
+            padding: 55px 20px 40px;
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 215, 0, 0.08),
+                    rgba(0, 0, 0, 0.85)
+                );
+
+            border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+        }
+
+        .brand {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #ffd700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .brand span {
+            color: #ffffff;
+        }
+
+        .powered {
+            display: block;
+            margin-top: 7px;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+
+        .powered strong {
+            color: #00aaff;
+        }
+
+        .page-title {
+            font-size: clamp(32px, 5vw, 55px);
+            font-weight: 800;
+            margin-top: 20px;
+            color: #ffd700;
+
+            text-shadow:
+                0 0 15px rgba(255, 215, 0, 0.18);
+        }
+
+        .last-updated {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* =====================================================
+           LANGUAGE BUTTONS
+        ====================================================== */
+
+        .language-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .lang-btn {
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            background: rgba(255, 255, 255, 0.04);
+            color: #ddd;
+            padding: 9px 17px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            border-color: gold;
             color: gold;
-            margin-bottom: 15px;
+            transform: translateY(-2px);
+        }
+
+        .lang-btn.active {
+            background: gold;
+            color: #000;
+            border-color: gold;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.25);
+        }
+
+        /* =====================================================
+           ACTION BUTTONS
+        ====================================================== */
+
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .print-btn {
+            background: #ffffff;
+            color: #000;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
+        }
+
+        .home-btn {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: gold;
+        }
+
+        .home-btn:hover {
+            background: gold;
+            color: #000;
+        }
+
+        /* =====================================================
+           MAIN CONTAINER
+        ====================================================== */
+
+        .container-main {
+            width: min(1050px, 94%);
+            margin: auto;
+            padding: 35px 0 70px;
+        }
+
+        /* =====================================================
+           TYPEWRITER
+        ====================================================== */
+
+        .welcome-box {
+            position: relative;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 215, 0, 0.09),
+                    rgba(255, 255, 255, 0.025)
+                );
+
+            border: 1px solid rgba(255, 215, 0, 0.18);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .welcome-label {
+            color: gold;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        #typewriter {
+            color: #f3f4f6;
+            font-size: clamp(17px, 2vw, 21px);
+            line-height: 1.8;
+            min-height: 65px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 22px;
+            background: gold;
+            margin-left: 3px;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* =====================================================
+           WARNING
+        ====================================================== */
+
+        .warning-box {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+
+            background: rgba(255, 193, 7, 0.07);
+            border: 1px solid rgba(255, 193, 7, 0.25);
+
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .warning-icon {
+            min-width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255, 215, 0, 0.12);
+            border-radius: 50%;
+
+            font-size: 20px;
+        }
+
+        .warning-title {
+            color: #ffd700;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .warning-text {
+            color: #d1d5db;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           POLICY BOX
+        ====================================================== */
+
+        .policy-box {
+            background: rgba(255, 255, 255, 0.035);
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            border-radius: 18px;
+
+            padding: 28px;
+
+            margin-bottom: 20px;
+
+            transition: 0.3s ease;
+        }
+
+        .policy-box:hover {
+            border-color: rgba(255, 215, 0, 0.18);
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 15px 45px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: #ffd700;
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 14px;
         }
 
         p,
         li {
             color: #d1d5db;
-            line-height: 1.8;
+            line-height: 1.85;
+            font-size: 15px;
+        }
+
+        ul {
+            margin-top: 10px;
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 7px;
+        }
+
+        strong {
+            color: #ffffff;
         }
 
         a {
             color: #00aaff;
             text-decoration: none;
+            transition: 0.3s;
         }
 
         a:hover {
             color: gold;
         }
 
-        .policy-box {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 18px;
-            padding: 25px;
-            margin-top: 20px;
+        /* =====================================================
+           CONTACT
+        ====================================================== */
+
+        .contact-card {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(0, 170, 255, 0.06),
+                    rgba(255, 215, 0, 0.05)
+                );
+
+            border: 1px solid rgba(0, 170, 255, 0.15);
+
+            border-radius: 20px;
+
+            padding: 28px;
+
+            margin-top: 25px;
         }
 
-        /* MOBILE */
-        @media(max-width:768px) {
-
-            .container {
-                padding: 25px 15px;
-            }
-
-            h1 {
-                font-size: 30px;
-            }
-
-            h2 {
-                font-size: 22px;
-            }
-
+        .contact-card h2 {
+            margin-bottom: 18px;
         }
 
-        /* SCROLLBAR */
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        footer {
+            text-align: center;
+
+            padding: 35px 20px;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+            color: #888;
+
+            font-size: 13px;
+        }
+
+        footer strong {
+            color: gold;
+        }
+
+        .footer-powered {
+            margin-top: 8px;
+            color: #777;
+        }
+
+        .footer-powered strong {
+            color: #00aaff;
+        }
+
+        /* =====================================================
+           SCROLLBAR
+        ====================================================== */
+
         ::-webkit-scrollbar {
             width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #080808;
         }
 
         ::-webkit-scrollbar-thumb {
             background: gold;
             border-radius: 10px;
         }
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media(max-width:768px) {
+
+            .top-header {
+                padding: 40px 15px 30px;
+            }
+
+            .container-main {
+                width: 92%;
+                padding-top: 25px;
+            }
+
+            .policy-box {
+                padding: 21px;
+                border-radius: 15px;
+            }
+
+            h2 {
+                font-size: 19px;
+            }
+
+            p,
+            li {
+                font-size: 14px;
+                line-height: 1.75;
+            }
+
+            .welcome-box {
+                padding: 21px;
+            }
+
+            .warning-box {
+                padding: 17px;
+            }
+
+        }
+
+        /* =====================================================
+           PRINT
+        ====================================================== */
+
+        @media print {
+
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+            }
+
+            .top-header {
+                background: #ffffff !important;
+                border-bottom: 1px solid #ccc;
+            }
+
+            .brand,
+            .powered,
+            .page-title,
+            .last-updated,
+            h2,
+            strong {
+                color: #000000 !important;
+            }
+
+            .language-bar,
+            .action-bar,
+            .cursor {
+                display: none !important;
+            }
+
+            .container-main {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .welcome-box,
+            .warning-box,
+            .policy-box,
+            .contact-card {
+                background: #ffffff !important;
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                transform: none !important;
+                break-inside: avoid;
+            }
+
+            p,
+            li,
+            .warning-text,
+            #typewriter {
+                color: #222222 !important;
+            }
+
+            a {
+                color: #000000 !important;
+            }
+
+            footer {
+                color: #333 !important;
+            }
+
+            footer strong,
+            .footer-powered strong {
+                color: #000 !important;
+            }
+
+        }
+
     </style>
 
 </head>
 
+
 <body>
 
-    <div class="container">
 
-        <h1>Privacy Policy</h1>
-        <p>Last updated: 2026</p>
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
 
-        <hr>
+    <header class="top-header">
 
-        <p>
-            Welcome to <b>TribalRhythm</b>. Your privacy is very important to us.
-            This Privacy Policy explains how we collect, use, and protect your information.
-        </p>
+        <div class="brand">
+            TribalRhythm
+            <span>• Privacy Center</span>
 
-        <h2>1. Information We Collect</h2>
-        <p>
-            We may collect the following information:
-        <ul>
-            <li>Name</li>
-            <li>Email address</li>
-            <li>Phone number</li>
-            <li>Payment details (via secure gateway)</li>
-            <li>Full Name</li>
-            <li>Email Address</li>
-            <li>Mobile Number</li>
-            <li>WhatsApp Number (if provided)</li>
-            <li>Age</li>
-            <li>Date of Birth</li>
-            <li>State</li>
-            <li>Language Preference</li>
-            <li>Pincode</li>
-            <li>Ticket ID</li>
-            <li>Payment Transaction Details</li>
-        </ul>
-        </p>
-
-        <h2>2. How We Use Information</h2>
-        <p>
-            We use your information for:
-        <ul>
-            <li>Event registration</li>
-            <li>Competition participation</li>
-            <li>Ticket booking</li>
-            <li>Improving user experience</li>
-        </ul>
-        </p>
-
-        <h2>3. Data Protection</h2>
-        <p>
-            We do not sell or share your personal data with third parties.
-            All payment information is processed securely via trusted payment gateways.
-        </p>
-
-        <h2>4. Cookies</h2>
-        <p>
-            Our website may use cookies to improve performance and user experience.
-        </p>
+            <span class="powered">
+                Powered by <strong>Zentro Nex</strong>
+            </span>
+        </div>
 
 
-
-        <h2>6. Consent</h2>
-        <p>
-            By using our website, you agree to our Privacy Policy.
-        </p>
-
-        <h2>Contact Us</h2>
-
-        <p>
-            <b>TribalRhythm</b><br>
-
-            Email:
-            <a href="mailto:rahulsardarrahul014@gmail.com">
-                rahulsardarrahul014@gmail.com
-            </a>
-
-            <br><br>
-
-            Phone:
-            <a href="tel:+917903946369">
-                +91 7903946369
-            </a>
-
-        </p>
-
-        <h2>OTP Verification</h2>
-
-        <p>
-            For account security, TribalRhythm sends OTP (One-Time Password)
-            through Email and SMS. OTP is used only for identity verification
-            and is never shared with any third party.
-        </p>
-        <h2>Payment Security</h2>
-
-        <p>
-            All online payments are securely processed through Razorpay.
-            TribalRhythm never stores your debit card, credit card,
-            UPI PIN, CVV or banking passwords.
-        </p>
-        <h2>Communication</h2>
-
-        <p>
-            After registration or payment, we may send confirmation
-            emails, SMS notifications, OTPs and important event updates
-            using secure communication providers.
-        </p>
-        <h2>Your Rights</h2>
-
-        <p>
-            You may request correction or deletion of your personal
-            information by contacting us.
-        </p>
-        <h2>Changes to this Privacy Policy</h2>
-
-        <p>
-            TribalRhythm may update this Privacy Policy from time to time.
-            The latest version will always be available on this page.
-        </p>
+        <h1 class="page-title" id="pageTitle">
+            Privacy Policy
+        </h1>
 
 
-    </div>
+        <div class="last-updated" id="lastUpdated">
+            Last Updated: August 2026
+        </div>
+
+
+        <!-- LANGUAGE -->
+
+        <div class="language-bar">
+
+            <button class="lang-btn active"
+                onclick="changeLanguage('en')"
+                id="btn-en">
+                English
+            </button>
+
+            <button class="lang-btn"
+                onclick="changeLanguage('hi')"
+                id="btn-hi">
+                हिंदी
+            </button>
+
+            <button class="lang-btn"
+                onclick="changeLanguage('or')"
+                id="btn-or">
+                ଓଡ଼ିଆ
+            </button>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="action-bar">
+
+            <button class="action-btn print-btn"
+                onclick="printPolicy()"
+                id="printButton">
+
+                🖨️ Print Policy
+
+            </button>
+
+
+            <button class="action-btn home-btn"
+                onclick="goHome()"
+                id="homeButton">
+
+                🏠 Home
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main class="container-main">
+
+
+        <!-- =====================================================
+             TYPEWRITER WELCOME
+        ====================================================== -->
+
+        <section class="welcome-box">
+
+            <div class="welcome-label" id="welcomeLabel">
+                Welcome to TribalRhythm
+            </div>
+
+            <div id="typewriter"></div>
+
+        </section>
+
+
+        <!-- =====================================================
+             WARNING
+        ====================================================== -->
+
+        <section class="warning-box">
+
+            <div class="warning-icon">
+                ⚠️
+            </div>
+
+            <div>
+
+                <div class="warning-title"
+                    id="warningTitle">
+
+                    Important Privacy Notice
+
+                </div>
+
+                <div class="warning-text"
+                    id="warningText">
+
+                    Please read this Privacy Policy carefully before
+                    registering for an event, competition, ticket,
+                    class or other service on TribalRhythm.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             POLICY CONTENT
+        ====================================================== -->
+
+        <div id="policyContent"></div>
+
+
+        <!-- =====================================================
+             CONTACT
+        ====================================================== -->
+
+        <section class="contact-card">
+
+            <h2 id="contactTitle">
+                Contact Us
+            </h2>
+
+            <p id="contactText"></p>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer>
+
+        <div>
+            © 2026 <strong>TribalRhythm</strong>. All Rights Reserved.
+        </div>
+
+        <div class="footer-powered">
+            Powered by <strong>Zentro Nex</strong>
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+
+        /* =====================================================
+           LANGUAGE DATA
+        ====================================================== */
+
+        const translations = {
+
+            en: {
+
+                title: "Privacy Policy",
+
+                updated: "Last Updated: August 2026",
+
+                welcomeLabel: "Welcome to TribalRhythm",
+
+                welcome:
+                    "Welcome to TribalRhythm — a cultural and digital platform dedicated to connecting people with tribal dance, music, competitions, events, learning and cultural experiences. Your privacy matters to us, and this policy explains how we handle your information.",
+
+                warningTitle:
+                    "Important Privacy Notice",
+
+                warning:
+                    "Please read this Privacy Policy carefully before registering for an event, competition, ticket, class or other service on TribalRhythm. By using our website or submitting information, you acknowledge that you have read and understood this policy.",
+
+                sections: [
+
+                    {
+                        title: "1. About This Privacy Policy",
+                        text:
+                            "This Privacy Policy explains how TribalRhythm, powered by Zentro Nex, may collect, use, store, process and protect information provided by visitors, registered users, participants, customers and event attendees."
+                    },
+
+                    {
+                        title: "2. Information We Collect",
+                        html: `
+                            <p>Depending on the service you use, we may collect information such as:</p>
+
+                            <ul>
+                                <li>Full name</li>
+                                <li>Father / Guardian name where required</li>
+                                <li>Email address</li>
+                                <li>Mobile number</li>
+                                <li>WhatsApp number if voluntarily provided</li>
+                                <li>Age</li>
+                                <li>Date of birth where required</li>
+                                <li>Gender where required</li>
+                                <li>Address</li>
+                                <li>State, district and pincode</li>
+                                <li>Language preference</li>
+                                <li>Tribe or cultural category where required for a competition or event</li>
+                                <li>Ticket ID or registration ID</li>
+                                <li>Competition or event participation information</li>
+                                <li>Uploaded photograph, identity document or other documents when specifically required</li>
+                                <li>Payment transaction information</li>
+                                <li>OTP verification information</li>
+                                <li>Technical information such as browser, device and basic usage information</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "3. How We Use Your Information",
+                        html: `
+                            <p>We may use collected information for legitimate operational purposes, including:</p>
+
+                            <ul>
+                                <li>Creating and managing user registrations</li>
+                                <li>Event and competition registration</li>
+                                <li>Ticket booking and verification</li>
+                                <li>Processing payments</li>
+                                <li>OTP and identity verification</li>
+                                <li>Sending registration and payment confirmations</li>
+                                <li>Sending important event-related notifications</li>
+                                <li>Generating certificates, tickets or participation records</li>
+                                <li>Providing customer support</li>
+                                <li>Preventing fraud, misuse and unauthorized access</li>
+                                <li>Improving website performance and user experience</li>
+                                <li>Maintaining records required for legitimate business, accounting or legal purposes</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "4. OTP Verification",
+                        html: `
+                            <p>
+                                TribalRhythm may use One-Time Passwords (OTP)
+                                for account, registration or identity verification.
+                            </p>
+
+                            <ul>
+                                <li>OTP may be delivered through SMS or email.</li>
+                                <li>OTP is used for verification and security purposes.</li>
+                                <li>Users should never share an OTP with another person.</li>
+                                <li>TribalRhythm will not intentionally ask users to disclose an OTP outside the official verification process.</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "5. Payment Security",
+                        html: `
+                            <p>
+                                Online payments may be processed through third-party
+                                payment gateway providers such as Razorpay.
+                            </p>
+
+                            <p>
+                                TribalRhythm does not intentionally store your
+                                debit card number, credit card number, CVV,
+                                UPI PIN or banking password on its own website.
+                            </p>
+
+                            <p>
+                                Payment information may be processed by the
+                                payment provider according to its own privacy
+                                policy and security practices.
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "6. Communication",
+                        html: `
+                            <p>
+                                After registration, payment or OTP verification,
+                                TribalRhythm may send necessary communications
+                                through email, SMS, WhatsApp or other supported
+                                communication channels.
+                            </p>
+
+                            <ul>
+                                <li>Registration confirmation</li>
+                                <li>Payment confirmation</li>
+                                <li>OTP messages</li>
+                                <li>Ticket or competition information</li>
+                                <li>Important event updates</li>
+                                <li>Service-related notifications</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "7. Third-Party Service Providers",
+                        html: `
+                            <p>
+                                To operate our services, we may use trusted
+                                technology and service providers for functions
+                                such as payment processing, hosting, database
+                                services, email delivery, SMS delivery,
+                                authentication, analytics or security.
+                            </p>
+
+                            <p>
+                                Such providers may process limited information
+                                necessary to provide their services and may
+                                operate under their own terms and privacy policies.
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "8. Data Security",
+                        html: `
+                            <p>
+                                We take reasonable technical and organizational
+                                measures to protect personal information against
+                                unauthorized access, misuse, alteration,
+                                disclosure or destruction.
+                            </p>
+
+                            <p>
+                                However, no internet transmission or electronic
+                                storage system can be guaranteed to be completely
+                                secure. Users should also take reasonable steps
+                                to protect their account, password and OTP.
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "9. Cookies and Similar Technologies",
+                        html: `
+                            <p>
+                                TribalRhythm may use cookies, local storage or
+                                similar technologies to support website functions,
+                                maintain preferences, improve performance and
+                                understand basic website usage.
+                            </p>
+
+                            <p>
+                                You may be able to control cookies through your
+                                browser settings. Disabling certain cookies may
+                                affect some website functionality.
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "10. User-Uploaded Information",
+                        html: `
+                            <p>
+                                Some competitions, registrations or cultural
+                                programs may require users to upload photographs,
+                                identity documents, audio, video or other
+                                information.
+                            </p>
+
+                            <p>
+                                Users should upload only information that is
+                                required for the relevant service and should
+                                ensure that they have the necessary rights or
+                                permission to submit such content.
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "11. Data Retention",
+                        html: `
+                            <p>
+                                We may retain personal information for as long
+                                as reasonably necessary to provide services,
+                                maintain registration or transaction records,
+                                resolve disputes, prevent fraud, comply with
+                                applicable obligations, or protect legitimate
+                                business interests.
+                            </p>
+
+                            <p>
+                                When information is no longer reasonably required,
+                                it may be deleted, anonymized or securely disposed
+                                of, subject to applicable requirements.
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "12. Sharing of Information",
+                        html: `
+                            <p>
+                                TribalRhythm does not sell personal information
+                                as a commercial product.
+                            </p>
+
+                            <p>
+                                Information may be shared with service providers,
+                                event organizers, competition administrators or
+                                authorities where reasonably necessary to provide
+                                a requested service, process a transaction,
+                                maintain security, comply with legal obligations
+                                or protect rights and safety.
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "13. Your Privacy Rights",
+                        html: `
+                            <p>
+                                Subject to applicable law and reasonable
+                                verification, you may contact us to request:
+                            </p>
+
+                            <ul>
+                                <li>Access to certain personal information we hold about you</li>
+                                <li>Correction of inaccurate information</li>
+                                <li>Deletion of information where appropriate</li>
+                                <li>Clarification regarding the use of your information</li>
+                            </ul>
+
+                            <p>
+                                Requests may be subject to legal, security,
+                                operational or record-retention requirements.
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "14. Children's Privacy",
+                        html: `
+                            <p>
+                                Where a service involves minors, registration or
+                                participation should be completed with the
+                                involvement and permission of a parent, guardian
+                                or other responsible adult where required.
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "15. External Links",
+                        html: `
+                            <p>
+                                Our website may contain links to external websites,
+                                payment services or third-party platforms.
+                                TribalRhythm is not responsible for the privacy
+                                practices or content of external websites.
+                                Users should review the privacy policies of
+                                those services before providing information.
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "16. Changes to This Privacy Policy",
+                        html: `
+                            <p>
+                                TribalRhythm may update this Privacy Policy from
+                                time to time to reflect changes in our services,
+                                technology, legal requirements or operational
+                                practices.
+                            </p>
+
+                            <p>
+                                The latest version will be published on this page.
+                                The date shown at the top indicates when the policy
+                                was last updated.
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "17. Consent",
+                        html: `
+                            <p>
+                                By using TribalRhythm or submitting information
+                                through our website, you acknowledge that you have
+                                read this Privacy Policy and understand how your
+                                information may be handled as described here.
+                            </p>
+                        `
+                    }
+
+                ],
+
+                contactTitle: "Contact Us",
+
+                contact:
+                    `<strong>TribalRhythm</strong><br>
+                    Powered by <strong>Zentro Nex</strong><br><br>
+
+                    For privacy-related questions, correction requests or
+                    deletion requests, contact us:<br><br>
+
+                    <strong>Email:</strong>
+                    <a href="mailto:rahulsardarrahul014@gmail.com">
+                        rahulsardarrahul014@gmail.com
+                    </a>
+
+                    <br><br>
+
+                    <strong>Phone:</strong>
+                    <a href="tel:+917903946369">
+                        +91 7903946369
+                    </a>`
+            },
+
+
+            /* =====================================================
+               HINDI
+            ====================================================== */
+
+            hi: {
+
+                title: "गोपनीयता नीति",
+
+                updated: "अंतिम अपडेट: अगस्त 2026",
+
+                welcomeLabel: "TribalRhythm में आपका स्वागत है",
+
+                welcome:
+                    "TribalRhythm में आपका स्वागत है — यह एक डिजिटल और सांस्कृतिक प्लेटफॉर्म है, जिसका उद्देश्य जनजातीय नृत्य, संगीत, प्रतियोगिताओं, कार्यक्रमों, सीखने और सांस्कृतिक अनुभवों को लोगों तक पहुँचाना है। आपकी गोपनीयता हमारे लिए महत्वपूर्ण है और यह नीति बताती है कि हम आपकी जानकारी को कैसे संभालते हैं।",
+
+                warningTitle:
+                    "महत्वपूर्ण गोपनीयता सूचना",
+
+                warning:
+                    "TribalRhythm पर किसी कार्यक्रम, प्रतियोगिता, टिकट, क्लास या अन्य सेवा के लिए पंजीकरण करने से पहले इस Privacy Policy को ध्यानपूर्वक पढ़ें। वेबसाइट का उपयोग करने या जानकारी जमा करने पर यह माना जाएगा कि आपने इस नीति को पढ़ और समझ लिया है।",
+
+                sections: [
+
+                    {
+                        title: "1. इस गोपनीयता नीति के बारे में",
+                        text:
+                            "यह Privacy Policy बताती है कि Zentro Nex द्वारा powered TribalRhythm अपने वेबसाइट विज़िटर, पंजीकृत उपयोगकर्ताओं, प्रतिभागियों, ग्राहकों और कार्यक्रम में भाग लेने वाले लोगों की जानकारी को कैसे एकत्र, उपयोग, सुरक्षित और संसाधित कर सकता है।"
+                    },
+
+                    {
+                        title: "2. हम कौन-सी जानकारी एकत्र कर सकते हैं",
+                        html: `
+                            <p>आपके द्वारा उपयोग की जाने वाली सेवा के अनुसार हम निम्न जानकारी एकत्र कर सकते हैं:</p>
+
+                            <ul>
+                                <li>पूरा नाम</li>
+                                <li>पिता / अभिभावक का नाम, जहाँ आवश्यक हो</li>
+                                <li>ईमेल पता</li>
+                                <li>मोबाइल नंबर</li>
+                                <li>WhatsApp नंबर, यदि दिया गया हो</li>
+                                <li>आयु</li>
+                                <li>जन्म तिथि, जहाँ आवश्यक हो</li>
+                                <li>लिंग, जहाँ आवश्यक हो</li>
+                                <li>पता</li>
+                                <li>राज्य, जिला और पिनकोड</li>
+                                <li>भाषा की पसंद</li>
+                                <li>प्रतियोगिता या कार्यक्रम के लिए आवश्यक जनजातीय / सांस्कृतिक श्रेणी</li>
+                                <li>Ticket ID या Registration ID</li>
+                                <li>कार्यक्रम या प्रतियोगिता से संबंधित जानकारी</li>
+                                <li>आवश्यक होने पर फोटो, पहचान पत्र या अन्य दस्तावेज</li>
+                                <li>Payment Transaction की जानकारी</li>
+                                <li>OTP Verification की जानकारी</li>
+                                <li>Browser, device और basic technical information</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "3. आपकी जानकारी का उपयोग कैसे किया जाता है",
+                        html: `
+                            <p>एकत्र की गई जानकारी का उपयोग निम्नलिखित उद्देश्यों के लिए किया जा सकता है:</p>
+
+                            <ul>
+                                <li>User registration को manage करना</li>
+                                <li>Event और competition registration</li>
+                                <li>Ticket booking और verification</li>
+                                <li>Payment processing</li>
+                                <li>OTP और identity verification</li>
+                                <li>Registration और payment confirmation भेजना</li>
+                                <li>Event से संबंधित महत्वपूर्ण notifications भेजना</li>
+                                <li>Certificate, ticket या participation record बनाना</li>
+                                <li>Customer support प्रदान करना</li>
+                                <li>Fraud और unauthorized access को रोकना</li>
+                                <li>Website performance और user experience सुधारना</li>
+                                <li>कानूनी, accounting और business records बनाए रखना</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "4. OTP Verification",
+                        html: `
+                            <p>
+                                TribalRhythm account, registration या identity
+                                verification के लिए OTP का उपयोग कर सकता है।
+                            </p>
+
+                            <ul>
+                                <li>OTP SMS या Email के माध्यम से भेजा जा सकता है।</li>
+                                <li>OTP का उपयोग verification और security के लिए किया जाता है।</li>
+                                <li>अपना OTP किसी अन्य व्यक्ति के साथ साझा न करें।</li>
+                                <li>TribalRhythm आपसे official verification process के बाहर OTP साझा करने के लिए नहीं कहेगा।</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "5. Payment Security",
+                        html: `
+                            <p>
+                                Online payment के लिए Razorpay जैसे third-party
+                                payment gateway का उपयोग किया जा सकता है।
+                            </p>
+
+                            <p>
+                                TribalRhythm अपने website पर आपके debit card,
+                                credit card, CVV, UPI PIN या banking password को
+                                जानबूझकर store नहीं करता।
+                            </p>
+
+                            <p>
+                                Payment provider अपनी privacy policy और security
+                                practices के अनुसार payment information process कर सकता है।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "6. Communication",
+                        html: `
+                            <p>
+                                Registration, payment या OTP verification के बाद
+                                TribalRhythm Email, SMS, WhatsApp या अन्य supported
+                                communication channels के माध्यम से आवश्यक
+                                notifications भेज सकता है।
+                            </p>
+
+                            <ul>
+                                <li>Registration confirmation</li>
+                                <li>Payment confirmation</li>
+                                <li>OTP messages</li>
+                                <li>Ticket या competition information</li>
+                                <li>Important event updates</li>
+                                <li>Service-related notifications</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "7. Third-Party Service Providers",
+                        html: `
+                            <p>
+                                Website को operate करने के लिए हम payment,
+                                hosting, database, email, SMS, authentication,
+                                analytics और security जैसी सेवाओं के लिए
+                                trusted third-party providers का उपयोग कर सकते हैं।
+                            </p>
+
+                            <p>
+                                ये providers अपनी सेवा देने के लिए आवश्यक
+                                सीमित जानकारी process कर सकते हैं और उनकी
+                                अपनी privacy policies लागू हो सकती हैं।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "8. Data Security",
+                        html: `
+                            <p>
+                                हम personal information को unauthorized access,
+                                misuse, alteration, disclosure या destruction
+                                से बचाने के लिए उचित technical और organizational
+                                security measures अपनाने का प्रयास करते हैं।
+                            </p>
+
+                            <p>
+                                हालांकि internet transmission या electronic
+                                storage system को पूरी तरह सुरक्षित होने की
+                                गारंटी नहीं दी जा सकती। Users को भी अपने account,
+                                password और OTP को सुरक्षित रखना चाहिए।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "9. Cookies",
+                        html: `
+                            <p>
+                                TribalRhythm website functionality, preferences,
+                                performance और basic website usage को support
+                                करने के लिए cookies, local storage या similar
+                                technologies का उपयोग कर सकता है।
+                            </p>
+
+                            <p>
+                                आप browser settings के माध्यम से cookies को
+                                control कर सकते हैं। कुछ cookies को disable करने
+                                पर website की कुछ functionality प्रभावित हो सकती है।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "10. User-Uploaded Information",
+                        html: `
+                            <p>
+                                कुछ competitions, registrations या cultural
+                                programs में photo, identity document, audio,
+                                video या अन्य information upload करने की आवश्यकता
+                                हो सकती है।
+                            </p>
+
+                            <p>
+                                Users को केवल आवश्यक information upload करनी चाहिए
+                                और यह सुनिश्चित करना चाहिए कि उस information को
+                                submit करने का आवश्यक अधिकार या permission उनके पास हो।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "11. Data Retention",
+                        html: `
+                            <p>
+                                Personal information को service देने, registration
+                                और transaction records रखने, dispute resolve करने,
+                                fraud रोकने, कानूनी obligations पूरी करने या
+                                legitimate business purposes के लिए आवश्यक समय तक
+                                रखा जा सकता है।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "12. Information Sharing",
+                        html: `
+                            <p>
+                                TribalRhythm personal information को commercial
+                                product के रूप में बेचता नहीं है।
+                            </p>
+
+                            <p>
+                                आवश्यक होने पर information को service providers,
+                                event organizers, competition administrators या
+                                authorities के साथ service delivery, transaction,
+                                security, legal requirements या safety purposes
+                                के लिए साझा किया जा सकता है।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "13. आपके Privacy Rights",
+                        html: `
+                            <p>
+                                लागू कानून और उचित verification के अधीन आप
+                                निम्न requests कर सकते हैं:
+                            </p>
+
+                            <ul>
+                                <li>आपकी personal information तक access</li>
+                                <li>गलत information को correct करना</li>
+                                <li>उचित स्थिति में information delete करना</li>
+                                <li>आपकी information के उपयोग के बारे में जानकारी</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "14. बच्चों की Privacy",
+                        html: `
+                            <p>
+                                यदि किसी service में नाबालिग शामिल हैं, तो registration
+                                या participation आवश्यकता के अनुसार parent, guardian
+                                या responsible adult की अनुमति और involvement के साथ
+                                किया जाना चाहिए।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "15. External Links",
+                        html: `
+                            <p>
+                                Website पर external websites, payment services या
+                                third-party platforms के links हो सकते हैं।
+                                TribalRhythm उन external websites की privacy practices
+                                या content के लिए जिम्मेदार नहीं है।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "16. Privacy Policy में बदलाव",
+                        html: `
+                            <p>
+                                TribalRhythm अपनी services, technology, legal
+                                requirements या operational practices में बदलाव
+                                के अनुसार इस Privacy Policy को समय-समय पर update
+                                कर सकता है।
+                            </p>
+
+                            <p>
+                                Latest version हमेशा इसी page पर उपलब्ध कराई जाएगी।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "17. Consent",
+                        html: `
+                            <p>
+                                TribalRhythm का उपयोग करने या website के माध्यम
+                                से information submit करने पर आप स्वीकार करते हैं
+                                कि आपने इस Privacy Policy को पढ़ा और समझा है।
+                            </p>
+                        `
+                    }
+
+                ],
+
+                contactTitle: "संपर्क करें",
+
+                contact:
+                    `<strong>TribalRhythm</strong><br>
+                    Powered by <strong>Zentro Nex</strong><br><br>
+
+                    Privacy से संबंधित प्रश्न, correction या deletion request
+                    के लिए हमसे संपर्क करें:<br><br>
+
+                    <strong>Email:</strong>
+                    <a href="mailto:rahulsardarrahul014@gmail.com">
+                        rahulsardarrahul014@gmail.com
+                    </a>
+
+                    <br><br>
+
+                    <strong>Phone:</strong>
+                    <a href="tel:+917903946369">
+                        +91 7903946369
+                    </a>`
+            },
+
+
+            /* =====================================================
+               ODIA
+            ====================================================== */
+
+            or: {
+
+                title: "ଗୋପନୀୟତା ନୀତି",
+
+                updated: "ଶେଷ ଅଦ୍ୟତନ: ଅଗଷ୍ଟ 2026",
+
+                welcomeLabel: "TribalRhythm କୁ ସ୍ୱାଗତ",
+
+                welcome:
+                    "TribalRhythm କୁ ସ୍ୱାଗତ — ଏହା ଏକ ଡିଜିଟାଲ ଏବଂ ସାଂସ୍କୃତିକ ପ୍ଲାଟଫର୍ମ, ଯାହା ଆଦିବାସୀ ନୃତ୍ୟ, ସଙ୍ଗୀତ, ପ୍ରତିଯୋଗିତା, କାର୍ଯ୍ୟକ୍ରମ, ଶିକ୍ଷା ଏବଂ ସାଂସ୍କୃତିକ ଅନୁଭୂତି ସହିତ ଲୋକମାନଙ୍କୁ ଯୋଡ଼ିବା ପାଇଁ ତିଆରି ହୋଇଛି। ଆପଣଙ୍କ ଗୋପନୀୟତା ଆମ ପାଇଁ ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ।",
+
+                warningTitle:
+                    "ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ଗୋପନୀୟତା ସୂଚନା",
+
+                warning:
+                    "TribalRhythm ରେ କୌଣସି event, competition, ticket, class କିମ୍ବା ଅନ୍ୟ ସେବା ପାଇଁ registration କରିବା ପୂର୍ବରୁ ଏହି Privacy Policy କୁ ଭଲଭାବରେ ପଢ଼ନ୍ତୁ। Website ବ୍ୟବହାର କରିବା କିମ୍ବା ତଥ୍ୟ ଦାଖଲ କରିବା ଦ୍ୱାରା ଆପଣ ଏହି policy କୁ ପଢ଼ି ବୁଝିଥିବାକୁ ସ୍ୱୀକାର କରନ୍ତି।",
+
+                sections: [
+
+                    {
+                        title: "1. ଏହି ଗୋପନୀୟତା ନୀତି ବିଷୟରେ",
+                        text:
+                            "ଏହି Privacy Policy ରେ Zentro Nex ଦ୍ୱାରା powered TribalRhythm କିପରି website visitors, registered users, participants, customers ଏବଂ event attendees ଙ୍କ ତଥ୍ୟ ସଂଗ୍ରହ, ବ୍ୟବହାର, ସୁରକ୍ଷା ଏବଂ process କରିପାରେ ତାହା ବର୍ଣ୍ଣନା କରାଯାଇଛି।"
+                    },
+
+                    {
+                        title: "2. ଆମେ କେଉଁ ତଥ୍ୟ ସଂଗ୍ରହ କରିପାରୁ",
+                        html: `
+                            <p>ଆପଣ ବ୍ୟବହାର କରୁଥିବା service ଅନୁସାରେ ଆମେ ନିମ୍ନଲିଖିତ ତଥ୍ୟ ସଂଗ୍ରହ କରିପାରୁ:</p>
+
+                            <ul>
+                                <li>ପୂର୍ଣ୍ଣ ନାମ</li>
+                                <li>ପିତା / ଅଭିଭାବକଙ୍କ ନାମ</li>
+                                <li>Email address</li>
+                                <li>Mobile number</li>
+                                <li>WhatsApp number, ଯଦି ଦିଆଯାଇଥାଏ</li>
+                                <li>ବୟସ</li>
+                                <li>ଜନ୍ମ ତାରିଖ, ଯେଉଁଠାରେ ଆବଶ୍ୟକ</li>
+                                <li>ଲିଙ୍ଗ, ଯେଉଁଠାରେ ଆବଶ୍ୟକ</li>
+                                <li>ଠିକଣା</li>
+                                <li>ରାଜ୍ୟ, ଜିଲ୍ଲା ଏବଂ ପିନକୋଡ୍</li>
+                                <li>ଭାଷା ପସନ୍ଦ</li>
+                                <li>Competition କିମ୍ବା event ପାଇଁ ଆବଶ୍ୟକ tribal / cultural category</li>
+                                <li>Ticket ID କିମ୍ବା Registration ID</li>
+                                <li>Event କିମ୍ବା competition participation information</li>
+                                <li>ଆବଶ୍ୟକ ହେଲେ photo, identity document କିମ୍ବା ଅନ୍ୟ document</li>
+                                <li>Payment transaction information</li>
+                                <li>OTP verification information</li>
+                                <li>Browser, device ଏବଂ basic technical information</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "3. ଆମେ ଆପଣଙ୍କ ତଥ୍ୟ କିପରି ବ୍ୟବହାର କରୁ",
+                        html: `
+                            <p>ସଂଗ୍ରହ କରାଯାଇଥିବା ତଥ୍ୟ ନିମ୍ନଲିଖିତ କାର୍ଯ୍ୟ ପାଇଁ ବ୍ୟବହାର ହୋଇପାରେ:</p>
+
+                            <ul>
+                                <li>User registration manage କରିବା</li>
+                                <li>Event ଏବଂ competition registration</li>
+                                <li>Ticket booking ଏବଂ verification</li>
+                                <li>Payment processing</li>
+                                <li>OTP ଏବଂ identity verification</li>
+                                <li>Registration ଏବଂ payment confirmation ପଠାଇବା</li>
+                                <li>ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ event notifications ପଠାଇବା</li>
+                                <li>Certificate, ticket କିମ୍ବା participation record ପ୍ରସ୍ତୁତ କରିବା</li>
+                                <li>Customer support ପ୍ରଦାନ କରିବା</li>
+                                <li>Fraud ଏବଂ unauthorized access ରୋକିବା</li>
+                                <li>Website performance ଏବଂ user experience ଉନ୍ନତ କରିବା</li>
+                                <li>ଆଇନଗତ, accounting ଏବଂ business records ରଖିବା</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "4. OTP Verification",
+                        html: `
+                            <p>
+                                TribalRhythm account, registration କିମ୍ବା identity
+                                verification ପାଇଁ OTP ବ୍ୟବହାର କରିପାରେ।
+                            </p>
+
+                            <ul>
+                                <li>OTP SMS କିମ୍ବା Email ମାଧ୍ୟମରେ ପଠାଯାଇପାରେ।</li>
+                                <li>OTP verification ଏବଂ security ପାଇଁ ବ୍ୟବହାର ହୁଏ।</li>
+                                <li>ନିଜ OTP କାହା ସହିତ share କରନ୍ତୁ ନାହିଁ।</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "5. Payment Security",
+                        html: `
+                            <p>
+                                Online payment ପାଇଁ Razorpay ପରି third-party
+                                payment gateway ବ୍ୟବହାର କରାଯାଇପାରେ।
+                            </p>
+
+                            <p>
+                                TribalRhythm ନିଜ website ରେ debit card number,
+                                credit card number, CVV, UPI PIN କିମ୍ବା
+                                banking password କୁ ଜାଣିଶୁଣି store କରେ ନାହିଁ।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "6. Communication",
+                        html: `
+                            <p>
+                                Registration, payment କିମ୍ବା OTP verification
+                                ପରେ TribalRhythm Email, SMS, WhatsApp କିମ୍ବା
+                                ଅନ୍ୟ supported communication channel ମାଧ୍ୟମରେ
+                                ଆବଶ୍ୟକ notification ପଠାଇପାରେ।
+                            </p>
+
+                            <ul>
+                                <li>Registration confirmation</li>
+                                <li>Payment confirmation</li>
+                                <li>OTP messages</li>
+                                <li>Ticket କିମ୍ବା competition information</li>
+                                <li>Important event updates</li>
+                                <li>Service-related notifications</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "7. Third-Party Service Providers",
+                        html: `
+                            <p>
+                                Website ଚଳାଇବା ପାଇଁ payment, hosting, database,
+                                email, SMS, authentication, analytics ଏବଂ
+                                security services ପାଇଁ trusted third-party
+                                providers ବ୍ୟବହାର କରାଯାଇପାରେ।
+                            </p>
+
+                            <p>
+                                ଏହି providers ନିଜ service ପ୍ରଦାନ ପାଇଁ
+                                ଆବଶ୍ୟକ limited information process କରିପାରନ୍ତି।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "8. Data Security",
+                        html: `
+                            <p>
+                                Personal information କୁ unauthorized access,
+                                misuse, alteration, disclosure କିମ୍ବା destruction
+                                ରୁ ସୁରକ୍ଷା କରିବା ପାଇଁ ଆମେ reasonable technical
+                                ଏବଂ organizational security measures ନେବାକୁ ଚେଷ୍ଟା କରୁ।
+                            </p>
+
+                            <p>
+                                କୌଣସି internet transmission କିମ୍ବା electronic
+                                storage system କୁ 100% secure ହେବାର guarantee
+                                ଦିଆଯାଇପାରେ ନାହିଁ।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "9. Cookies",
+                        html: `
+                            <p>
+                                Website functionality, preferences, performance
+                                ଏବଂ basic usage ପାଇଁ TribalRhythm cookies,
+                                local storage କିମ୍ବା similar technologies
+                                ବ୍ୟବହାର କରିପାରେ।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "10. User-Uploaded Information",
+                        html: `
+                            <p>
+                                କିଛି competition, registration କିମ୍ବା cultural
+                                program ପାଇଁ photo, identity document, audio,
+                                video କିମ୍ବା ଅନ୍ୟ information upload କରିବାକୁ
+                                ପଡ଼ିପାରେ।
+                            </p>
+
+                            <p>
+                                Users କେବଳ ଆବଶ୍ୟକ information upload କରିବା
+                                ଉଚିତ ଏବଂ ସେହି content submit କରିବାର
+                                ଆବଶ୍ୟକ permission ଥିବା ନିଶ୍ଚିତ କରିବା ଉଚିତ।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "11. Data Retention",
+                        html: `
+                            <p>
+                                Service ପ୍ରଦାନ, registration ଏବଂ transaction
+                                records ରଖିବା, dispute resolve କରିବା, fraud
+                                prevent କରିବା, legal obligations ପୂରଣ କରିବା
+                                କିମ୍ବା legitimate business purposes ପାଇଁ
+                                ଆବଶ୍ୟକ ସମୟ ପର୍ଯ୍ୟନ୍ତ information ରଖାଯାଇପାରେ।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "12. Information Sharing",
+                        html: `
+                            <p>
+                                TribalRhythm personal information କୁ commercial
+                                product ଭାବରେ ବିକ୍ରି କରେ ନାହିଁ।
+                            </p>
+
+                            <p>
+                                Service delivery, payment transaction, security,
+                                legal requirements କିମ୍ବା safety ପାଇଁ ଆବଶ୍ୟକ
+                                ହେଲେ information କୁ service providers,
+                                event organizers, competition administrators
+                                କିମ୍ବା authorities ସହ share କରାଯାଇପାରେ।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "13. ଆପଣଙ୍କ Privacy Rights",
+                        html: `
+                            <p>
+                                Applicable law ଏବଂ reasonable verification ଅଧୀନରେ
+                                ଆପଣ ନିମ୍ନଲିଖିତ request କରିପାରିବେ:
+                            </p>
+
+                            <ul>
+                                <li>ଆପଣଙ୍କ personal information ବିଷୟରେ access</li>
+                                <li>ଭୁଲ information correction</li>
+                                <li>ଯଥାଯଥ ସ୍ଥିତିରେ information deletion</li>
+                                <li>ଆପଣଙ୍କ information କିପରି ବ୍ୟବହାର ହେଉଛି ସେ ବିଷୟରେ clarification</li>
+                            </ul>
+                        `
+                    },
+
+                    {
+                        title: "14. ଶିଶୁମାନଙ୍କର Privacy",
+                        html: `
+                            <p>
+                                ଯଦି କୌଣସି service ରେ minor ଅଂଶଗ୍ରହଣ କରନ୍ତି,
+                                ତେବେ ଆବଶ୍ୟକ ଅନୁସାରେ parent, guardian କିମ୍ବା
+                                responsible adult ଙ୍କ permission ଏବଂ involvement
+                                ସହିତ registration କରାଯିବା ଉଚିତ।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "15. External Links",
+                        html: `
+                            <p>
+                                Website ରେ external website, payment service
+                                କିମ୍ବା third-party platform ର link ଥାଇପାରେ।
+                                TribalRhythm ସେହି external website ର privacy
+                                practices ପାଇଁ responsible ନୁହେଁ।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "16. Privacy Policy ରେ ପରିବର୍ତ୍ତନ",
+                        html: `
+                            <p>
+                                Service, technology, legal requirements କିମ୍ବା
+                                operational practices ରେ ପରିବର୍ତ୍ତନ ଅନୁସାରେ
+                                TribalRhythm ଏହି Privacy Policy କୁ ସମୟ ସମୟରେ
+                                update କରିପାରେ।
+                            </p>
+
+                            <p>
+                                Latest version ଏହି page ରେ available ରହିବ।
+                            </p>
+                        `
+                    },
+
+                    {
+                        title: "17. Consent",
+                        html: `
+                            <p>
+                                TribalRhythm ବ୍ୟବହାର କରିବା କିମ୍ବା website
+                                ମାଧ୍ୟମରେ information submit କରିବା ଦ୍ୱାରା
+                                ଆପଣ ଏହି Privacy Policy ପଢ଼ି ଏବଂ ବୁଝିଥିବାକୁ
+                                ସ୍ୱୀକାର କରନ୍ତି।
+                            </p>
+                        `
+                    }
+
+                ],
+
+                contactTitle: "ଆମ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ",
+
+                contact:
+                    `<strong>TribalRhythm</strong><br>
+                    Powered by <strong>Zentro Nex</strong><br><br>
+
+                    Privacy ସମ୍ପର୍କିତ ପ୍ରଶ୍ନ, correction କିମ୍ବା
+                    deletion request ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ:<br><br>
+
+                    <strong>Email:</strong>
+                    <a href="mailto:rahulsardarrahul014@gmail.com">
+                        rahulsardarrahul014@gmail.com
+                    </a>
+
+                    <br><br>
+
+                    <strong>Phone:</strong>
+                    <a href="tel:+917903946369">
+                        +91 7903946369
+                    </a>`
+            }
+
+        };
+
+
+        /* =====================================================
+           CURRENT LANGUAGE
+        ====================================================== */
+
+        let currentLanguage = "en";
+
+
+        /* =====================================================
+           TYPEWRITER
+        ====================================================== */
+
+        let typewriterTimer = null;
+
+
+        function startTypewriter(text) {
+
+            const element =
+                document.getElementById("typewriter");
+
+            if (typewriterTimer) {
+                clearInterval(typewriterTimer);
+            }
+
+            element.innerHTML = "";
+
+            let index = 0;
+
+            const cursor =
+                document.createElement("span");
+
+            cursor.className = "cursor";
+
+            element.appendChild(cursor);
+
+            typewriterTimer =
+                setInterval(() => {
+
+                    if (index < text.length) {
+
+                        const textNode =
+                            document.createTextNode(
+                                text.charAt(index)
+                            );
+
+                        element.insertBefore(
+                            textNode,
+                            cursor
+                        );
+
+                        index++;
+
+                    } else {
+
+                        clearInterval(typewriterTimer);
+
+                    }
+
+                }, 22);
+        }
+
+
+        /* =====================================================
+           RENDER POLICY
+        ====================================================== */
+
+        function renderPolicy(lang) {
+
+            const data =
+                translations[lang];
+
+            currentLanguage = lang;
+
+            /* Header */
+
+            document.documentElement.lang =
+                lang === "hi"
+                    ? "hi"
+                    : lang === "or"
+                        ? "or"
+                        : "en";
+
+            document.getElementById("pageTitle")
+                .textContent = data.title;
+
+            document.getElementById("lastUpdated")
+                .textContent = data.updated;
+
+            /* Welcome */
+
+            document.getElementById("welcomeLabel")
+                .textContent = data.welcomeLabel;
+
+            startTypewriter(data.welcome);
+
+            /* Warning */
+
+            document.getElementById("warningTitle")
+                .textContent = data.warningTitle;
+
+            document.getElementById("warningText")
+                .textContent = data.warning;
+
+            /* Policy */
+
+            const policy =
+                document.getElementById("policyContent");
+
+            policy.innerHTML = "";
+
+            data.sections.forEach(section => {
+
+                const box =
+                    document.createElement("section");
+
+                box.className = "policy-box";
+
+                const heading =
+                    document.createElement("h2");
+
+                heading.textContent =
+                    section.title;
+
+                box.appendChild(heading);
+
+                if (section.html) {
+
+                    const content =
+                        document.createElement("div");
+
+                    content.innerHTML =
+                        section.html;
+
+                    box.appendChild(content);
+
+                } else if (section.text) {
+
+                    const paragraph =
+                        document.createElement("p");
+
+                    paragraph.textContent =
+                        section.text;
+
+                    box.appendChild(paragraph);
+                }
+
+                policy.appendChild(box);
+
+            });
+
+            /* Contact */
+
+            document.getElementById("contactTitle")
+                .textContent = data.contactTitle;
+
+            document.getElementById("contactText")
+                .innerHTML = data.contact;
+
+
+            /* Active button */
+
+            document
+                .querySelectorAll(".lang-btn")
+                .forEach(button => {
+
+                    button.classList.remove("active");
+
+                });
+
+            document
+                .getElementById("btn-" + lang)
+                .classList.add("active");
+
+        }
+
+
+        /* =====================================================
+           CHANGE LANGUAGE
+        ====================================================== */
+
+        function changeLanguage(lang) {
+
+            if (!translations[lang]) {
+                return;
+            }
+
+            renderPolicy(lang);
+
+            /*
+             * Save language preference
+             */
+            try {
+
+                localStorage.setItem(
+                    "tribalRhythmPrivacyLanguage",
+                    lang
+                );
+
+            } catch (error) {
+
+                console.log(
+                    "Language preference could not be saved."
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           PRINT
+        ====================================================== */
+
+        function printPolicy() {
+
+            window.print();
+
+        }
+
+
+        /* =====================================================
+           HOME
+        ====================================================== */
+
+        function goHome() {
+
+            /*
+             * Change this URL if your homepage
+             * has a different filename.
+             */
+
+            window.location.href = "index.html";
+
+        }
+
+
+        /* =====================================================
+           LOAD SAVED LANGUAGE
+        ====================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                let savedLanguage = "en";
+
+                try {
+
+                    const saved =
+                        localStorage.getItem(
+                            "tribalRhythmPrivacyLanguage"
+                        );
+
+                    if (
+                        saved &&
+                        translations[saved]
+                    ) {
+                        savedLanguage = saved;
+                    }
+
+                } catch (error) {
+
+                    console.log(
+                        "Saved language unavailable."
+                    );
+
+                }
+
+                renderPolicy(savedLanguage);
+
+            }
+        );
+
+    </script>
+
 
 </body>
 
 </html>
+```

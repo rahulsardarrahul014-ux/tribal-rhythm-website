@@ -1,79 +1,163 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 
 <head>
 
-    <!-- BASIC -->
+    <!-- =====================================================
+         BASIC
+    ====================================================== -->
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Tribal Rhythm - नियम एवं शर्तें</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <!-- SEO -->
+    <title>
+        Tribal Rhythm - Rules & Regulations | Powered by Zentro Nex
+    </title>
+
+    <!-- =====================================================
+         SEO
+    ====================================================== -->
+
     <meta name="description"
-        content="Read Tribal Rhythm rules, terms & conditions, participation guidelines, competition policies, and registration instructions for dance events.">
+        content="Official Tribal Rhythm rules, terms and conditions, competition guidelines and participation policies.">
 
     <meta name="keywords"
-        content="Tribal Rhythm Rules, Terms and Conditions, Dance Competition Rules, Event Guidelines, Registration Policy">
+        content="Tribal Rhythm Rules, Dance Competition Rules, Tribal Dance Competition, Santali, Bhumij, Zentro Nex">
 
-    <meta name="author" content="Tribal Rhythm">
+    <meta name="author"
+        content="Tribal Rhythm | Powered by Zentro Nex">
 
-    <!-- ROBOTS -->
-    <meta name="robots" content="index,follow">
+    <meta name="robots"
+        content="index,follow">
 
-    <!-- THEME -->
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color"
+        content="#000000">
 
-    <!-- OPEN GRAPH -->
-    <meta property="og:title" content="Tribal Rhythm - नियम एवं शर्तें">
+
+    <!-- =====================================================
+         OPEN GRAPH
+    ====================================================== -->
+
+    <meta property="og:title"
+        content="Tribal Rhythm - Rules & Regulations">
+
     <meta property="og:description"
-        content="Official Tribal Rhythm rules, guidelines, and terms for dance competitions and events.">
-    <meta property="og:type" content="website">
+        content="Official Tribal Rhythm rules, competition guidelines and participation terms.">
 
-    <!-- TWITTER -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tribal Rhythm - नियम एवं शर्तें">
+    <meta property="og:type"
+        content="website">
+
+
+    <!-- =====================================================
+         TWITTER
+    ====================================================== -->
+
+    <meta name="twitter:card"
+        content="summary_large_image">
+
+    <meta name="twitter:title"
+        content="Tribal Rhythm - Rules & Regulations">
+
     <meta name="twitter:description"
-        content="Read all official rules and conditions before participating in Tribal Rhythm events.">
+        content="Read all official Tribal Rhythm rules and competition guidelines.">
 
-    <!-- FAVICON -->
-    <link rel="icon" type="image/png" href="logo.png">
 
-    <!-- PERFORMANCE -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- =====================================================
+         FAVICON
+    ====================================================== -->
 
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="icon"
+        type="image/png"
+        href="logo.png">
 
-    <!-- GOOGLE FONT -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <!-- BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- =====================================================
+         PERFORMANCE
+    ====================================================== -->
 
-    <!-- SECURITY -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
 
-    <!-- STYLE -->
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link rel="preconnect"
+        href="https://cdn.jsdelivr.net">
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- =====================================================
+         PDF LIBRARY
+         Used to generate downloadable PDF
+    ====================================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
+    </script>
+
+
+    <!-- =====================================================
+         STYLE
+    ====================================================== -->
+
     <style>
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+
         body {
+
             font-family: 'Poppins', sans-serif;
+
             color: white;
-            background: linear-gradient(-45deg, #0f172a, #111827, #000);
+
+            background:
+                linear-gradient(
+                    -45deg,
+                    #0f172a,
+                    #111827,
+                    #000000,
+                    #172033
+                );
+
             background-size: 400% 400%;
-            animation: bg 12s ease infinite;
+
+            animation:
+                backgroundAnimation 15s ease infinite;
+
             min-height: 100vh;
+
             overflow-x: hidden;
         }
 
-        @keyframes bg {
+
+        @keyframes backgroundAnimation {
+
             0% {
                 background-position: 0% 50%;
             }
@@ -85,522 +169,2913 @@
             100% {
                 background-position: 0% 50%;
             }
+
         }
+
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
 
         .header {
+
             text-align: center;
-            padding: 20px;
-            border-bottom: 2px solid gold;
+
+            padding: 22px 15px;
+
+            border-bottom:
+                2px solid gold;
+
+            background:
+                rgba(0, 0, 0, 0.35);
+
         }
+
+
+        /* =====================================================
+           LANGUAGE SWITCHER
+        ====================================================== */
+
+        .language-switcher {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 18px;
+        }
+
+
+        .lang-btn {
+
+            background:
+                transparent;
+
+            border:
+                1px solid gold;
+
+            color:
+                gold;
+
+            padding:
+                7px 15px;
+
+            border-radius:
+                25px;
+
+            font-size:
+                13px;
+
+            font-weight:
+                600;
+
+            cursor:
+                pointer;
+
+            transition:
+                0.3s;
+        }
+
+
+        .lang-btn:hover {
+
+            background:
+                gold;
+
+            color:
+                black;
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 0 12px rgba(255, 215, 0, 0.5);
+        }
+
+
+        .lang-btn.active {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    gold,
+                    orange
+                );
+
+            color:
+                black;
+
+            box-shadow:
+                0 0 15px rgba(255, 215, 0, 0.6);
+        }
+
+
+        /* =====================================================
+           LOGO
+        ====================================================== */
+
+        .logo {
+
+            width:
+                110px;
+
+            height:
+                auto;
+
+            display:
+                block;
+
+            margin:
+                0 auto 12px;
+
+            object-fit:
+                contain;
+
+            filter:
+                drop-shadow(
+                    0 0 10px
+                    rgba(255, 215, 0, 0.35)
+                );
+        }
+
+
+        /* =====================================================
+           HEADER TITLE
+        ====================================================== */
+
+        .header h1 {
+
+            color:
+                gold;
+
+            font-size:
+                32px;
+
+            font-weight:
+                700;
+
+            margin-bottom:
+                5px;
+
+            text-shadow:
+                0 0 12px
+                rgba(255, 215, 0, 0.45);
+        }
+
+
+        .header p {
+
+            color:
+                #e5e7eb;
+
+            margin:
+                0;
+
+            font-size:
+                15px;
+        }
+
+
+        /* =====================================================
+           POWERED BY ZENTRO NEX
+        ====================================================== */
+
+        .powered-by {
+
+            margin-top:
+                9px;
+
+            color:
+                #cbd5e1;
+
+            font-size:
+                13px;
+
+            letter-spacing:
+                0.5px;
+        }
+
+
+        .powered-by strong {
+
+            color:
+                gold;
+
+            font-weight:
+                700;
+
+            text-shadow:
+                0 0 8px
+                rgba(255, 215, 0, 0.5);
+        }
+
+
+        /* =====================================================
+           WELCOME
+        ====================================================== */
+
+        .welcome-text {
+
+            text-align:
+                center;
+
+            color:
+                gold;
+
+            font-size:
+                30px;
+
+            font-weight:
+                700;
+
+            margin:
+                18px 0;
+
+            animation:
+                welcomeAnimation 2s infinite alternate;
+
+            text-shadow:
+                0 0 15px gold;
+        }
+
+
+        @keyframes welcomeAnimation {
+
+            from {
+
+                opacity:
+                    0.6;
+
+                letter-spacing:
+                    1px;
+            }
+
+            to {
+
+                opacity:
+                    1;
+
+                letter-spacing:
+                    4px;
+            }
+
+        }
+
+
+        /* =====================================================
+           MARQUEE
+        ====================================================== */
+
+        .marquee {
+
+            width:
+                100%;
+
+            overflow:
+                hidden;
+
+            background:
+                #111;
+
+            border-top:
+                2px solid gold;
+
+            border-bottom:
+                2px solid gold;
+
+            padding:
+                10px 0;
+        }
+
+
+        .marquee-content {
+
+            display:
+                inline-block;
+
+            white-space:
+                nowrap;
+
+            color:
+                gold;
+
+            font-weight:
+                700;
+
+            font-size:
+                16px;
+
+            padding-left:
+                100%;
+
+            animation:
+                marqueeAnimation 25s linear infinite;
+        }
+
+
+        @keyframes marqueeAnimation {
+
+            from {
+
+                transform:
+                    translateX(0);
+            }
+
+            to {
+
+                transform:
+                    translateX(-100%);
+            }
+
+        }
+
+
+        /* =====================================================
+           CULTURE BADGE
+        ====================================================== */
+
+        .culture-badge {
+
+            text-align:
+                center;
+
+            margin:
+                20px 0;
+        }
+
+
+        .culture-badge span {
+
+            display:
+                inline-block;
+
+            background:
+                rgba(255, 215, 0, 0.1);
+
+            color:
+                gold;
+
+            padding:
+                8px 18px;
+
+            border-radius:
+                30px;
+
+            border:
+                1px solid
+                rgba(255, 215, 0, 0.3);
+
+            font-size:
+                14px;
+
+            font-weight:
+                500;
+        }
+
+
+        /* =====================================================
+           RULE CARD
+        ====================================================== */
 
         .card-box {
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: 0.3s;
+
+            background:
+                rgba(17, 17, 17, 0.94);
+
+            border:
+                1px solid #333;
+
+            border-radius:
+                14px;
+
+            padding:
+                20px;
+
+            margin-bottom:
+                15px;
+
+            transition:
+                0.3s;
+
+            page-break-inside:
+                avoid;
         }
+
 
         .card-box:hover {
-            border-color: gold;
-            transform: scale(1.01);
+
+            border-color:
+                gold;
+
+            transform:
+                scale(1.01);
+
+            box-shadow:
+                0 0 18px
+                rgba(255, 215, 0, 0.12);
         }
 
-        h1,
-        h4 {
-            color: gold;
+
+        .card-box h4 {
+
+            color:
+                gold;
+
+            font-size:
+                19px;
+
+            margin-bottom:
+                12px;
+
+            font-weight:
+                700;
         }
+
+
+        .card-box ul {
+
+            padding-left:
+                22px;
+
+            margin-bottom:
+                10px;
+        }
+
+
+        .card-box li {
+
+            color:
+                #f1f5f9;
+
+            margin-bottom:
+                7px;
+
+            line-height:
+                1.6;
+
+            font-size:
+                14px;
+        }
+
 
         .note {
-            color: #cbd5e1;
-            font-size: 14px;
+
+            color:
+                #cbd5e1;
+
+            font-size:
+                13px;
+
+            margin:
+                8px 0 0;
         }
 
-        .btn-gold {
-            background: linear-gradient(135deg, gold, orange);
-            color: black;
-            border: none;
-            border-radius: 14px;
-            padding: 12px 18px;
-            font-weight: 700;
-            transition: 0.3s;
-            width: 100%;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-        }
 
-        .btn-gold:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px gold;
-        }
-
-        .btn-home {
-            background: transparent;
-            border: 1px solid gold;
-            color: gold;
-            border-radius: 14px;
-            padding: 10px;
-            transition: 0.3s;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .btn-home:hover {
-            background: gold;
-            color: black;
-        }
-
-        .btn-next {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            border: none;
-            color: white;
-            border-radius: 14px;
-            padding: 10px;
-            font-weight: bold;
-            transition: 0.3s;
-            width: 100%;
-        }
-
-        .btn-next:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 15px #22c55e;
-        }
-
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        /* =====================================================
+           AGREEMENT
+        ====================================================== */
 
         .agree-box {
-            background: #000;
-            border: 1px solid #333;
-            padding: 15px;
-            border-radius: 10px;
+
+            background:
+                #000;
+
+            border:
+                1px solid #333;
+
+            padding:
+                20px;
+
+            border-radius:
+                14px;
+
+            margin-top:
+                25px;
+
+            page-break-inside:
+                avoid;
         }
 
-        /* MOBILE */
+
+        .form-check {
+
+            color:
+                white;
+
+            background:
+                rgba(255, 215, 0, 0.04);
+
+            border:
+                1px solid #333;
+
+            padding:
+                13px 15px 13px 38px;
+
+            border-radius:
+                10px;
+        }
+
+
+        .form-check-input {
+
+            cursor:
+                pointer;
+        }
+
+
+        .form-check-input:checked {
+
+            background-color:
+                #d4af37;
+
+            border-color:
+                gold;
+        }
+
+
+        .form-check-label {
+
+            cursor:
+                pointer;
+
+            font-size:
+                14px;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ====================================================== */
+
+        .button-group {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            gap:
+                10px;
+
+            margin-top:
+                15px;
+        }
+
+
+        .btn-gold {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    gold,
+                    orange
+                );
+
+            color:
+                black;
+
+            border:
+                none;
+
+            border-radius:
+                14px;
+
+            padding:
+                12px 18px;
+
+            font-weight:
+                700;
+
+            transition:
+                0.3s;
+
+            width:
+                100%;
+
+            box-shadow:
+                0 0 15px
+                rgba(255, 215, 0, 0.3);
+
+            cursor:
+                pointer;
+        }
+
+
+        .btn-gold:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 0 20px gold;
+        }
+
+
+        .btn-home {
+
+            background:
+                transparent;
+
+            border:
+                1px solid gold;
+
+            color:
+                gold;
+
+            border-radius:
+                14px;
+
+            padding:
+                10px;
+
+            transition:
+                0.3s;
+
+            text-decoration:
+                none;
+
+            display:
+                block;
+
+            text-align:
+                center;
+
+            font-weight:
+                600;
+        }
+
+
+        .btn-home:hover {
+
+            background:
+                gold;
+
+            color:
+                black;
+        }
+
+
+        .btn-next {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #22c55e,
+                    #16a34a
+                );
+
+            border:
+                none;
+
+            color:
+                white;
+
+            border-radius:
+                14px;
+
+            padding:
+                11px;
+
+            font-weight:
+                700;
+
+            transition:
+                0.3s;
+
+            width:
+                100%;
+
+            cursor:
+                pointer;
+        }
+
+
+        .btn-next:hover {
+
+            transform:
+                scale(1.02);
+
+            box-shadow:
+                0 0 15px
+                #22c55e;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        footer {
+
+            text-align:
+                center;
+
+            padding:
+                30px 15px;
+
+            color:
+                gold;
+
+            border-top:
+                1px solid gold;
+
+            margin-top:
+                40px;
+        }
+
+
+        footer h5 {
+
+            font-weight:
+                700;
+
+            margin-bottom:
+                7px;
+        }
+
+
+        footer p {
+
+            margin:
+                4px 0;
+
+            color:
+                #cbd5e1;
+
+            font-size:
+                13px;
+        }
+
+
+        .footer-powered {
+
+            color:
+                gold;
+
+            font-weight:
+                600;
+
+            margin-top:
+                8px;
+        }
+
+
+        /* =====================================================
+           SCROLLBAR
+        ====================================================== */
+
+        ::-webkit-scrollbar {
+
+            width:
+                8px;
+        }
+
+
+        ::-webkit-scrollbar-track {
+
+            background:
+                #000;
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+
+            background:
+                gold;
+
+            border-radius:
+                10px;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
         @media(max-width:768px) {
 
             .header h1 {
-                font-size: 28px;
+
+                font-size:
+                    25px;
             }
 
-            .card-box {
-                padding: 15px;
-            }
-
-        }
-
-        /* SCROLLBAR */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: gold;
-            border-radius: 10px;
-        }
-
-        /* ===== LOGO ===== */
-        .logo {
-            width: 110px;
-            height: auto;
-            display: block;
-            margin: 0 auto 12px;
-        }
-
-        /* ===== WELCOME ===== */
-        .welcome-text {
-            text-align: center;
-            color: gold;
-            font-size: 30px;
-            font-weight: 700;
-            margin: 15px 0;
-            animation: welcome 2s infinite alternate;
-            text-shadow: 0 0 15px gold;
-        }
-
-        @keyframes welcome {
-            from {
-                opacity: .5;
-                letter-spacing: 1px;
-            }
-
-            to {
-                opacity: 1;
-                letter-spacing: 5px;
-            }
-        }
-
-        /* ===== MARQUEE ===== */
-        .marquee {
-            width: 100%;
-            overflow: hidden;
-            background: #111;
-            border-top: 2px solid gold;
-            border-bottom: 2px solid gold;
-            padding: 10px 0;
-        }
-
-        .marquee-content {
-            display: inline-block;
-            white-space: nowrap;
-            color: gold;
-            font-weight: bold;
-            font-size: 17px;
-            padding-left: 100%;
-            animation: marquee 20s linear infinite;
-        }
-
-        @keyframes marquee {
-            from {
-                transform: translateX(0);
-            }
-
-            to {
-                transform: translateX(-100%);
-            }
-        }
-
-        /* MOBILE */
-        @media(max-width:768px) {
 
             .logo {
-                width: 80px;
+
+                width:
+                    82px;
             }
+
 
             .welcome-text {
-                font-size: 22px;
+
+                font-size:
+                    21px;
             }
 
+
             .marquee-content {
-                font-size: 14px;
+
+                font-size:
+                    13px;
+            }
+
+
+            .card-box {
+
+                padding:
+                    15px;
+            }
+
+
+            .card-box h4 {
+
+                font-size:
+                    17px;
+            }
+
+
+            .card-box li {
+
+                font-size:
+                    13px;
+            }
+
+
+            .lang-btn {
+
+                padding:
+                    6px 11px;
+
+                font-size:
+                    12px;
             }
 
         }
+
+
+        /* =====================================================
+           PDF MODE
+           Removes animations while generating PDF
+        ====================================================== */
+
+        .pdf-mode {
+
+            background:
+                #ffffff !important;
+
+            color:
+                #111111 !important;
+
+            animation:
+                none !important;
+        }
+
+
+        .pdf-mode .card-box {
+
+            background:
+                #ffffff !important;
+
+            color:
+                #111111 !important;
+
+            border:
+                1px solid #cccccc !important;
+
+            box-shadow:
+                none !important;
+
+            transform:
+                none !important;
+        }
+
+
+        .pdf-mode .card-box h4 {
+
+            color:
+                #8a6500 !important;
+        }
+
+
+        .pdf-mode .card-box li {
+
+            color:
+                #222222 !important;
+        }
+
+
+        .pdf-mode .note {
+
+            color:
+                #555555 !important;
+        }
+
+
+        .pdf-mode .header {
+
+            background:
+                #ffffff !important;
+        }
+
+
+        .pdf-mode .header h1 {
+
+            color:
+                #8a6500 !important;
+
+            text-shadow:
+                none !important;
+        }
+
+
+        .pdf-mode .header p {
+
+            color:
+                #333333 !important;
+        }
+
+
+        .pdf-mode .powered-by {
+
+            color:
+                #555555 !important;
+        }
+
+
+        .pdf-mode .powered-by strong {
+
+            color:
+                #8a6500 !important;
+
+            text-shadow:
+                none !important;
+        }
+
+
+        .pdf-mode .welcome-text {
+
+            color:
+                #8a6500 !important;
+
+            animation:
+                none !important;
+
+            text-shadow:
+                none !important;
+        }
+
+
+        .pdf-mode .culture-badge span {
+
+            color:
+                #8a6500 !important;
+
+            background:
+                #fff8dc !important;
+
+            border-color:
+                #d4af37 !important;
+        }
+
+
+        .pdf-mode footer {
+
+            color:
+                #8a6500 !important;
+
+            border-color:
+                #d4af37 !important;
+        }
+
+
+        .pdf-mode footer p {
+
+            color:
+                #555555 !important;
+        }
+
+
+        .pdf-mode .footer-powered {
+
+            color:
+                #8a6500 !important;
+        }
+
     </style>
 
 </head>
 
+
 <body>
 
-    <div class="header">
 
-        <img src="tribalweblogo.png" class="logo" alt="Tribal Rhythm Logo">
+    <!-- =====================================================
+         PDF CONTENT START
+    ====================================================== -->
 
-        <h1>Welcome To Tribal Rhythm</h1>
+    <div id="pdfContent">
 
-        <p>Rules & Regulations</p>
 
-    </div>
-    <div class="welcome-text">
+        <!-- =================================================
+             HEADER
+        ================================================== -->
 
-        Welcome To Tribal Rhythm
+        <div class="header">
 
-    </div>
 
-    <div class="marquee">
+            <!-- LANGUAGE SWITCHER
+                 Hidden automatically during PDF generation
+            -->
 
-        <div class="marquee-content">
+            <div
+                class="language-switcher no-pdf">
 
-            🏹 Welcome To Tribal Rhythm • Rules & Regulations • All Dance Institute Students • Dance Teachers • Solo
-            Dance • Duo Dance • Group Dance • Tribal Dance • Registration Open • Register Now
+                <button
+                    class="lang-btn"
+                    data-language="en"
+                    onclick="setLanguage('en')">
 
-        </div>
+                    English
 
-    </div>
+                </button>
 
-    
-    <div class="text-center mt-3 mb-4">
-        <span style="
-        background:rgba(255,215,0,0.1);
-        color:gold;
-        padding:8px 18px;
-        border-radius:30px;
-        border:1px solid rgba(255,215,0,0.3);
-        font-size:14px;
-    ">
-            🌿 Tribal Culture • Competition • Community
-        </span>
-    </div>
 
-    <div class="container">
+                <button
+                    class="lang-btn"
+                    data-language="hi"
+                    onclick="setLanguage('hi')">
 
-        <!-- RULE 1 -->
-        <div class="card-box">
-            <h4>1. सामान्य नियम</h4>
-            <ul>
-                <li>सभी प्रतिभागियों को अनुशासन का पालन करना अनिवार्य है।</li>
-                <li>किसी भी प्रकार की गलत गतिविधि स्वीकार नहीं की जाएगी।</li>
-            </ul>
-            <p class="note">🌿 सभी को आदिवासी संस्कृति का सम्मान करना होगा।</p>
-        </div>
+                    हिन्दी
 
-        <!-- RULE 2 -->
-        <div class="card-box">
-            <h4>2. भाषा नियम</h4>
-            <ul>
-                <li>केवल संथाली और भूमिज भाषा में प्रस्तुति मान्य होगी।</li>
-                <li>अन्य भाषा सामग्री स्वीकार नहीं की जाएगी।</li>
-            </ul>
-            <p class="note">🎶 सांस्कृतिक पहचान बनाए रखना जरूरी है।</p>
-        </div>
+                </button>
 
-        <!-- RULE 3 -->
-        <div class="card-box">
-            <h4>3. वीडियो अपलोड नियम</h4>
-            <ul>
-                <li>केवल ओरिजिनल वीडियो मान्य होगा।</li>
-                <li>वीडियो की अवधि 1 से 5 मिनट होनी चाहिए।</li>
-                <li>वीडियो स्पष्ट और साफ होना चाहिए।</li>
-            </ul>
-            <p class="note">📹 कॉपी किया हुआ वीडियो अमान्य होगा।</p>
-        </div>
 
-        <!-- RULE 4 -->
-        <div class="card-box">
-            <h4>4. शुल्क नीति</h4>
-            <ul>
-                <li>रजिस्ट्रेशन फीस वापस नहीं की जाएगी।</li>
-                <li>यदि कार्यक्रम रद्द होता है तो राशि वापस की जाएगी।</li>
-            </ul>
-            <p class="note">💰 नियम आयोजक के अनुसार लागू होंगे।</p>
-        </div>
+                <button
+                    class="lang-btn"
+                    data-language="or"
+                    onclick="setLanguage('or')">
 
-        <!-- RULE 5 -->
-        <div class="card-box">
-            <h4>5. सांस्कृतिक प्रस्तुति</h4>
-            <ul>
-                <li>प्रस्तुति में आदिवासी संस्कृति झलकनी चाहिए।</li>
-                <li>आधुनिक स्टाइल की अनुमति केवल सीमित रूप में है।</li>
-            </ul>
-            <p class="note">🌿 अपनी संस्कृति को दर्शाना आवश्यक है।</p>
-        </div>
+                    ଓଡ଼ିଆ
 
-        <!-- RULE 6 -->
-        <div class="card-box">
-            <h4>6. वेशभूषा नियम</h4>
-            <ul>
-                <li>पारंपरिक पोशाक पहनना प्रोत्साहित किया जाएगा।</li>
-                <li>आदिवासी पहचान स्पष्ट दिखनी चाहिए।</li>
-            </ul>
-            <p class="note">👗 पारंपरिक पहनावा प्राथमिकता है।</p>
-        </div>
+                </button>
 
-        <!-- RULE 7 -->
-        <div class="card-box">
-            <h4>7. निर्णय प्रणाली</h4>
-            <ul>
-                <li>निर्णय विशेषज्ञ जजों द्वारा किया जाएगा।</li>
-                <li>निर्णय अंतिम और मान्य होगा।</li>
-            </ul>
-            <p class="note">🏆 निष्पक्ष मूल्यांकन किया जाएगा।</p>
-        </div>
+            </div>
 
-        <!-- RULE 8 -->
-        <div class="card-box">
-            <h4>8. प्रतियोगिता समय सीमा</h4>
-            <ul>
-                <li>समय के बाद कोई आवेदन स्वीकार नहीं होगा।</li>
-                <li>डेडलाइन का पालन अनिवार्य है।</li>
-            </ul>
-            <p class="note">⏰ समय सीमा महत्वपूर्ण है।</p>
-        </div>
 
-        <!-- RULE 9 -->
-        <div class="card-box">
-            <h4>9. अयोग्यता नियम</h4>
-            <ul>
-                <li>झूठा या कॉपी कंटेंट अयोग्य माना जाएगा।</li>
-                <li>नियम उल्लंघन पर भागीदारी रद्द होगी।</li>
-            </ul>
-            <p class="note">❌ नियम तोड़ने पर डिसक्वालिफाई किया जाएगा।</p>
-        </div>
+            <!-- WEBSITE LOGO -->
 
-        <!-- RULE 10 -->
-        <div class="card-box">
-            <h4>10. पुरस्कार एवं प्रमाण पत्र</h4>
-            <ul>
-                <li>सभी प्रतिभागियों को डिजिटल प्रमाण पत्र मिलेगा।</li>
-                <li>विजेताओं को पुरस्कार दिए जाएंगे।</li>
-            </ul>
-            <p class="note">🎖 सभी को सम्मान मिलेगा।</p>
-        </div>
+            <img
+                src="tribalweblogo.png"
+                class="logo"
+                alt="Tribal Rhythm Logo">
 
-        <div class="card-box">
 
-            <h4>11. Eligibility</h4>
+            <!-- TITLE -->
 
-            <ul>
+            <h1 data-i18n="mainTitle">
+                Welcome To Tribal Rhythm
+            </h1>
 
-                <li>All Dance Institutes are eligible.</li>
 
-                <li>Dance Teachers can participate.</li>
-
-                <li>Students can participate.</li>
-
-                <li>Solo, Duo and Group Dance are allowed.</li>
-
-            </ul>
-
-            <p class="note">
-                ✅ Institute, School, College and Academy participants are welcome.
+            <p data-i18n="pageSubtitle">
+                Rules & Regulations
             </p>
 
-        </div>
 
-        <div class="card-box">
+            <!-- POWERED BY -->
 
-<h4>12. Dress Code</h4>
+            <div class="powered-by">
 
-<ul>
+                <span data-i18n="poweredText">
+                    Powered by
+                </span>
 
-<li>Traditional Tribal Dress is preferred.</li>
-
-<li>Decent Costume is mandatory.</li>
-
-</ul>
-
-<p class="note">
-👕 Respect Tribal Culture.
-</p>
-
-</div>
-
-<div class="card-box">
-
-<h4>13. Fair Competition</h4>
-
-<ul>
-
-<li>Judges' decision will be final.</li>
-
-<li>No argument will be accepted.</li>
-
-</ul>
-
-<p class="note">
-🏆 Fair judgement for every participant.
-</p>
-
-</div>
-
-        <!-- PROMOTION SECTION -->
-        <div class="card-box">
-            <h4>📢 Tribal Promotion System</h4>
-            <ul>
-                <li>आपका वीडियो वेबसाइट और सोशल मीडिया पर प्रमोट किया जा सकता है।</li>
-                <li>बेहतरीन परफॉर्मेंस को फीचर किया जाएगा।</li>
-                <li>YouTube / Instagram पर प्रमोशन संभव है।</li>
-            </ul>
-            <p class="note">🔥 आपका टैलेंट दुनिया तक पहुँचाया जाएगा।</p>
-        </div>
-
-        <!-- AGREEMENT -->
-        <!-- AGREEMENT BOX UPDATED -->
-        <div class="agree-box">
-
-            <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" id="agree">
-
-                <label class="form-check-label">
-                    मैं सभी नियमों और शर्तों से सहमत हूँ
-                </label>
-            </div>
-
-            <div class="button-group">
-
-                <button class="btn-gold" onclick="download()">
-                    📄 PDF डाउनलोड
-                </button>
-
-                <a href="index.html" class="btn-home">
-                    🏠 Home Page
-                </a>
-
-                <button class="btn-next" onclick="goNext()">
-                    ➜ Competition Join
-                </button>
+                <strong>
+                    Zentro Nex
+                </strong>
 
             </div>
 
         </div>
 
-        <script>
-            // 🔥 DOWNLOAD PDF
-            function download() {
 
-                let check = document.getElementById("agree");
+        <!-- =================================================
+             WELCOME
+        ================================================== -->
 
-                if (!check.checked) {
-                    alert("कृपया पहले नियम स्वीकार करें");
-                    return;
-                }
+        <div class="welcome-text"
+            data-i18n="welcomeText">
 
-                let blob = new Blob(
-                    ["Tribal Rhythm Rules & Regulations - Hindi Version"],
-                    { type: "text/plain" }
+            Welcome To Tribal Rhythm
+
+        </div>
+
+
+        <!-- =================================================
+             MARQUEE
+        ================================================== -->
+
+        <div class="marquee no-pdf">
+
+            <div
+                class="marquee-content"
+                data-i18n="marqueeText">
+
+                🏹 Welcome To Tribal Rhythm • Rules & Regulations •
+                All Dance Institute Students • Dance Teachers •
+                Solo Dance • Duo Dance • Group Dance •
+                Tribal Dance • Registration Open • Register Now
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CULTURE BADGE
+        ================================================== -->
+
+        <div class="culture-badge">
+
+            <span data-i18n="cultureBadge">
+
+                🌿 Tribal Culture • Competition • Community
+
+            </span>
+
+        </div>
+
+
+        <div class="container">
+
+
+            <!-- =================================================
+                 RULE 1
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule1_title">
+                    1. सामान्य नियम
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule1_1">
+                        सभी प्रतिभागियों को अनुशासन का पालन करना अनिवार्य है।
+                    </li>
+
+                    <li data-i18n="rule1_2">
+                        किसी भी प्रकार की गलत गतिविधि स्वीकार नहीं की जाएगी।
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule1_note">
+
+                    🌿 सभी को आदिवासी संस्कृति का सम्मान करना होगा।
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 2
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule2_title">
+                    2. भाषा नियम
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule2_1">
+                        केवल संथाली और भूमिज भाषा में प्रस्तुति मान्य होगी।
+                    </li>
+
+                    <li data-i18n="rule2_2">
+                        अन्य भाषा सामग्री स्वीकार नहीं की जाएगी।
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule2_note">
+
+                    🎶 सांस्कृतिक पहचान बनाए रखना जरूरी है।
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 3
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule3_title">
+                    3. वीडियो अपलोड नियम
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule3_1">
+                        केवल ओरिजिनल वीडियो मान्य होगा।
+                    </li>
+
+                    <li data-i18n="rule3_2">
+                        वीडियो की अवधि 1 से 5 मिनट होनी चाहिए।
+                    </li>
+
+                    <li data-i18n="rule3_3">
+                        वीडियो स्पष्ट और साफ होना चाहिए।
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule3_note">
+
+                    📹 कॉपी किया हुआ वीडियो अमान्य होगा।
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 4
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule4_title">
+                    4. शुल्क नीति
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule4_1">
+                        रजिस्ट्रेशन फीस वापस नहीं की जाएगी।
+                    </li>
+
+                    <li data-i18n="rule4_2">
+                        यदि कार्यक्रम रद्द होता है तो राशि वापस की जाएगी।
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule4_note">
+
+                    💰 नियम आयोजक के अनुसार लागू होंगे।
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 5
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule5_title">
+                    5. सांस्कृतिक प्रस्तुति
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule5_1">
+                        प्रस्तुति में आदिवासी संस्कृति झलकनी चाहिए।
+                    </li>
+
+                    <li data-i18n="rule5_2">
+                        आधुनिक स्टाइल की अनुमति केवल सीमित रूप में है।
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule5_note">
+
+                    🌿 अपनी संस्कृति को दर्शाना आवश्यक है।
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 6
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule6_title">
+                    6. वेशभूषा नियम
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule6_1">
+                        पारंपरिक पोशाक पहनना प्रोत्साहित किया जाएगा।
+                    </li>
+
+                    <li data-i18n="rule6_2">
+                        आदिवासी पहचान स्पष्ट दिखनी चाहिए।
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule6_note">
+
+                    👗 पारंपरिक पहनावा प्राथमिकता है।
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 7
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule7_title">
+                    7. निर्णय प्रणाली
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule7_1">
+                        निर्णय विशेषज्ञ जजों द्वारा किया जाएगा।
+                    </li>
+
+                    <li data-i18n="rule7_2">
+                        निर्णय अंतिम और मान्य होगा।
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule7_note">
+
+                    🏆 निष्पक्ष मूल्यांकन किया जाएगा।
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 8
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule8_title">
+                    8. प्रतियोगिता समय सीमा
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule8_1">
+                        समय के बाद कोई आवेदन स्वीकार नहीं होगा।
+                    </li>
+
+                    <li data-i18n="rule8_2">
+                        डेडलाइन का पालन अनिवार्य है।
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule8_note">
+
+                    ⏰ समय सीमा महत्वपूर्ण है।
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 9
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule9_title">
+                    9. अयोग्यता नियम
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule9_1">
+                        झूठा या कॉपी कंटेंट अयोग्य माना जाएगा।
+                    </li>
+
+                    <li data-i18n="rule9_2">
+                        नियम उल्लंघन पर भागीदारी रद्द होगी।
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule9_note">
+
+                    ❌ नियम तोड़ने पर डिसक्वालिफाई किया जाएगा।
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 10
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule10_title">
+                    10. पुरस्कार एवं प्रमाण पत्र
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule10_1">
+                        सभी प्रतिभागियों को डिजिटल प्रमाण पत्र मिलेगा।
+                    </li>
+
+                    <li data-i18n="rule10_2">
+                        विजेताओं को पुरस्कार दिए जाएंगे।
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule10_note">
+
+                    🎖 सभी को सम्मान मिलेगा।
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 11
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule11_title">
+                    11. Eligibility
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule11_1">
+                        All Dance Institutes are eligible.
+                    </li>
+
+                    <li data-i18n="rule11_2">
+                        Dance Teachers can participate.
+                    </li>
+
+                    <li data-i18n="rule11_3">
+                        Students can participate.
+                    </li>
+
+                    <li data-i18n="rule11_4">
+                        Solo, Duo and Group Dance are allowed.
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule11_note">
+
+                    ✅ Institute, School, College and Academy participants are welcome.
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 12
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule12_title">
+                    12. Dress Code
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule12_1">
+                        Traditional Tribal Dress is preferred.
+                    </li>
+
+                    <li data-i18n="rule12_2">
+                        Decent Costume is mandatory.
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule12_note">
+
+                    👕 Respect Tribal Culture.
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 RULE 13
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="rule13_title">
+                    13. Fair Competition
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="rule13_1">
+                        Judges' decision will be final.
+                    </li>
+
+                    <li data-i18n="rule13_2">
+                        No argument will be accepted.
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="rule13_note">
+
+                    🏆 Fair judgement for every participant.
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 PROMOTION
+            ================================================== -->
+
+            <div class="card-box">
+
+                <h4 data-i18n="promotion_title">
+                    📢 Tribal Promotion System
+                </h4>
+
+                <ul>
+
+                    <li data-i18n="promotion_1">
+                        आपका वीडियो वेबसाइट और सोशल मीडिया पर प्रमोट किया जा सकता है।
+                    </li>
+
+                    <li data-i18n="promotion_2">
+                        बेहतरीन परफॉर्मेंस को फीचर किया जाएगा।
+                    </li>
+
+                    <li data-i18n="promotion_3">
+                        YouTube / Instagram पर प्रमोशन संभव है।
+                    </li>
+
+                </ul>
+
+                <p class="note"
+                    data-i18n="promotion_note">
+
+                    🔥 आपका टैलेंट दुनिया तक पहुँचाया जाएगा।
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 AGREEMENT
+            ================================================== -->
+
+            <div class="agree-box no-pdf-buttons">
+
+
+                <div class="form-check mb-3">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="agree">
+
+
+                    <label
+                        class="form-check-label"
+                        for="agree"
+                        data-i18n="agree">
+
+                        मैं सभी नियमों और शर्तों से सहमत हूँ
+
+                    </label>
+
+                </div>
+
+
+                <div class="button-group no-pdf">
+
+
+                    <!-- PDF -->
+
+                    <button
+                        class="btn-gold"
+                        onclick="downloadPDF()"
+                        data-i18n="pdfButton">
+
+                        📄 PDF डाउनलोड
+
+                    </button>
+
+
+                    <!-- HOME -->
+
+                    <a
+                        href="index.html"
+                        class="btn-home"
+                        data-i18n="homeButton">
+
+                        🏠 Home Page
+
+                    </a>
+
+
+                    <!-- JOIN -->
+
+                    <button
+                        class="btn-next"
+                        id="nextBtn"
+                        onclick="goNext()"
+                        data-i18n="joinButton">
+
+                        ➜ Competition Join
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer>
+
+
+            <h5>
+                🏹 Tribal Rhythm
+            </h5>
+
+
+            <p data-i18n="footerTagline">
+
+                Preserving Tribal Culture Through Dance
+
+            </p>
+
+
+            <p>
+
+                © 2026 Tribal Rhythm |
+                <span data-i18n="rights">
+                    All Rights Reserved
+                </span>
+
+            </p>
+
+
+            <p class="footer-powered">
+
+                <span data-i18n="poweredText">
+                    Powered by
+                </span>
+
+                Zentro Nex
+
+            </p>
+
+        </footer>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+
+        /* =====================================================
+           TRANSLATIONS
+        ====================================================== */
+
+        const translations = {
+
+
+            /* =================================================
+               ENGLISH
+            ================================================== */
+
+            en: {
+
+                mainTitle:
+                    "Welcome To Tribal Rhythm",
+
+                pageSubtitle:
+                    "Rules & Regulations",
+
+                poweredText:
+                    "Powered by",
+
+                welcomeText:
+                    "Welcome To Tribal Rhythm",
+
+                cultureBadge:
+                    "🌿 Tribal Culture • Competition • Community",
+
+                marqueeText:
+                    "🏹 Welcome To Tribal Rhythm • Rules & Regulations • All Dance Institute Students • Dance Teachers • Solo Dance • Duo Dance • Group Dance • Tribal Dance • Registration Open • Register Now",
+
+
+                rule1_title:
+                    "1. General Rules",
+
+                rule1_1:
+                    "All participants must maintain discipline.",
+
+                rule1_2:
+                    "Any kind of inappropriate activity will not be accepted.",
+
+                rule1_note:
+                    "🌿 Everyone must respect tribal culture.",
+
+
+                rule2_title:
+                    "2. Language Rules",
+
+                rule2_1:
+                    "Only Santali and Bhumij language presentations are allowed.",
+
+                rule2_2:
+                    "Content in other languages will not be accepted.",
+
+                rule2_note:
+                    "🎶 Maintaining cultural identity is important.",
+
+
+                rule3_title:
+                    "3. Video Upload Rules",
+
+                rule3_1:
+                    "Only original videos will be accepted.",
+
+                rule3_2:
+                    "Video duration must be between 1 and 5 minutes.",
+
+                rule3_3:
+                    "Video must be clear and properly recorded.",
+
+                rule3_note:
+                    "📹 Copied videos will be considered invalid.",
+
+
+                rule4_title:
+                    "4. Fee Policy",
+
+                rule4_1:
+                    "Registration fees are non-refundable.",
+
+                rule4_2:
+                    "If the event is cancelled, the amount will be refunded.",
+
+                rule4_note:
+                    "💰 Rules will apply according to the organizer's policy.",
+
+
+                rule5_title:
+                    "5. Cultural Presentation",
+
+                rule5_1:
+                    "The performance should reflect tribal culture.",
+
+                rule5_2:
+                    "Modern styles are allowed only to a limited extent.",
+
+                rule5_note:
+                    "🌿 Showcasing your culture is important.",
+
+
+                rule6_title:
+                    "6. Dress Code",
+
+                rule6_1:
+                    "Traditional tribal dress is encouraged.",
+
+                rule6_2:
+                    "Tribal identity should be clearly represented.",
+
+                rule6_note:
+                    "👗 Traditional attire is preferred.",
+
+
+                rule7_title:
+                    "7. Judging System",
+
+                rule7_1:
+                    "The performance will be judged by expert judges.",
+
+                rule7_2:
+                    "The judges' decision will be final.",
+
+                rule7_note:
+                    "🏆 Fair evaluation will be conducted.",
+
+
+                rule8_title:
+                    "8. Competition Deadline",
+
+                rule8_1:
+                    "Applications will not be accepted after the deadline.",
+
+                rule8_2:
+                    "Following the deadline is mandatory.",
+
+                rule8_note:
+                    "⏰ The deadline is important.",
+
+
+                rule9_title:
+                    "9. Disqualification Rules",
+
+                rule9_1:
+                    "False or copied content may result in disqualification.",
+
+                rule9_2:
+                    "Participation may be cancelled for rule violations.",
+
+                rule9_note:
+                    "❌ Violation of rules may lead to disqualification.",
+
+
+                rule10_title:
+                    "10. Awards & Certificates",
+
+                rule10_1:
+                    "All participants will receive a digital certificate.",
+
+                rule10_2:
+                    "Winners will receive prizes.",
+
+                rule10_note:
+                    "🎖 Every participant will be recognized.",
+
+
+                rule11_title:
+                    "11. Eligibility",
+
+                rule11_1:
+                    "All Dance Institutes are eligible.",
+
+                rule11_2:
+                    "Dance Teachers can participate.",
+
+                rule11_3:
+                    "Students can participate.",
+
+                rule11_4:
+                    "Solo, Duo and Group Dance are allowed.",
+
+                rule11_note:
+                    "✅ Institute, School, College and Academy participants are welcome.",
+
+
+                rule12_title:
+                    "12. Dress Code",
+
+                rule12_1:
+                    "Traditional Tribal Dress is preferred.",
+
+                rule12_2:
+                    "Decent Costume is mandatory.",
+
+                rule12_note:
+                    "👕 Respect Tribal Culture.",
+
+
+                rule13_title:
+                    "13. Fair Competition",
+
+                rule13_1:
+                    "Judges' decision will be final.",
+
+                rule13_2:
+                    "No argument will be accepted.",
+
+                rule13_note:
+                    "🏆 Fair judgement for every participant.",
+
+
+                promotion_title:
+                    "📢 Tribal Promotion System",
+
+                promotion_1:
+                    "Your video may be promoted on the website and social media.",
+
+                promotion_2:
+                    "Outstanding performances may be featured.",
+
+                promotion_3:
+                    "Promotion on YouTube / Instagram may be possible.",
+
+                promotion_note:
+                    "🔥 Your talent may reach a wider audience.",
+
+
+                agree:
+                    "I agree to all rules and terms.",
+
+                pdfButton:
+                    "📄 Download PDF",
+
+                homeButton:
+                    "🏠 Home Page",
+
+                joinButton:
+                    "➜ Competition Join",
+
+                footerTagline:
+                    "Preserving Tribal Culture Through Dance",
+
+                rights:
+                    "All Rights Reserved"
+
+            },
+
+
+            /* =================================================
+               HINDI
+            ================================================== */
+
+            hi: {
+
+                mainTitle:
+                    "Welcome To Tribal Rhythm",
+
+                pageSubtitle:
+                    "नियम एवं शर्तें",
+
+                poweredText:
+                    "Powered by",
+
+                welcomeText:
+                    "Welcome To Tribal Rhythm",
+
+                cultureBadge:
+                    "🌿 Tribal Culture • Competition • Community",
+
+                marqueeText:
+                    "🏹 Welcome To Tribal Rhythm • नियम एवं शर्तें • सभी डांस इंस्टीट्यूट छात्र • डांस शिक्षक • सोलो डांस • डुओ डांस • ग्रुप डांस • ट्राइबल डांस • रजिस्ट्रेशन शुरू • अभी रजिस्टर करें",
+
+
+                rule1_title:
+                    "1. सामान्य नियम",
+
+                rule1_1:
+                    "सभी प्रतिभागियों को अनुशासन का पालन करना अनिवार्य है।",
+
+                rule1_2:
+                    "किसी भी प्रकार की गलत गतिविधि स्वीकार नहीं की जाएगी।",
+
+                rule1_note:
+                    "🌿 सभी को आदिवासी संस्कृति का सम्मान करना होगा।",
+
+
+                rule2_title:
+                    "2. भाषा नियम",
+
+                rule2_1:
+                    "केवल संथाली और भूमिज भाषा में प्रस्तुति मान्य होगी।",
+
+                rule2_2:
+                    "अन्य भाषा सामग्री स्वीकार नहीं की जाएगी।",
+
+                rule2_note:
+                    "🎶 सांस्कृतिक पहचान बनाए रखना जरूरी है।",
+
+
+                rule3_title:
+                    "3. वीडियो अपलोड नियम",
+
+                rule3_1:
+                    "केवल ओरिजिनल वीडियो मान्य होगा।",
+
+                rule3_2:
+                    "वीडियो की अवधि 1 से 5 मिनट होनी चाहिए।",
+
+                rule3_3:
+                    "वीडियो स्पष्ट और साफ होना चाहिए।",
+
+                rule3_note:
+                    "📹 कॉपी किया हुआ वीडियो अमान्य होगा।",
+
+
+                rule4_title:
+                    "4. शुल्क नीति",
+
+                rule4_1:
+                    "रजिस्ट्रेशन फीस वापस नहीं की जाएगी।",
+
+                rule4_2:
+                    "यदि कार्यक्रम रद्द होता है तो राशि वापस की जाएगी।",
+
+                rule4_note:
+                    "💰 नियम आयोजक के अनुसार लागू होंगे।",
+
+
+                rule5_title:
+                    "5. सांस्कृतिक प्रस्तुति",
+
+                rule5_1:
+                    "प्रस्तुति में आदिवासी संस्कृति झलकनी चाहिए।",
+
+                rule5_2:
+                    "आधुनिक स्टाइल की अनुमति केवल सीमित रूप में है।",
+
+                rule5_note:
+                    "🌿 अपनी संस्कृति को दर्शाना आवश्यक है।",
+
+
+                rule6_title:
+                    "6. वेशभूषा नियम",
+
+                rule6_1:
+                    "पारंपरिक पोशाक पहनना प्रोत्साहित किया जाएगा।",
+
+                rule6_2:
+                    "आदिवासी पहचान स्पष्ट दिखनी चाहिए।",
+
+                rule6_note:
+                    "👗 पारंपरिक पहनावा प्राथमिकता है।",
+
+
+                rule7_title:
+                    "7. निर्णय प्रणाली",
+
+                rule7_1:
+                    "निर्णय विशेषज्ञ जजों द्वारा किया जाएगा।",
+
+                rule7_2:
+                    "निर्णय अंतिम और मान्य होगा।",
+
+                rule7_note:
+                    "🏆 निष्पक्ष मूल्यांकन किया जाएगा।",
+
+
+                rule8_title:
+                    "8. प्रतियोगिता समय सीमा",
+
+                rule8_1:
+                    "समय के बाद कोई आवेदन स्वीकार नहीं होगा।",
+
+                rule8_2:
+                    "डेडलाइन का पालन अनिवार्य है।",
+
+                rule8_note:
+                    "⏰ समय सीमा महत्वपूर्ण है।",
+
+
+                rule9_title:
+                    "9. अयोग्यता नियम",
+
+                rule9_1:
+                    "झूठा या कॉपी कंटेंट अयोग्य माना जाएगा।",
+
+                rule9_2:
+                    "नियम उल्लंघन पर भागीदारी रद्द होगी।",
+
+                rule9_note:
+                    "❌ नियम तोड़ने पर डिसक्वालिफाई किया जाएगा।",
+
+
+                rule10_title:
+                    "10. पुरस्कार एवं प्रमाण पत्र",
+
+                rule10_1:
+                    "सभी प्रतिभागियों को डिजिटल प्रमाण पत्र मिलेगा।",
+
+                rule10_2:
+                    "विजेताओं को पुरस्कार दिए जाएंगे।",
+
+                rule10_note:
+                    "🎖 सभी को सम्मान मिलेगा।",
+
+
+                rule11_title:
+                    "11. पात्रता",
+
+                rule11_1:
+                    "सभी डांस इंस्टीट्यूट पात्र हैं।",
+
+                rule11_2:
+                    "डांस शिक्षक भाग ले सकते हैं।",
+
+                rule11_3:
+                    "छात्र भाग ले सकते हैं।",
+
+                rule11_4:
+                    "सोलो, डुओ और ग्रुप डांस की अनुमति है।",
+
+                rule11_note:
+                    "✅ Institute, School, College और Academy के प्रतिभागियों का स्वागत है।",
+
+
+                rule12_title:
+                    "12. वेशभूषा",
+
+                rule12_1:
+                    "पारंपरिक आदिवासी पोशाक को प्राथमिकता दी जाएगी।",
+
+                rule12_2:
+                    "सभ्य पोशाक अनिवार्य है।",
+
+                rule12_note:
+                    "👕 आदिवासी संस्कृति का सम्मान करें।",
+
+
+                rule13_title:
+                    "13. निष्पक्ष प्रतियोगिता",
+
+                rule13_1:
+                    "जजों का निर्णय अंतिम होगा।",
+
+                rule13_2:
+                    "किसी भी प्रकार का विवाद स्वीकार नहीं किया जाएगा।",
+
+                rule13_note:
+                    "🏆 प्रत्येक प्रतिभागी का निष्पक्ष मूल्यांकन होगा।",
+
+
+                promotion_title:
+                    "📢 Tribal Promotion System",
+
+                promotion_1:
+                    "आपका वीडियो वेबसाइट और सोशल मीडिया पर प्रमोट किया जा सकता है।",
+
+                promotion_2:
+                    "बेहतरीन परफॉर्मेंस को फीचर किया जाएगा।",
+
+                promotion_3:
+                    "YouTube / Instagram पर प्रमोशन संभव है।",
+
+                promotion_note:
+                    "🔥 आपका टैलेंट दुनिया तक पहुँचाया जा सकता है।",
+
+
+                agree:
+                    "मैं सभी नियमों और शर्तों से सहमत हूँ।",
+
+                pdfButton:
+                    "📄 PDF डाउनलोड",
+
+                homeButton:
+                    "🏠 Home Page",
+
+                joinButton:
+                    "➜ Competition Join",
+
+                footerTagline:
+                    "नृत्य के माध्यम से आदिवासी संस्कृति का संरक्षण",
+
+                rights:
+                    "सर्वाधिकार सुरक्षित"
+
+            },
+
+
+            /* =================================================
+               ODIA
+            ================================================== */
+
+            or: {
+
+                mainTitle:
+                    "Welcome To Tribal Rhythm",
+
+                pageSubtitle:
+                    "ନିୟମ ଏବଂ ସର୍ତ୍ତାବଳୀ",
+
+                poweredText:
+                    "Powered by",
+
+                welcomeText:
+                    "Welcome To Tribal Rhythm",
+
+                cultureBadge:
+                    "🌿 ଆଦିବାସୀ ସଂସ୍କୃତି • ପ୍ରତିଯୋଗିତା • ସମୁଦାୟ",
+
+                marqueeText:
+                    "🏹 Welcome To Tribal Rhythm • ନିୟମ ଏବଂ ସର୍ତ୍ତାବଳୀ • ସମସ୍ତ ଡାନ୍ସ ଇନଷ୍ଟିଚ୍ୟୁଟ୍ • ଡାନ୍ସ ଶିକ୍ଷକ • ସୋଲୋ ଡାନ୍ସ • ଡୁଓ ଡାନ୍ସ • ଗ୍ରୁପ୍ ଡାନ୍ସ • ଟ୍ରାଇବାଲ୍ ଡାନ୍ସ • ରେଜିଷ୍ଟ୍ରେସନ୍ ଖୋଲା • ଏବେ ରେଜିଷ୍ଟର କରନ୍ତୁ",
+
+
+                rule1_title:
+                    "1. ସାଧାରଣ ନିୟମ",
+
+                rule1_1:
+                    "ସମସ୍ତ ପ୍ରତିଯୋଗୀଙ୍କୁ ଶୃଙ୍ଖଳା ପାଳନ କରିବା ଆବଶ୍ୟକ।",
+
+                rule1_2:
+                    "କୌଣସି ପ୍ରକାରର ଅନୁଚିତ କାର୍ଯ୍ୟ ଗ୍ରହଣ କରାଯିବ ନାହିଁ।",
+
+                rule1_note:
+                    "🌿 ସମସ୍ତେ ଆଦିବାସୀ ସଂସ୍କୃତିକୁ ସମ୍ମାନ କରିବା ଆବଶ୍ୟକ।",
+
+
+                rule2_title:
+                    "2. ଭାଷା ନିୟମ",
+
+                rule2_1:
+                    "କେବଳ ସାନ୍ତାଳୀ ଏବଂ ଭୂମିଜ ଭାଷାରେ ପ୍ରଦର୍ଶନ ଗ୍ରହଣ କରାଯିବ।",
+
+                rule2_2:
+                    "ଅନ୍ୟ ଭାଷାର ବିଷୟବସ୍ତୁ ଗ୍ରହଣ କରାଯିବ ନାହିଁ।",
+
+                rule2_note:
+                    "🎶 ସାଂସ୍କୃତିକ ପରିଚୟ ବଜାୟ ରଖିବା ଆବଶ୍ୟକ।",
+
+
+                rule3_title:
+                    "3. ଭିଡିଓ ଅପଲୋଡ୍ ନିୟମ",
+
+                rule3_1:
+                    "କେବଳ ମୂଳ ଭିଡିଓ ଗ୍ରହଣ କରାଯିବ।",
+
+                rule3_2:
+                    "ଭିଡିଓର ସମୟ 1 ରୁ 5 ମିନିଟ୍ ମଧ୍ୟରେ ହେବା ଆବଶ୍ୟକ।",
+
+                rule3_3:
+                    "ଭିଡିଓ ସ୍ପଷ୍ଟ ଏବଂ ଭଲ ଗୁଣବତ୍ତାର ହେବା ଆବଶ୍ୟକ।",
+
+                rule3_note:
+                    "📹 କପି କରାଯାଇଥିବା ଭିଡିଓ ଅବୈଧ ହେବ।",
+
+
+                rule4_title:
+                    "4. ଶୁଳ୍କ ନୀତି",
+
+                rule4_1:
+                    "ରେଜିଷ୍ଟ୍ରେସନ୍ ଫି ଫେରସ୍ତ କରାଯିବ ନାହିଁ।",
+
+                rule4_2:
+                    "କାର୍ଯ୍ୟକ୍ରମ ବାତିଲ ହେଲେ ଟଙ୍କା ଫେରସ୍ତ କରାଯିବ।",
+
+                rule4_note:
+                    "💰 ଆୟୋଜକଙ୍କ ନୀତି ଅନୁଯାୟୀ ନିୟମ ଲାଗୁ ହେବ।",
+
+
+                rule5_title:
+                    "5. ସାଂସ୍କୃତିକ ପ୍ରଦର୍ଶନ",
+
+                rule5_1:
+                    "ପ୍ରଦର୍ଶନରେ ଆଦିବାସୀ ସଂସ୍କୃତି ପ୍ରତିଫଳିତ ହେବା ଉଚିତ।",
+
+                rule5_2:
+                    "ଆଧୁନିକ ଶୈଳୀକୁ ସୀମିତ ଭାବରେ ଅନୁମତି ଦିଆଯିବ।",
+
+                rule5_note:
+                    "🌿 ନିଜ ସଂସ୍କୃତିକୁ ପ୍ରଦର୍ଶନ କରିବା ଆବଶ୍ୟକ।",
+
+
+                rule6_title:
+                    "6. ପୋଷାକ ନିୟମ",
+
+                rule6_1:
+                    "ପାରମ୍ପରିକ ପୋଷାକ ପିନ୍ଧିବାକୁ ପ୍ରୋତ୍ସାହନ ଦିଆଯିବ।",
+
+                rule6_2:
+                    "ଆଦିବାସୀ ପରିଚୟ ସ୍ପଷ୍ଟ ଦେଖାଯିବା ଆବଶ୍ୟକ।",
+
+                rule6_note:
+                    "👗 ପାରମ୍ପରିକ ପୋଷାକକୁ ପ୍ରାଥମିକତା ଦିଆଯିବ।",
+
+
+                rule7_title:
+                    "7. ବିଚାର ପ୍ରଣାଳୀ",
+
+                rule7_1:
+                    "ବିଶେଷଜ୍ଞ ବିଚାରକମାନେ ପ୍ରଦର୍ଶନର ମୂଲ୍ୟାଙ୍କନ କରିବେ।",
+
+                rule7_2:
+                    "ବିଚାରକଙ୍କ ନିଷ୍ପତ୍ତି ଚୂଡାନ୍ତ ହେବ।",
+
+                rule7_note:
+                    "🏆 ନିରପେକ୍ଷ ମୂଲ୍ୟାଙ୍କନ କରାଯିବ।",
+
+
+                rule8_title:
+                    "8. ପ୍ରତିଯୋଗିତା ସମୟସୀମା",
+
+                rule8_1:
+                    "ସମୟସୀମା ପରେ କୌଣସି ଆବେଦନ ଗ୍ରହଣ କରାଯିବ ନାହିଁ।",
+
+                rule8_2:
+                    "ସମୟସୀମା ପାଳନ କରିବା ଆବଶ୍ୟକ।",
+
+                rule8_note:
+                    "⏰ ସମୟସୀମା ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ।",
+
+
+                rule9_title:
+                    "9. ଅଯୋଗ୍ୟତା ନିୟମ",
+
+                rule9_1:
+                    "ମିଥ୍ୟା କିମ୍ବା କପି କରାଯାଇଥିବା ବିଷୟବସ୍ତୁ ଅଯୋଗ୍ୟ ହେବ।",
+
+                rule9_2:
+                    "ନିୟମ ଉଲ୍ଲଂଘନ କଲେ ଅଂଶଗ୍ରହଣ ବାତିଲ ହୋଇପାରେ।",
+
+                rule9_note:
+                    "❌ ନିୟମ ଉଲ୍ଲଂଘନ କଲେ ଅଯୋଗ୍ୟ ଘୋଷଣା କରାଯାଇପାରେ।",
+
+
+                rule10_title:
+                    "10. ପୁରସ୍କାର ଏବଂ ପ୍ରମାଣପତ୍ର",
+
+                rule10_1:
+                    "ସମସ୍ତ ପ୍ରତିଯୋଗୀଙ୍କୁ ଡିଜିଟାଲ ପ୍ରମାଣପତ୍ର ମିଳିବ।",
+
+                rule10_2:
+                    "ବିଜେତାମାନଙ୍କୁ ପୁରସ୍କାର ଦିଆଯିବ।",
+
+                rule10_note:
+                    "🎖 ସମସ୍ତ ପ୍ରତିଯୋଗୀଙ୍କୁ ସମ୍ମାନ ଦିଆଯିବ।",
+
+
+                rule11_title:
+                    "11. ଯୋଗ୍ୟତା",
+
+                rule11_1:
+                    "ସମସ୍ତ ଡାନ୍ସ ଇନଷ୍ଟିଚ୍ୟୁଟ୍ ଯୋଗ୍ୟ।",
+
+                rule11_2:
+                    "ଡାନ୍ସ ଶିକ୍ଷକମାନେ ଅଂଶଗ୍ରହଣ କରିପାରିବେ।",
+
+                rule11_3:
+                    "ଛାତ୍ରଛାତ୍ରୀମାନେ ଅଂଶଗ୍ରହଣ କରିପାରିବେ।",
+
+                rule11_4:
+                    "ସୋଲୋ, ଡୁଓ ଏବଂ ଗ୍ରୁପ୍ ଡାନ୍ସ ଅନୁମତିପ୍ରାପ୍ତ।",
+
+                rule11_note:
+                    "✅ ଇନଷ୍ଟିଚ୍ୟୁଟ୍, ସ୍କୁଲ୍, କଲେଜ୍ ଏବଂ ଏକାଡେମୀର ପ୍ରତିଯୋଗୀମାନଙ୍କୁ ସ୍ୱାଗତ।",
+
+
+                rule12_title:
+                    "12. ପୋଷାକ ନିୟମ",
+
+                rule12_1:
+                    "ପାରମ୍ପରିକ ଆଦିବାସୀ ପୋଷାକକୁ ପ୍ରାଥମିକତା ଦିଆଯିବ।",
+
+                rule12_2:
+                    "ଶାଳୀନ ପୋଷାକ ଅନିବାର୍ଯ୍ୟ।",
+
+                rule12_note:
+                    "👕 ଆଦିବାସୀ ସଂସ୍କୃତିକୁ ସମ୍ମାନ କରନ୍ତୁ।",
+
+
+                rule13_title:
+                    "13. ନିରପେକ୍ଷ ପ୍ରତିଯୋଗିତା",
+
+                rule13_1:
+                    "ବିଚାରକଙ୍କ ନିଷ୍ପତ୍ତି ଚୂଡାନ୍ତ ହେବ।",
+
+                rule13_2:
+                    "କୌଣସି ପ୍ରକାରର ଯୁକ୍ତିତର୍କ ଗ୍ରହଣ କରାଯିବ ନାହିଁ।",
+
+                rule13_note:
+                    "🏆 ପ୍ରତ୍ୟେକ ପ୍ରତିଯୋଗୀଙ୍କ ନିରପେକ୍ଷ ମୂଲ୍ୟାଙ୍କନ ହେବ।",
+
+
+                promotion_title:
+                    "📢 ଟ୍ରାଇବାଲ୍ ପ୍ରମୋସନ୍ ସିଷ୍ଟମ୍",
+
+                promotion_1:
+                    "ଆପଣଙ୍କ ଭିଡିଓ ୱେବସାଇଟ୍ ଏବଂ ସୋସିଆଲ୍ ମିଡିଆରେ ପ୍ରମୋଟ୍ କରାଯାଇପାରେ।",
+
+                promotion_2:
+                    "ଉତ୍କୃଷ୍ଟ ପ୍ରଦର୍ଶନକୁ ଫିଚର୍ କରାଯାଇପାରେ।",
+
+                promotion_3:
+                    "YouTube / Instagram ରେ ପ୍ରମୋସନ୍ କରାଯାଇପାରେ।",
+
+                promotion_note:
+                    "🔥 ଆପଣଙ୍କ ପ୍ରତିଭା ଅଧିକ ଲୋକଙ୍କ ପାଖରେ ପହଞ୍ଚିପାରେ।",
+
+
+                agree:
+                    "ମୁଁ ସମସ୍ତ ନିୟମ ଏବଂ ସର୍ତ୍ତାବଳୀ ସହିତ ସହମତ।",
+
+                pdfButton:
+                    "📄 PDF ଡାଉନଲୋଡ୍",
+
+                homeButton:
+                    "🏠 Home Page",
+
+                joinButton:
+                    "➜ Competition Join",
+
+                footerTagline:
+                    "ନୃତ୍ୟ ମାଧ୍ୟମରେ ଆଦିବାସୀ ସଂସ୍କୃତିର ସୁରକ୍ଷା",
+
+                rights:
+                    "ସମସ୍ତ ଅଧିକାର ସଂରକ୍ଷିତ"
+
+            }
+
+        };
+
+
+        /* =====================================================
+           CURRENT LANGUAGE
+        ====================================================== */
+
+        let currentLanguage =
+            localStorage.getItem("rulesLanguage") || "hi";
+
+
+        /* =====================================================
+           SET LANGUAGE
+        ====================================================== */
+
+        function setLanguage(language) {
+
+            if (!translations[language]) {
+                language = "hi";
+            }
+
+
+            currentLanguage =
+                language;
+
+
+            const data =
+                translations[language];
+
+
+            /* Change all data-i18n elements */
+
+            document
+                .querySelectorAll("[data-i18n]")
+                .forEach(function(element) {
+
+                    const key =
+                        element.getAttribute("data-i18n");
+
+
+                    if (
+                        data[key] !== undefined
+                    ) {
+
+                        element.textContent =
+                            data[key];
+
+                    }
+
+                });
+
+
+            /* HTML language */
+
+            document.documentElement.lang =
+                language;
+
+
+            /* Save language */
+
+            localStorage.setItem(
+                "rulesLanguage",
+                language
+            );
+
+
+            /* Active button */
+
+            document
+                .querySelectorAll(".lang-btn")
+                .forEach(function(button) {
+
+                    button.classList.remove("active");
+
+                });
+
+
+            const activeButton =
+                document.querySelector(
+                    `.lang-btn[data-language="${language}"]`
                 );
 
-                let a = document.createElement("a");
-                a.href = URL.createObjectURL(blob);
-                a.download = "Tribal_Rhythm_Rules_Hindi.pdf";
-                a.click();
+
+            if (activeButton) {
+
+                activeButton.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           PDF DOWNLOAD
+        ====================================================== */
+
+        async function downloadPDF() {
+
+
+            /* Check agreement */
+
+            const checkbox =
+                document.getElementById("agree");
+
+
+            if (!checkbox.checked) {
+
+                alert(
+                    translations[currentLanguage].agree
+                );
+
+                return;
+
             }
 
 
-            // 🔥 NEXT FLOW SYSTEM (SaaS LEVEL)
-            function goNext() {
+            /* Check PDF library */
 
-                let check = document.getElementById("agree");
+            if (
+                typeof html2pdf ===
+                "undefined"
+            ) {
 
-                if (!check.checked) {
-                    alert("पहले नियम स्वीकार करें ✔");
-                    return;
-                }
+                alert(
+                    "PDF system is loading. Please try again."
+                );
 
-                // store session (important for security flow)
-                localStorage.setItem("rulesAccepted", "yes");
+                return;
 
-                // smooth redirect
-                window.location.href = "register.html";
             }
 
 
-            // 🔥 OPTIONAL UX UPGRADE (BUTTON LOCK SYSTEM)
-            document.getElementById("agree").addEventListener("change", function () {
+            const pdfContent =
+                document.getElementById(
+                    "pdfContent"
+                );
 
-                let nextBtn = document.querySelector(".btn-next");
 
-                if (this.checked) {
-                    nextBtn.style.opacity = "1";
-                    nextBtn.style.pointerEvents = "auto";
-                } else {
-                    nextBtn.style.opacity = "0.5";
-                    nextBtn.style.pointerEvents = "none";
-                }
+            /* Add PDF mode */
+
+            pdfContent.classList.add(
+                "pdf-mode"
+            );
+
+
+            /* Hide elements that should not appear */
+
+            const hideElements =
+                document.querySelectorAll(
+                    ".no-pdf"
+                );
+
+
+            hideElements.forEach(function(element) {
+
+                element.dataset.oldDisplay =
+                    element.style.display;
+
+                element.style.display =
+                    "none";
+
             });
 
-            // default disabled feel
-            window.onload = function () {
-                document.querySelector(".btn-next").style.opacity = "0.5";
-                document.querySelector(".btn-next").style.pointerEvents = "none";
+
+            /* Hide agreement buttons */
+
+            const noPdfButtons =
+                document.querySelectorAll(
+                    ".no-pdf-buttons .button-group"
+                );
+
+
+            noPdfButtons.forEach(function(element) {
+
+                element.dataset.oldDisplay =
+                    element.style.display;
+
+                element.style.display =
+                    "none";
+
+            });
+
+
+            /* Wait for browser rendering */
+
+            await new Promise(function(resolve) {
+
+                setTimeout(resolve, 500);
+
+            });
+
+
+            const languageName = {
+
+                en: "English",
+
+                hi: "Hindi",
+
+                or: "Odia"
+
+            };
+
+
+            const filename =
+                "Tribal_Rhythm_Rules_" +
+                languageName[currentLanguage] +
+                ".pdf";
+
+
+            const options = {
+
+                margin:
+                    [10, 10, 10, 10],
+
+                filename:
+                    filename,
+
+                image: {
+
+                    type:
+                        "jpeg",
+
+                    quality:
+                        0.98
+
+                },
+
+                html2canvas: {
+
+                    scale:
+                        2,
+
+                    useCORS:
+                        true,
+
+                    allowTaint:
+                        true,
+
+                    backgroundColor:
+                        "#ffffff"
+
+                },
+
+                jsPDF: {
+
+                    unit:
+                        "mm",
+
+                    format:
+                        "a4",
+
+                    orientation:
+                        "portrait",
+
+                    compress:
+                        true
+
+                },
+
+                pagebreak: {
+
+                    mode:
+                        [
+                            "avoid-all",
+                            "css",
+                            "legacy"
+                        ]
+
+                }
+
+            };
+
+
+            try {
+
+                await html2pdf()
+                    .set(options)
+                    .from(pdfContent)
+                    .save();
+
+
+            } catch (error) {
+
+                console.error(
+                    "PDF Error:",
+                    error
+                );
+
+
+                alert(
+                    "PDF download failed. Please try again."
+                );
+
+
+            } finally {
+
+
+                /* Restore PDF mode */
+
+                pdfContent.classList.remove(
+                    "pdf-mode"
+                );
+
+
+                /* Restore hidden elements */
+
+                hideElements.forEach(function(element) {
+
+                    element.style.display =
+                        element.dataset.oldDisplay || "";
+
+                    delete element.dataset.oldDisplay;
+
+                });
+
+
+                noPdfButtons.forEach(function(element) {
+
+                    element.style.display =
+                        element.dataset.oldDisplay || "";
+
+                    delete element.dataset.oldDisplay;
+
+                });
+
             }
-        </script>
 
-        <footer style="text-align:center;padding:30px;color:gold;border-top:1px solid gold;margin-top:40px;">
+        }
 
-<h5>🏹 Tribal Rhythm</h5>
 
-<p>Preserving Tribal Culture Through Dance</p>
+        /* =====================================================
+           GO TO COMPETITION
+        ====================================================== */
 
-<p>© 2026 Tribal Rhythm | All Rights Reserved</p>
+        function goNext() {
 
-</footer>
+
+            const checkbox =
+                document.getElementById("agree");
+
+
+            if (!checkbox.checked) {
+
+                alert(
+                    translations[currentLanguage].agree
+                );
+
+                return;
+
+            }
+
+
+            /* Save rules acceptance */
+
+            localStorage.setItem(
+                "rulesAccepted",
+                "yes"
+            );
+
+
+            /* Save accepted language */
+
+            localStorage.setItem(
+                "rulesAcceptedLanguage",
+                currentLanguage
+            );
+
+
+            /* Redirect */
+
+            window.location.href =
+                "register.html";
+
+        }
+
+
+        /* =====================================================
+           BUTTON LOCK SYSTEM
+        ====================================================== */
+
+        const agreeCheckbox =
+            document.getElementById("agree");
+
+        const nextButton =
+            document.getElementById("nextBtn");
+
+
+        function updateNextButton() {
+
+            if (
+                agreeCheckbox.checked
+            ) {
+
+                nextButton.style.opacity =
+                    "1";
+
+                nextButton.style.pointerEvents =
+                    "auto";
+
+            } else {
+
+                nextButton.style.opacity =
+                    "0.5";
+
+                nextButton.style.pointerEvents =
+                    "none";
+
+            }
+
+        }
+
+
+        agreeCheckbox.addEventListener(
+            "change",
+            updateNextButton
+        );
+
+
+        /* =====================================================
+           PAGE LOAD
+        ====================================================== */
+
+        window.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                setLanguage(
+                    currentLanguage
+                );
+
+                updateNextButton();
+
+            }
+        );
+
+
+    </script>
+
 
 </body>
 
 </html>
+
