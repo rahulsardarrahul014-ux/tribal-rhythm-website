@@ -711,10 +711,168 @@
                 margin: 4px 0 !important;
             }
         }
+
+        /* ================= SIDE RAIN EFFECT ================= */
+
+        .side-rain {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 120px;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .side-rain.left {
+            left: 0;
+        }
+
+        .side-rain.right {
+            right: 0;
+        }
+
+        .rain-drop {
+            position: absolute;
+            top: -120px;
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(to bottom,
+                    transparent,
+                    #00d9ff,
+                    #ffd700,
+                    transparent);
+            opacity: 0.75;
+            filter: drop-shadow(0 0 6px #00d9ff);
+            animation: tribalRain 3s linear infinite;
+        }
+
+        .side-rain.right .rain-drop {
+            animation-name: tribalRainRight;
+        }
+
+        @keyframes tribalRain {
+            0% {
+                transform: translateY(-120px);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(110vh);
+                opacity: 0;
+            }
+        }
+
+        @keyframes tribalRainRight {
+            0% {
+                transform: translateY(-120px);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(110vh);
+                opacity: 0;
+            }
+        }
+
+        /* ================= TRIBAL RHYTHM MARQUEE ================= */
+
+        .tribal-marquee {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 42px;
+
+            background: rgba(0, 0, 0, 0.75);
+            border-top: 1px solid rgba(255, 215, 0, 0.4);
+
+            overflow: hidden;
+            z-index: 9999;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .tribal-marquee-track {
+            display: flex;
+            white-space: nowrap;
+            width: max-content;
+
+            animation: tribalMarquee 16s linear infinite;
+        }
+
+        .tribal-marquee-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffd700;
+
+            text-shadow:
+                0 0 5px #ffd700,
+                0 0 10px #00d9ff;
+
+            padding-right: 60px;
+        }
+
+        @keyframes tribalMarquee {
+
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+
+        }
     </style>
 </head>
 
 <body>
+
+    <!-- ================= SIDE RAIN ================= -->
+
+    <div class="side-rain left">
+        <span class="rain-drop" style="left:15%; animation-delay:0s;"></span>
+        <span class="rain-drop" style="left:35%; animation-delay:0.8s;"></span>
+        <span class="rain-drop" style="left:55%; animation-delay:1.5s;"></span>
+        <span class="rain-drop" style="left:75%; animation-delay:2.2s;"></span>
+        <span class="rain-drop" style="left:90%; animation-delay:1.1s;"></span>
+    </div>
+
+    <div class="side-rain right">
+        <span class="rain-drop" style="left:10%; animation-delay:0.5s;"></span>
+        <span class="rain-drop" style="left:30%; animation-delay:1.3s;"></span>
+        <span class="rain-drop" style="left:50%; animation-delay:2s;"></span>
+        <span class="rain-drop" style="left:70%; animation-delay:0.7s;"></span>
+        <span class="rain-drop" style="left:90%; animation-delay:1.8s;"></span>
+    </div>
+
+    <!-- ================= MOVING TRIBAL RHYTHM TEXT ================= -->
+
+    <div class="tribal-marquee">
+
+        <div class="tribal-marquee-track">
+
+            <div class="tribal-marquee-text">
+                TRIBAL RHYTHM • SHOW YOUR TALENT • DANCE • SONG • CULTURE •
+            </div>
+
+            <div class="tribal-marquee-text">
+                TRIBAL RHYTHM • SHOW YOUR TALENT • DANCE • SONG • CULTURE •
+            </div>
+
+        </div>
+
+    </div>
 
 
 
