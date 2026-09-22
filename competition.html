@@ -1,1059 +1,1818 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <!-- ================= SEO ================= -->
+<meta name="description"
+      content="Tribal Rhythm Online and Offline Tribal Cultural Competitions">
 
-    <meta name="description"
-        content="Join Tribal Rhythm online and offline dance, singing, madal, beauty queen, essay and tribal cultural competitions.">
+<meta name="keywords"
+      content="Tribal Rhythm, Tribal Dance, Tribal Song, Santali Competition, Bhumij Competition, Tribal GK, Comedy, Beauty Queen, Drawing">
 
-    <meta name="keywords"
-        content="Tribal Rhythm competition, tribal dance competition, Santali competition, Bhumij competition, online competition, offline competition">
+<meta name="author"
+      content="Rahul Sardar">
 
-    <meta name="author" content="Rahul Sardar">
+<meta name="robots"
+      content="index, follow">
 
-    <meta name="robots" content="index, follow">
+<meta property="og:title"
+      content="Tribal Rhythm Competition">
 
-    <!-- ================= SOCIAL ================= -->
+<meta property="og:description"
+      content="Online & Offline Tribal Cultural Competitions">
 
-    <meta property="og:title" content="Tribal Rhythm Competition">
+<meta property="og:image"
+      content="tribalweblogo.png">
 
-    <meta property="og:description"
-        content="Join Tribal Rhythm online and offline cultural competitions.">
+<title>
+Tribal Rhythm | Competition
+</title>
 
-    <meta property="og:image" content="tribalweblogo.png">
 
-    <!-- ================= TITLE ================= -->
+<!-- BOOTSTRAP -->
 
-    <title>Tribal Rhythm | Online & Offline Competition</title>
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+rel="stylesheet">
 
-    <!-- ================= BOOTSTRAP ================= -->
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+<!-- GOOGLE FONT -->
 
-    <!-- ================= GOOGLE FONT ================= -->
+<link rel="preconnect"
+      href="https://fonts.googleapis.com">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
 
-    <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
 
-    <!-- ================= SWEETALERT ================= -->
+<!-- SWEET ALERT -->
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script
+src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+</script>
 
 
-    <style>
+<!-- RAZORPAY -->
 
-        * {
-            box-sizing: border-box;
-        }
+<script
+src="https://checkout.razorpay.com/v1/checkout.js">
+</script>
 
-        body {
 
-            margin: 0;
+<style>
 
-            background: #0b0b0b;
+/* =========================================================
+   GLOBAL
+========================================================= */
 
-            color: #fff;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-            font-family: Poppins, sans-serif;
+html{
+    scroll-behavior:smooth;
+}
 
-        }
+body{
 
+    font-family:Poppins,sans-serif;
 
-        /* =====================================================
-           HERO
-        ===================================================== */
+    background:
+        radial-gradient(
+            circle at top,
+            rgba(255,215,0,.08),
+            transparent 35%
+        ),
+        #080808;
 
-        .hero-header {
+    color:#fff;
 
-            position: relative;
+    overflow-x:hidden;
 
-            width: 100%;
+}
 
-            min-height: 350px;
 
-            background:
-                url("banner.jpg")
-                center center / cover no-repeat;
+/* =========================================================
+   SNOW
+========================================================= */
 
-            display: flex;
+#snow-container{
 
-            justify-content: center;
+    position:fixed;
 
-            align-items: center;
+    inset:0;
 
-            text-align: center;
+    pointer-events:none;
 
-            overflow: hidden;
+    z-index:1;
 
-        }
+    overflow:hidden;
 
+}
 
-        .overlay {
+.snow{
 
-            position: absolute;
+    position:absolute;
 
-            inset: 0;
+    top:-20px;
 
-            background:
-                rgba(0, 0, 0, 0.72);
+    color:#fff;
 
-        }
+    opacity:.8;
 
+    font-size:10px;
 
-        .header-content {
+    animation:
+        snowfall linear infinite;
 
-            position: relative;
+}
 
-            z-index: 2;
+@keyframes snowfall{
 
-            padding: 30px;
+    0%{
 
-        }
+        transform:
+            translateY(-30px)
+            translateX(0)
+            rotate(0deg);
 
+    }
 
-        .logo {
+    50%{
 
-            width: 120px;
+        transform:
+            translateY(50vh)
+            translateX(35px)
+            rotate(180deg);
 
-            height: 120px;
+    }
 
-            object-fit: contain;
+    100%{
 
-            border-radius: 50%;
+        transform:
+            translateY(110vh)
+            translateX(-30px)
+            rotate(360deg);
 
-            border: 4px solid #FFD700;
+    }
 
-            background: #fff;
+}
 
-            padding: 8px;
 
-            margin-bottom: 20px;
+/* =========================================================
+   BEARS
+========================================================= */
 
-            box-shadow:
-                0 0 30px rgba(255, 215, 0, .65);
+.bear{
 
-        }
+    position:fixed;
 
+    z-index:2;
 
-        .header-content h1 {
+    font-size:55px;
 
-            color: #FFD700;
+    opacity:.10;
 
-            font-size: 50px;
+    pointer-events:none;
 
-            font-weight: 800;
+    filter:
+        drop-shadow(
+            0 0 15px
+            rgba(255,215,0,.4)
+        );
 
-            letter-spacing: 3px;
+}
 
-            margin: 0 0 10px;
+.bear-one{
 
-        }
+    left:2%;
 
+    top:28%;
 
-        .header-content h2 {
+    animation:
+        bearFloat 7s ease-in-out infinite;
 
-            color: #fff;
+}
 
-            font-size: 27px;
+.bear-two{
 
-            font-weight: 600;
+    right:2%;
 
-            margin-bottom: 15px;
+    top:42%;
 
-        }
+    animation:
+        bearFloat 9s ease-in-out infinite reverse;
 
+}
 
-        .header-content p {
+.bear-three{
 
-            color: #ddd;
+    left:7%;
 
-            font-size: 17px;
+    bottom:10%;
 
-            margin: 0 auto;
+    font-size:45px;
 
-            max-width: 750px;
+    animation:
+        bearFloat 8s ease-in-out infinite;
 
-        }
+}
 
+.bear-four{
 
-        .powered-by {
+    right:8%;
 
-            margin-top: 16px;
+    bottom:18%;
 
-            color: #ccc;
+    font-size:45px;
 
-            font-size: 15px;
+    animation:
+        bearFloat 6s ease-in-out infinite reverse;
 
-        }
+}
 
+@keyframes bearFloat{
 
-        .powered-by strong {
+    0%,100%{
 
-            color: #FFD700;
+        transform:
+            translateY(0)
+            rotate(-4deg);
 
-            font-weight: 800;
+    }
 
-        }
+    50%{
 
+        transform:
+            translateY(-25px)
+            rotate(4deg);
 
-        /* =====================================================
-           COMMON CONTAINER
-        ===================================================== */
+    }
 
-        .main-container {
+}
 
-            width: 95%;
 
-            max-width: 1100px;
+/* =========================================================
+   NAVBAR
+========================================================= */
 
-            margin: auto;
+.tr-navbar{
 
-        }
+    position:sticky;
 
+    top:0;
 
-        /* =====================================================
-           TICKET NOTICE
-        ===================================================== */
+    z-index:100;
 
-        .ticket-notice {
+    width:100%;
 
-            max-width: 900px;
+    min-height:72px;
 
-            margin: 30px auto;
+    padding:10px 4%;
 
-            background: #171717;
+    display:flex;
 
-            border-left: 6px solid #FFD700;
+    align-items:center;
 
-            border-radius: 15px;
+    justify-content:space-between;
 
-            padding: 22px;
+    gap:20px;
 
-            color: #fff;
+    background:
+        rgba(8,8,8,.94);
 
-            box-shadow:
-                0 8px 25px rgba(0, 0, 0, .4);
+    backdrop-filter:
+        blur(15px);
 
-        }
+    border-bottom:
+        1px solid
+        rgba(255,215,0,.35);
 
+    box-shadow:
+        0 5px 25px
+        rgba(0,0,0,.4);
 
-        .ticket-notice h4 {
+}
 
-            color: #FFD700;
+.brand-area{
 
-            font-weight: 700;
+    display:flex;
 
-            margin-bottom: 12px;
+    align-items:center;
 
-        }
+    gap:12px;
 
+}
 
-        .ticket-notice p {
+.brand-logo{
 
-            margin-bottom: 8px;
+    width:48px;
 
-        }
+    height:48px;
 
+    object-fit:contain;
 
-        .no-entry {
+    border-radius:50%;
 
-            color: #ff4d4d;
+    border:2px solid #FFD700;
 
-            font-weight: 700;
+    background:#fff;
 
-        }
+}
 
+.brand-name{
 
-        /* =====================================================
-           USER PASS
-        ===================================================== */
+    color:#FFD700;
 
-        .ticket-box {
+    font-size:18px;
 
-            max-width: 520px;
+    font-weight:800;
 
-            margin: 25px auto;
+    letter-spacing:1px;
 
-            background: #111;
+}
 
-            border: 2px solid #FFD700;
+.brand-area small{
 
-            border-radius: 18px;
+    color:#aaa;
 
-            padding: 25px;
+}
 
-            text-align: center;
+.nav-links{
 
-            box-shadow:
-                0 10px 30px rgba(255, 215, 0, .12);
+    display:flex;
 
-        }
+    gap:20px;
 
+}
 
-        .ticket-box h4 {
+.nav-links a{
 
-            color: #FFD700;
+    color:#ddd;
 
-            margin-bottom: 20px;
+    text-decoration:none;
 
-        }
+    font-size:14px;
 
+    font-weight:500;
 
-        .ticket-box p {
+    transition:.3s;
 
-            margin: 8px 0;
+}
 
-            color: #ddd;
+.nav-links a:hover{
 
-        }
+    color:#FFD700;
 
+}
 
-        .ticket-box h2 {
+.account-btn{
 
-            color: #FFD700;
+    border:1px solid #FFD700;
 
-            font-size: 30px;
+    background:
+        linear-gradient(
+            135deg,
+            #FFD700,
+            #fff0a0
+        );
 
-            letter-spacing: 2px;
+    color:#000;
 
-            margin: 18px 0;
+    padding:10px 16px;
 
-        }
+    border-radius:25px;
 
+    font-weight:700;
 
-        /* =====================================================
-           WELCOME
-        ===================================================== */
+    cursor:pointer;
 
-        .welcome-box {
+}
 
-            max-width: 900px;
 
-            margin: 25px auto;
+/* =========================================================
+   HERO
+========================================================= */
 
-            background: #111;
+.tr-hero{
 
-            border: 2px solid #FFD700;
+    min-height:570px;
 
-            border-radius: 15px;
+    position:relative;
 
-            padding: 22px;
+    z-index:5;
 
-            text-align: center;
+    display:flex;
 
-        }
+    justify-content:center;
 
+    align-items:center;
 
-        .welcome-box h2 {
+    text-align:center;
 
-            color: #FFD700;
+    overflow:hidden;
 
-            font-weight: 700;
+    padding:70px 20px;
 
-        }
+    background:
 
+        linear-gradient(
+            rgba(0,0,0,.72),
+            rgba(0,0,0,.88)
+        ),
 
-        .welcome-box p {
+        url("banner.jpg")
+        center/cover no-repeat;
 
-            color: #ddd;
+    border-bottom:
+        1px solid
+        rgba(255,215,0,.3);
 
-            margin: 8px 0 0;
+}
 
-        }
+.hero-glow{
 
+    position:absolute;
 
-        /* =====================================================
-           STATUS
-        ===================================================== */
+    width:450px;
 
-        #status {
+    height:450px;
 
-            margin: 15px auto;
+    border-radius:50%;
 
-            text-align: center;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,215,0,.14),
+            transparent 70%
+        );
 
-            color: #FFD700;
+    animation:
+        glowPulse 4s ease-in-out infinite;
 
-            font-weight: 700;
+}
 
-            font-size: 18px;
+@keyframes glowPulse{
 
-        }
+    0%,100%{
+        transform:scale(.9);
+        opacity:.5;
+    }
 
+    50%{
+        transform:scale(1.2);
+        opacity:1;
+    }
 
-        /* =====================================================
-           VERIFICATION BOX
-        ===================================================== */
+}
 
-        .verification-box {
+.hero-content{
 
-            max-width: 1000px;
+    position:relative;
 
-            margin: 35px auto;
+    z-index:10;
 
-            padding: 28px;
+}
 
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255, 215, 0, .10),
-                    rgba(255, 255, 255, .03)
-                );
+.hero-logo{
 
-            border: 2px solid rgba(255, 215, 0, .45);
+    width:125px;
 
-            border-radius: 20px;
+    height:125px;
 
-            box-shadow:
-                0 15px 40px rgba(0, 0, 0, .45);
+    object-fit:contain;
 
-        }
+    border-radius:50%;
 
+    background:#fff;
 
-        .verification-header {
+    padding:8px;
 
-            display: flex;
+    border:4px solid #FFD700;
 
-            align-items: center;
+    box-shadow:
+        0 0 35px
+        rgba(255,215,0,.6);
 
-            gap: 15px;
+    animation:
+        logoPulse 3s ease-in-out infinite;
 
-            margin-bottom: 25px;
+}
 
-        }
+@keyframes logoPulse{
 
+    0%,100%{
+        transform:scale(1);
+    }
 
-        .verification-icon {
+    50%{
+        transform:scale(1.05);
+    }
 
-            width: 55px;
+}
 
-            height: 55px;
+.hero-title{
 
-            min-width: 55px;
+    margin-top:20px;
 
-            display: flex;
+    font-size:58px;
 
-            align-items: center;
+    font-weight:800;
 
-            justify-content: center;
+    letter-spacing:4px;
 
-            border-radius: 50%;
+    background:
+        linear-gradient(
+            90deg,
+            #FFD700,
+            #fff,
+            #FFD700
+        );
 
-            background: #FFD700;
+    -webkit-background-clip:text;
 
-            color: #000;
+    color:transparent;
 
-            font-size: 25px;
+}
 
-        }
+.hero-subtitle{
 
+    color:#ff72bd;
 
-        .verification-header h3 {
+    font-size:25px;
 
-            color: #FFD700;
+    font-weight:700;
 
-            margin: 0;
+    letter-spacing:2px;
 
-            font-weight: 700;
+}
 
-        }
+.hero-description{
 
+    color:#ddd;
 
-        .verification-header p {
+    font-size:17px;
 
-            margin: 5px 0 0;
+    margin-top:15px;
 
-            color: #bbb;
+}
 
-        }
+.powered{
 
+    margin-top:10px;
 
-        .verification-box label {
+    color:#aaa;
 
-            color: #FFD700;
+}
 
-            font-weight: 600;
+.powered b{
 
-            margin-bottom: 7px;
+    color:#FFD700;
 
-        }
+}
 
+.hero-buttons{
 
-        .verification-box .form-control {
+    margin-top:30px;
 
-            background: #080808;
+    display:flex;
 
-            border: 1px solid #444;
+    justify-content:center;
 
-            color: #fff;
+    gap:15px;
 
-            padding: 13px;
+    flex-wrap:wrap;
 
-            border-radius: 10px;
+}
 
-        }
+.gold-btn,
+.pink-btn{
 
+    padding:13px 22px;
 
-        .verification-box .form-control::placeholder {
+    border-radius:30px;
 
-            color: #777;
+    text-decoration:none;
 
-        }
+    font-weight:700;
 
+    transition:.3s;
 
-        .verification-box .form-control:focus {
+}
 
-            background: #080808;
+.gold-btn{
 
-            color: #fff;
+    background:#FFD700;
 
-            border-color: #FFD700;
+    color:#000;
 
-            box-shadow:
-                0 0 0 .2rem rgba(255, 215, 0, .15);
+}
 
-        }
+.pink-btn{
 
+    background:#ff4fa3;
 
-        .verification-box small {
+    color:#fff;
 
-            display: block;
+}
 
-            color: #888;
+.gold-btn:hover,
+.pink-btn:hover{
 
-            margin-top: 6px;
+    transform:
+        translateY(-3px);
 
-        }
+    box-shadow:
+        0 10px 25px
+        rgba(255,255,255,.15);
 
+}
 
-        .entry-warning {
 
-            margin-top: 20px;
+/* =========================================================
+   INFO STRIP
+========================================================= */
 
-            padding: 15px;
+.info-strip{
 
-            border-radius: 10px;
+    position:relative;
 
-            background:
-                rgba(220, 53, 69, .10);
+    z-index:10;
 
-            border:
-                1px solid rgba(220, 53, 69, .25);
+    display:grid;
 
-            color: #ff8a95;
+    grid-template-columns:
+        repeat(4,1fr);
 
-        }
+    gap:15px;
 
+    padding:25px 5%;
 
-        .verify-btn {
+    background:#111;
 
-            width: 100%;
+    border-bottom:
+        1px solid #333;
 
-            margin-top: 20px;
+}
 
-            border: none;
+.info-item{
 
-            padding: 14px;
+    padding:20px;
 
-            border-radius: 10px;
+    text-align:center;
 
-            background: #FFD700;
+    border-radius:15px;
 
-            color: #000;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.06),
+            rgba(255,215,0,.04)
+        );
 
-            font-weight: 700;
+    border:
+        1px solid #333;
 
-            font-size: 16px;
+}
 
-            cursor: pointer;
+.info-icon{
 
-            transition: .3s;
+    display:block;
 
-        }
+    font-size:27px;
 
+    margin-bottom:8px;
 
-        .verify-btn:hover {
+}
 
-            transform: translateY(-2px);
+.info-item strong{
 
-            box-shadow:
-                0 10px 25px rgba(255, 215, 0, .25);
+    display:block;
 
-        }
+    color:#FFD700;
 
+}
 
-        /* =====================================================
-           COMPETITION CARD
-        ===================================================== */
+.info-item small{
 
-        .competition-card {
+    color:#aaa;
 
-            max-width: 900px;
+}
 
-            margin: 35px auto;
 
-            background: #111;
+/* =========================================================
+   VERIFICATION
+========================================================= */
 
-            border-radius: 20px;
+.verification-section{
 
-            overflow: hidden;
+    position:relative;
 
-            border: 2px solid #FFD700;
+    z-index:10;
 
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, .4);
+    width:92%;
 
-        }
+    max-width:1150px;
 
+    margin:50px auto;
 
-        .card-img {
+    padding:30px;
 
-            width: 100%;
+    display:grid;
 
-            height: 300px;
+    grid-template-columns:
+        1fr 1fr 1fr;
 
-            object-fit: cover;
+    gap:25px;
 
-        }
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,215,0,.08),
+            rgba(255,79,163,.06),
+            rgba(0,255,120,.04)
+        );
 
+    border:
+        1px solid
+        rgba(255,215,0,.4);
 
-        .competition-content {
+    border-radius:25px;
 
-            padding: 25px;
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.45);
 
-        }
+}
 
+.verification-info{
 
-        .competition-title {
+    padding:15px;
 
-            color: #FFD700;
+}
 
-            font-size: 28px;
+.verification-icon{
 
-            font-weight: 700;
+    width:60px;
 
-            margin-bottom: 10px;
+    height:60px;
 
-        }
+    display:flex;
 
+    align-items:center;
 
-        .competition-description {
+    justify-content:center;
 
-            color: #ccc;
+    border-radius:50%;
 
-            margin-bottom: 18px;
+    background:#FFD700;
 
-        }
+    color:#000;
 
+    font-size:28px;
 
-        .live-badge {
+    margin-bottom:15px;
 
-            display: inline-block;
+}
 
-            background: red;
+.verification-info h2{
 
-            color: #fff;
+    color:#FFD700;
 
-            padding: 6px 14px;
+    font-size:25px;
 
-            border-radius: 20px;
+}
 
-            font-weight: 700;
+.verification-info p{
 
-            margin-bottom: 15px;
+    color:#bbb;
 
-        }
+}
 
+.verification-rule{
 
-        .info {
+    margin-top:20px;
 
-            display: flex;
+    padding:18px;
 
-            justify-content: space-between;
+    border-radius:15px;
 
-            gap: 10px;
+    background:
+        rgba(255,0,0,.06);
 
-            padding: 15px 0;
+    border:
+        1px solid
+        rgba(255,80,80,.3);
 
-            color: #fff;
+    line-height:2;
 
-            font-weight: 600;
+}
 
-            border-top: 1px solid #333;
+.verification-rule strong{
 
-            border-bottom: 1px solid #333;
+    color:#ff6680;
 
-        }
+}
 
+.verification-form{
 
-        .prize {
+    padding:15px;
 
-            margin: 20px 0;
+}
 
-            background: #FFD700;
+.verification-form label{
 
-            color: #000;
+    display:block;
 
-            padding: 12px;
+    margin-top:10px;
 
-            border-radius: 10px;
+    margin-bottom:6px;
 
-            text-align: center;
+    color:#FFD700;
 
-            font-weight: 800;
+    font-weight:600;
 
-        }
+}
 
+.verification-form input{
 
-        .competition-options {
+    width:100%;
 
-            margin-top: 20px;
+    padding:13px;
 
-        }
+    border-radius:10px;
 
+    border:1px solid #444;
 
-        .competition-options label {
+    background:#090909;
 
-            color: #FFD700;
+    color:#fff;
 
-            font-weight: 600;
+    outline:none;
 
-            margin-bottom: 6px;
+}
 
-        }
+.verification-form input:focus{
 
+    border-color:#FFD700;
 
-        .competition-options select {
+    box-shadow:
+        0 0 10px
+        rgba(255,215,0,.15);
 
-            background: #080808;
+}
 
-            border: 1px solid #444;
+.verify-button{
 
-            color: #fff;
+    width:100%;
 
-            border-radius: 10px;
+    margin-top:20px;
 
-            padding: 12px;
+    padding:14px;
 
-        }
+    border:0;
 
+    border-radius:10px;
 
-        .competition-options select:focus {
+    background:
+        linear-gradient(
+            90deg,
+            #FFD700,
+            #fff0a0
+        );
 
-            border-color: #FFD700;
+    color:#000;
 
-            box-shadow: none;
+    font-weight:800;
 
-        }
+    cursor:pointer;
 
+}
 
-        .action-buttons {
+.ticket-pass{
 
-            display: grid;
+    align-self:center;
 
-            grid-template-columns: repeat(2, 1fr);
+    padding:25px;
 
-            gap: 12px;
+    border-radius:20px;
 
-            margin-top: 20px;
+    background:
+        linear-gradient(
+            145deg,
+            #171717,
+            #0a0a0a
+        );
 
-        }
+    border:
+        1px solid
+        rgba(255,215,0,.5);
 
+    box-shadow:
+        inset 0 0 30px
+        rgba(255,215,0,.04);
 
-        .register-btn,
-        .join-btn,
-        .ticket-btn {
+}
 
-            border: none;
+.pass-title{
 
-            padding: 14px;
+    color:#ff72bd;
 
-            border-radius: 10px;
+    font-weight:800;
 
-            font-size: 15px;
+    text-align:center;
 
-            font-weight: 700;
+    margin-bottom:20px;
 
-            cursor: pointer;
+}
 
-            transition: .3s;
+.pass-row{
 
-        }
+    display:flex;
 
+    justify-content:space-between;
 
-        .register-btn {
+    gap:10px;
 
-            background: #FFD700;
+    padding:10px 0;
 
-            color: #000;
+    border-bottom:1px solid #292929;
 
-        }
+}
 
+.pass-row span{
 
-        .join-btn {
+    color:#999;
 
-            background: #28a745;
+}
 
-            color: #fff;
+.pass-row strong{
 
-        }
+    color:#fff;
 
+    text-align:right;
 
-        .ticket-btn {
+}
 
-            background: #222;
+.ticket-number{
 
-            color: #FFD700;
+    margin:20px 0;
 
-            border: 1px solid #FFD700;
+    padding:15px;
 
-        }
+    border-radius:12px;
 
+    text-align:center;
 
-        .register-btn:hover,
-        .join-btn:hover,
-        .ticket-btn:hover {
+    font-size:22px;
 
-            transform: translateY(-2px);
+    font-weight:800;
 
-        }
+    letter-spacing:2px;
 
+    color:#000;
 
-        /* =====================================================
-           MODE BOX
-        ===================================================== */
+    background:
+        linear-gradient(
+            90deg,
+            #FFD700,
+            #fff,
+            #FFD700
+        );
 
-        .mode-section {
+}
 
-            margin-top: 30px;
+.ticket-pass small{
 
-        }
+    display:block;
 
+    text-align:center;
 
-        .mode-card {
+    color:#999;
 
-            padding: 20px;
+}
 
-            border-radius: 15px;
 
-            margin-bottom: 15px;
+/* =========================================================
+   STATUS
+========================================================= */
 
-        }
+.status-message{
 
+    position:relative;
 
-        .online-mode {
+    z-index:10;
 
-            background:
-                rgba(40, 167, 69, .12);
+    text-align:center;
 
-            border:
-                1px solid rgba(40, 167, 69, .35);
+    min-height:25px;
 
-        }
+    color:#54e88c;
 
+    font-weight:700;
 
-        .offline-mode {
+}
 
-            background:
-                rgba(0, 123, 255, .12);
 
-            border:
-                1px solid rgba(0, 123, 255, .35);
+/* =========================================================
+   SECTION HEADING
+========================================================= */
 
-        }
+.section-heading{
 
+    position:relative;
 
-        .mode-card h4 {
+    z-index:10;
 
-            margin-bottom: 8px;
+    text-align:center;
 
-            font-weight: 700;
+    padding:55px 20px 30px;
 
-        }
+}
 
+.heading-icon{
 
-        .online-mode h4 {
+    font-size:45px;
 
-            color: #54d88a;
+}
 
-        }
+.section-heading h2{
 
+    color:#FFD700;
 
-        .offline-mode h4 {
+    font-size:38px;
 
-            color: #69b7ff;
+    font-weight:800;
 
-        }
+}
 
+.section-heading p{
 
-        .mode-card p {
+    color:#aaa;
 
-            color: #ccc;
+}
 
-            margin-bottom: 15px;
 
-        }
+/* =========================================================
+   COMPETITION GRID
+========================================================= */
 
+.competition-grid{
 
-        /* =====================================================
-           LIVE STREAM
-        ===================================================== */
+    position:relative;
 
-        .card-box {
+    z-index:10;
 
-            max-width: 900px;
+    width:92%;
 
-            margin: 35px auto;
+    max-width:1250px;
 
-            background: #111;
+    margin:auto;
 
-            border: 1px solid #333;
+    display:grid;
 
-            border-radius: 15px;
+    grid-template-columns:
+        repeat(3,1fr);
 
-            padding: 20px;
+    gap:25px;
 
-        }
+}
 
 
-        .card-box h4 {
+/* =========================================================
+   CARDS
+========================================================= */
 
-            color: #FFD700;
+.competition-card{
 
-            margin-bottom: 15px;
+    overflow:hidden;
 
-        }
+    border-radius:22px;
 
+    background:#111;
 
-        #videoBox iframe {
+    border:1px solid #333;
 
-            width: 100%;
+    box-shadow:
+        0 15px 35px
+        rgba(0,0,0,.35);
 
-            min-height: 300px;
+    transition:.35s;
 
-            border: none;
+}
 
-            border-radius: 10px;
+.competition-card:hover{
 
-        }
+    transform:
+        translateY(-8px);
 
+    border-color:#FFD700;
 
-        .live-btn {
+    box-shadow:
+        0 20px 45px
+        rgba(255,215,0,.12);
 
-            width: 100%;
+}
 
-            border: none;
+.card-image{
 
-            padding: 13px;
+    height:210px;
 
-            border-radius: 10px;
+    position:relative;
 
-            background: #673ab7;
+    overflow:hidden;
 
-            color: #fff;
+    display:flex;
 
-            font-weight: 700;
+    align-items:center;
 
-        }
+    justify-content:center;
 
+    background:
+        linear-gradient(
+            135deg,
+            #252525,
+            #111
+        );
 
-        /* =====================================================
-           FOOTER
-        ===================================================== */
+}
 
-        footer {
+.card-image img{
 
-            margin-top: 50px;
+    width:100%;
 
-            padding: 25px;
+    height:100%;
 
-            text-align: center;
+    object-fit:cover;
 
-            background: #080808;
+    transition:.5s;
 
-            border-top: 1px solid #222;
+}
 
-            color: #888;
+.competition-card:hover
+.card-image img{
 
-        }
+    transform:scale(1.08);
 
+}
 
-        footer strong {
+.card-badge{
 
-            color: #FFD700;
+    position:absolute;
 
-        }
+    top:12px;
 
+    right:12px;
 
-        /* =====================================================
-           MOBILE
-        ===================================================== */
+    padding:6px 12px;
 
-        @media (max-width: 768px) {
+    border-radius:20px;
 
-            .header-content h1 {
+    background:#ff326f;
 
-                font-size: 36px;
+    font-size:12px;
 
-            }
+    font-weight:700;
 
-            .header-content h2 {
+}
 
-                font-size: 20px;
+.emoji-image{
 
-            }
+    font-size:80px;
 
-            .header-content p {
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,215,0,.2),
+            transparent
+        );
 
-                font-size: 14px;
+}
 
-            }
+.card-body{
 
-            .logo {
+    padding:22px;
 
-                width: 95px;
+}
 
-                height: 95px;
+.category-icon{
 
-            }
+    font-size:35px;
 
-            .verification-header {
+}
 
-                align-items: flex-start;
+.card-body h3{
 
-            }
+    margin-top:8px;
 
-            .action-buttons {
+    color:#FFD700;
 
-                grid-template-columns: 1fr;
+    font-size:23px;
 
-            }
+    font-weight:800;
 
-            .card-img {
+}
 
-                height: 220px;
+.card-body p{
 
-            }
+    color:#aaa;
 
-        }
+    min-height:50px;
 
+}
 
-    </style>
+.mode-options{
+
+    display:flex;
+
+    gap:7px;
+
+    flex-wrap:wrap;
+
+    margin:15px 0;
+
+}
+
+.mode-options button{
+
+    flex:1;
+
+    min-width:70px;
+
+    padding:8px;
+
+    border-radius:8px;
+
+    border:1px solid #555;
+
+    background:#181818;
+
+    color:#ddd;
+
+    cursor:pointer;
+
+}
+
+.mode-options button:hover{
+
+    color:#000;
+
+    background:#FFD700;
+
+}
+
+.single-mode{
+
+    display:inline-block;
+
+    padding:8px 14px;
+
+    border-radius:20px;
+
+    color:#fff;
+
+    background:
+        rgba(255,79,163,.12);
+
+    border:
+        1px solid
+        rgba(255,79,163,.4);
+
+    margin:12px 0;
+
+}
+
+.competition-meta{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    padding:12px 0;
+
+    border-top:1px solid #292929;
+
+    border-bottom:1px solid #292929;
+
+    color:#ccc;
+
+    font-size:13px;
+
+}
+
+.competition-meta span:last-child{
+
+    color:#54e88c;
+
+    font-weight:700;
+
+}
+
+.competition-btn{
+
+    width:100%;
+
+    margin-top:17px;
+
+    padding:13px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #FFD700,
+            #ffef9b
+        );
+
+    color:#000;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.competition-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+/* =========================================================
+   FEATURE GRID
+========================================================= */
+
+.feature-grid{
+
+    position:relative;
+
+    z-index:10;
+
+    width:92%;
+
+    max-width:1200px;
+
+    margin:70px auto;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:20px;
+
+}
+
+.feature-card{
+
+    padding:25px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    border:1px solid #333;
+
+    background:#111;
+
+    transition:.3s;
+
+}
+
+.feature-card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.feature-icon{
+
+    font-size:42px;
+
+}
+
+.feature-card h3{
+
+    margin-top:10px;
+
+    color:#FFD700;
+
+    font-size:20px;
+
+}
+
+.feature-card p{
+
+    color:#999;
+
+    min-height:65px;
+
+}
+
+.feature-card button{
+
+    border:0;
+
+    border-radius:20px;
+
+    padding:9px 18px;
+
+    background:#222;
+
+    color:#fff;
+
+    border:1px solid #555;
+
+    cursor:pointer;
+
+}
+
+.news-card{
+
+    border-top:4px solid #ff4fa3;
+
+}
+
+.old-card{
+
+    border-top:4px solid #FFD700;
+
+}
+
+.online-card{
+
+    border-top:4px solid #36e27b;
+
+}
+
+.offline-card{
+
+    border-top:4px solid #4da6ff;
+
+}
+
+
+/* =========================================================
+   WHY
+========================================================= */
+
+.why-section{
+
+    position:relative;
+
+    z-index:10;
+
+    width:92%;
+
+    max-width:1100px;
+
+    margin:70px auto;
+
+    text-align:center;
+
+}
+
+.why-section h2{
+
+    color:#FFD700;
+
+    font-size:32px;
+
+}
+
+.why-grid{
+
+    margin-top:25px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:15px;
+
+}
+
+.why-grid div{
+
+    padding:22px;
+
+    border-radius:15px;
+
+    background:#111;
+
+    border:1px solid #333;
+
+}
+
+.why-grid span{
+
+    display:block;
+
+    font-size:30px;
+
+    margin-bottom:10px;
+
+}
+
+.why-grid b{
+
+    color:#ddd;
+
+}
+
+
+/* =========================================================
+   PRIDE
+========================================================= */
+
+.pride-section{
+
+    position:relative;
+
+    z-index:10;
+
+    width:92%;
+
+    max-width:1000px;
+
+    margin:70px auto;
+
+    padding:45px;
+
+    border-radius:25px;
+
+    text-align:center;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(255,215,0,.12),
+            rgba(255,79,163,.08),
+            rgba(50,220,120,.07)
+        );
+
+    border:1px solid #555;
+
+}
+
+.pride-bear{
+
+    font-size:70px;
+
+}
+
+.pride-section h2{
+
+    color:#FFD700;
+
+    font-size:38px;
+
+}
+
+.pride-section p{
+
+    color:#ddd;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.tr-footer{
+
+    position:relative;
+
+    z-index:10;
+
+    margin-top:80px;
+
+    padding:45px 20px;
+
+    text-align:center;
+
+    background:#050505;
+
+    border-top:1px solid #333;
+
+    color:#888;
+
+}
+
+.tr-footer img{
+
+    width:75px;
+
+    height:75px;
+
+    object-fit:contain;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    padding:5px;
+
+    border:2px solid #FFD700;
+
+}
+
+.tr-footer h2{
+
+    color:#FFD700;
+
+    margin-top:15px;
+
+}
+
+.tr-footer strong{
+
+    color:#FFD700;
+
+}
+
+.tr-footer hr{
+
+    max-width:700px;
+
+    margin:25px auto;
+
+    border-color:#333;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1000px){
+
+    .competition-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .feature-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .verification-section{
+
+        grid-template-columns:1fr 1fr;
+
+    }
+
+    .ticket-pass{
+
+        grid-column:1/-1;
+
+    }
+
+    .why-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .info-strip{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .nav-links{
+
+        display:none;
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .hero-title{
+
+        font-size:38px;
+
+        letter-spacing:2px;
+
+    }
+
+    .hero-subtitle{
+
+        font-size:17px;
+
+    }
+
+    .hero-description{
+
+        font-size:14px;
+
+    }
+
+    .hero-logo{
+
+        width:100px;
+
+        height:100px;
+
+    }
+
+    .info-strip{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .verification-section{
+
+        grid-template-columns:1fr;
+
+        padding:20px;
+
+    }
+
+    .ticket-pass{
+
+        grid-column:auto;
+
+    }
+
+    .competition-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .feature-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .why-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .brand-area small{
+
+        display:none;
+
+    }
+
+    .account-btn{
+
+        padding:8px 12px;
+
+        font-size:12px;
+
+    }
+
+    .bear{
+
+        font-size:35px;
+
+        opacity:.07;
+
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -1061,1607 +1820,1745 @@
 <body>
 
 
-    <!-- =====================================================
-         HEADER
-    ===================================================== -->
+<!-- =========================================================
+     SNOW
+========================================================= -->
 
-    <header class="hero-header">
+<div id="snow-container"></div>
 
-        <div class="overlay"></div>
 
-        <div class="header-content">
+<!-- BEARS -->
 
-            <img
-                src="tribalweblogo.png"
-                alt="Tribal Rhythm Logo"
-                class="logo">
+<div class="bear bear-one">🐻</div>
+<div class="bear bear-two">🐻</div>
+<div class="bear bear-three">🐻</div>
+<div class="bear bear-four">🐻</div>
 
-            <h1>
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="tr-navbar">
+
+    <div class="brand-area">
+
+        <img
+            src="tribalweblogo.png"
+            class="brand-logo"
+            alt="Tribal Rhythm">
+
+        <div>
+
+            <div class="brand-name">
                 TRIBAL RHYTHM
-            </h1>
-
-            <h2>
-                ONLINE & OFFLINE COMPETITIONS
-            </h2>
-
-            <p>
-                Dance • Singing • Madal • Beauty Queen • Essay • Tribal Culture
-            </p>
-
-            <div class="powered-by">
-
-                Powered by
-                <strong>Zentro Nex</strong>
-
             </div>
 
-        </div>
-
-    </header>
-
-
-
-    <main class="main-container">
-
-
-        <!-- =====================================================
-             ENTRY NOTICE
-        ===================================================== -->
-
-        <div class="ticket-notice">
-
-            <h4>
-                🎫 Competition Entry Rule
-            </h4>
-
-            <p>
-                Every participant must provide
-                <strong>Full Name, Mobile Number and valid Tribal Rhythm Ticket ID.</strong>
-            </p>
-
-            <p class="no-entry">
-                ❌ Name + Mobile Number + Ticket ID ke bina competition me NO ENTRY.
-            </p>
-
-            <p>
-                Ticket ID registration complete hone ke baad participant ko receive hota hai.
-            </p>
-
-            <p>
-                Offline competition me entry ke time Ticket ID / QR Code verification kiya ja sakta hai.
-            </p>
+            <small>
+                A Zentro Nex Platform
+            </small>
 
         </div>
 
+    </div>
 
 
-        <!-- =====================================================
-             USER TICKET
-        ===================================================== -->
+    <div class="nav-links">
 
-        <div class="ticket-box">
+        <a href="#home">Home</a>
 
-            <h4>
-                🎫 Competition Pass
-            </h4>
+        <a href="#competitions">
+            Competition
+        </a>
 
-            <p>
-                <b>Name:</b>
-                <span id="userName">Loading...</span>
-            </p>
+        <a href="#news">
+            News
+        </a>
 
-            <p>
-                <b>Email:</b>
-                <span id="userEmail">Loading...</span>
-            </p>
+        <a href="#oldCompetitions">
+            Old Competitions
+        </a>
 
-            <p>
-                <b>Mobile:</b>
-                <span id="userMobile">Loading...</span>
-            </p>
+        <a href="#online">
+            Online
+        </a>
 
-            <p>
-                <b>Tribe:</b>
-                <span id="userTribe">Loading...</span>
-            </p>
+        <a href="#offline">
+            Offline
+        </a>
 
-            <h2 id="ticketId">
-                Loading...
-            </h2>
+    </div>
 
-            <p class="no-entry">
-                ❌ No Ticket ID = No Entry
-            </p>
+
+    <button
+        class="account-btn"
+        onclick="scrollToVerification()">
+
+        👤 My Account
+
+    </button>
+
+</nav>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<header
+    id="home"
+    class="tr-hero">
+
+    <div class="hero-glow"></div>
+
+
+    <div class="hero-content">
+
+        <img
+            src="tribalweblogo.png"
+            class="hero-logo"
+            alt="Tribal Rhythm">
+
+
+        <div class="hero-title">
+            TRIBAL RHYTHM
+        </div>
+
+
+        <div class="hero-subtitle">
+            ONLINE & OFFLINE COMPETITIONS
+        </div>
+
+
+        <p class="hero-description">
+
+            💃 Dance • 🎵 Song • 🥁 Madal •
+            🧠 GK • 😂 Comedy • 👑 Beauty • 🎨 Drawing
+
+        </p>
+
+
+        <div class="powered">
+
+            Powered by
+            <b>Zentro Nex</b>
 
         </div>
 
 
+        <div class="hero-buttons">
 
-        <!-- =====================================================
-             WELCOME
-        ===================================================== -->
+            <a
+                href="#competitions"
+                class="gold-btn">
 
-        <div class="welcome-box">
+                🏆 Explore Competitions
 
-            <h2>
-                🎉 Welcome to Tribal Rhythm Competition
-            </h2>
+            </a>
 
-            <p>
-                First verify your
-                <b>Name + Mobile Number + Ticket ID</b>
-                and then join your selected competition.
-            </p>
+
+            <a
+                href="#verification"
+                class="pink-btn">
+
+                🎫 Verify Ticket
+
+            </a>
 
         </div>
 
+    </div>
 
+</header>
 
-        <!-- =====================================================
-             STATUS
-        ===================================================== -->
 
-        <div id="status"></div>
+<!-- =========================================================
+     INFO
+========================================================= -->
 
+<section class="info-strip">
 
+    <div class="info-item">
 
-        <!-- =====================================================
-             PARTICIPANT VERIFICATION
-        ===================================================== -->
+        <span class="info-icon">
+            📍
+        </span>
 
-        <section class="verification-box">
-
-            <div class="verification-header">
-
-                <div class="verification-icon">
-                    🎫
-                </div>
-
-                <div>
-
-                    <h3>
-                        Tribal Rhythm Entry Verification
-                    </h3>
-
-                    <p>
-                        Registered participant details enter karein.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="row g-3">
-
-
-                <!-- NAME -->
-
-                <div class="col-md-4">
-
-                    <label for="participantName">
-                        Full Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="participantName"
-                        class="form-control"
-                        placeholder="Enter your full name"
-                        autocomplete="name">
-
-                </div>
-
-
-
-                <!-- MOBILE -->
-
-                <div class="col-md-4">
-
-                    <label for="participantMobile">
-                        Mobile Number
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="participantMobile"
-                        class="form-control"
-                        placeholder="10-digit mobile number"
-                        maxlength="10"
-                        inputmode="numeric"
-                        autocomplete="tel">
-
-                </div>
-
-
-
-                <!-- TICKET -->
-
-                <div class="col-md-4">
-
-                    <label for="participantTicket">
-                        Ticket ID
-                    </label>
-
-                    <input
-                        type="text"
-                        id="participantTicket"
-                        class="form-control"
-                        placeholder="Enter your Ticket ID"
-                        autocomplete="off">
-
-                    <small>
-                        Ticket ID registration ke time receive hua tha.
-                    </small>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="entry-warning">
-
-                ⚠️
-                <strong>Important:</strong>
-
-                Name, mobile number aur valid Ticket ID ke bina
-                online ya offline competition me entry nahi milegi.
-
-            </div>
-
-
-
-            <button
-                type="button"
-                class="verify-btn"
-                onclick="verifyCompetitionEntry()">
-
-                🔐 Verify & Continue
-
-            </button>
-
-        </section>
-
-
-
-        <!-- =====================================================
-             COMPETITION CARD
-        ===================================================== -->
-
-        <div class="competition-card">
-
-            <img
-                src="dance.jpg"
-                alt="Tribal Dance Competition"
-                class="card-img">
-
-
-            <div class="competition-content">
-
-
-                <span class="live-badge">
-                    🔴 LIVE COMPETITION
-                </span>
-
-
-                <h3 class="competition-title">
-                    💃 Tribal Dance Competition
-                </h3>
-
-
-                <p class="competition-description">
-
-                    Traditional Solo & Group Dance Competition
-
-                </p>
-
-
-
-                <div class="info">
-
-                    <span>
-                        ⏱ 3–5 Min
-                    </span>
-
-                    <span>
-                        💰 ₹100
-                    </span>
-
-                </div>
-
-
-
-                <div class="prize">
-
-                    🏆 Winner Prize ₹10,000
-
-                </div>
-
-
-
-                <!-- =================================================
-                     COMPETITION OPTIONS
-                ================================================= -->
-
-                <div class="competition-options">
-
-                    <div class="row g-3">
-
-
-                        <div class="col-md-6">
-
-                            <label for="language">
-                                Competition Language
-                            </label>
-
-                            <select
-                                id="language"
-                                class="form-control">
-
-                                <option value="Santali">
-                                    Santali
-                                </option>
-
-                                <option value="Bhumij">
-                                    Bhumij
-                                </option>
-
-                                <option value="Odia">
-                                    Odia
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-
-                        <div class="col-md-6">
-
-                            <label for="type">
-                                Performance Type
-                            </label>
-
-                            <select
-                                id="type"
-                                class="form-control">
-
-                                <option value="Solo">
-                                    Solo
-                                </option>
-
-                                <option value="Group">
-                                    Group
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- Hidden name -->
-
-                <input
-                    type="hidden"
-                    id="name">
-
-
-
-                <!-- =================================================
-                     ACTION BUTTONS
-                ================================================= -->
-
-                <div class="action-buttons">
-
-                    <button
-                        class="register-btn"
-                        onclick="window.location.href='register.html'">
-
-                        📝 Register
-
-                    </button>
-
-
-                    <button
-                        class="join-btn"
-                        onclick="joinComp()">
-
-                        🏆 Join Competition
-
-                    </button>
-
-
-                    <button
-                        class="ticket-btn"
-                        onclick="window.location.href='register.html'">
-
-                        🎫 My Ticket
-
-                    </button>
-
-                </div>
-
-
-
-                <div
-                    id="paymentStatus"
-                    style="
-                        margin-top:12px;
-                        color:#FFD700;
-                        font-weight:bold;
-                        text-align:center;
-                    ">
-                </div>
-
-
-
-                <!-- =================================================
-                     COMPETITION MODES
-                ================================================= -->
-
-                <div class="mode-section">
-
-
-                    <!-- ONLINE -->
-
-                    <div class="mode-card online-mode">
-
-                        <h4>
-                            🟢 ONLINE COMPETITION • ZOOM
-                        </h4>
-
-                        <p>
-
-                            Verified participants can participate
-                            online through Zoom after the competition
-                            starts.
-
-                        </p>
-
-                        <button
-                            class="join-btn"
-                            style="width:100%;"
-                            onclick="joinOnlineCompetition()">
-
-                            🎥 Join Online Competition
-
-                        </button>
-
-                    </div>
-
-
-
-                    <!-- OFFLINE -->
-
-                    <div class="mode-card offline-mode">
-
-                        <h4>
-                            🔵 OFFLINE COMPETITION • INSTITUTE
-                        </h4>
-
-                        <p>
-
-                            Verified participants can attend the
-                            competition physically at the
-                            <b>Tribal Rhythm Institute</b>.
-
-                        </p>
-
-                        <button
-                            class="join-btn"
-                            style="width:100%;"
-                            onclick="joinOfflineCompetition()">
-
-                            🏫 Join Offline Competition
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =====================================================
-             LIVE STREAM
-        ===================================================== -->
-
-        <div class="card-box">
-
-            <h4>
-                🔴 LIVE STREAM
-            </h4>
-
-
-            <div id="videoBox">
-
-                <h5 style="color:#777;text-align:center;">
-                    Live stream loading...
-                </h5>
-
-            </div>
-
-
-            <button
-                class="live-btn mt-3"
-                onclick="openZoom()">
-
-                🎥 OPEN ZOOM
-
-            </button>
-
-        </div>
-
-
-    </main>
-
-
-
-    <!-- =====================================================
-         FOOTER
-    ===================================================== -->
-
-    <footer>
-
-        © 2026
-        <strong>Tribal Rhythm</strong>
-
-        <br>
-
-        Powered by
-        <strong>Zentro Nex</strong>
-
-        <br>
+        <strong>
+            All Odisha
+        </strong>
 
         <small>
-            Online & Offline Tribal Cultural Competitions
+            Later All India
         </small>
 
-    </footer>
+    </div>
 
 
+    <div class="info-item">
 
-    <!-- =====================================================
-         RAZORPAY
-    ===================================================== -->
+        <span class="info-icon">
+            💻
+        </span>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <strong>
+            Online Competition
+        </strong>
 
+        <small>
+            Join From Anywhere
+        </small>
 
+    </div>
 
-    <!-- =====================================================
-         FIREBASE
-    ===================================================== -->
 
-    <script type="module">
+    <div class="info-item">
 
-        import {
-            initializeApp
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        <span class="info-icon">
+            🏫
+        </span>
 
+        <strong>
+            Offline Competition
+        </strong>
 
-        import {
-            getFirestore,
-            collection,
-            addDoc,
-            onSnapshot,
-            doc,
-            getDoc,
-            query,
-            where,
-            getDocs
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        <small>
+            Tribal Rhythm Institute
+        </small>
 
+    </div>
 
-        import {
-            getAuth
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+    <div class="info-item">
 
+        <span class="info-icon">
+            🏆
+        </span>
 
-        /* =====================================================
-           FIREBASE CONFIG
-        ===================================================== */
+        <strong>
+            Tribal Talent
+        </strong>
 
-        const firebaseConfig = {
+        <small>
+            Tribal Pride
+        </small>
 
-            apiKey:
-                "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
+    </div>
 
-            authDomain:
-                "tribalrhythm-486bd.firebaseapp.com",
+</section>
 
-            projectId:
-                "tribalrhythm-486bd",
 
-            storageBucket:
-                "tribalrhythm-486bd.firebasestorage.app",
+<!-- =========================================================
+     VERIFICATION
+========================================================= -->
 
-            messagingSenderId:
-                "566528037279",
+<section
+    id="verification"
+    class="verification-section">
 
-            appId:
-                "1:566528037279:web:b475312ea2c721d4fd2daa"
 
-        };
+    <div class="verification-info">
 
+        <div class="verification-icon">
+            🔐
+        </div>
 
+        <h2>
+            ENTRY VERIFICATION
+        </h2>
 
-        const app =
-            initializeApp(firebaseConfig);
+        <p>
 
+            Every participant must verify
+            their registration before joining
+            any competition.
 
-        const db =
-            getFirestore(app);
+        </p>
 
 
-        const auth =
-            getAuth(app);
+        <div class="verification-rule">
 
+            <div>
+                ✅ Full Name
+            </div>
 
+            <div>
+                ✅ Mobile Number
+            </div>
 
-        /* =====================================================
-           GLOBAL VARIABLES
-        ===================================================== */
+            <div>
+                ✅ Valid Ticket ID
+            </div>
 
-        let currentUser = null;
+            <hr>
 
-        let selectedComp = "";
+            <strong>
+                NO VERIFICATION = NO ENTRY
+            </strong>
 
-        let competitionVerified = false;
+        </div>
 
-        let verifiedParticipant = null;
+    </div>
 
 
+    <div class="verification-form">
 
-        const entryFees = {
+        <label>
+            Full Name *
+        </label>
 
-            dance: 100,
+        <input
+            type="text"
+            id="participantName"
+            placeholder="Enter your full name">
 
-            song: 80,
 
-            essay: 50,
+        <label>
+            Mobile Number *
+        </label>
 
-            baja: 120,
+        <input
+            type="tel"
+            id="participantMobile"
+            maxlength="10"
+            inputmode="numeric"
+            placeholder="10-digit mobile number">
 
-            gk: 30,
 
-            beauty: 150,
+        <label>
+            Ticket ID *
+        </label>
 
-            dialogue: 60,
+        <input
+            type="text"
+            id="participantTicket"
+            placeholder="Enter Ticket ID">
 
-            poem: 40
 
-        };
+        <button
+            class="verify-button"
+            onclick="verifyCompetitionEntry()">
 
+            🔐 VERIFY & CONTINUE
 
+        </button>
 
-        const statusEl =
-            document.getElementById("status");
+    </div>
 
 
+    <div class="ticket-pass">
 
-        /* =====================================================
-           ESCAPE HTML
-        ===================================================== */
+        <div class="pass-title">
 
-        function escapeHTML(value) {
+            🎫 YOUR COMPETITION PASS
 
-            if (
-                value === null ||
-                value === undefined
-            ) {
+        </div>
 
-                return "";
 
-            }
+        <div class="pass-row">
 
-            return String(value)
+            <span>Name</span>
 
-                .replaceAll("&", "&amp;")
+            <strong id="userName">
+                Loading...
+            </strong>
 
-                .replaceAll("<", "&lt;")
+        </div>
 
-                .replaceAll(">", "&gt;")
 
-                .replaceAll('"', "&quot;")
+        <div class="pass-row">
 
-                .replaceAll("'", "&#039;");
+            <span>Mobile</span>
 
-        }
+            <strong id="userMobile">
+                Loading...
+            </strong>
 
+        </div>
 
 
-        /* =====================================================
-           GET MOBILE
-        ===================================================== */
+        <div class="pass-row">
 
-        function getUserMobile(data) {
+            <span>Tribe</span>
 
-            return (
-                data.mobile ||
-                data.phone ||
-                data.mobileNumber ||
-                ""
-            );
+            <strong id="userTribe">
+                Loading...
+            </strong>
 
-        }
+        </div>
 
 
+        <div
+            class="ticket-number"
+            id="ticketId">
 
-        /* =====================================================
-           LOAD USER
-        ===================================================== */
+            Loading...
 
-        window.addEventListener(
-            "DOMContentLoaded",
-            async function () {
+        </div>
 
-                const email =
-                    localStorage.getItem("email");
 
+        <small>
+            🎫 Keep your Ticket ID safe
+        </small>
 
-                if (!email) {
+    </div>
 
-                    await Swal.fire({
+</section>
 
-                        icon: "warning",
 
-                        title: "Tribal Rhythm",
+<div
+    id="status"
+    class="status-message">
+</div>
 
-                        text:
-                            "Please register first.",
 
-                        confirmButtonText:
-                            "Register Now",
+<!-- =========================================================
+     COMPETITION TITLE
+========================================================= -->
 
-                        confirmButtonColor:
-                            "#FFD700"
+<section
+    id="competitions"
+    class="section-heading">
 
-                    });
+    <div class="heading-icon">
+        🏆
+    </div>
 
-                    window.location.href =
-                        "register.html";
+    <h2>
+        ALL COMPETITIONS
+    </h2>
 
-                    return;
+    <p>
+        Choose Your Talent • Show Your Culture • Participate
+    </p>
 
-                }
+</section>
 
 
+<!-- =========================================================
+     COMPETITION GRID
+========================================================= -->
 
-                try {
+<section class="competition-grid">
 
-                    const userRef =
-                        doc(
-                            db,
-                            "users",
-                            email
-                        );
 
+<!-- DANCE -->
 
-                    const userSnap =
-                        await getDoc(userRef);
+<article class="competition-card">
 
+    <div class="card-image">
 
-                    if (!userSnap.exists()) {
+        <img
+            src="dance.jpg"
+            alt="Tribal Dance">
 
-                        await Swal.fire({
+        <span class="card-badge">
+            🔥 POPULAR
+        </span>
 
-                            icon: "error",
+    </div>
 
-                            title: "Tribal Rhythm",
 
-                            text:
-                                "User registration not found.",
+    <div class="card-body">
 
-                            confirmButtonColor:
-                                "#FFD700"
+        <div class="category-icon">
+            💃
+        </div>
 
-                        });
+        <h3>
+            TRIBAL DANCE
+        </h3>
 
-                        window.location.href =
-                            "register.html";
+        <p>
+            Traditional Solo, Duet and Group tribal dance.
+        </p>
 
-                        return;
 
-                    }
+        <div class="mode-options">
 
+            <button onclick="selectMode('dance','Solo')">
+                Solo
+            </button>
 
+            <button onclick="selectMode('dance','Duet')">
+                Duet
+            </button>
 
-                    const data =
-                        userSnap.data();
+            <button onclick="selectMode('dance','Group')">
+                Group
+            </button>
 
+        </div>
 
-                    currentUser = data;
 
+        <div class="competition-meta">
 
+            <span>
+                💰 ₹100
+            </span>
 
-                    /* PAYMENT */
+            <span>
+                🏆 ₹10,000
+            </span>
 
-                    if (data.payment !== true) {
+        </div>
 
-                        await Swal.fire({
 
-                            icon: "warning",
+        <button
+            class="competition-btn"
+            onclick="openCompetition(
+                'dance',
+                'Tribal Dance Competition'
+            )">
 
-                            title: "Tribal Rhythm",
+            🏆 View & Join
 
-                            text:
-                                "Registration payment is not completed.",
+        </button>
 
-                            confirmButtonColor:
-                                "#FFD700"
+    </div>
 
-                        });
+</article>
 
-                        window.location.href =
-                            "register.html";
 
-                        return;
+<!-- SONG -->
 
-                    }
+<article class="competition-card">
 
+    <div class="card-image">
 
+        <img
+            src="song.jpg"
+            alt="Tribal Song">
 
-                    /* TICKET */
+    </div>
 
-                    if (!data.ticket) {
 
-                        await Swal.fire({
+    <div class="card-body">
 
-                            icon: "error",
+        <div class="category-icon">
+            🎵
+        </div>
 
-                            title: "Tribal Rhythm",
+        <h3>
+            TRIBAL SONG
+        </h3>
 
-                            text:
-                                "Ticket ID not found. Please complete registration first.",
+        <p>
+            Santali, Bhumij and traditional tribal songs.
+        </p>
 
-                            confirmButtonColor:
-                                "#FFD700"
 
-                        });
+        <div class="mode-options">
 
-                        window.location.href =
-                            "register.html";
+            <button onclick="selectMode('song','Solo')">
+                Solo
+            </button>
 
-                        return;
+            <button onclick="selectMode('song','Duet')">
+                Duet
+            </button>
 
-                    }
+            <button onclick="selectMode('song','Group')">
+                Group
+            </button>
 
+        </div>
 
 
-                    const mobile =
-                        getUserMobile(data);
+        <div class="competition-meta">
 
+            <span>
+                💰 ₹80
+            </span>
 
+            <span>
+                🏆 ₹8,000
+            </span>
 
-                    /* PASS */
+        </div>
 
-                    document
-                        .getElementById("userName")
-                        .innerText =
-                        data.name || "-";
 
+        <button
+            class="competition-btn"
+            onclick="openCompetition(
+                'song',
+                'Tribal Song Competition'
+            )">
 
-                    document
-                        .getElementById("userEmail")
-                        .innerText =
-                        data.email || email;
+            🎵 View & Join
 
+        </button>
 
-                    document
-                        .getElementById("userMobile")
-                        .innerText =
-                        mobile || "-";
+    </div>
 
+</article>
 
-                    document
-                        .getElementById("userTribe")
-                        .innerText =
-                        data.tribe || "-";
 
+<!-- MADAL -->
 
-                    document
-                        .getElementById("ticketId")
-                        .innerText =
-                        data.ticket;
+<article class="competition-card">
 
+    <div class="card-image">
 
-                    document
-                        .getElementById("name")
-                        .value =
-                        data.name || "";
+        <img
+            src="madal.jpg"
+            alt="Tribal Madal">
 
+    </div>
 
 
-                } catch (error) {
+    <div class="card-body">
 
-                    console.error(
-                        "User loading error:",
-                        error
-                    );
+        <div class="category-icon">
+            🥁
+        </div>
 
+        <h3>
+            TRIBAL MADAL / BAJA
+        </h3>
 
-                    Swal.fire({
+        <p>
+            Traditional tribal musical instrument competition.
+        </p>
 
-                        icon: "error",
 
-                        title: "Tribal Rhythm",
+        <div class="mode-options">
 
-                        text:
-                            "Unable to verify registration.",
+            <button onclick="selectMode('baja','Solo')">
+                Solo
+            </button>
 
-                        confirmButtonColor:
-                            "#FFD700"
+            <button onclick="selectMode('baja','Duet')">
+                Duet
+            </button>
 
-                    });
+            <button onclick="selectMode('baja','Group')">
+                Group
+            </button>
 
-                }
+        </div>
 
-            }
+
+        <div class="competition-meta">
+
+            <span>
+                💰 ₹120
+            </span>
+
+            <span>
+                🏆 ₹7,000
+            </span>
+
+        </div>
+
+
+        <button
+            class="competition-btn"
+            onclick="openCompetition(
+                'baja',
+                'Tribal Madal / Baja Competition'
+            )">
+
+            🥁 View & Join
+
+        </button>
+
+    </div>
+
+</article>
+
+
+<!-- GK -->
+
+<article class="competition-card">
+
+    <div class="card-image emoji-image">
+        🧠
+    </div>
+
+
+    <div class="card-body">
+
+        <div class="category-icon">
+            🧠
+        </div>
+
+        <h3>
+            TRIBAL GK
+        </h3>
+
+        <p>
+            Tribal history, culture, traditions and GK.
+        </p>
+
+
+        <div class="single-mode">
+            👤 Individual
+        </div>
+
+
+        <div class="competition-meta">
+
+            <span>
+                💰 ₹30
+            </span>
+
+            <span>
+                🏆 ₹5,000
+            </span>
+
+        </div>
+
+
+        <button
+            class="competition-btn"
+            onclick="openCompetition(
+                'gk',
+                'Tribal GK Competition'
+            )">
+
+            🧠 View & Join
+
+        </button>
+
+    </div>
+
+</article>
+
+
+<!-- COMEDY -->
+
+<article class="competition-card">
+
+    <div class="card-image emoji-image">
+        😂
+    </div>
+
+
+    <div class="card-body">
+
+        <div class="category-icon">
+            😂
+        </div>
+
+        <h3>
+            COMEDY SHOW
+        </h3>
+
+        <p>
+            Comedy, dialogue, mimicry and entertainment.
+        </p>
+
+
+        <div class="mode-options">
+
+            <button onclick="selectMode('comedy','Solo')">
+                Solo
+            </button>
+
+            <button onclick="selectMode('comedy','Duet')">
+                Duet
+            </button>
+
+            <button onclick="selectMode('comedy','Group')">
+                Group
+            </button>
+
+        </div>
+
+
+        <div class="competition-meta">
+
+            <span>
+                💰 ₹60
+            </span>
+
+            <span>
+                🏆 ₹6,000
+            </span>
+
+        </div>
+
+
+        <button
+            class="competition-btn"
+            onclick="openCompetition(
+                'comedy',
+                'Comedy Show'
+            )">
+
+            😂 View & Join
+
+        </button>
+
+    </div>
+
+</article>
+
+
+<!-- BEAUTY -->
+
+<article class="competition-card">
+
+    <div class="card-image emoji-image">
+        👑
+    </div>
+
+
+    <div class="card-body">
+
+        <div class="category-icon">
+            👑
+        </div>
+
+        <h3>
+            TRIBAL BEAUTY QUEEN
+        </h3>
+
+        <p>
+            Traditional style, confidence and cultural presentation.
+        </p>
+
+
+        <div class="single-mode">
+            👤 Individual
+        </div>
+
+
+        <div class="competition-meta">
+
+            <span>
+                💰 ₹150
+            </span>
+
+            <span>
+                🏆 ₹10,000
+            </span>
+
+        </div>
+
+
+        <button
+            class="competition-btn"
+            onclick="openCompetition(
+                'beauty',
+                'Tribal Beauty Queen'
+            )">
+
+            👑 View & Join
+
+        </button>
+
+    </div>
+
+</article>
+
+
+<!-- DRAWING -->
+
+<article class="competition-card">
+
+    <div class="card-image emoji-image">
+        🎨
+    </div>
+
+
+    <div class="card-body">
+
+        <div class="category-icon">
+            🎨
+        </div>
+
+        <h3>
+            TRIBAL DRAWING
+        </h3>
+
+        <p>
+            Tribal art, culture and creative drawing.
+        </p>
+
+
+        <div class="single-mode">
+            👤 Individual
+        </div>
+
+
+        <div class="competition-meta">
+
+            <span>
+                💰 ₹50
+            </span>
+
+            <span>
+                🏆 ₹5,000
+            </span>
+
+        </div>
+
+
+        <button
+            class="competition-btn"
+            onclick="openCompetition(
+                'drawing',
+                'Tribal Drawing Competition'
+            )">
+
+            🎨 View & Join
+
+        </button>
+
+    </div>
+
+</article>
+
+</section>
+
+
+<!-- =========================================================
+     NEWS / OLD / ONLINE / OFFLINE
+========================================================= -->
+
+<section class="feature-grid">
+
+
+<div
+    class="feature-card news-card"
+    id="news">
+
+    <div class="feature-icon">
+        📢
+    </div>
+
+    <h3>
+        COMPETITION NEWS
+    </h3>
+
+    <p>
+        Latest competition announcements,
+        dates, rules and results.
+    </p>
+
+    <button onclick="showNews()">
+        View News
+    </button>
+
+</div>
+
+
+<div
+    class="feature-card old-card"
+    id="oldCompetitions">
+
+    <div class="feature-icon">
+        🏆
+    </div>
+
+    <h3>
+        OLD COMPETITIONS
+    </h3>
+
+    <p>
+        Previous competitions,
+        winners and highlights.
+    </p>
+
+    <button onclick="showOldCompetitions()">
+        View History
+    </button>
+
+</div>
+
+
+<div
+    class="feature-card online-card"
+    id="online">
+
+    <div class="feature-icon">
+        💻
+    </div>
+
+    <h3>
+        ONLINE COMPETITION
+    </h3>
+
+    <p>
+        Participate from anywhere
+        through online competition.
+    </p>
+
+    <button onclick="showOnlineInfo()">
+        Join Online
+    </button>
+
+</div>
+
+
+<div
+    class="feature-card offline-card"
+    id="offline">
+
+    <div class="feature-icon">
+        🏫
+    </div>
+
+    <h3>
+        OFFLINE COMPETITION
+    </h3>
+
+    <p>
+        Participate physically at
+        Tribal Rhythm Institute.
+    </p>
+
+    <button onclick="showOfflineInfo()">
+        View Details
+    </button>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     WHY
+========================================================= -->
+
+<section class="why-section">
+
+    <h2>
+        WHY TRIBAL RHYTHM?
+    </h2>
+
+
+    <div class="why-grid">
+
+        <div>
+
+            <span>
+                🏆
+            </span>
+
+            <b>
+                Professional Management
+            </b>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                🔐
+            </span>
+
+            <b>
+                Secure Verification
+            </b>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                🎖️
+            </span>
+
+            <b>
+                Certificates & Rewards
+            </b>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                🤝
+            </span>
+
+            <b>
+                Participant Support
+            </b>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PRIDE
+========================================================= -->
+
+<section class="pride-section">
+
+    <div class="pride-bear">
+        🐻
+    </div>
+
+    <h2>
+        Tribal Talent
+        <br>
+        Tribal Pride
+    </h2>
+
+    <p>
+        Dance • Song • Culture • Creativity
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="tr-footer">
+
+    <img
+        src="tribalweblogo.png"
+        alt="Tribal Rhythm">
+
+
+    <h2>
+        TRIBAL RHYTHM
+    </h2>
+
+
+    <p>
+        A Zentro Nex Platform
+    </p>
+
+
+    <p>
+        At Neuti, PO Anlajodi, PS Bahalda,
+        Dist Mayurbhanj, Odisha – 757042
+    </p>
+
+
+    <p>
+        📞 +91 7903946369
+    </p>
+
+
+    <p>
+        ✉ infotribalrhythmofficial@gmail.com
+    </p>
+
+
+    <hr>
+
+
+    © 2026 Tribal Rhythm
+    |
+    Powered by Zentro Nex
+
+</footer>
+
+
+
+<!-- =========================================================
+     FIREBASE + JAVASCRIPT
+========================================================= -->
+
+<script type="module">
+
+
+/* =========================================================
+   FIREBASE IMPORT
+========================================================= */
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    collection,
+    addDoc,
+    query,
+    where,
+    getDocs,
+    serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+
+import {
+    getAuth
+}
+from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
+
+    authDomain:
+        "tribalrhythm-486bd.firebaseapp.com",
+
+    projectId:
+        "tribalrhythm-486bd",
+
+    storageBucket:
+        "tribalrhythm-486bd.firebasestorage.app",
+
+    messagingSenderId:
+        "566528037279",
+
+    appId:
+        "1:566528037279:web:b475312ea2c721d4fd2daa"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const db =
+    getFirestore(app);
+
+
+const auth =
+    getAuth(app);
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let currentUser = null;
+
+let competitionVerified = false;
+
+let verifiedParticipant = null;
+
+let selectedCompetition = null;
+
+let selectedMode = null;
+
+
+/* =========================================================
+   ENTRY FEES
+========================================================= */
+
+const entryFees = {
+
+    dance:100,
+
+    song:80,
+
+    baja:120,
+
+    gk:30,
+
+    comedy:60,
+
+    beauty:150,
+
+    drawing:50
+
+};
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function getMobile(data){
+
+    return (
+        data?.mobile ||
+        data?.phone ||
+        data?.mobileNumber ||
+        ""
+    );
+
+}
+
+
+function escapeHTML(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return "";
+
+    }
+
+    return String(value)
+
+        .replaceAll("&","&amp;")
+
+        .replaceAll("<","&lt;")
+
+        .replaceAll(">","&gt;")
+
+        .replaceAll('"',"&quot;")
+
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   SNOW
+========================================================= */
+
+function createSnow(){
+
+    const container =
+        document.getElementById(
+            "snow-container"
         );
 
 
+    for(
+        let i = 0;
+        i < 90;
+        i++
+    ){
 
-        /* =====================================================
-           VERIFY NAME + MOBILE + TICKET
-        ===================================================== */
+        const snow =
+            document.createElement("div");
 
-        window.verifyCompetitionEntry =
-            async function () {
 
+        snow.className =
+            "snow";
 
-                const name =
-                    document
-                        .getElementById("participantName")
-                        .value
-                        .trim();
 
+        snow.innerHTML =
+            Math.random() > .5
+            ? "❄"
+            : "•";
 
-                const mobile =
-                    document
-                        .getElementById("participantMobile")
-                        .value
-                        .trim();
 
+        snow.style.left =
+            Math.random() * 100 + "%";
 
-                const ticket =
-                    document
-                        .getElementById("participantTicket")
-                        .value
-                        .trim();
 
+        snow.style.fontSize =
+            (5 + Math.random() * 12) + "px";
 
 
-                /* NAME */
+        snow.style.animationDuration =
+            (6 + Math.random() * 10) + "s";
 
-                if (name.length < 3) {
 
-                    await Swal.fire({
+        snow.style.animationDelay =
+            (-Math.random() * 15) + "s";
 
-                        icon: "warning",
 
-                        title: "Tribal Rhythm",
+        container.appendChild(snow);
 
-                        text:
-                            "Please enter your full name.",
+    }
 
-                        confirmButtonColor:
-                            "#FFD700"
+}
 
-                    });
 
-                    return;
+createSnow();
 
-                }
 
+/* =========================================================
+   LOAD USER
+========================================================= */
 
+window.addEventListener(
+"DOMContentLoaded",
+async function(){
 
-                /* MOBILE */
+    const email =
+        localStorage.getItem("email");
 
-                if (
-                    !/^[6-9]\d{9}$/.test(mobile)
-                ) {
 
-                    await Swal.fire({
+    if(!email){
 
-                        icon: "warning",
+        await Swal.fire({
 
-                        title: "Tribal Rhythm",
+            icon:"warning",
 
-                        text:
-                            "Please enter a valid 10-digit mobile number.",
+            title:"Tribal Rhythm",
 
-                        confirmButtonColor:
-                            "#FFD700"
+            text:
+                "Please register/login first.",
 
-                    });
+            confirmButtonText:
+                "Go to Registration",
 
-                    return;
+            confirmButtonColor:
+                "#FFD700"
 
-                }
+        });
 
 
+        window.location.href =
+            "register.html";
 
-                /* TICKET */
+        return;
 
-                if (ticket.length < 5) {
+    }
 
-                    await Swal.fire({
 
-                        icon: "warning",
+    try{
 
-                        title: "Tribal Rhythm",
-
-                        text:
-                            "Please enter your valid Ticket ID.",
-
-                        confirmButtonColor:
-                            "#FFD700"
-
-                    });
-
-                    return;
-
-                }
-
-
-
-                /* USER MUST BE LOADED */
-
-                if (!currentUser) {
-
-                    await Swal.fire({
-
-                        icon: "error",
-
-                        title: "Tribal Rhythm",
-
-                        text:
-                            "Registration data is not loaded. Please refresh the page.",
-
-                        confirmButtonColor:
-                            "#FFD700"
-
-                    });
-
-                    return;
-
-                }
-
-
-
-                /* LOADING */
-
-                Swal.fire({
-
-                    title: "Tribal Rhythm",
-
-                    text:
-                        "Verifying Name, Mobile Number and Ticket ID...",
-
-                    allowOutsideClick: false,
-
-                    allowEscapeKey: false,
-
-                    didOpen: () => {
-
-                        Swal.showLoading();
-
-                    }
-
-                });
-
-
-
-                try {
-
-
-                    const registeredName =
-                        String(
-                            currentUser.name || ""
-                        )
-                            .trim();
-
-
-                    const registeredMobile =
-                        String(
-                            getUserMobile(currentUser)
-                        )
-                            .trim();
-
-
-                    const registeredTicket =
-                        String(
-                            currentUser.ticket || ""
-                        )
-                            .trim();
-
-
-
-                    const nameMatch =
-                        registeredName.toLowerCase()
-                        ===
-                        name.toLowerCase();
-
-
-                    const mobileMatch =
-                        registeredMobile
-                        ===
-                        mobile;
-
-
-                    const ticketMatch =
-                        registeredTicket
-                        ===
-                        ticket;
-
-
-
-                    if (
-                        !nameMatch ||
-                        !mobileMatch ||
-                        !ticketMatch
-                    ) {
-
-                        competitionVerified =
-                            false;
-
-                        verifiedParticipant =
-                            null;
-
-
-
-                        await Swal.fire({
-
-                            icon: "error",
-
-                            title: "Tribal Rhythm",
-
-                            html: `
-                                <p>
-                                    <b>Entry Verification Failed</b>
-                                </p>
-
-                                <p>
-                                    Name, Mobile Number and Ticket ID
-                                    do not match the registration record.
-                                </p>
-
-                                <p style="color:#ff4d4d;font-weight:bold;">
-                                    ❌ Entry Not Allowed
-                                </p>
-                            `,
-
-                            confirmButtonColor:
-                                "#FFD700"
-
-                        });
-
-                        return;
-
-                    }
-
-
-
-                    /* VERIFIED */
-
-                    competitionVerified =
-                        true;
-
-
-                    verifiedParticipant = {
-
-                        name:
-                            registeredName,
-
-                        mobile:
-                            registeredMobile,
-
-                        ticketId:
-                            registeredTicket
-
-                    };
-
-
-
-                    statusEl.innerText =
-                        "✔ Entry Verified Successfully";
-
-
-
-                    await Swal.fire({
-
-                        icon: "success",
-
-                        title: "Tribal Rhythm",
-
-                        html: `
-                            <b>Entry Verified Successfully!</b>
-
-                            <br><br>
-
-                            Name:
-                            ${escapeHTML(registeredName)}
-
-                            <br>
-
-                            Mobile:
-                            ${escapeHTML(registeredMobile)}
-
-                            <br>
-
-                            Ticket ID:
-                            ${escapeHTML(registeredTicket)}
-
-                            <br><br>
-
-                            <span style="color:#28a745;font-weight:bold;">
-                                ✔ You may now join the competition.
-                            </span>
-                        `,
-
-                        confirmButtonText:
-                            "Continue",
-
-                        confirmButtonColor:
-                            "#FFD700"
-
-                    });
-
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Verification error:",
-                        error
-                    );
-
-
-                    competitionVerified =
-                        false;
-
-
-                    Swal.fire({
-
-                        icon: "error",
-
-                        title: "Tribal Rhythm",
-
-                        text:
-                            "Unable to verify your details. Please try again.",
-
-                        confirmButtonColor:
-                            "#FFD700"
-
-                    });
-
-                }
-
-            };
-
-
-
-        /* =====================================================
-           JOIN COMPETITION
-        ===================================================== */
-
-        window.joinComp =
-            function () {
-
-
-                if (!competitionVerified) {
-
-                    Swal.fire({
-
-                        icon: "warning",
-
-                        title: "Tribal Rhythm",
-
-                        html: `
-                            <p>
-                                Please verify your
-                                <b>Name + Mobile Number + Ticket ID</b>
-                                first.
-                            </p>
-
-                            <p style="color:#ff4d4d;font-weight:bold;">
-                                ❌ Entry Not Allowed
-                            </p>
-                        `,
-
-                        confirmButtonColor:
-                            "#FFD700"
-
-                    });
-
-                    return;
-
-                }
-
-
-
-                selectedComp =
-                    "dance";
-
-
-                const amount =
-                    entryFees[selectedComp];
-
-
-
-                Swal.fire({
-
-                    icon: "question",
-
-                    title: "🏆 Tribal Rhythm",
-
-                    html: `
-                        <h4>
-                            Tribal Dance Competition
-                        </h4>
-
-                        <p>
-                            Entry Fee:
-                            <b>₹${amount}</b>
-                        </p>
-
-                        <p>
-                            Participant:
-                            <b>
-                                ${escapeHTML(
-                                    verifiedParticipant.name
-                                )}
-                            </b>
-                        </p>
-
-                        <p>
-                            Ticket:
-                            <b>
-                                ${escapeHTML(
-                                    verifiedParticipant.ticketId
-                                )}
-                            </b>
-                        </p>
-
-                        <p>
-                            Do you want to continue?
-                        </p>
-                    `,
-
-                    showCancelButton: true,
-
-                    confirmButtonText:
-                        "Pay & Join",
-
-                    cancelButtonText:
-                        "Cancel",
-
-                    confirmButtonColor:
-                        "#FFD700"
-
-                }).then(
-                    function (result) {
-
-                        if (
-                            result.isConfirmed
-                        ) {
-
-                            startPayment(
-                                amount
-                            );
-
-                        }
-
-                    }
-                );
-
-            };
-
-
-
-        /* =====================================================
-           SAVE PARTICIPANT
-        ===================================================== */
-
-        async function saveUser(
-            paymentId
-        ) {
-
-            if (!competitionVerified) {
-
-                throw new Error(
-                    "Participant is not verified."
-                );
-
-            }
-
-
-
-            const language =
-                document
-                    .getElementById("language")
-                    .value;
-
-
-            const type =
-                document
-                    .getElementById("type")
-                    .value;
-
-
-
-            /* CHECK DUPLICATE */
-
-            const email =
-                currentUser.email ||
-                localStorage.getItem(
-                    "email"
-                );
-
-
-            const q =
-                query(
-
-                    collection(
-                        db,
-                        "participants"
-                    ),
-
-                    where(
-                        "email",
-                        "==",
-                        email
-                    ),
-
-                    where(
-                        "category",
-                        "==",
-                        selectedComp
-                    )
-
-                );
-
-
-            const existing =
-                await getDocs(q);
-
-
-
-            if (!existing.empty) {
-
-                await Swal.fire({
-
-                    icon: "info",
-
-                    title: "Tribal Rhythm",
-
-                    text:
-                        "You have already joined this competition.",
-
-                    confirmButtonColor:
-                        "#FFD700"
-
-                });
-
-                return;
-
-            }
-
-
-
-            const mobile =
-                getUserMobile(
-                    currentUser
-                );
-
-
-
-            await addDoc(
-
-                collection(
-                    db,
-                    "participants"
-                ),
-
-                {
-
-                    uid:
-                        auth.currentUser
-                            ? auth.currentUser.uid
-                            : null,
-
-                    name:
-                        currentUser.name,
-
-                    email:
-                        email,
-
-                    mobile:
-                        mobile,
-
-                    tribe:
-                        currentUser.tribe || "",
-
-                    ticketId:
-                        currentUser.ticket,
-
-                    category:
-                        selectedComp,
-
-                    language:
-                        language,
-
-                    type:
-                        type,
-
-                    paymentId:
-                        paymentId,
-
-                    fee:
-                        entryFees[selectedComp],
-
-                    paymentStatus:
-                        "success",
-
-                    currency:
-                        "INR",
-
-                    time:
-                        new Date()
-
-                }
-
+        const userRef =
+            doc(
+                db,
+                "users",
+                email
             );
 
 
+        const snap =
+            await getDoc(userRef);
 
-            statusEl.innerText =
-                "✔ Joined Successfully";
 
+        if(!snap.exists()){
+
+            await Swal.fire({
+
+                icon:"error",
+
+                title:"Registration Not Found",
+
+                text:
+                    "Your Tribal Rhythm registration record was not found.",
+
+                confirmButtonColor:
+                    "#FFD700"
+
+            });
+
+
+            window.location.href =
+                "register.html";
+
+            return;
+
+        }
+
+
+        currentUser =
+            snap.data();
+
+
+        if(currentUser.payment !== true){
+
+            await Swal.fire({
+
+                icon:"warning",
+
+                title:"Payment Required",
+
+                text:
+                    "Please complete your Tribal Rhythm registration payment first.",
+
+                confirmButtonColor:
+                    "#FFD700"
+
+            });
+
+
+            window.location.href =
+                "register.html";
+
+            return;
+
+        }
+
+
+        if(!currentUser.ticket){
+
+            await Swal.fire({
+
+                icon:"error",
+
+                title:"Ticket ID Missing",
+
+                text:
+                    "Your Ticket ID has not been generated yet.",
+
+                confirmButtonColor:
+                    "#FFD700"
+
+            });
+
+
+            window.location.href =
+                "register.html";
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "userName"
+        ).innerText =
+            currentUser.name || "-";
+
+
+        document.getElementById(
+            "userMobile"
+        ).innerText =
+            getMobile(currentUser) || "-";
+
+
+        document.getElementById(
+            "userTribe"
+        ).innerText =
+            currentUser.tribe || "-";
+
+
+        document.getElementById(
+            "ticketId"
+        ).innerText =
+            currentUser.ticket;
+
+
+    }
+    catch(error){
+
+        console.error(
+            "User loading error:",
+            error
+        );
+
+
+        Swal.fire({
+
+            icon:"error",
+
+            title:"Tribal Rhythm",
+
+            text:
+                "Unable to load registration details.",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+    }
+
+});
+
+
+/* =========================================================
+   VERIFY ENTRY
+========================================================= */
+
+window.verifyCompetitionEntry =
+async function(){
+
+    const name =
+        document
+        .getElementById("participantName")
+        .value
+        .trim();
+
+
+    const mobile =
+        document
+        .getElementById("participantMobile")
+        .value
+        .trim();
+
+
+    const ticket =
+        document
+        .getElementById("participantTicket")
+        .value
+        .trim();
+
+
+    if(name.length < 3){
+
+        Swal.fire({
+
+            icon:"warning",
+
+            title:"Full Name Required",
+
+            text:
+                "Please enter your full name.",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+        return;
+
+    }
+
+
+    if(!/^[6-9]\d{9}$/.test(mobile)){
+
+        Swal.fire({
+
+            icon:"warning",
+
+            title:"Invalid Mobile",
+
+            text:
+                "Enter a valid 10-digit Indian mobile number.",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+        return;
+
+    }
+
+
+    if(ticket.length < 5){
+
+        Swal.fire({
+
+            icon:"warning",
+
+            title:"Ticket ID Required",
+
+            text:
+                "Please enter your valid Ticket ID.",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+        return;
+
+    }
+
+
+    if(!currentUser){
+
+        Swal.fire({
+
+            icon:"error",
+
+            title:"Please Wait",
+
+            text:
+                "Registration data is still loading.",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+        return;
+
+    }
+
+
+    Swal.fire({
+
+        title:"Verifying Entry",
+
+        text:
+            "Checking your registration details...",
+
+        allowOutsideClick:false,
+
+        didOpen:()=>{
+
+            Swal.showLoading();
+
+        }
+
+    });
+
+
+    try{
+
+        const registeredName =
+            String(
+                currentUser.name || ""
+            ).trim();
+
+
+        const registeredMobile =
+            String(
+                getMobile(currentUser)
+            ).trim();
+
+
+        const registeredTicket =
+            String(
+                currentUser.ticket || ""
+            ).trim();
+
+
+        const nameMatch =
+            registeredName.toLowerCase()
+            ===
+            name.toLowerCase();
+
+
+        const mobileMatch =
+            registeredMobile
+            ===
+            mobile;
+
+
+        const ticketMatch =
+            registeredTicket.toUpperCase()
+            ===
+            ticket.toUpperCase();
+
+
+        if(
+            !nameMatch ||
+            !mobileMatch ||
+            !ticketMatch
+        ){
+
+            competitionVerified =
+                false;
+
+            verifiedParticipant =
+                null;
 
 
             await Swal.fire({
 
-                icon: "success",
+                icon:"error",
 
-                title: "🎉 Tribal Rhythm",
+                title:"Verification Failed",
 
-                html: `
-                    <b>Competition Registration Successful!</b>
+                html:`
 
-                    <br><br>
+                    <p>
+                        Your details do not match
+                        the registration record.
+                    </p>
 
-                    Name:
-                    ${escapeHTML(
-                        currentUser.name
-                    )}
+                    <b style="color:#ff4d6d;">
+                        ❌ ENTRY NOT ALLOWED
+                    </b>
 
-                    <br>
-
-                    Ticket ID:
-                    ${escapeHTML(
-                        currentUser.ticket
-                    )}
-
-                    <br><br>
-
-                    <span style="color:#28a745;font-weight:bold;">
-                        ✔ Payment Successful
-                    </span>
                 `,
 
                 confirmButtonColor:
@@ -2669,246 +3566,517 @@
 
             });
 
+            return;
+
         }
 
 
-
-        /* =====================================================
-           PAYMENT
-        ===================================================== */
-
-        async function startPayment(
-            amount
-        ) {
+        competitionVerified =
+            true;
 
 
-            try {
+        verifiedParticipant = {
 
-                const email =
-                    localStorage.getItem(
-                        "email"
-                    );
+            name:
+                registeredName,
 
+            mobile:
+                registeredMobile,
 
-                Swal.fire({
+            ticketId:
+                registeredTicket
 
-                    title:
-                        "Tribal Rhythm",
-
-                    text:
-                        "Preparing secure payment...",
-
-                    allowOutsideClick:
-                        false,
-
-                    didOpen: () => {
-
-                        Swal.showLoading();
-
-                    }
-
-                });
+        };
 
 
-
-                const response =
-                    await fetch(
-
-                        "https://tribal-rhythm-backend.onrender.com/create-order",
-
-                        {
-
-                            method:
-                                "POST",
-
-                            headers: {
-
-                                "Content-Type":
-                                    "application/json"
-
-                            },
-
-                            body:
-                                JSON.stringify({
-
-                                    amount:
-                                        amount,
-
-                                    email:
-                                        email
-
-                                })
-
-                        }
-
-                    );
+        document.getElementById(
+            "status"
+        ).innerText =
+            "✔ Entry Verified Successfully";
 
 
+        await Swal.fire({
 
-                if (!response.ok) {
+            icon:"success",
 
-                    throw new Error(
-                        "Unable to create payment order."
-                    );
+            title:"Entry Verified",
+
+            html:`
+
+                <b>
+                    Welcome ${escapeHTML(
+                        registeredName
+                    )}!
+                </b>
+
+                <br><br>
+
+                Ticket ID:
+                <b>
+                    ${escapeHTML(
+                        registeredTicket
+                    )}
+                </b>
+
+                <br><br>
+
+                <span style="color:#28a745;">
+                    ✔ You can now join a competition.
+                </span>
+
+            `,
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+    }
+    catch(error){
+
+        console.error(
+            "Verification error:",
+            error
+        );
+
+
+        Swal.fire({
+
+            icon:"error",
+
+            title:"Verification Error",
+
+            text:
+                "Unable to verify your details.",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+    }
+
+};
+
+
+/* =========================================================
+   SELECT MODE
+========================================================= */
+
+window.selectMode =
+function(category,mode){
+
+    selectedCompetition =
+        category;
+
+    selectedMode =
+        mode;
+
+
+    Swal.fire({
+
+        icon:"success",
+
+        title:"Performance Type Selected",
+
+        html:`
+
+            <b>
+                ${escapeHTML(
+                    category.toUpperCase()
+                )}
+            </b>
+
+            <br>
+
+            Performance:
+            <b>
+                ${escapeHTML(mode)}
+            </b>
+
+            <br><br>
+
+            Now click
+            <b>View & Join</b>
+            to continue.
+
+        `,
+
+        confirmButtonColor:
+            "#FFD700"
+
+    });
+
+};
+
+
+/* =========================================================
+   OPEN COMPETITION
+========================================================= */
+
+window.openCompetition =
+function(category,title){
+
+    if(!competitionVerified){
+
+        Swal.fire({
+
+            icon:"warning",
+
+            title:"Verification Required",
+
+            html:`
+
+                <p>
+                    Before joining
+                    <b>${escapeHTML(title)}</b>,
+                    you must verify:
+                </p>
+
+                <p>
+                    🔐 Full Name<br>
+                    📱 Mobile Number<br>
+                    🎫 Ticket ID
+                </p>
+
+                <b style="color:#ff4d6d;">
+                    ❌ NO VERIFICATION = NO ENTRY
+                </b>
+
+            `,
+
+            confirmButtonText:
+                "Verify Now",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        }).then(
+            result=>{
+
+                if(result.isConfirmed){
+
+                    scrollToVerification();
 
                 }
 
+            }
+        );
+
+        return;
+
+    }
 
 
-                const data =
-                    await response.json();
+    selectedCompetition =
+        category;
 
 
+    if(
+        ["dance","song","baja","comedy"]
+        .includes(category)
+        &&
+        !selectedMode
+    ){
 
-                Swal.close();
+        Swal.fire({
+
+            icon:"info",
+
+            title:"Select Performance Type",
+
+            text:
+                "Please select Solo, Duet or Group first.",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+        return;
+
+    }
 
 
+    const amount =
+        entryFees[category];
 
-                const options = {
 
-                    key:
-                        data.key,
+    const modeText =
+        selectedMode ||
+        "Individual";
 
-                    amount:
-                        data.amount,
 
-                    currency:
-                        "INR",
+    Swal.fire({
 
-                    name:
-                        "Tribal Rhythm",
+        icon:"question",
 
-                    description:
-                        "Tribal Dance Competition",
+        title:"🏆 Confirm Competition",
 
-                    order_id:
-                        data.id,
+        html:`
 
-                    prefill: {
+            <h4>
+                ${escapeHTML(title)}
+            </h4>
 
-                        name:
-                            currentUser.name || "",
+            <hr>
 
-                        email:
-                            currentUser.email || "",
+            <p>
+                Participant:
+                <b>
+                    ${escapeHTML(
+                        verifiedParticipant.name
+                    )}
+                </b>
+            </p>
 
-                        contact:
-                            getUserMobile(
-                                currentUser
-                            )
+            <p>
+                Ticket:
+                <b>
+                    ${escapeHTML(
+                        verifiedParticipant.ticketId
+                    )}
+                </b>
+            </p>
+
+            <p>
+                Performance:
+                <b>
+                    ${escapeHTML(modeText)}
+                </b>
+            </p>
+
+            <p>
+                Entry Fee:
+                <b style="color:#28a745;">
+                    ₹${amount}
+                </b>
+            </p>
+
+        `,
+
+        showCancelButton:true,
+
+        confirmButtonText:
+            "💳 Pay & Join",
+
+        cancelButtonText:
+            "Cancel",
+
+        confirmButtonColor:
+            "#FFD700",
+
+        cancelButtonColor:
+            "#555"
+
+    }).then(result=>{
+
+        if(result.isConfirmed){
+
+            startPayment(
+                amount,
+                title,
+                category,
+                modeText
+            );
+
+        }
+
+    });
+
+};
+
+
+/* =========================================================
+   START PAYMENT
+========================================================= */
+
+async function startPayment(
+    amount,
+    title,
+    category,
+    mode
+){
+
+    try{
+
+        const email =
+            localStorage.getItem(
+                "email"
+            );
+
+
+        Swal.fire({
+
+            title:"Preparing Payment",
+
+            text:
+                "Please wait...",
+
+            allowOutsideClick:false,
+
+            didOpen:()=>{
+
+                Swal.showLoading();
+
+            }
+
+        });
+
+
+        const response =
+            await fetch(
+
+                "https://tribal-rhythm-backend.onrender.com/create-order",
+
+                {
+
+                    method:"POST",
+
+                    headers:{
+
+                        "Content-Type":
+                            "application/json"
 
                     },
 
-                    theme: {
+                    body:
+                        JSON.stringify({
 
-                        color:
-                            "#FFD700"
+                            amount:amount,
 
-                    },
+                            email:email
 
+                        })
 
-                    handler:
-                        async function (
-                            paymentResponse
-                        ) {
+                }
 
-
-                            try {
-
-                                await saveUser(
-
-                                    paymentResponse
-                                        .razorpay_payment_id
-
-                                );
+            );
 
 
-                            } catch (error) {
+        if(!response.ok){
 
-                                console.error(
-                                    error
-                                );
+            throw new Error(
+                "Payment order failed."
+            );
 
-
-                                Swal.fire({
-
-                                    icon: "error",
-
-                                    title:
-                                        "Tribal Rhythm",
-
-                                    text:
-                                        "Payment received, but competition registration could not be saved. Please contact support.",
-
-                                    confirmButtonColor:
-                                        "#FFD700"
-
-                                });
-
-                            }
-
-                        }
-
-                };
+        }
 
 
+        const data =
+            await response.json();
 
-                const rzp =
-                    new Razorpay(
-                        options
+
+        Swal.close();
+
+
+        const options = {
+
+            key:
+                data.key,
+
+            amount:
+                data.amount,
+
+            currency:
+                "INR",
+
+            name:
+                "Tribal Rhythm",
+
+            description:
+                title,
+
+            order_id:
+                data.id,
+
+            prefill:{
+
+                name:
+                    currentUser.name || "",
+
+                email:
+                    currentUser.email || email,
+
+                contact:
+                    getMobile(currentUser)
+
+            },
+
+            theme:{
+
+                color:
+                    "#FFD700"
+
+            },
+
+
+            handler:
+            async function(paymentResponse){
+
+                try{
+
+                    await saveCompetition(
+
+                        paymentResponse
+                        .razorpay_payment_id,
+
+                        title,
+
+                        category,
+
+                        mode,
+
+                        amount
+
+                    );
+
+                }
+                catch(error){
+
+                    console.error(
+                        error
                     );
 
 
+                    Swal.fire({
 
-                rzp.on(
-                    "payment.failed",
-                    function () {
+                        icon:"error",
 
-                        Swal.fire({
+                        title:
+                            "Registration Save Error",
 
-                            icon: "error",
+                        text:
+                            "Payment was received, but your competition entry could not be saved. Please contact Tribal Rhythm support.",
 
-                            title:
-                                "Payment Failed",
+                        confirmButtonColor:
+                            "#FFD700"
 
-                            text:
-                                "Your competition payment was not completed.",
+                    });
 
-                            confirmButtonColor:
-                                "#FFD700"
+                }
 
-                        });
+            }
 
-                    }
-                );
+        };
 
 
-
-                rzp.open();
-
-
-
-            } catch (error) {
-
-                console.error(
-                    "Payment error:",
-                    error
-                );
+        const razorpay =
+            new Razorpay(options);
 
 
-                Swal.close();
-
-
+        razorpay.on(
+            "payment.failed",
+            function(){
 
                 Swal.fire({
 
-                    icon: "error",
+                    icon:"error",
 
-                    title:
-                        "Tribal Rhythm",
+                    title:"Payment Failed",
 
                     text:
-                        "Unable to start payment. Please try again.",
+                        "Competition payment was not completed.",
 
                     confirmButtonColor:
                         "#FFD700"
@@ -2916,384 +4084,488 @@
                 });
 
             }
-
-        }
-
+        );
 
 
-        /* =====================================================
-           LIVE STREAM SETTINGS
-        ===================================================== */
+        razorpay.open();
 
-        onSnapshot(
+    }
+    catch(error){
 
-            doc(
+        console.error(
+            "Payment error:",
+            error
+        );
+
+
+        Swal.close();
+
+
+        Swal.fire({
+
+            icon:"error",
+
+            title:"Payment Error",
+
+            text:
+                "Unable to start payment. Please try again.",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   SAVE COMPETITION
+========================================================= */
+
+async function saveCompetition(
+
+    paymentId,
+    title,
+    category,
+    mode,
+    amount
+
+){
+
+    if(!competitionVerified){
+
+        throw new Error(
+            "Participant not verified."
+        );
+
+    }
+
+
+    const email =
+        currentUser.email ||
+        localStorage.getItem(
+            "email"
+        );
+
+
+    /* DUPLICATE CHECK */
+
+    const duplicateQuery =
+        query(
+
+            collection(
                 db,
-                "settings",
-                "competition"
+                "participants"
             ),
 
-            function (snap) {
+            where(
+                "email",
+                "==",
+                email
+            ),
 
-                const data =
-                    snap.data();
-
-
-
-                if (
-                    !data ||
-                    data.live === false
-                ) {
-
-                    document
-                        .getElementById(
-                            "videoBox"
-                        )
-                        .innerHTML = `
-
-                            <div style="
-                                text-align:center;
-                                padding:40px 10px;
-                                color:#ff4d4d;
-                            ">
-
-                                <h4>
-                                    ⛔ Live Not Started
-                                </h4>
-
-                            </div>
-
-                        `;
-
-                    window.zoomLink =
-                        data?.zoom || null;
-
-                    return;
-
-                }
-
-
-
-                if (data.youtube) {
-
-                    let youtubeURL =
-                        data.youtube;
-
-
-
-                    if (
-                        youtubeURL.includes(
-                            "watch?v="
-                        )
-                    ) {
-
-                        youtubeURL =
-                            youtubeURL.replace(
-                                "watch?v=",
-                                "embed/"
-                            );
-
-                    }
-
-
-
-                    document
-                        .getElementById(
-                            "videoBox"
-                        )
-                        .innerHTML = `
-
-                            <iframe
-                                src="${escapeHTML(
-                                    youtubeURL
-                                )}"
-                                allowfullscreen>
-                            </iframe>
-
-                        `;
-
-                }
-
-
-
-                window.zoomLink =
-                    data.zoom || null;
-
-            },
-
-            function (error) {
-
-                console.error(
-                    "Live settings error:",
-                    error
-                );
-
-            }
+            where(
+                "category",
+                "==",
+                category
+            )
 
         );
 
 
-
-        /* =====================================================
-           OPEN ZOOM
-        ===================================================== */
-
-        window.openZoom =
-            function () {
-
-
-                if (
-                    !competitionVerified
-                ) {
-
-                    Swal.fire({
-
-                        icon: "warning",
-
-                        title:
-                            "Tribal Rhythm",
-
-                        text:
-                            "Please verify your Name, Mobile Number and Ticket ID first.",
-
-                        confirmButtonColor:
-                            "#FFD700"
-
-                    });
-
-                    return;
-
-                }
-
-
-
-                if (
-                    window.zoomLink
-                ) {
-
-                    window.open(
-                        window.zoomLink,
-                        "_blank",
-                        "noopener,noreferrer"
-                    );
-
-                } else {
-
-                    Swal.fire({
-
-                        icon: "info",
-
-                        title:
-                            "Tribal Rhythm",
-
-                        text:
-                            "Zoom link is not available yet. Please wait for the competition to start.",
-
-                        confirmButtonColor:
-                            "#FFD700"
-
-                    });
-
-                }
-
-            };
-
-
-
-        /* =====================================================
-           ONLINE COMPETITION
-        ===================================================== */
-
-        window.joinOnlineCompetition =
-            function () {
-
-
-                if (
-                    !competitionVerified
-                ) {
-
-                    Swal.fire({
-
-                        icon: "warning",
-
-                        title:
-                            "Tribal Rhythm",
-
-                        html: `
-
-                            <p>
-                                Name, Mobile Number and
-                                Ticket ID verification is required.
-                            </p>
-
-                            <p style="
-                                color:#ff4d4d;
-                                font-weight:bold;
-                            ">
-                                ❌ Online Entry Not Allowed
-                            </p>
-
-                        `,
-
-                        confirmButtonColor:
-                            "#FFD700"
-
-                    });
-
-                    return;
-
-                }
-
-
-
-                Swal.fire({
-
-                    icon: "success",
-
-                    title:
-                        "🎥 Tribal Rhythm Online Competition",
-
-                    html: `
-
-                        <p>
-                            Your entry has been verified.
-                        </p>
-
-                        <p>
-                            You can join the competition
-                            through Zoom after the event starts.
-                        </p>
-
-                    `,
-
-                    confirmButtonText:
-                        "Open Zoom",
-
-                    confirmButtonColor:
-                        "#FFD700"
-
-                }).then(
-                    function (result) {
-
-                        if (
-                            result.isConfirmed
-                        ) {
-
-                            openZoom();
-
-                        }
-
-                    }
-                );
-
-            };
-
-
-
-        /* =====================================================
-           OFFLINE COMPETITION
-        ===================================================== */
-
-        window.joinOfflineCompetition =
-            function () {
-
-
-                if (
-                    !competitionVerified
-                ) {
-
-                    Swal.fire({
-
-                        icon: "warning",
-
-                        title:
-                            "Tribal Rhythm",
-
-                        html: `
-
-                            <p>
-                                Name, Mobile Number and
-                                Ticket ID verification is required.
-                            </p>
-
-                            <p style="
-                                color:#ff4d4d;
-                                font-weight:bold;
-                            ">
-                                ❌ Offline Entry Not Allowed
-                            </p>
-
-                        `,
-
-                        confirmButtonColor:
-                            "#FFD700"
-
-                    });
-
-                    return;
-
-                }
-
-
-
-                Swal.fire({
-
-                    icon: "success",
-
-                    title:
-                        "🏫 Tribal Rhythm",
-
-                    html: `
-
-                        <p>
-                            Your entry has been verified.
-                        </p>
-
-                        <p>
-                            Please visit the
-                            <b>Tribal Rhythm Institute</b>
-                            on the scheduled competition date.
-                        </p>
-
-                        <p>
-                            Carry your
-                            <b>Ticket ID / QR Code</b>
-                            for entry verification.
-                        </p>
-
-                    `,
-
-                    confirmButtonText:
-                        "OK",
-
-                    confirmButtonColor:
-                        "#FFD700"
-
-                });
-
-            };
-
-
-
-        /* =====================================================
-           SESSION TIMEOUT
-        ===================================================== */
-
-        setTimeout(
-            function () {
-
-                localStorage.removeItem(
-                    "competitionSession"
-                );
-
-            },
-            1000 * 60 * 30
+    const existing =
+        await getDocs(
+            duplicateQuery
         );
 
 
-    </script>
+    if(!existing.empty){
+
+        await Swal.fire({
+
+            icon:"info",
+
+            title:"Already Registered",
+
+            text:
+                "You have already joined this competition.",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+        return;
+
+    }
+
+
+    const mobile =
+        getMobile(currentUser);
+
+
+    const participantData = {
+
+        uid:
+            auth.currentUser
+            ? auth.currentUser.uid
+            : null,
+
+        name:
+            currentUser.name || "",
+
+        email:
+            email,
+
+        mobile:
+            mobile,
+
+        tribe:
+            currentUser.tribe || "",
+
+        ticketId:
+            currentUser.ticket || "",
+
+        category:
+            category,
+
+        competitionName:
+            title,
+
+        performanceType:
+            mode,
+
+        fee:
+            amount,
+
+        paymentId:
+            paymentId,
+
+        paymentStatus:
+            "success",
+
+        currency:
+            "INR",
+
+        participationMode:
+            "online",
+
+        verificationStatus:
+            "verified",
+
+        createdAt:
+            serverTimestamp()
+
+    };
+
+
+    const participantRef =
+        await addDoc(
+
+            collection(
+                db,
+                "participants"
+            ),
+
+            participantData
+
+        );
+
+
+    document.getElementById(
+        "status"
+    ).innerText =
+        "✔ Competition Registration Successful";
+
+
+    await Swal.fire({
+
+        icon:"success",
+
+        title:"🎉 Congratulations!",
+
+        html:`
+
+            <h4>
+                Competition Registration Successful
+            </h4>
+
+            <hr>
+
+            <p>
+                <b>
+                    ${escapeHTML(title)}
+                </b>
+            </p>
+
+            <p>
+                Participant:
+                ${escapeHTML(
+                    currentUser.name
+                )}
+            </p>
+
+            <p>
+                Performance:
+                <b>
+                    ${escapeHTML(mode)}
+                </b>
+            </p>
+
+            <p>
+                Ticket ID:
+                <b>
+                    ${escapeHTML(
+                        currentUser.ticket
+                    )}
+                </b>
+            </p>
+
+            <p>
+                Entry Fee:
+                <b>
+                    ₹${amount}
+                </b>
+            </p>
+
+            <p style="color:#28a745;">
+                ✔ Payment Successful
+            </p>
+
+            <small>
+                Registration ID:
+                ${escapeHTML(
+                    participantRef.id
+                )}
+            </small>
+
+        `,
+
+        confirmButtonText:
+            "Done",
+
+        confirmButtonColor:
+            "#FFD700"
+
+    });
+
+}
+
+
+/* =========================================================
+   SCROLL VERIFICATION
+========================================================= */
+
+window.scrollToVerification =
+function(){
+
+    document
+        .getElementById(
+            "verification"
+        )
+        .scrollIntoView({
+
+            behavior:"smooth",
+
+            block:"center"
+
+        });
+
+};
+
+
+/* =========================================================
+   NEWS
+========================================================= */
+
+window.showNews =
+function(){
+
+    Swal.fire({
+
+        icon:"info",
+
+        title:"📢 Competition News",
+
+        html:`
+
+            <div style="text-align:left">
+
+                <p>
+                    🏆 <b>Tribal Rhythm Competition</b>
+                </p>
+
+                <p>
+                    New competition announcements,
+                    dates, rules and results will be
+                    displayed here.
+                </p>
+
+                <hr>
+
+                <p>
+                    📢 Stay connected with
+                    Tribal Rhythm Official
+                    social media channels.
+                </p>
+
+            </div>
+
+        `,
+
+        confirmButtonColor:
+            "#FFD700"
+
+    });
+
+};
+
+
+/* =========================================================
+   OLD COMPETITIONS
+========================================================= */
+
+window.showOldCompetitions =
+function(){
+
+    Swal.fire({
+
+        icon:"info",
+
+        title:"🏆 Old Competitions",
+
+        text:
+            "Previous competition records, winners and highlights will appear here.",
+
+        confirmButtonColor:
+            "#FFD700"
+
+    });
+
+};
+
+
+/* =========================================================
+   ONLINE
+========================================================= */
+
+window.showOnlineInfo =
+function(){
+
+    if(!competitionVerified){
+
+        Swal.fire({
+
+            icon:"warning",
+
+            title:"Verification Required",
+
+            text:
+                "Verify Full Name, Mobile Number and Ticket ID before joining online competition.",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+        return;
+
+    }
+
+
+    Swal.fire({
+
+        icon:"success",
+
+        title:"💻 Online Competition",
+
+        html:`
+
+            <p>
+                Your participant verification is complete.
+            </p>
+
+            <p>
+                Online competition will be conducted
+                through the official online platform
+                announced by Tribal Rhythm.
+            </p>
+
+        `,
+
+        confirmButtonColor:
+            "#FFD700"
+
+    });
+
+};
+
+
+/* =========================================================
+   OFFLINE
+========================================================= */
+
+window.showOfflineInfo =
+function(){
+
+    if(!competitionVerified){
+
+        Swal.fire({
+
+            icon:"warning",
+
+            title:"Verification Required",
+
+            text:
+                "Verify your Full Name, Mobile Number and Ticket ID first.",
+
+            confirmButtonColor:
+                "#FFD700"
+
+        });
+
+        return;
+
+    }
+
+
+    Swal.fire({
+
+        icon:"success",
+
+        title:"🏫 Offline Competition",
+
+        html:`
+
+            <p>
+                Your participant verification is complete.
+            </p>
+
+            <p>
+                Offline competition will be conducted
+                at the scheduled Tribal Rhythm venue.
+            </p>
+
+            <p>
+                🎫 Carry your Ticket ID / QR Code.
+            </p>
+
+        `,
+
+        confirmButtonColor:
+            "#FFD700"
+
+    });
+
+};
+
+
+</script>
 
 
 </body>
 
 </html>
+
