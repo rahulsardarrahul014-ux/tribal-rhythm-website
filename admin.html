@@ -588,6 +588,263 @@
                 font-size: 12px;
             }
         }
+
+        
+/* =========================================
+   FALLING STARS / PARTICLE RAIN
+========================================= */
+
+.falling-stars {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+/* LEFT + RIGHT STAR AREAS */
+
+.star-field {
+    position: absolute;
+    top: 0;
+
+    width: 28%;
+    height: 100%;
+
+    overflow: hidden;
+}
+
+.star-left {
+    left: 0;
+}
+
+.star-right {
+    right: 0;
+}
+
+
+/* INDIVIDUAL FALLING STAR */
+
+.falling-star {
+    position: absolute;
+
+    top: -30px;
+
+    width: 3px;
+    height: 3px;
+
+    border-radius: 50%;
+
+    background: #ffd700;
+
+    box-shadow:
+        0 0 5px #ffd700,
+        0 0 10px #ffd700,
+        0 0 18px rgba(255, 215, 0, .8);
+
+    opacity: 0;
+
+    animation:
+        starFall linear infinite,
+        starGlow ease-in-out infinite alternate;
+}
+
+
+/* GREEN PARTICLE */
+
+.falling-star.green {
+    background: #00ff88;
+
+    box-shadow:
+        0 0 5px #00ff88,
+        0 0 10px #00ff88,
+        0 0 18px rgba(0, 255, 136, .8);
+}
+
+
+/* WHITE PARTICLE */
+
+.falling-star.white {
+    background: #ffffff;
+
+    box-shadow:
+        0 0 5px white,
+        0 0 12px white;
+}
+
+
+/* STAR FALL */
+
+@keyframes starFall {
+
+    0% {
+        transform:
+            translate3d(0, -30px, 0)
+            rotate(0deg);
+
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50% {
+        transform:
+            translate3d(25px, 50vh, 0)
+            rotate(180deg);
+
+        opacity: .9;
+    }
+
+    100% {
+        transform:
+            translate3d(-35px, 110vh, 0)
+            rotate(360deg);
+
+        opacity: 0;
+    }
+}
+
+
+/* STAR GLOW */
+
+@keyframes starGlow {
+
+    0% {
+        filter: brightness(.7);
+    }
+
+    100% {
+        filter: brightness(1.8);
+    }
+}
+
+
+/* LONG SHOOTING STAR */
+
+.shooting-star {
+    position: absolute;
+
+    width: 2px;
+    height: 90px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            #ffd700,
+            #ffffff,
+            transparent
+        );
+
+    opacity: 0;
+
+    transform: rotate(25deg);
+
+    animation: shootingStar 4s linear infinite;
+}
+
+
+/* SHOOTING STAR ANIMATION */
+
+@keyframes shootingStar {
+
+    0% {
+        top: -120px;
+        left: 10%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    35% {
+        top: 80%;
+        left: 70%;
+        opacity: 0;
+    }
+
+    100% {
+        top: 110%;
+        left: 90%;
+        opacity: 0;
+    }
+}
+
+
+/* SMALL PARTICLES */
+
+.particle {
+    position: absolute;
+
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+
+    background: #00ff88;
+
+    box-shadow:
+        0 0 8px #00ff88,
+        0 0 15px rgba(0, 255, 136, .7);
+
+    animation: particleFloat 5s ease-in-out infinite;
+}
+
+@keyframes particleFloat {
+
+    0% {
+        transform: translateY(0) scale(.7);
+        opacity: .2;
+    }
+
+    50% {
+        transform: translateY(-35px) scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(0) scale(.7);
+        opacity: .2;
+    }
+}
+
+
+/* KEEP LOGIN CARD ABOVE PARTICLES */
+
+.admin-login-card {
+    z-index: 5;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .star-field {
+        width: 22%;
+    }
+
+    .falling-star {
+        width: 2px;
+        height: 2px;
+    }
+
+    .shooting-star {
+        height: 60px;
+    }
+
+}
+
+
     </style>
 </head>
 
@@ -600,6 +857,23 @@
 ================================ -->
 
     <div id="login">
+
+
+        <!-- ================================
+     FALLING STARS / PARTICLES
+================================ -->
+
+        <div class="falling-stars" id="fallingStars">
+
+            <!-- Left side -->
+            <div class="star-field star-left"></div>
+
+            <!-- Right side -->
+            <div class="star-field star-right"></div>
+
+        </div>
+
+
 
         <div class="admin-login-card">
 
