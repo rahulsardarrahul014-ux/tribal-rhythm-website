@@ -2160,3 +2160,75 @@ if (togglePassword && loginPassword) {
     });
 
 }
+
+/* =========================================
+   🌟 TRIBAL RHYTHM FALLING STAR RAIN
+========================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const leftField = document.querySelector(".star-left");
+    const rightField = document.querySelector(".star-right");
+
+    if (!leftField || !rightField) {
+        console.error("❌ Star fields not found");
+        return;
+    }
+
+    console.log("🌟 Falling Star System Started");
+
+    function createStar(field, side) {
+
+        const star = document.createElement("span");
+
+        star.classList.add("falling-star");
+
+        // Random color
+        const colors = ["gold", "green", "white"];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        if (color === "green") {
+            star.classList.add("green");
+        }
+
+        if (color === "white") {
+            star.classList.add("white");
+        }
+
+        // Random position
+        star.style.left = Math.random() * 100 + "%";
+
+        // Random size
+        const size = Math.random() * 3 + 2;
+
+        star.style.width = size + "px";
+        star.style.height = size + "px";
+
+        // Slow random falling speed
+        const duration = Math.random() * 5 + 7;
+
+        star.style.animationDuration =
+            duration + "s, " + (Math.random() * 2 + 2) + "s";
+
+        // Random delay
+        star.style.animationDelay =
+            "-" + Math.random() * 10 + "s";
+
+        // Slight horizontal movement
+        star.style.setProperty(
+            "--moveX",
+            (Math.random() * 100 - 50) + "px"
+        );
+
+        field.appendChild(star);
+    }
+
+    // Create lots of stars
+    for (let i = 0; i < 45; i++) {
+        createStar(leftField, "left");
+        createStar(rightField, "right");
+    }
+
+    console.log("✅ 90 falling stars created");
+
+});
