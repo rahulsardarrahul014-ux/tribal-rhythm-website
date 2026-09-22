@@ -2133,3 +2133,30 @@ window.approveAdmin = async (uid) => {
         );
     }
 };
+
+// ================================
+// SHOW / HIDE ADMIN PASSWORD
+// ================================
+
+const togglePassword = document.getElementById("togglePassword");
+const loginPassword = document.getElementById("loginPassword");
+
+if (togglePassword && loginPassword) {
+
+    togglePassword.addEventListener("click", function () {
+
+        if (loginPassword.type === "password") {
+
+            loginPassword.type = "text";
+            togglePassword.textContent = "🙈";
+
+        } else {
+
+            loginPassword.type = "password";
+            togglePassword.textContent = "👁️";
+
+        }
+
+    });
+
+}

@@ -234,224 +234,359 @@
             text-align: center;
         }
 
-        /* LOGIN */
+        /* ================================
+   TRIBAL RHYTHM ADMIN LOGIN
+================================ */
+
         #login {
             position: fixed;
+            inset: 0;
+            min-height: 100vh;
             width: 100%;
-            height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-
-            padding: 40px 0;
-
+            align-items: center;
+            padding: 25px;
             overflow-y: auto;
-            background: #000;
             z-index: 9999;
+
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.14), transparent 30%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.12), transparent 30%),
+                linear-gradient(135deg, #03150d, #062b1a, #00150c);
         }
 
-        .admin-form {
-            background: linear-gradient(135deg, #001f4d, #003b8e, #d4af37);
-            padding: 30px;
-            border-radius: 20px;
-            border: 2px solid gold;
-            box-shadow: 0 0 25px rgba(212, 175, 55, .5);
-            max-width: 1000px;
-            margin: auto;
+        /* Background decorative glow */
+
+        #login::before,
+        #login::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            pointer-events: none;
         }
 
-        .form-row {
+        #login::before {
+            width: 280px;
+            height: 280px;
+            background: rgba(255, 215, 0, 0.10);
+            top: -100px;
+            left: -80px;
+        }
 
+        #login::after {
+            width: 300px;
+            height: 300px;
+            background: rgba(0, 255, 136, 0.08);
+            bottom: -120px;
+            right: -80px;
+        }
+
+        /* LOGIN CARD */
+
+        .admin-login-card {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 450px;
+
+            padding: 38px 34px;
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(145deg,
+                    rgba(10, 45, 27, 0.96),
+                    rgba(2, 20, 12, 0.98));
+
+            border: 1px solid rgba(255, 215, 0, 0.55);
+
+            box-shadow:
+                0 0 25px rgba(255, 215, 0, 0.15),
+                0 0 60px rgba(0, 255, 136, 0.10),
+                0 25px 70px rgba(0, 0, 0, 0.65);
+
+            backdrop-filter: blur(20px);
+
+            animation: loginCard 0.7s ease;
+        }
+
+        @keyframes loginCard {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* LOGO */
+
+        .admin-login-logo {
+            width: 105px;
+            height: 105px;
+            object-fit: contain;
+
+            display: block;
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            border: 3px solid #ffd700;
+
+            background: #061b10;
+
+            padding: 5px;
+
+            box-shadow:
+                0 0 15px rgba(255, 215, 0, 0.65),
+                0 0 35px rgba(0, 255, 136, 0.18);
+        }
+
+        /* TITLE */
+
+        .admin-login-title {
+            text-align: center;
+            color: #ffd700;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .admin-login-subtitle {
+            text-align: center;
+            color: #b9c9c0;
+            font-size: 13px;
+            margin-bottom: 28px;
+        }
+
+        /* INPUT GROUP */
+
+        .login-input-group {
+            margin-bottom: 17px;
+        }
+
+        .login-input-group label {
+            display: block;
+            color: #f4f7f5;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .login-input-wrapper {
+            position: relative;
+        }
+
+        .login-input-wrapper .login-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            color: #ffd700;
+            font-size: 17px;
+
+            pointer-events: none;
+        }
+
+        .login-input {
+            width: 100%;
+            height: 50px;
+
+            padding: 0 45px;
+
+            color: white;
+
+            background: rgba(0, 0, 0, 0.35);
+
+            border: 1px solid rgba(255, 255, 255, 0.16);
+
+            border-radius: 13px;
+
+            outline: none;
+
+            transition: 0.3s;
+        }
+
+        .login-input::placeholder {
+            color: #82958b;
+        }
+
+        .login-input:focus {
+            border-color: #ffd700;
+
+            box-shadow:
+                0 0 0 3px rgba(255, 215, 0, 0.08),
+                0 0 18px rgba(0, 255, 136, 0.14);
+        }
+
+        /* PASSWORD EYE */
+
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            border: none;
+            background: transparent;
+
+            color: #ffd700;
+
+            cursor: pointer;
+
+            font-size: 17px;
+        }
+
+        /* REMEMBER + FORGOT */
+
+        .login-options {
             display: flex;
-
+            justify-content: space-between;
             align-items: center;
 
-            gap: 15px;
+            margin: 5px 0 22px;
 
-            margin-bottom: 15px;
-
+            font-size: 13px;
         }
 
-        .form-row label {
+        .remember-me {
+            color: #c7d3cc;
 
-            min-width: 220px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
 
+            cursor: pointer;
+        }
+
+        .remember-me input {
+            accent-color: #ffd700;
+        }
+
+        .forgot-password {
+            color: #ffd700;
+            text-decoration: none;
             font-weight: 600;
 
+            transition: 0.3s;
         }
 
-        .form-row input,
-        .form-row select {
-
-            flex: 1;
-
-        }
-
-
-
-        .section-title {
-            background: gold;
-            color: #001f4d;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .check-group {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .check-group label {
-            width: auto;
-            color: white;
-        }
-
-        .rule-box {
-            background: rgba(255, 255, 255, .08);
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid gold;
-        }
-
-
-        .website-logo {
-            width: 120px;
-            height: 120px;
-            display: block;
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            border: 3px solid gold;
-            box-shadow: 0 0 20px gold;
-        }
-
-        @media (max-width:768px) {
-            .website-logo {
-                width: 90px;
-                height: 90px;
-            }
-        }
-
-
-
-        @media(max-width:768px) {
-
-            .admin-form {
-                padding: 15px;
-                width: 95%;
-            }
-
-            .form-row {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .form-row label {
-                width: 100%;
-                margin-bottom: 6px;
-            }
-
-            .form-row input,
-            .form-row select {
-                width: 100%;
-            }
-
-
-        }
-
-        .otp-container {
-
-            display: flex;
-
-            justify-content: center;
-
-            gap: 12px;
-
-            flex-wrap: wrap;
-
-        }
-
-        .otp-box {
-
-            width: 55px;
-
-            height: 55px;
-
-            border-radius: 12px;
-
-            border: 2px solid silver;
-
-            background: #0d1f16;
-
+        .forgot-password:hover {
             color: #00ff88;
+            text-decoration: underline;
+        }
 
-            font-size: 22px;
+        /* LOGIN BUTTON */
 
-            font-weight: bold;
+        .admin-login-btn {
+            width: 100%;
+            height: 52px;
 
+            border: none;
+            border-radius: 14px;
+
+            background:
+                linear-gradient(90deg,
+                    #ffd700,
+                    #f5c400,
+                    #00d26a);
+
+            color: #07130d;
+
+            font-size: 16px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            box-shadow:
+                0 8px 22px rgba(0, 255, 136, 0.16);
+        }
+
+        .admin-login-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 0 20px rgba(255, 215, 0, 0.55),
+                0 0 35px rgba(0, 255, 136, 0.25);
+        }
+
+        .admin-login-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* SECURITY TEXT */
+
+        .login-security {
             text-align: center;
 
-            outline: none;
+            color: #91a39a;
 
-            transition: .3s;
+            font-size: 11px;
 
+            margin-top: 18px;
         }
 
-        .otp-box:focus {
-
-            border-color: #00ff88;
-
-            box-shadow: 0 0 15px #00ff88;
-
+        .login-security span {
+            color: #00ff88;
         }
 
-        input,
-        select,
-        textarea {
+        /* FOOTER */
 
-            background: #111;
+        .login-footer {
+            text-align: center;
 
+            margin-top: 22px;
+
+            padding-top: 18px;
+
+            border-top: 1px solid rgba(255, 215, 0, 0.12);
+
+            color: #82958b;
+
+            font-size: 11px;
+        }
+
+        .login-footer strong {
             color: white;
-
-            border: 1px solid #555;
-
-            border-radius: 12px;
-
-            padding: 12px;
         }
 
-        input:focus,
-        select:focus,
-        textarea:focus {
-
-            border-color: #00ff88;
-
-            box-shadow: 0 0 15px rgba(0, 255, 120, .5);
-
-            outline: none;
-        }
-
-        .admin-footer {
-            margin-left: 270px;
-            padding: 25px;
-            text-align: center;
-            border-top: 1px solid rgba(255, 215, 0, .2);
-            color: #aaa;
-        }
-
-        .admin-footer strong {
-            color: #fff;
-        }
-
-        .admin-footer b {
+        .login-footer b {
             color: #ffd700;
         }
 
-        .admin-footer small {
-            display: block;
-            margin-top: 6px;
+        /* MOBILE */
+
+        @media (max-width: 500px) {
+
+            #login {
+                padding: 15px;
+            }
+
+            .admin-login-card {
+                padding: 30px 22px;
+                border-radius: 23px;
+            }
+
+            .admin-login-logo {
+                width: 88px;
+                height: 88px;
+            }
+
+            .admin-login-title {
+                font-size: 22px;
+            }
+
+            .login-options {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -460,227 +595,177 @@
 
 
     <!-- LOGIN -->
+    <!-- ================================
+     TRIBAL RHYTHM ADMIN LOGIN
+================================ -->
+
     <div id="login">
-        <div class="admin-form">
 
-            <img src="tribalweblogo.png" alt="Tribal Rhythm Logo" class="website-logo">
+        <div class="admin-login-card">
 
-            <form id="adminRegistrationForm">
+            <!-- LOGO -->
+            <img src="tribalweblogo.png" alt="Tribal Rhythm Logo" class="admin-login-logo">
 
-                <div class="section-title">
-                    1. ADMIN REGISTRATION DETAILS
-                </div>
+            <!-- TITLE -->
+            <h1 class="admin-login-title">
+                Admin Login
+            </h1>
+
+            <p class="admin-login-subtitle">
+                Tribal Rhythm • Secure Administration Panel
+            </p>
 
 
+            <!-- LOGIN FORM -->
 
-                <div class="form-row">
-                    <label>Admin Name</label>
-                    <input id="adminName" type="text">
-                </div>
+            <form id="adminLoginForm">
 
-                <div class="form-row">
-                    <label>Mobile Number</label>
-                    <input id="mobile" type="tel" inputmode="numeric" maxlength="10" minlength="10"
-                        pattern="[6-9][0-9]{9}" placeholder="Enter 10-digit mobile number" autocomplete="tel">
-                </div>
+                <!-- FULL NAME -->
+                <div class="login-input-group">
 
-                <div class="form-row">
-                    <label>WhatsApp Number</label>
-                    <input id="whatsapp" type="tel" inputmode="numeric" maxlength="10" minlength="10"
-                        pattern="[6-9][0-9]{9}" placeholder="Enter 10-digit WhatsApp number" autocomplete="tel">
-                </div>
+                    <label for="loginFullName">
+                        Full Name
+                    </label>
 
-                <div class="form-row">
-                    <label>Email ID</label>
-                    <input id="email" type="email">
-                </div>
+                    <div class="login-input-wrapper">
 
-                <div class="form-row">
-                    <label></label>
-
-                    <div>
-                        <button type="button" class="hidden-btn" id="sendOtpBtn" onclick="sendOTP()">
-                            📧 Send OTP
-                        </button>
-
-                        |
-
-                        <button type="button" id="resendOtpLink" class="hidden-btn" onclick="resendOTP()"
-                            style="display:none;">
-                            🔄 Resend OTP
-                        </button>
-
-                        <span id="otpTimer" style="color:red;font-weight:bold;">
+                        <span class="login-icon">
+                            👤
                         </span>
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <label>Email OTP</label>
-
-                    <div class="otp-container">
-
-                        <input class="otp-box" maxlength="1" inputmode="numeric">
-
-                        <input class="otp-box" maxlength="1" inputmode="numeric">
-
-                        <input class="otp-box" maxlength="1" inputmode="numeric">
-
-                        <input class="otp-box" maxlength="1" inputmode="numeric">
-
-                        <input class="otp-box" maxlength="1" inputmode="numeric">
-
-                        <input class="otp-box" maxlength="1" inputmode="numeric">
+                        <input type="text" id="loginFullName" class="login-input" placeholder="Enter your full name"
+                            autocomplete="name" required>
 
                     </div>
+
                 </div>
 
-                <div class="form-row">
-                    <label></label>
 
-                    <div>
-                        <button type="button" class="hidden-btn" id="verifyOtpBtn" onclick="verifyOTP()">
-                            ✅ Verify OTP
+                <!-- MOBILE NUMBER -->
+                <div class="login-input-group">
+
+                    <label for="loginMobile">
+                        Mobile Number
+                    </label>
+
+                    <div class="login-input-wrapper">
+
+                        <span class="login-icon">
+                            📱
+                        </span>
+
+                        <input type="tel" id="loginMobile" class="login-input"
+                            placeholder="Enter 10-digit mobile number" maxlength="10" inputmode="numeric"
+                            pattern="[6-9][0-9]{9}" autocomplete="tel" required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="login-input-group">
+
+                    <label for="loginEmail">
+                        Email ID
+                    </label>
+
+                    <div class="login-input-wrapper">
+
+                        <span class="login-icon">
+                            ✉️
+                        </span>
+
+                        <input type="email" id="loginEmail" class="login-input" placeholder="Enter admin email"
+                            autocomplete="email" required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="login-input-group">
+
+                    <label for="loginPassword">
+                        Password
+                    </label>
+
+                    <div class="login-input-wrapper">
+
+                        <span class="login-icon">
+                            🔐
+                        </span>
+
+                        <input type="password" id="loginPassword" class="login-input" placeholder="Enter your password"
+                            autocomplete="current-password" required>
+
+                        <button type="button" class="password-toggle" id="togglePassword" aria-label="Show password">
+                            👁️
                         </button>
 
-                        <span id="verifyTimer" style="color:red;font-weight:bold;">
-                        </span>
                     </div>
-                </div>
 
-                <div class="form-row">
-                    <label>Create Password</label>
-                    <input id="password" type="password" placeholder="Upper + Lower + Number + Special Character"
-                        autocomplete="new-password">
-                </div>
-
-                <div class="form-row">
-                    <label>Confirm Password</label>
-                    <input id="confirmPassword" type="password" placeholder="Confirm Password"
-                        autocomplete="new-password">
-                </div>
-                <div id="msg" class="error-message"></div>
-
-                <div class="form-row">
-                    <label>Reset Password</label>
-                    <input type="email" placeholder="Enter Email">
-                </div>
-
-                <div class="form-row">
-                    <label>ID Proof Type</label>
-
-                    <select id="idType">
-                        <option value="">Select ID Proof</option>
-                        <option value="Aadhaar Card">Aadhaar Card</option>
-                        <option value="PAN Card">PAN Card</option>
-                        <option value="Voter ID Card">Voter ID Card</option>
-                        <option value="10th Certificate">10th Certificate</option>
-                    </select>
-                </div>
-
-                <div class="form-row">
-                    <label>ID Proof Number</label>
-
-                    <input type="text" id="idNumber" placeholder="Enter ID Number">
                 </div>
 
 
+                <!-- REMEMBER / FORGOT -->
 
-                <div class="form-row">
-                    <label>ID Proof Upload</label>
-                    <input id="idProof" type="file">
-                    <small style="color:#ffd700">
-                        Supported:
-                        Aadhaar, PAN, Voter ID,
-                        10th Certificate (JPG, PNG, PDF)
+                <div class="login-options">
+
+                    <label class="remember-me">
+
+                        <input type="checkbox" id="rememberAdmin">
+
+                        Remember Me
+
+                    </label>
+
+
+                    <a href="#" class="forgot-password" id="forgotPassword">
+                        Forgot Password?
+                    </a>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button type="submit" class="admin-login-btn" id="adminLoginBtn">
+                    🔐 Login to Admin Panel
+                </button>
+
+
+                <!-- SECURITY -->
+
+                <div class="login-security">
+
+                    🛡️ Secure Admin Access
+                    <span>• Verified Administrators Only</span>
+
+                </div>
+
+
+                <!-- FOOTER -->
+
+                <div class="login-footer">
+
+                    <strong>Tribal Rhythm Admin</strong>
+
+                    <br>
+
+                    Powered by <b>Zentro Nex</b>
+
+                    <br>
+
+                    <small>
+                        © 2026 Tribal Rhythm • Secure Administration System
                     </small>
 
-                    <button type="button" class="hidden-btn" onclick="document.getElementById('idProof').click()">
-                        Upload
-                    </button>
                 </div>
 
-                <div class="form-row">
-                    <label>Profile Photo (Optional)</label>
-                    <input id="profilePhoto" type="file">
-
-                    <button type="button" class="btn btn-outline-warning"
-                        onclick="document.getElementById('profilePhoto').click()">
-                        Upload
-                    </button>
-                </div>
-
-                <div class="form-row">
-                    <label>Role</label>
-
-                    <select id="role">
-                        <option value="Super Admin">Super Admin</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Manager">Manager</option>
-                    </select>
-                </div>
-
-                <div class="form-row">
-                    <label>Create Date</label>
-                    <input type="date">
-                </div>
-
-                <div class="form-row">
-                    <label>Signature Upload</label>
-                    <input id="signature" type="file">
-                    <button type="button" class="btn btn-outline-warning"
-                        onclick="document.getElementById('signature').click()">
-                        Upload
-                    </button>
-
-
-                </div>
-
-                <div class="form-row">
-                    <label>Gender</label>
-
-                    <div class="check-group">
-                        <label><input type="radio" name="gender"> Male</label>
-                        <label><input type="radio" name="gender"> Female</label>
-                        <label><input type="radio" name="gender"> Other</label>
-                    </div>
-                </div>
-
-                <div class="section-title">
-                    2. ADMIN RULES & REGULATIONS
-                </div>
-
-                <div class="rule-box">
-
-                    <p>
-                        <label>
-                            <input type="checkbox" required>
-                            I Accept All Admin Rules & Regulations
-                        </label>
-                    </p>
-
-                    <p>
-                        <label>
-                            <input type="checkbox">
-                            Admin Fee Applicable
-                        </label>
-                    </p>
-
-                    <p>
-                        <label>
-                            <input type="checkbox">
-                            Manager Entry Free
-                        </label>
-                    </p>
-
-                </div>
-
-                <br>
-
-                <button type="submit" class="btn btn-warning">
-                    Create Admin Account
-                </button>
             </form>
+
         </div>
 
     </div>
