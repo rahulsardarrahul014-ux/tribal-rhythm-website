@@ -9,8 +9,7 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
         Prizes & Certificates | Tribal Rhythm | Powered by Zentro Nex
@@ -22,49 +21,38 @@
     <meta name="keywords"
         content="Tribal Rhythm, Dance Competition, Offline Competition, Gold Winner, Silver Winner, Bronze Winner, Certificate, Prize">
 
-    <meta name="author"
-        content="Zentro Nex">
+    <meta name="author" content="Zentro Nex">
 
-    <meta name="robots"
-        content="index,follow">
+    <meta name="robots" content="index,follow">
 
-    <meta name="theme-color"
-        content="#020617">
+    <meta name="theme-color" content="#020617">
 
 
     <!-- =========================================================
          OPEN GRAPH
     ========================================================== -->
 
-    <meta property="og:title"
-        content="Tribal Rhythm Prizes & Certificates">
+    <meta property="og:title" content="Tribal Rhythm Prizes & Certificates">
 
-    <meta property="og:description"
-        content="Official Tribal Rhythm competition winners, prizes and certificates.">
+    <meta property="og:description" content="Official Tribal Rhythm competition winners, prizes and certificates.">
 
-    <meta property="og:type"
-        content="website">
+    <meta property="og:type" content="website">
 
 
     <!-- =========================================================
          FAVICON
     ========================================================== -->
 
-    <link rel="icon"
-        type="image/png"
-        href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
 
 
     <!-- =========================================================
          GOOGLE FONT
     ========================================================== -->
 
-    <link rel="preconnect"
-        href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -74,8 +62,7 @@
          BOOTSTRAP
     ========================================================== -->
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
     <!-- =========================================================
@@ -86,7 +73,6 @@
 
 
     <style>
-
         /* =====================================================
            GLOBAL
         ====================================================== */
@@ -103,17 +89,13 @@
             min-height: 100vh;
 
             background:
-                radial-gradient(
-                    circle at top,
+                radial-gradient(circle at top,
                     rgba(255, 215, 0, .12),
-                    transparent 35%
-                ),
-                linear-gradient(
-                    135deg,
+                    transparent 35%),
+                linear-gradient(135deg,
                     #020617,
                     #111827,
-                    #020617
-                );
+                    #020617);
 
             color: white;
 
@@ -136,10 +118,10 @@
             text-align: center;
 
             background:
-                rgba(0,0,0,.35);
+                rgba(0, 0, 0, .35);
 
             border-bottom:
-                1px solid rgba(255,215,0,.2);
+                1px solid rgba(255, 215, 0, .2);
 
             backdrop-filter:
                 blur(15px);
@@ -181,19 +163,16 @@
 
         .page-title h1 {
 
-            font-size: clamp(
-                25px,
-                5vw,
-                42px
-            );
+            font-size: clamp(25px,
+                    5vw,
+                    42px);
 
             font-weight: 800;
 
             color: #ffd700;
 
             text-shadow:
-                0 0 15px
-                rgba(255,215,0,.4);
+                0 0 15px rgba(255, 215, 0, .4);
         }
 
 
@@ -212,11 +191,9 @@
         .live-box {
 
             background:
-                linear-gradient(
-                    135deg,
+                linear-gradient(135deg,
                     #ffd700,
-                    #ff9800
-                );
+                    #ff9800);
 
             color: #111;
 
@@ -231,8 +208,7 @@
             margin-bottom: 20px;
 
             box-shadow:
-                0 0 25px
-                rgba(255,215,0,.25);
+                0 0 25px rgba(255, 215, 0, .25);
         }
 
 
@@ -243,11 +219,10 @@
         .control-card {
 
             background:
-                rgba(255,255,255,.06);
+                rgba(255, 255, 255, .06);
 
             border:
-                1px solid
-                rgba(255,215,0,.25);
+                1px solid rgba(255, 215, 0, .25);
 
             border-radius: 20px;
 
@@ -259,8 +234,7 @@
                 blur(12px);
 
             box-shadow:
-                0 15px 40px
-                rgba(0,0,0,.25);
+                0 15px 40px rgba(0, 0, 0, .25);
         }
 
 
@@ -299,11 +273,10 @@
             margin-top: 15px;
 
             background:
-                rgba(34,197,94,.15);
+                rgba(34, 197, 94, .15);
 
             border:
-                1px solid
-                rgba(34,197,94,.4);
+                1px solid rgba(34, 197, 94, .4);
 
             color: #86efac;
         }
@@ -360,6 +333,137 @@
             object-fit: cover;
 
             z-index: 1;
+        }
+
+        /* =====================================================
+   CERTIFICATE BACK SIDE DECORATION
+===================================================== */
+
+        .cert-back-design {
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            z-index: 0;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(rgba(2, 6, 23, .15),
+                    rgba(2, 6, 23, .15));
+        }
+
+
+        /* Universal Planet / Earth */
+
+        .planet-img {
+
+            position: absolute;
+
+            width: 300px;
+
+            height: 300px;
+
+            object-fit: contain;
+
+            left: 50%;
+
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            opacity: .18;
+
+        }
+
+
+        /* Forest */
+
+        .forest-img {
+
+            position: absolute;
+
+            width: 100%;
+
+            height: 42%;
+
+            object-fit: cover;
+
+            left: 0;
+
+            bottom: 0;
+
+            opacity: .35;
+
+        }
+
+
+        /* Rain Flow / Water */
+
+        .rain-img {
+
+            position: absolute;
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            left: 0;
+
+            top: 0;
+
+            opacity: .12;
+
+        }
+
+
+        /* Bear */
+
+        .bear-img {
+
+            position: absolute;
+
+            width: 170px;
+
+            height: 170px;
+
+            object-fit: contain;
+
+            right: 45px;
+
+            bottom: 75px;
+
+            opacity: .75;
+
+        }
+
+
+        /* Keep certificate content above decoration */
+
+        .cert-overlay {
+
+            position: absolute;
+
+            inset: 0;
+
+            z-index: 2;
+
+        }
+
+
+        /* Make decorative images visible behind overlay */
+
+        .cert-back-design {
+
+            z-index: 1;
+
         }
 
 
@@ -455,11 +559,9 @@
 
         #certName {
 
-            font-size: clamp(
-                24px,
-                4vw,
-                38px
-            );
+            font-size: clamp(24px,
+                    4vw,
+                    38px);
 
             font-weight: 800;
 
@@ -520,11 +622,10 @@
             border-radius: 12px;
 
             background:
-                rgba(255,215,0,.18);
+                rgba(255, 215, 0, .18);
 
             border:
-                1px solid
-                rgba(180,130,0,.5);
+                1px solid rgba(180, 130, 0, .5);
 
             font-weight: 700;
         }
@@ -695,36 +796,30 @@
         #certificateBox.gold {
 
             border:
-                8px solid
-                #d4af37;
+                8px solid #d4af37;
 
             box-shadow:
-                0 0 35px
-                rgba(255,215,0,.7);
+                0 0 35px rgba(255, 215, 0, .7);
         }
 
 
         #certificateBox.silver {
 
             border:
-                8px solid
-                #c0c0c0;
+                8px solid #c0c0c0;
 
             box-shadow:
-                0 0 35px
-                rgba(192,192,192,.65);
+                0 0 35px rgba(192, 192, 192, .65);
         }
 
 
         #certificateBox.bronze {
 
             border:
-                8px solid
-                #cd7f32;
+                8px solid #cd7f32;
 
             box-shadow:
-                0 0 35px
-                rgba(205,127,50,.65);
+                0 0 35px rgba(205, 127, 50, .65);
         }
 
 
@@ -848,7 +943,6 @@
 
             border-radius: 10px;
         }
-
     </style>
 
 </head>
@@ -863,18 +957,15 @@
 
     <div class="top-bar">
 
-        <a href="admin.html"
-            class="btn btn-warning">
+        <a href="admin.html" class="btn btn-warning">
             ⚙️ Admin
         </a>
 
-        <a href="dashboard.html"
-            class="btn btn-warning">
+        <a href="dashboard.html" class="btn btn-warning">
             📊 Dashboard
         </a>
 
-        <a href="verify.html"
-            class="btn btn-outline-light">
+        <a href="verify.html" class="btn btn-outline-light">
             🔎 Verify Certificate
         </a>
 
@@ -941,9 +1032,7 @@
                         🏆 Select Competition Category
                     </label>
 
-                    <select
-                        id="categorySelect"
-                        class="form-select">
+                    <select id="categorySelect" class="form-select">
 
                         <option value="">
                             Loading categories...
@@ -960,9 +1049,7 @@
                         👤 Select Participant
                     </label>
 
-                    <select
-                        id="userSelect"
-                        class="form-select">
+                    <select id="userSelect" class="form-select">
 
                         <option value="">
                             Select participant
@@ -992,11 +1079,27 @@
 
                 <!-- Background -->
 
-                <img
-                    src="certificatew.png"
-                    class="cert-bg"
-                    crossorigin="anonymous"
-                    alt="Tribal Rhythm Certificate">
+                <img src="certificatew.png" class="cert-bg" crossorigin="anonymous" alt="Tribal Rhythm Certificate">
+
+                <!-- =====================================================
+     BACK SIDE NATURE DESIGN
+====================================================== -->
+
+                <div class="cert-back-design">
+
+                    <!-- Universal Planet / Earth -->
+                    <img src="planet.png" class="planet-img" crossorigin="anonymous" alt="Universal Planet">
+
+                    <!-- Rain Flow / Water -->
+                    <img src="rain-flow.png" class="rain-img" crossorigin="anonymous" alt="Rain Flow">
+
+                    <!-- Forest -->
+                    <img src="forest.png" class="forest-img" crossorigin="anonymous" alt="Forest">
+
+                    <!-- Bear -->
+                    <img src="bear.png" class="bear-img" crossorigin="anonymous" alt="Bear">
+
+                </div>
 
 
                 <div class="cert-overlay">
@@ -1163,10 +1266,7 @@
 
                     <div class="signature signature-left">
 
-                        <img
-                            src="organizer-sign.png"
-                            crossorigin="anonymous"
-                            alt="Organizer Signature">
+                        <img src="organizer-sign.png" crossorigin="anonymous" alt="Organizer Signature">
 
                         <hr>
 
@@ -1181,10 +1281,7 @@
 
                     <div class="signature signature-right">
 
-                        <img
-                            src="judge-sign.png"
-                            crossorigin="anonymous"
-                            alt="Chief Judge Signature">
+                        <img src="judge-sign.png" crossorigin="anonymous" alt="Chief Judge Signature">
 
                         <hr>
 
@@ -1197,11 +1294,7 @@
                          SEAL
                     ================================= -->
 
-                    <img
-                        id="officialSeal"
-                        src="official-seal.png"
-                        crossorigin="anonymous"
-                        alt="Official Seal">
+                    <img id="officialSeal" src="official-seal.png" crossorigin="anonymous" alt="Official Seal">
 
                 </div>
 
@@ -1216,27 +1309,21 @@
 
         <div class="action-area">
 
-            <button
-                id="downloadBtn"
-                class="btn btn-warning">
+            <button id="downloadBtn" class="btn btn-warning">
 
                 📥 Download Certificate
 
             </button>
 
 
-            <button
-                id="whatsappBtn"
-                class="btn btn-success">
+            <button id="whatsappBtn" class="btn btn-success">
 
                 📲 WhatsApp Certificate
 
             </button>
 
 
-            <button
-                id="verifyBtn"
-                class="btn btn-outline-info">
+            <button id="verifyBtn" class="btn btn-outline-info">
 
                 🔎 Verify Certificate
 
@@ -1275,7 +1362,7 @@
         import {
             initializeApp
         }
-        from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
 
         import {
@@ -1290,7 +1377,7 @@
             setDoc,
             serverTimestamp
         }
-        from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
         /* =====================================================
@@ -1626,7 +1713,7 @@
                 .map(
                     b =>
                         b.toString(16)
-                         .padStart(2, "0")
+                            .padStart(2, "0")
                 )
                 .join("")
                 .substring(0, 12)
@@ -1662,8 +1749,8 @@
                 user.name
 
             ]
-            .join("|")
-            .toLowerCase();
+                .join("|")
+                .toLowerCase();
 
 
             const hash =
@@ -1722,7 +1809,7 @@
 
             const categoryPrize =
                 CATEGORY_PRIZES[
-                    category
+                category
                 ];
 
 
@@ -1864,14 +1951,14 @@
                             safeText(
                                 user.email
                             )
-                            .toLowerCase();
+                                .toLowerCase();
 
 
                         const email2 =
                             safeText(
                                 scoreUser.email
                             )
-                            .toLowerCase();
+                                .toLowerCase();
 
 
                         const mobile1 =
@@ -1892,14 +1979,14 @@
                             safeText(
                                 user.name
                             )
-                            .toLowerCase();
+                                .toLowerCase();
 
 
                         const name2 =
                             safeText(
                                 scoreUser.name
                             )
-                            .toLowerCase();
+                                .toLowerCase();
 
 
                         return (
@@ -2010,7 +2097,7 @@
 
                             if (
                                 !categoryMap[
-                                    category
+                                category
                                 ]
                             ) {
 
@@ -2051,7 +2138,7 @@
 
                             if (
                                 !categoryMap[
-                                    category
+                                category
                                 ][key]
                             ) {
 
@@ -2179,30 +2266,30 @@
             Object.keys(
                 categories
             )
-            .sort()
-            .forEach(
-                category => {
+                .sort()
+                .forEach(
+                    category => {
 
-                    const option =
-                        document.createElement(
-                            "option"
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
+
+
+                        option.value =
+                            category;
+
+
+                        option.textContent =
+                            "🏆 " + category;
+
+
+                        categorySelect.appendChild(
+                            option
                         );
 
-
-                    option.value =
-                        category;
-
-
-                    option.textContent =
-                        "🏆 " + category;
-
-
-                    categorySelect.appendChild(
-                        option
-                    );
-
-                }
-            );
+                    }
+                );
 
 
             if (
@@ -2241,7 +2328,7 @@
 
             const categoryData =
                 categories[
-                    category
+                category
                 ] || {};
 
 
@@ -2875,10 +2962,10 @@
                         currentCertificate.mobile
                         || ""
                     )
-                    .replace(
-                        /\D/g,
-                        ""
-                    );
+                        .replace(
+                            /\D/g,
+                            ""
+                        );
 
 
                 if (
@@ -2894,7 +2981,7 @@
 
                 const message =
 
-`🎉 Congratulations ${currentCertificate.name}!
+                    `🎉 Congratulations ${currentCertificate.name}!
 
 🏆 Tribal Rhythm
 ${currentCertificate.eventName}
@@ -2921,13 +3008,13 @@ Powered by Zentro Nex`;
 
                     phone
 
-                    ?
+                        ?
 
-                    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
+                        `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
 
-                    :
+                        :
 
-                    `https://wa.me/?text=${encodeURIComponent(message)}`;
+                        `https://wa.me/?text=${encodeURIComponent(message)}`;
 
 
                 window.open(
