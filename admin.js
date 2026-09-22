@@ -240,25 +240,33 @@ let otpInterval = null;
 
 window.login = async () => {
 
-
-
     const emailValue =
-        document.getElementById("email").value.trim();
+        document.getElementById("loginEmail")?.value.trim();
 
     const passValue =
-        document.getElementById("password").value.trim();
+        document.getElementById("loginPassword")?.value.trim();
 
     if (!emailValue || !passValue) {
 
-        document.getElementById("msg").innerText =
-            "Fill all fields";
-        return;
+        showWarning(
+            "Please enter your admin email and password.",
+            "Login Details Required"
+        );
 
+        return;
     }
 
-
-
     try {
+
+        Swal.fire({
+            title: "Signing In...",
+            text: "Please wait while we verify your admin access.",
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
         const userCredential =
             await signInWithEmailAndPassword(
@@ -271,29 +279,44 @@ window.login = async () => {
 
         if (user.email !== OWNER_EMAIL) {
 
-            showError("Owner access only", "Access Denied");
+            await Swal.fire({
+                icon: "error",
+                title: "Access Denied",
+                text: "Only the owner can access the Admin Panel.",
+                confirmButtonColor: "#d4af37"
+            });
 
             await signOut(auth);
-
             return;
         }
 
         if (!user.emailVerified) {
-            showWarning("Please verify your email first.");
+
+            await Swal.fire({
+                icon: "warning",
+                title: "Email Not Verified",
+                text: "Please verify your email before accessing the Admin Panel.",
+                confirmButtonColor: "#d4af37"
+            });
+
             await signOut(auth);
             return;
         }
 
-        console.log("Login success:", user.email);
-
-        // 🔒 ADMIN CHECK
         const adminSnap =
             await getDoc(
                 doc(db, "admins", user.uid)
             );
 
         if (!adminSnap.exists()) {
-            showError("Admin record is missing.");
+
+            await Swal.fire({
+                icon: "error",
+                title: "Admin Record Missing",
+                text: "Your admin record was not found.",
+                confirmButtonColor: "#d4af37"
+            });
+
             await signOut(auth);
             return;
         }
@@ -301,53 +324,183 @@ window.login = async () => {
         const admin = adminSnap.data();
 
         if (admin.status !== "Active") {
-            showError("This admin account is disabled.", "Account Disabled");
+
+            await Swal.fire({
+                icon: "error",
+                title: "Account Disabled",
+                text: "This admin account is currently disabled.",
+                confirmButtonColor: "#d4af37"
+            });
+
             await signOut(auth);
             return;
         }
 
         if (admin.approvalStatus !== "Approved") {
-            showWarning("Admin approval is still pending.", "Approval Pending");
+
+            await Swal.fire({
+                icon: "warning",
+                title: "Approval Pending",
+                text: "Your admin account is waiting for owner approval.",
+                confirmButtonColor: "#d4af37"
+            });
+
             await signOut(auth);
             return;
         }
 
+        Swal.close();
+
+        await showSuccess(
+            "Admin authentication successful.",
+            "Welcome to Tribal Rhythm Admin"
+        );
+
         start();
 
+    } catch (error) {
+
+        console.error("Admin Login Error:", error);
+
+        Swal.close();
+
+        let message = "Login failed. Please try again.";
+
+        if (
+            error.code === "auth/invalid-credential" ||
+            error.code === "auth/wrong-password" ||
+            error.code === "auth/user-not-found"
+        ) {
+            message = "Wrong email or password.";
+        }
+
+        else if (error.code === "auth/too-many-requests") {
+            message = "Too many login attempts. Please try again later.";
+        }
+
+        else if (error.code === "auth/network-request-failed") {
+            message = "Network error. Please check your internet connection.";
+        }
+
+        showError(
+            message,
+            "Login Failed"
+        );
     }
-
-    catch (error) {
-
-        console.log(error);
-
-        if (error.code === "auth/invalid-credential") {
-
-            showError(
-                "Wrong Email or Password",
-                "Login Failed"
-            );
-
-        }
-        else if (error.code === "auth/user-not-found") {
-
-            showError(
-                "Admin account not found.",
-                "Login Failed"
-            );
-
-        }
-        else {
-
-            showError(
-                error.message,
-                "Login Failed"
-            );
-
-        }
-
-    }
-
 };
+
+if (!emailValue || !passValue) {
+
+    document.getElementById("msg").innerText =
+        "Fill all fields";
+    return;
+
+}
+
+
+
+try {
+
+    const userCredential =
+        await signInWithEmailAndPassword(
+            auth,
+            emailValue,
+            passValue
+        );
+
+    const user = userCredential.user;
+
+    if (user.email !== OWNER_EMAIL) {
+
+        showError("Owner access only", "Access Denied");
+
+        await signOut(auth);
+
+        return;
+    }
+
+    if (!user.emailVerified) {
+        showWarning("Please verify your email first.");
+        await signOut(auth);
+        return;
+    }
+
+    console.log("Login success:", user.email);
+
+    // 🔒 ADMIN CHECK
+    const adminSnap =
+        await getDoc(
+            doc(db, "admins", user.uid)
+        );
+
+    if (!adminSnap.exists()) {
+        showError("Admin record is missing.");
+        await signOut(auth);
+        return;
+    }
+
+    const admin = adminSnap.data();
+
+    if (admin.status !== "Active") {
+        showError("This admin account is disabled.", "Account Disabled");
+        await signOut(auth);
+        return;
+    }
+
+    if (admin.approvalStatus !== "Approved") {
+        showWarning("Admin approval is still pending.", "Approval Pending");
+        await signOut(auth);
+        return;
+    }
+
+    start();
+
+}
+
+catch (error) {
+
+    console.log(error);
+
+    if (error.code === "auth/invalid-credential") {
+
+        showError(
+            "Wrong Email or Password",
+            "Login Failed"
+        );
+
+    }
+    else if (error.code === "auth/user-not-found") {
+
+        showError(
+            "Admin account not found.",
+            "Login Failed"
+        );
+
+    }
+    else {
+
+        showError(
+            error.message,
+            "Login Failed"
+        );
+
+    }
+
+}
+
+// =====================================================
+// ADMIN LOGIN FORM SUBMIT
+// =====================================================
+
+document
+    .getElementById("adminLoginForm")
+    ?.addEventListener("submit", (event) => {
+
+        event.preventDefault();
+
+        window.login();
+
+    });
 
 window.resetPass = () => {
 
@@ -384,6 +537,192 @@ window.resetPass = () => {
         });
 
 };
+
+
+// =====================================================
+// FORGOT PASSWORD LINK
+// =====================================================
+
+const forgotPassword =
+    document.getElementById("forgotPassword");
+
+if (forgotPassword) {
+
+    forgotPassword.addEventListener("click", async (event) => {
+
+        event.preventDefault();
+
+        const emailInput =
+            document.getElementById("loginEmail");
+
+        const email =
+            emailInput?.value.trim();
+
+        // =========================
+        // EMAIL REQUIRED
+        // =========================
+
+        if (!email) {
+
+            await Swal.fire({
+                icon: "warning",
+                title: "Email Required",
+                text: "Please enter your admin email address first.",
+                confirmButtonColor: "#d4af37"
+            });
+
+            emailInput?.focus();
+
+            return;
+        }
+
+        // =========================
+        // EMAIL VALIDATION
+        // =========================
+
+        const emailRegex =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(email)) {
+
+            await Swal.fire({
+                icon: "error",
+                title: "Invalid Email",
+                text: "Please enter a valid email address.",
+                confirmButtonColor: "#d4af37"
+            });
+
+            emailInput?.focus();
+
+            return;
+        }
+
+        // =========================
+        // LOADING
+        // =========================
+
+        Swal.fire({
+            title: "Sending Reset Link...",
+            text: "Please wait.",
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        try {
+
+            // =========================
+            // FIREBASE PASSWORD RESET
+            // =========================
+
+            await sendPasswordResetEmail(
+                auth,
+                email
+            );
+
+            // =========================
+            // SUCCESS
+            // =========================
+
+            await Swal.fire({
+
+                icon: "success",
+
+                title: "📧 Reset Link Sent",
+
+                html: `
+                    <div style="line-height:1.7;">
+                        Password reset link has been sent to:
+                        <br><br>
+
+                        <strong>${email}</strong>
+
+                        <br><br>
+
+                        Please check your inbox and
+                        <b>Spam / Junk</b> folder.
+
+                        <br><br>
+
+                        Click the reset link in the email
+                        to create your new password.
+                    </div>
+                `,
+
+                confirmButtonText: "OK",
+
+                confirmButtonColor: "#d4af37"
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Forgot Password Error:",
+                error
+            );
+
+            Swal.close();
+
+            let message =
+                "Unable to send password reset email.";
+
+            if (error.code === "auth/user-not-found") {
+
+                message =
+                    "No Firebase account was found with this email address.";
+
+            }
+
+            else if (error.code === "auth/invalid-email") {
+
+                message =
+                    "Please enter a valid email address.";
+
+            }
+
+            else if (error.code === "auth/too-many-requests") {
+
+                message =
+                    "Too many reset requests. Please try again later.";
+
+            }
+
+            else if (error.code === "auth/network-request-failed") {
+
+                message =
+                    "Network error. Please check your internet connection.";
+
+            }
+
+            else if (error.code === "auth/operation-not-allowed") {
+
+                message =
+                    "Email/Password authentication is not enabled in Firebase.";
+
+            }
+
+            await Swal.fire({
+
+                icon: "error",
+
+                title: "Reset Failed",
+
+                text: message,
+
+                confirmButtonColor: "#d4af37"
+
+            });
+
+        }
+
+    });
+
+}
 window.signup = async (event) => {
 
     // 🔥 IMPORTANT: Form submit ko page reload karne se roko
