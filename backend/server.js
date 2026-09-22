@@ -3100,93 +3100,173 @@ app.post("/verify-payment", async (req, res) => {
 
         let emailSent = false;
 
-
         try {
+
+            // Ticket page URL
+            const ticketUrl =
+                `https://tribalrhythm.in/ticket.html?ticketId=${encodeURIComponent(ticketId)}`;
 
             await sendBrevoEmail({
 
-                to:
-                    normalizedEmail,
+                to: normalizedEmail,
 
-                name:
-                    cleanName,
+                name: cleanName,
 
                 subject:
                     "🎟️ Tribal Rhythm Ticket Booking Successful",
 
                 html: `
 
-                <div style="
-                    font-family:Arial,sans-serif;
-                    max-width:600px;
-                    margin:auto;
-                    padding:30px;
-                    background:#111;
-                    color:#fff;
-                    border-radius:12px;
-                ">
+<!DOCTYPE html>
+<html>
 
-                    <h2 style="color:#FFD700;">
-                        Payment Successful 🎉
-                    </h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-                    <p>
-                        Hello <b>${cleanName}</b>,
-                    </p>
+    <title>Tribal Rhythm Ticket</title>
+</head>
 
-                    <p>
-                        Your Tribal Rhythm ticket
-                        booking has been successfully completed.
-                    </p>
+<body style="
+    margin:0;
+    padding:0;
+    background:#f3f4f6;
+    font-family:Arial,sans-serif;
+">
 
-                    <p>
-                        <b>Ticket ID:</b>
-                        ${ticketId}
-                    </p>
+<div style="
+    max-width:600px;
+    margin:30px auto;
+    padding:30px;
+    background:#111111;
+    color:#ffffff;
+    border-radius:16px;
+    box-shadow:0 8px 30px rgba(0,0,0,.20);
+">
 
-                    <p>
-                        <b>Pass:</b>
-                        ${ticketType}
-                    </p>
+    <h2 style="
+        color:#FFD700;
+        margin-top:0;
+    ">
+        Payment Successful 🎉
+    </h2>
 
-                    <p>
-                        <b>Quantity:</b>
-                        ${quantity}
-                    </p>
+    <p>
+        Hello <b>${cleanName}</b>,
+    </p>
 
-                    <p>
-                        <b>Amount Paid:</b>
-                        ₹${expectedAmount}
-                    </p>
+    <p>
+        Your Tribal Rhythm ticket booking
+        has been successfully completed.
+    </p>
 
-                    <p>
-                        Thank you for booking with
-                        Tribal Rhythm.
-                    </p>
+    <div style="
+        background:#1d1d1d;
+        padding:20px;
+        border-radius:12px;
+        margin:20px 0;
+    ">
 
-                    <hr>
+        <p>
+            <b>Ticket ID:</b>
+            ${ticketId}
+        </p>
 
-                    <p>
-                        Powered by
-                        <b style="color:#FFD700;">
-                            Zentro Nex
-                        </b>
-                    </p>
+        <p>
+            <b>Pass:</b>
+            ${ticketType}
+        </p>
 
-                </div>
+        <p>
+            <b>Quantity:</b>
+            ${quantity}
+        </p>
 
-                `
+        <p>
+            <b>Amount Paid:</b>
+            ₹${expectedAmount}
+        </p>
+
+    </div>
+
+
+    <!-- DOWNLOAD TICKET BUTTON -->
+
+    <div style="
+        text-align:center;
+        margin:30px 0;
+    ">
+
+        <a
+            href="${ticketUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="
+                display:inline-block;
+                padding:14px 28px;
+                background:#FFD700;
+                color:#111111;
+                text-decoration:none;
+                font-size:16px;
+                font-weight:bold;
+                border-radius:10px;
+            "
+        >
+            🎟️ Download Your Ticket
+        </a>
+
+    </div>
+
+
+    <p style="
+        text-align:center;
+        color:#aaaaaa;
+        font-size:13px;
+    ">
+        Click the button above to view and download
+        your ticket.
+    </p>
+
+
+    <p>
+        Thank you for booking with
+        <b>Tribal Rhythm</b>.
+    </p>
+
+
+    <hr style="
+        border:none;
+        border-top:1px solid #333;
+        margin:25px 0;
+    ">
+
+
+    <p style="
+        color:#aaaaaa;
+        font-size:13px;
+    ">
+        Powered by
+        <b style="color:#FFD700;">
+            Zentro Nex
+        </b>
+    </p>
+
+</div>
+
+</body>
+</html>
+
+        `
 
             });
 
-
             emailSent = true;
 
-
             console.log(
-                "✅ Confirmation email sent"
+                "✅ Confirmation email sent:",
+                normalizedEmail
             );
-
 
         } catch (emailError) {
 
@@ -3826,19 +3906,19 @@ app.post("/send-registration-email", checkAdmin, async (req, res) => {
 
             html: `
 
-        <div style="
-            font-family:Arial,sans-serif;
-            max-width:600px;
-            margin:auto;
-            padding:30px;
+                    < div style="
+            font- family: Arial, sans - serif;
+            max - width: 600px;
+            margin: auto;
+            padding: 30px;
             background:#111;
-            color:#fff;
-            border-radius:12px;
-        ">
+            color: #fff;
+            border - radius: 12px;
+            ">
 
-            <h2 style="color:#FFD700;">
-                Payment Successful 🎉
-            </h2>
+                < h2 style = "color:#FFD700;" >
+                    Payment Successful 🎉
+            </h2 >
 
             <p>
                 Hello <b>${name}</b>,
@@ -3871,7 +3951,7 @@ app.post("/send-registration-email", checkAdmin, async (req, res) => {
 
         </div>
 
-    `
+            `
         });
 
         console.log("✅ Confirmation email sent to:", email);
@@ -4027,7 +4107,7 @@ app.post("/send-bulk-email", checkAdmin, async (req, res) => {
                 subject: subject,
 
                 htmlContent: `
-            <div style="font-family:Arial,sans-serif">
+                < div style = "font-family:Arial,sans-serif" >
 
                 <h2>🎭 Tribal Rhythm</h2>
 
@@ -4042,7 +4122,7 @@ app.post("/send-bulk-email", checkAdmin, async (req, res) => {
                 </p>
 
             </div>
-        `
+            `
             },
 
             {
@@ -4699,19 +4779,19 @@ app.post("/send-certificate-ready", checkAdmin, async (req, res) => {
 
             html: `
 
-        <div style="
-            font-family:Arial,sans-serif;
-            max-width:600px;
-            margin:auto;
-            padding:30px;
+                < div style = "
+            font - family: Arial, sans - serif;
+            max - width: 600px;
+            margin: auto;
+            padding: 30px;
             background:#111;
-            color:#fff;
-            border-radius:12px;
-        ">
+            color: #fff;
+            border - radius: 12px;
+            ">
 
-            <h2 style="color:#FFD700;">
+                < h2 style = "color:#FFD700;" >
                 🎓 Certificate Ready
-            </h2>
+            </h2 >
 
             <p>
                 Hello <b>${name}</b>,
@@ -4738,7 +4818,7 @@ app.post("/send-certificate-ready", checkAdmin, async (req, res) => {
 
         </div>
 
-    `
+            `
         });
 
         // SMS
