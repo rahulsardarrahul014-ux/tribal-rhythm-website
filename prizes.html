@@ -3,514 +3,2987 @@
 
 <head>
 
-    <!-- BASIC -->
+    <!-- =========================================================
+         BASIC
+    ========================================================== -->
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Prizes & Certificates | Tribal Rhythm | Powered by Zentro Nex</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <!-- SEO -->
+    <title>
+        Prizes & Certificates | Tribal Rhythm | Powered by Zentro Nex
+    </title>
+
     <meta name="description"
-        content="View Tribal Rhythm competition prizes, winner rankings, medals, awards, and downloadable certificates for dance events and competitions.">
+        content="Official Tribal Rhythm offline competition prizes, Gold, Silver, Bronze winners and verified certificates.">
 
     <meta name="keywords"
-        content="Tribal Rhythm, Dance Competition, Certificates, Prizes, Awards, Winners, Medals, Dance Event">
+        content="Tribal Rhythm, Dance Competition, Offline Competition, Gold Winner, Silver Winner, Bronze Winner, Certificate, Prize">
 
-    <meta name="author" content="Zentro Nex">
+    <meta name="author"
+        content="Zentro Nex">
 
-    <!-- ROBOTS -->
-    <meta name="robots" content="index,follow">
+    <meta name="robots"
+        content="index,follow">
 
-    <!-- THEME -->
-    <meta name="theme-color" content="#020617">
+    <meta name="theme-color"
+        content="#020617">
 
-    <!-- OPEN GRAPH -->
-    <meta property="og:title" content="Prizes & Certificates | Tribal Rhythm">
+
+    <!-- =========================================================
+         OPEN GRAPH
+    ========================================================== -->
+
+    <meta property="og:title"
+        content="Tribal Rhythm Prizes & Certificates">
+
     <meta property="og:description"
-        content="Explore winner prizes, medals, awards, and certificates from Tribal Rhythm dance competitions.">
-    <meta property="og:type" content="website">
+        content="Official Tribal Rhythm competition winners, prizes and certificates.">
 
-    <!-- TWITTER -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Prizes & Certificates | Tribal Rhythm">
-    <meta name="twitter:description" content="Official Tribal Rhythm certificates and competition rewards page.">
+    <meta property="og:type"
+        content="website">
 
-    <!-- FAVICON -->
-    <link rel="icon" type="image/png" href="logo.png">
 
-    <!-- PERFORMANCE -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- =========================================================
+         FAVICON
+    ========================================================== -->
 
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="icon"
+        type="image/png"
+        href="logo.png">
 
-    <!-- GOOGLE FONT -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+
+    <!-- =========================================================
+         GOOGLE FONT
+    ========================================================== -->
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <!-- BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- SECURITY -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- =========================================================
+         BOOTSTRAP
+    ========================================================== -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- =========================================================
+         QR CODE
+    ========================================================== -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    <!-- STYLE -->
+
     <style>
+
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+
         body {
-            background: linear-gradient(135deg, #020617, #111827);
-            color: white;
-            font-family: 'Poppins', sans-serif;
+
             min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    rgba(255, 215, 0, .12),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #020617,
+                    #111827,
+                    #020617
+                );
+
+            color: white;
+
+            font-family:
+                'Poppins',
+                sans-serif;
+
             overflow-x: hidden;
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+
+        /* =====================================================
+           TOP NAV
+        ====================================================== */
+
+        .top-bar {
+
             padding: 20px;
-            transition: 0.3s ease;
+
+            text-align: center;
+
+            background:
+                rgba(0,0,0,.35);
+
+            border-bottom:
+                1px solid rgba(255,215,0,.2);
+
+            backdrop-filter:
+                blur(15px);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+
+        .top-bar .btn {
+
+            margin: 4px;
+
+            font-weight: 600;
         }
+
+
+        /* =====================================================
+           MAIN
+        ====================================================== */
+
+        .container-main {
+
+            width: 100%;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding:
+                25px 15px 60px;
+        }
+
+
+        .page-title {
+
+            text-align: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .page-title h1 {
+
+            font-size: clamp(
+                25px,
+                5vw,
+                42px
+            );
+
+            font-weight: 800;
+
+            color: #ffd700;
+
+            text-shadow:
+                0 0 15px
+                rgba(255,215,0,.4);
+        }
+
+
+        .page-title p {
+
+            color: #cbd5e1;
+
+            margin-top: 8px;
+        }
+
+
+        /* =====================================================
+           LIVE SYSTEM BOX
+        ====================================================== */
+
+        .live-box {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffd700,
+                    #ff9800
+                );
+
+            color: #111;
+
+            border-radius: 18px;
+
+            padding: 16px;
+
+            text-align: center;
+
+            font-weight: 800;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 0 25px
+                rgba(255,215,0,.25);
+        }
+
+
+        /* =====================================================
+           CONTROL CARD
+        ====================================================== */
+
+        .control-card {
+
+            background:
+                rgba(255,255,255,.06);
+
+            border:
+                1px solid
+                rgba(255,215,0,.25);
+
+            border-radius: 20px;
+
+            padding: 20px;
+
+            margin-bottom: 25px;
+
+            backdrop-filter:
+                blur(12px);
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,.25);
+        }
+
+
+        .control-card label {
+
+            color: #ffd700;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+        }
+
+
+        .form-select {
+
+            border-radius: 12px;
+
+            padding: 12px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           STATUS
+        ====================================================== */
+
+        #statusBox {
+
+            display: none;
+
+            padding: 12px;
+
+            border-radius: 12px;
+
+            margin-top: 15px;
+
+            background:
+                rgba(34,197,94,.15);
+
+            border:
+                1px solid
+                rgba(34,197,94,.4);
+
+            color: #86efac;
+        }
+
+
+        /* =====================================================
+           CERTIFICATE AREA
+        ====================================================== */
+
+        #certificateWrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+            padding: 10px;
+        }
+
 
         #certificateBox {
+
+            position: relative;
+
+            width: 100%;
+
+            max-width: 900px;
+
+            min-height: 636px;
+
+            margin: auto;
+
             overflow: hidden;
-            border-radius: 20px;
+
+            border-radius: 18px;
+
+            background: #fff;
+
+            color: #111;
+
+            transition: .3s ease;
         }
 
-        .certificate {
-            position: relative;
+
+        .cert-bg {
+
+            position: absolute;
+
+            inset: 0;
+
             width: 100%;
-            max-width: 700px;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            z-index: 1;
+        }
+
+
+        .cert-overlay {
+
+            position: absolute;
+
+            inset: 0;
+
+            z-index: 2;
+        }
+
+
+        /* =====================================================
+           CERTIFICATE HEADER
+        ====================================================== */
+
+        .cert-brand {
+
+            position: absolute;
+
+            top: 7%;
+
+            left: 0;
+
+            width: 100%;
+
+            text-align: center;
+
+            color: #111;
+        }
+
+
+        .cert-brand h2 {
+
+            font-size: 34px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .cert-brand h5 {
+
+            font-size: 16px;
+
+            font-weight: 700;
+        }
+
+
+        .powered {
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            color: #555;
+        }
+
+
+        /* =====================================================
+           CERTIFICATE CONTENT
+        ====================================================== */
+
+        .cert-content {
+
+            position: absolute;
+
+            top: 28%;
+
+            left: 5%;
+
+            width: 90%;
+
+            text-align: center;
+
+            color: #111;
+        }
+
+
+        .cert-award-text {
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #444;
+        }
+
+
+        #certName {
+
+            font-size: clamp(
+                24px,
+                4vw,
+                38px
+            );
+
+            font-weight: 800;
+
+            margin:
+                10px 0;
+
+            text-transform:
+                capitalize;
+        }
+
+
+        #certCategory {
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            margin-bottom: 5px;
+        }
+
+
+        #positionText {
+
+            font-size: 22px;
+
+            font-weight: 800;
+
+            margin-top: 12px;
+        }
+
+
+        #medal {
+
+            font-size: 50px;
+
+            margin-top: 4px;
+        }
+
+
+        #awardTitle {
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            margin-top: 4px;
+        }
+
+
+        .prize-info {
+
+            display: inline-block;
+
+            margin-top: 10px;
+
+            padding: 7px 20px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,215,0,.18);
+
+            border:
+                1px solid
+                rgba(180,130,0,.5);
+
+            font-weight: 700;
+        }
+
+
+        #cashPrize {
+
+            font-size: 22px;
+
+            font-weight: 900;
+
+            margin-top: 2px;
+        }
+
+
+        /* =====================================================
+           CERTIFICATE META
+        ====================================================== */
+
+        .cert-meta {
+
+            position: absolute;
+
+            bottom: 14%;
+
+            left: 5%;
+
+            width: 90%;
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 30px;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            color: #444;
+        }
+
+
+        .cert-meta span {
+
+            color: #111;
+        }
+
+
+        /* =====================================================
+           QR
+        ====================================================== */
+
+        #qrCode {
+
+            position: absolute;
+
+            right: 28px;
+
+            top: 28px;
+
+            width: 90px;
+
+            height: 90px;
+
+            z-index: 5;
+
+            background: white;
+
+            padding: 5px;
+
+            border-radius: 5px;
+        }
+
+
+        /* =====================================================
+           SIGNATURES
+        ====================================================== */
+
+        .signature {
+
+            position: absolute;
+
+            bottom: 3.5%;
+
+            width: 150px;
+
+            text-align: center;
+
+            color: #333;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            z-index: 4;
+        }
+
+
+        .signature img {
+
+            width: 120px;
+
+            max-height: 55px;
+
+            object-fit: contain;
+
+            display: block;
+
             margin: auto;
         }
 
-        .cert-bg {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            border-radius: 20px;
+
+        .signature hr {
+
+            margin:
+                3px 0;
+
+            border:
+                0;
+
+            border-top:
+                1px solid #444;
         }
 
-        .cert-content {
+
+        .signature-left {
+
+            left: 30px;
+        }
+
+
+        .signature-right {
+
+            right: 30px;
+        }
+
+
+        /* =====================================================
+           OFFICIAL SEAL
+        ====================================================== */
+
+        #officialSeal {
+
             position: absolute;
-            top: 18%;
-            width: 100%;
+
+            bottom: 3%;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            width: 85px;
+
+            opacity: .9;
+
+            z-index: 4;
+        }
+
+
+        /* =====================================================
+           CERTIFICATE THEMES
+        ====================================================== */
+
+        #certificateBox.gold {
+
+            border:
+                8px solid
+                #d4af37;
+
+            box-shadow:
+                0 0 35px
+                rgba(255,215,0,.7);
+        }
+
+
+        #certificateBox.silver {
+
+            border:
+                8px solid
+                #c0c0c0;
+
+            box-shadow:
+                0 0 35px
+                rgba(192,192,192,.65);
+        }
+
+
+        #certificateBox.bronze {
+
+            border:
+                8px solid
+                #cd7f32;
+
+            box-shadow:
+                0 0 35px
+                rgba(205,127,50,.65);
+        }
+
+
+        /* =====================================================
+           DOWNLOAD BUTTONS
+        ====================================================== */
+
+        .action-area {
+
             text-align: center;
-            color: black;
-            padding: 20px;
+
+            margin-top: 20px;
         }
 
-        #certName {
-            font-size: 32px;
-            font-weight: bold;
+
+        .action-area .btn {
+
+            margin: 5px;
+
+            border-radius: 12px;
+
+            font-weight: 700;
+
+            padding:
+                11px 18px;
         }
 
-        #positionText {
-            font-size: 24px;
-            margin-top: 10px;
-        }
 
-        #medal {
-            font-size: 40px;
-            margin-top: 10px;
-        }
+        /* =====================================================
+           MOBILE
+        ====================================================== */
 
-        .winner-box {
-            background: linear-gradient(45deg, gold, orange);
-            color: black;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        /* MOBILE */
         @media(max-width:768px) {
 
-            #certName {
-                font-size: 22px;
+            .container-main {
+
+                padding:
+                    15px 8px 40px;
             }
 
+
+            #certificateBox {
+
+                min-width: 700px;
+
+                height: 495px;
+
+                transform-origin:
+                    top left;
+            }
+
+
+            #certificateWrapper {
+
+                overflow-x: auto;
+
+                padding-bottom: 20px;
+            }
+
+
+            .cert-brand h2 {
+
+                font-size: 25px;
+            }
+
+
+            .cert-brand h5 {
+
+                font-size: 12px;
+            }
+
+
+            #certName {
+
+                font-size: 27px;
+            }
+
+
             #positionText {
+
                 font-size: 18px;
             }
 
+
             #medal {
-                font-size: 28px;
+
+                font-size: 38px;
             }
 
-            .card {
-                padding: 15px;
+
+            #qrCode {
+
+                right: 18px;
+
+                top: 18px;
+
+                transform:
+                    scale(.8);
+
+                transform-origin:
+                    top right;
             }
         }
 
-        /* SCROLLBAR */
+
+        /* =====================================================
+           SCROLLBAR
+        ====================================================== */
+
         ::-webkit-scrollbar {
+
             width: 8px;
+
+            height: 8px;
         }
+
 
         ::-webkit-scrollbar-thumb {
-            background: gold;
+
+            background: #ffd700;
+
             border-radius: 10px;
         }
+
     </style>
 
 </head>
 
+
 <body>
 
-    <div class="text-center mb-3">
-        <a href="admin.html" class="btn btn-warning">⚙️ Admin</a>
-        <a href="dashboard.html" class="btn btn-warning">📊 Dashboard</a>
+
+    <!-- =====================================================
+         TOP BAR
+    ====================================================== -->
+
+    <div class="top-bar">
+
+        <a href="admin.html"
+            class="btn btn-warning">
+            ⚙️ Admin
+        </a>
+
+        <a href="dashboard.html"
+            class="btn btn-warning">
+            📊 Dashboard
+        </a>
+
+        <a href="verify.html"
+            class="btn btn-outline-light">
+            🔎 Verify Certificate
+        </a>
+
     </div>
 
-    <div class="container">
 
-        <h1>
-            🏆 Tribal Rhythm Prizes & Certificates
-            <br>
-            <small style="font-size:16px;color:gold;">
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="container-main">
+
+
+        <div class="page-title">
+
+            <h1>
+                🏆 Tribal Rhythm
+                <br>
+                Prizes & Certificates
+            </h1>
+
+            <p>
+                Official Offline Competition Winner & Certificate System
+            </p>
+
+            <small style="color:#ffd700;font-weight:700;">
                 Powered by Zentro Nex
             </small>
-        </h1>
 
-        <div class="winner-box mt-4">
-            🎉 Live Winner Auto System 🎉
         </div>
 
-        <div class="card p-4 mt-4 text-center">
 
-            <h4>🧾 Auto Certificates</h4>
+        <!-- =================================================
+             LIVE SYSTEM
+        ================================================== -->
 
-            <select id="userSelect" class="form-select mb-3"></select>
+        <div class="live-box">
 
-            <div id="certificateBox" class="certificate">
-                <img src="certificatew.png" class="cert-bg">
+            🎉 LIVE WINNER AUTO SYSTEM 🎉
 
-                <div class="cert-content">
-                    <h2>TRIBAL RHYTHM</h2>
-                    <h5 id="eventName">
-                        Mayurbhanj Tribal Dance Championship 2026
-                    </h5>
-                    <p style="font-size:14px;color:#444;font-weight:600;">
-                        Powered by Zentro Nex
-                    </p>
+            <div style="
+                font-size:13px;
+                margin-top:5px;
+                font-weight:600;">
 
-                    <p>This Certificate is Awarded to</p>
-                    <h2 id="certName">Loading...</h2>
+                Gold • Silver • Bronze • Participation
 
-                    <p id="certCategory">Category</p>
-                    <p>
-                        Certificate ID :
-                        <span id="certificateId">
-                            Loading...
-                        </span>
-                    </p>
-                    <p>
-                        Ticket ID :
-                        <span id="ticketId">
-                            Loading...
-                        </span>
-                    </p>
-
-                    <h3 id="positionText">Participant</h3>
-
-                    <div id="medal">🎖️</div>
-                </div>
-                <p style="
-font-size:14px;
-font-weight:bold;
-color:#555;">
-                    Powered by Zentro Nex
-                </p>
-                <div style="
-position:absolute;
-bottom:30px;
-left:40px;
-text-align:center;">
-
-                    <img src="organizer-sign.png" width="140">
-
-                    <hr>
-
-                    Organizer
-                </div>
-                <div style="
-position:absolute;
-bottom:30px;
-right:40px;
-text-align:center;">
-
-                    <img src="judge-sign.png" width="140">
-
-                    <hr>
-
-                    Chief Judge
-                </div>
-                <img src="official-seal.png" style="
-position:absolute;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-width:110px;
-opacity:.9;">
-
-                <div id="qrCode" style="
-position:absolute;
-right:25px;
-top:25px;">
-                </div>
             </div>
 
-            <button onclick="downloadCertificate()" class="btn btn-warning mt-3">
-                Download Certificate
+        </div>
+
+
+        <!-- =================================================
+             CONTROLS
+        ================================================== -->
+
+        <div class="control-card">
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+
+                    <label>
+                        🏆 Select Competition Category
+                    </label>
+
+                    <select
+                        id="categorySelect"
+                        class="form-select">
+
+                        <option value="">
+                            Loading categories...
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label>
+                        👤 Select Participant
+                    </label>
+
+                    <select
+                        id="userSelect"
+                        class="form-select">
+
+                        <option value="">
+                            Select participant
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div id="statusBox">
+                Loading...
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CERTIFICATE
+        ================================================== -->
+
+        <div id="certificateWrapper">
+
+            <div id="certificateBox">
+
+                <!-- Background -->
+
+                <img
+                    src="certificatew.png"
+                    class="cert-bg"
+                    crossorigin="anonymous"
+                    alt="Tribal Rhythm Certificate">
+
+
+                <div class="cert-overlay">
+
+
+                    <!-- ================================
+                         BRAND
+                    ================================= -->
+
+                    <div class="cert-brand">
+
+                        <h2>
+                            TRIBAL RHYTHM
+                        </h2>
+
+                        <h5 id="eventName">
+
+                            Mayurbhanj Tribal Dance Championship 2026
+
+                        </h5>
+
+                        <div class="powered">
+
+                            Powered by Zentro Nex
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================
+                         CONTENT
+                    ================================= -->
+
+                    <div class="cert-content">
+
+                        <div class="cert-award-text">
+
+                            This Official Certificate is Proudly Awarded To
+
+                        </div>
+
+
+                        <h2 id="certName">
+
+                            Loading...
+
+                        </h2>
+
+
+                        <p id="certCategory">
+
+                            Competition Category
+
+                        </p>
+
+
+                        <p>
+
+                            <strong>
+                                Certificate ID:
+                            </strong>
+
+                            <span id="certificateId">
+                                Loading...
+                            </span>
+
+                        </p>
+
+
+                        <p>
+
+                            <strong>
+                                Ticket ID:
+                            </strong>
+
+                            <span id="ticketId">
+                                Loading...
+                            </span>
+
+                        </p>
+
+
+                        <h3 id="positionText">
+
+                            Participant
+
+                        </h3>
+
+
+                        <div id="medal">
+                            🎖️
+                        </div>
+
+
+                        <div id="awardTitle">
+
+                            PARTICIPATION CERTIFICATE
+
+                        </div>
+
+
+                        <div class="prize-info">
+
+                            🏆 OFFLINE COMPETITION PRIZE
+
+                            <div id="cashPrize">
+
+                                No Cash Prize
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================
+                         META
+                    ================================= -->
+
+                    <div class="cert-meta">
+
+                        <div>
+
+                            Competition:
+                            <span id="metaCompetition">
+                                Offline
+                            </span>
+
+                        </div>
+
+                        <div>
+
+                            Date:
+                            <span id="certificateDate">
+                                2026
+                            </span>
+
+                        </div>
+
+                        <div>
+
+                            Status:
+                            <span>
+                                VERIFIED
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================
+                         QR
+                    ================================= -->
+
+                    <div id="qrCode"></div>
+
+
+                    <!-- ================================
+                         ORGANIZER
+                    ================================= -->
+
+                    <div class="signature signature-left">
+
+                        <img
+                            src="organizer-sign.png"
+                            crossorigin="anonymous"
+                            alt="Organizer Signature">
+
+                        <hr>
+
+                        Organizer
+
+                    </div>
+
+
+                    <!-- ================================
+                         JUDGE
+                    ================================= -->
+
+                    <div class="signature signature-right">
+
+                        <img
+                            src="judge-sign.png"
+                            crossorigin="anonymous"
+                            alt="Chief Judge Signature">
+
+                        <hr>
+
+                        Chief Judge
+
+                    </div>
+
+
+                    <!-- ================================
+                         SEAL
+                    ================================= -->
+
+                    <img
+                        id="officialSeal"
+                        src="official-seal.png"
+                        crossorigin="anonymous"
+                        alt="Official Seal">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ACTION BUTTONS
+        ================================================== -->
+
+        <div class="action-area">
+
+            <button
+                id="downloadBtn"
+                class="btn btn-warning">
+
+                📥 Download Certificate
+
+            </button>
+
+
+            <button
+                id="whatsappBtn"
+                class="btn btn-success">
+
+                📲 WhatsApp Certificate
+
+            </button>
+
+
+            <button
+                id="verifyBtn"
+                class="btn btn-outline-info">
+
+                🔎 Verify Certificate
+
             </button>
 
         </div>
 
-    </div>
 
-    <!-- html2canvas -->
+        <div class="text-center mt-4">
+
+            <small style="color:#94a3b8;">
+
+                Every certificate has a permanent Certificate ID
+                and QR verification record.
+
+            </small>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         HTML2CANVAS
+    ====================================================== -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+    <!-- =====================================================
+         FIREBASE
+    ====================================================== -->
 
     <script type="module">
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import {
+            initializeApp
+        }
+        from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+
         import {
             getFirestore,
             collection,
             onSnapshot,
-            doc,
-            getDoc,
             query,
             where,
-            getDocs
+            getDocs,
+            doc,
+            getDoc,
+            setDoc,
+            serverTimestamp
         }
-            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+
+        /* =====================================================
+           FIREBASE CONFIG
+        ====================================================== */
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
-            authDomain: "tribalrhythm-486bd.firebaseapp.com",
-            projectId: "tribalrhythm-486bd",
-            storageBucket: "tribalrhythm-486bd.firebasestorage.app",
-            messagingSenderId: "566528037279",
-            appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
+
+            apiKey:
+                "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
+
+            authDomain:
+                "tribalrhythm-486bd.firebaseapp.com",
+
+            projectId:
+                "tribalrhythm-486bd",
+
+            storageBucket:
+                "tribalrhythm-486bd.firebasestorage.app",
+
+            messagingSenderId:
+                "566528037279",
+
+            appId:
+                "1:566528037279:web:b475312ea2c721d4fd2daa"
+
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
+
+        const app =
+            initializeApp(firebaseConfig);
+
+
+        const db =
+            getFirestore(app);
+
+
+        /* =====================================================
+           IMPORTANT
+           CHANGE YOUR ACTUAL CASH PRIZES HERE
+        ====================================================== */
+
+        const DEFAULT_PRIZES = {
+
+            first: {
+
+                position:
+                    "🥇 1st Place - GOLD WINNER",
+
+                medal:
+                    "🥇",
+
+                certificate:
+                    "GOLD WINNER CERTIFICATE",
+
+                cash:
+                    "₹10,000",
+
+                theme:
+                    "gold"
+
+            },
+
+
+            second: {
+
+                position:
+                    "🥈 2nd Place - SILVER WINNER",
+
+                medal:
+                    "🥈",
+
+                certificate:
+                    "SILVER WINNER CERTIFICATE",
+
+                cash:
+                    "₹5,000",
+
+                theme:
+                    "silver"
+
+            },
+
+
+            third: {
+
+                position:
+                    "🥉 3rd Place - BRONZE WINNER",
+
+                medal:
+                    "🥉",
+
+                certificate:
+                    "BRONZE WINNER CERTIFICATE",
+
+                cash:
+                    "₹2,500",
+
+                theme:
+                    "bronze"
+
+            },
+
+
+            participant: {
+
+                position:
+                    "Participation Certificate",
+
+                medal:
+                    "🎖️",
+
+                certificate:
+                    "PARTICIPATION CERTIFICATE",
+
+                cash:
+                    "No Cash Prize",
+
+                theme:
+                    ""
+
+            }
+
+        };
+
+
+        /* =====================================================
+           CATEGORY-WISE PRIZES
+
+           Example:
+
+           Solo Dance:
+           1st ₹10,000
+           2nd ₹5,000
+           3rd ₹2,500
+
+           You can change these values.
+        ====================================================== */
+
+        const CATEGORY_PRIZES = {
+
+            "Solo Dance": {
+
+                first:
+                    "₹10,000",
+
+                second:
+                    "₹5,000",
+
+                third:
+                    "₹2,500"
+
+            },
+
+
+            "Group Dance": {
+
+                first:
+                    "₹15,000",
+
+                second:
+                    "₹7,500",
+
+                third:
+                    "₹3,500"
+
+            },
+
+
+            "Traditional Dance": {
+
+                first:
+                    "₹10,000",
+
+                second:
+                    "₹5,000",
+
+                third:
+                    "₹2,500"
+
+            },
+
+
+            "Santali Dance": {
+
+                first:
+                    "₹10,000",
+
+                second:
+                    "₹5,000",
+
+                third:
+                    "₹2,500"
+
+            },
+
+
+            "Bhumij Dance": {
+
+                first:
+                    "₹10,000",
+
+                second:
+                    "₹5,000",
+
+                third:
+                    "₹2,500"
+
+            }
+
+        };
+
+
+        /* =====================================================
+           EVENT CONFIG
+        ====================================================== */
+
+        const EVENT_NAME =
+            "Mayurbhanj Tribal Dance Championship 2026";
+
+
+        const EVENT_YEAR =
+            "2026";
+
+
+        const VERIFICATION_PAGE =
+            "https://tribalrhythm.in/verify.html";
+
+
+        /* =====================================================
+           GLOBAL DATA
+        ====================================================== */
+
+        let categories = {};
 
         let participants = [];
 
-        onSnapshot(collection(db, "scores"), snap => {
+        let currentCategory = "";
 
-            let map = {};
+        let currentParticipant = null;
 
-            snap.forEach(d => {
-                let s = d.data();
+        let currentCertificate = null;
 
-                if (!map[s.category]) map[s.category] = {};
-                const key = s.ticket || s.email || s.name;
 
-                if (!map[s.category][key]) {
+        /* =====================================================
+           ELEMENTS
+        ====================================================== */
 
-                    map[s.category][key] = {
-                        name: s.name,
-                        ticket: s.ticket || "",
-                        email: s.email || "",
-                        mobile: s.mobile || "",
-                        score: 0
-                    };
-
-                }
-
-                map[s.category][key].score += Number(s.score || 0);
-            });
-
-            let firstCat = Object.keys(map)[0];
-            if (!firstCat) return;
-
-            let arr = [];
-
-            for (let key in map[firstCat]) {
-
-                arr.push(map[firstCat][key]);
-
-            }
-
-            arr.sort((a, b) => b.score - a.score);
-
-            participants = arr;
-
-            let select = document.getElementById("userSelect");
-            select.innerHTML = "";
-
-            arr.forEach((p, i) => {
-                let opt = document.createElement("option");
-                opt.value = i;
-                opt.textContent = p.name;
-                select.appendChild(opt);
-            });
-
-            window.currentCategory = firstCat;
-
-            updateCertificate(0, firstCat);
-        });
-
-        document.getElementById("userSelect").onchange = (e) => {
-            updateCertificate(
-                e.target.value,
-                window.currentCategory
+        const categorySelect =
+            document.getElementById(
+                "categorySelect"
             );
-        };
 
-        async function updateCertificate(index, category = "Dance Category") {
 
-            let user = participants[index];
-            if (!user) return;
+        const userSelect =
+            document.getElementById(
+                "userSelect"
+            );
 
-            // ===============================
-            // Fetch Full User Details
-            // ===============================
 
-            try {
+        const statusBox =
+            document.getElementById(
+                "statusBox"
+            );
 
-                const q = query(
-                    collection(db, "users"),
-                    where("name", "==", user.name)
-                );
 
-                const snap = await getDocs(q);
+        /* =====================================================
+           STATUS
+        ====================================================== */
 
-                if (!snap.empty) {
+        function showStatus(message) {
 
-                    const data = snap.docs[0].data();
+            statusBox.style.display =
+                "block";
 
-                    user.ticket = data.ticket || data.ticketId || "";
+            statusBox.innerText =
+                message;
 
-                    user.phone = data.mobile || "";
-
-                    user.email = data.email || "";
-
-                }
-
-            } catch (err) {
-
-                console.error("User Fetch Error :", err);
-
-            }
-
-            document.getElementById("certName").innerText = user.name;
-
-            const certId =
-                "TRC-" +
-                Date.now();
-
-            document.getElementById("certificateId").innerText =
-                certId;
-            document.getElementById("certCategory").innerText = category;
-            document.getElementById("ticketId").innerText =
-                user.ticket || "N/A";
-
-            let positionText = "Participation Certificate";
-            let medal = "🎖️";
-
-            if (index == 0) {
-                positionText = "🥇 1st Place (Gold Winner)";
-                medal = "🥇";
-            } else if (index == 1) {
-                positionText = "🥈 2nd Place (Silver Winner)";
-                medal = "🥈";
-            } else if (index == 2) {
-                positionText = "🥉 3rd Place (Bronze Winner)";
-                medal = "🥉";
-            }
-
-            document.getElementById("positionText").innerText = positionText;
-            document.getElementById("medal").innerText = medal;
-            document.getElementById("qrCode").innerHTML = "";
-
-            new QRCode(
-                document.getElementById("qrCode"),
-                {
-                    text:
-                        "https://tribalrhythm.in/verify.html?id=" + certId,
-                    width: 80,
-                    height: 80
-                });
         }
 
-        window.downloadCertificate = async function () {
 
-            try {
+        function hideStatus() {
 
-                let box = document.getElementById("certificateBox");
+            statusBox.style.display =
+                "none";
 
-                const canvas = await html2canvas(box, {
-                    scale: 2
-                });
+        }
 
-                let link = document.createElement("a");
 
-                link.download = "TribalRhythm_Certificate_Powered_By_ZentroNex.png";
-                link.href = canvas.toDataURL("image/png");
-                link.click();
+        /* =====================================================
+           SAFE TEXT
+        ====================================================== */
 
-                // Selected User
-                let selectedIndex = document.getElementById("userSelect").value;
-                let user = participants[selectedIndex];
+        function safeText(value) {
 
-                if (!user) return;
+            return String(
+                value || ""
+            ).trim();
 
-                // Phone
-                let phone = (user.phone || "").replace(/\D/g, "");
+        }
 
-                if (phone.length === 10) {
-                    phone = "91" + phone;
-                }
 
-                // WhatsApp Message
-                let message = `🎉 Congratulations ${user.name}!
+        /* =====================================================
+           CREATE STABLE HASH
+           
+           Same input = Same certificate ID.
+           
+           Therefore certificate ID remains permanent.
+        ====================================================== */
 
-Your Tribal Rhythm Certificate has been generated successfully.
+        async function stableHash(text) {
 
-Powered by Zentro Nex 🚀`;
+            const encoder =
+                new TextEncoder();
 
-                if (phone) {
+            const data =
+                encoder.encode(text);
 
-                    let whatsappURL =
-                        `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            const hashBuffer =
+                await crypto.subtle.digest(
+                    "SHA-256",
+                    data
+                );
 
-                    window.open(whatsappURL, "_blank");
-                }
+            const hashArray =
+                Array.from(
+                    new Uint8Array(
+                        hashBuffer
+                    )
+                );
 
-            } catch (err) {
+            return hashArray
+                .map(
+                    b =>
+                        b.toString(16)
+                         .padStart(2, "0")
+                )
+                .join("")
+                .substring(0, 12)
+                .toUpperCase();
+        }
 
-                console.error(err);
-                alert("Certificate download failed.");
+
+        /* =====================================================
+           PERMANENT CERTIFICATE ID
+           
+           ID is based on:
+           Event + Category + Ticket/Email/Name
+
+           Changing dropdown won't generate new ID.
+        ====================================================== */
+
+        async function generatePermanentCertificateId(
+            user,
+            category
+        ) {
+
+            const uniqueKey = [
+
+                EVENT_YEAR,
+
+                EVENT_NAME,
+
+                category,
+
+                user.ticket ||
+                user.email ||
+                user.mobile ||
+                user.name
+
+            ]
+            .join("|")
+            .toLowerCase();
+
+
+            const hash =
+                await stableHash(
+                    uniqueKey
+                );
+
+
+            return `TRC-${EVENT_YEAR}-${hash}`;
+        }
+
+
+        /* =====================================================
+           GET PRIZE
+        ====================================================== */
+
+        function getPrize(
+            position,
+            category
+        ) {
+
+            let prize;
+
+            if (position === 0) {
+
+                prize = {
+                    ...DEFAULT_PRIZES.first
+                };
 
             }
 
-        };
+            else if (position === 1) {
 
+                prize = {
+                    ...DEFAULT_PRIZES.second
+                };
+
+            }
+
+            else if (position === 2) {
+
+                prize = {
+                    ...DEFAULT_PRIZES.third
+                };
+
+            }
+
+            else {
+
+                prize = {
+                    ...DEFAULT_PRIZES.participant
+                };
+
+            }
+
+
+            const categoryPrize =
+                CATEGORY_PRIZES[
+                    category
+                ];
+
+
+            if (
+                categoryPrize &&
+                position === 0 &&
+                categoryPrize.first
+            ) {
+
+                prize.cash =
+                    categoryPrize.first;
+
+            }
+
+
+            if (
+                categoryPrize &&
+                position === 1 &&
+                categoryPrize.second
+            ) {
+
+                prize.cash =
+                    categoryPrize.second;
+
+            }
+
+
+            if (
+                categoryPrize &&
+                position === 2 &&
+                categoryPrize.third
+            ) {
+
+                prize.cash =
+                    categoryPrize.third;
+
+            }
+
+
+            return prize;
+        }
+
+
+        /* =====================================================
+           LOAD USERS
+        ====================================================== */
+
+        async function loadUsers() {
+
+            const snap =
+                await getDocs(
+                    collection(
+                        db,
+                        "users"
+                    )
+                );
+
+
+            const users = [];
+
+
+            snap.forEach(
+                docSnap => {
+
+                    users.push({
+                        id:
+                            docSnap.id,
+
+                        ...docSnap.data()
+
+                    });
+
+                }
+            );
+
+
+            return users;
+        }
+
+
+        let allUsers = [];
+
+
+        loadUsers()
+
+            .then(
+                users => {
+
+                    allUsers =
+                        users;
+
+                }
+            )
+
+            .catch(
+                error => {
+
+                    console.error(
+                        "Users Load Error:",
+                        error
+                    );
+
+                }
+            );
+
+
+        /* =====================================================
+           FIND FULL USER DETAILS
+        ====================================================== */
+
+        function findUserDetails(
+            scoreUser
+        ) {
+
+            if (!allUsers.length) {
+
+                return scoreUser;
+
+            }
+
+
+            const found =
+                allUsers.find(
+                    user => {
+
+                        const ticket1 =
+                            safeText(
+                                user.ticket ||
+                                user.ticketId
+                            );
+
+                        const ticket2 =
+                            safeText(
+                                scoreUser.ticket
+                            );
+
+
+                        const email1 =
+                            safeText(
+                                user.email
+                            )
+                            .toLowerCase();
+
+
+                        const email2 =
+                            safeText(
+                                scoreUser.email
+                            )
+                            .toLowerCase();
+
+
+                        const mobile1 =
+                            safeText(
+                                user.mobile ||
+                                user.phone
+                            );
+
+
+                        const mobile2 =
+                            safeText(
+                                scoreUser.mobile ||
+                                scoreUser.phone
+                            );
+
+
+                        const name1 =
+                            safeText(
+                                user.name
+                            )
+                            .toLowerCase();
+
+
+                        const name2 =
+                            safeText(
+                                scoreUser.name
+                            )
+                            .toLowerCase();
+
+
+                        return (
+
+                            (
+                                ticket1 &&
+                                ticket2 &&
+                                ticket1 === ticket2
+                            )
+
+                            ||
+
+                            (
+                                email1 &&
+                                email2 &&
+                                email1 === email2
+                            )
+
+                            ||
+
+                            (
+                                mobile1 &&
+                                mobile2 &&
+                                mobile1 === mobile2
+                            )
+
+                            ||
+
+                            (
+                                name1 &&
+                                name2 &&
+                                name1 === name2
+                            )
+
+                        );
+
+                    }
+                );
+
+
+            if (!found) {
+
+                return scoreUser;
+
+            }
+
+
+            return {
+
+                ...scoreUser,
+
+                ...found,
+
+                ticket:
+                    found.ticket ||
+                    found.ticketId ||
+                    scoreUser.ticket ||
+                    "",
+
+                email:
+                    found.email ||
+                    scoreUser.email ||
+                    "",
+
+                mobile:
+                    found.mobile ||
+                    found.phone ||
+                    scoreUser.mobile ||
+                    ""
+
+            };
+
+        }
+
+
+        /* =====================================================
+           LOAD SCORES
+        ====================================================== */
+
+        onSnapshot(
+
+            collection(
+                db,
+                "scores"
+            ),
+
+            async snapshot => {
+
+                try {
+
+                    const categoryMap =
+                        {};
+
+
+                    snapshot.forEach(
+                        docSnap => {
+
+                            const data =
+                                docSnap.data();
+
+
+                            const category =
+                                safeText(
+                                    data.category
+                                ) ||
+                                "General Competition";
+
+
+                            if (
+                                !categoryMap[
+                                    category
+                                ]
+                            ) {
+
+                                categoryMap[
+                                    category
+                                ] = {};
+
+                            }
+
+
+                            const key =
+
+                                safeText(
+                                    data.ticket
+                                )
+
+                                ||
+
+                                safeText(
+                                    data.email
+                                )
+
+                                ||
+
+                                safeText(
+                                    data.mobile
+                                )
+
+                                ||
+
+                                safeText(
+                                    data.name
+                                );
+
+
+                            if (!key) return;
+
+
+                            if (
+                                !categoryMap[
+                                    category
+                                ][key]
+                            ) {
+
+                                categoryMap[
+                                    category
+                                ][key] = {
+
+                                    name:
+                                        data.name ||
+                                        "Participant",
+
+                                    ticket:
+                                        data.ticket ||
+                                        "",
+
+                                    email:
+                                        data.email ||
+                                        "",
+
+                                    mobile:
+                                        data.mobile ||
+                                        "",
+
+                                    score:
+                                        0
+
+                                };
+
+                            }
+
+
+                            categoryMap[
+                                category
+                            ][key].score +=
+                                Number(
+                                    data.score || 0
+                                );
+
+                        }
+                    );
+
+
+                    categories =
+                        categoryMap;
+
+
+                    populateCategories();
+
+
+                    if (
+                        !currentCategory
+                    ) {
+
+                        const first =
+                            Object.keys(
+                                categories
+                            )[0];
+
+
+                        if (first) {
+
+                            currentCategory =
+                                first;
+
+                            categorySelect.value =
+                                first;
+
+                        }
+
+                    }
+
+
+                    buildParticipants(
+                        currentCategory
+                    );
+
+
+                    hideStatus();
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+                    showStatus(
+                        "Unable to load competition scores."
+                    );
+
+                }
+
+            },
+
+            error => {
+
+                console.error(
+                    error
+                );
+
+                showStatus(
+                    "Firestore connection error."
+                );
+
+            }
+
+        );
+
+
+        /* =====================================================
+           CATEGORY DROPDOWN
+        ====================================================== */
+
+        function populateCategories() {
+
+            const oldValue =
+                categorySelect.value;
+
+
+            categorySelect.innerHTML =
+                "";
+
+
+            Object.keys(
+                categories
+            )
+            .sort()
+            .forEach(
+                category => {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    option.value =
+                        category;
+
+
+                    option.textContent =
+                        "🏆 " + category;
+
+
+                    categorySelect.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            if (
+                oldValue &&
+                categories[oldValue]
+            ) {
+
+                categorySelect.value =
+                    oldValue;
+
+            }
+
+            else {
+
+                categorySelect.value =
+                    Object.keys(
+                        categories
+                    )[0] || "";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           BUILD RANKING
+        ====================================================== */
+
+        function buildParticipants(
+            category
+        ) {
+
+            currentCategory =
+                category;
+
+
+            const categoryData =
+                categories[
+                    category
+                ] || {};
+
+
+            const arr =
+                Object.values(
+                    categoryData
+                );
+
+
+            arr.sort(
+                (a, b) => {
+
+                    return (
+                        Number(
+                            b.score || 0
+                        )
+                        -
+                        Number(
+                            a.score || 0
+                        )
+                    );
+
+                }
+            );
+
+
+            participants =
+                arr.map(
+                    user =>
+                        findUserDetails(
+                            user
+                        )
+                );
+
+
+            userSelect.innerHTML =
+                "";
+
+
+            participants.forEach(
+                (user, index) => {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    option.value =
+                        index;
+
+
+                    let medal = "";
+
+                    if (index === 0)
+                        medal = "🥇 ";
+
+                    else if (index === 1)
+                        medal = "🥈 ";
+
+                    else if (index === 2)
+                        medal = "🥉 ";
+
+                    else
+                        medal = "🎖️ ";
+
+
+                    option.textContent =
+
+                        `${medal}${index + 1}. ${user.name} — ${user.score} points`;
+
+
+                    userSelect.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            if (
+                participants.length
+            ) {
+
+                updateCertificate(
+                    0
+                );
+
+            }
+
+            else {
+
+                clearCertificate();
+
+            }
+
+        }
+
+
+        /* =====================================================
+           CATEGORY CHANGE
+        ====================================================== */
+
+        categorySelect.addEventListener(
+            "change",
+            () => {
+
+                buildParticipants(
+                    categorySelect.value
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           USER CHANGE
+        ====================================================== */
+
+        userSelect.addEventListener(
+            "change",
+            () => {
+
+                updateCertificate(
+                    Number(
+                        userSelect.value
+                    )
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           UPDATE CERTIFICATE
+        ====================================================== */
+
+        async function updateCertificate(
+            index
+        ) {
+
+            const user =
+                participants[index];
+
+
+            if (!user) return;
+
+
+            currentParticipant =
+                user;
+
+
+            const category =
+                currentCategory;
+
+
+            const position =
+                index;
+
+
+            const prize =
+                getPrize(
+                    position,
+                    category
+                );
+
+
+            /* =============================================
+               PERMANENT CERTIFICATE ID
+            ============================================== */
+
+            const certId =
+                await generatePermanentCertificateId(
+                    user,
+                    category
+                );
+
+
+            /* =============================================
+               UPDATE UI
+            ============================================== */
+
+            document.getElementById(
+                "eventName"
+            ).innerText =
+                EVENT_NAME;
+
+
+            document.getElementById(
+                "certName"
+            ).innerText =
+                user.name ||
+                "Participant";
+
+
+            document.getElementById(
+                "certCategory"
+            ).innerText =
+                category;
+
+
+            document.getElementById(
+                "certificateId"
+            ).innerText =
+                certId;
+
+
+            document.getElementById(
+                "ticketId"
+            ).innerText =
+                user.ticket ||
+                user.ticketId ||
+                "N/A";
+
+
+            document.getElementById(
+                "positionText"
+            ).innerText =
+                prize.position;
+
+
+            document.getElementById(
+                "medal"
+            ).innerText =
+                prize.medal;
+
+
+            document.getElementById(
+                "awardTitle"
+            ).innerText =
+                prize.certificate;
+
+
+            document.getElementById(
+                "cashPrize"
+            ).innerText =
+                prize.cash;
+
+
+            document.getElementById(
+                "certificateDate"
+            ).innerText =
+                new Date()
+                    .toLocaleDateString(
+                        "en-IN"
+                    );
+
+
+            document.getElementById(
+                "metaCompetition"
+            ).innerText =
+                "Offline";
+
+
+            /* =============================================
+               CERTIFICATE THEME
+            ============================================== */
+
+            const box =
+                document.getElementById(
+                    "certificateBox"
+                );
+
+
+            box.classList.remove(
+                "gold",
+                "silver",
+                "bronze"
+            );
+
+
+            if (
+                prize.theme
+            ) {
+
+                box.classList.add(
+                    prize.theme
+                );
+
+            }
+
+
+            /* =============================================
+               QR
+            ============================================== */
+
+            const qr =
+                document.getElementById(
+                    "qrCode"
+                );
+
+
+            qr.innerHTML =
+                "";
+
+
+            const verificationURL =
+
+                `${VERIFICATION_PAGE}?id=${encodeURIComponent(certId)}`;
+
+
+            new QRCode(
+                qr,
+                {
+
+                    text:
+                        verificationURL,
+
+                    width:
+                        80,
+
+                    height:
+                        80,
+
+                    correctLevel:
+                        QRCode.CorrectLevel.H
+
+                }
+            );
+
+
+            /* =============================================
+               CERTIFICATE OBJECT
+            ============================================== */
+
+            currentCertificate = {
+
+                certificateId:
+                    certId,
+
+                name:
+                    user.name ||
+                    "Participant",
+
+                category:
+                    category,
+
+                ticket:
+                    user.ticket ||
+                    user.ticketId ||
+                    "",
+
+                email:
+                    user.email ||
+                    "",
+
+                mobile:
+                    user.mobile ||
+                    user.phone ||
+                    "",
+
+                score:
+                    Number(
+                        user.score || 0
+                    ),
+
+                position:
+                    position + 1,
+
+                positionText:
+                    prize.position,
+
+                certificateType:
+                    prize.certificate,
+
+                medal:
+                    prize.medal,
+
+                cashPrize:
+                    prize.cash,
+
+                competition:
+                    "Offline",
+
+                eventName:
+                    EVENT_NAME,
+
+                verificationURL:
+                    verificationURL
+
+            };
+
+
+            /* =============================================
+               SAVE / UPDATE PERMANENT CERTIFICATE
+               
+               Firestore collection:
+               certificates
+
+               Document ID:
+               TRC-2026-XXXXXXXXXXXX
+            ============================================== */
+
+            try {
+
+                await setDoc(
+
+                    doc(
+                        db,
+                        "certificates",
+                        certId
+                    ),
+
+                    {
+
+                        ...currentCertificate,
+
+                        updatedAt:
+                            serverTimestamp(),
+
+                        verified:
+                            true
+
+                    },
+
+                    {
+
+                        merge:
+                            true
+
+                    }
+
+                );
+
+
+                console.log(
+                    "Certificate saved:",
+                    certId
+                );
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Certificate Save Error:",
+                    error
+                );
+
+
+                showStatus(
+                    "Certificate displayed, but Firestore certificate record could not be saved. Check Firestore rules."
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           CLEAR
+        ====================================================== */
+
+        function clearCertificate() {
+
+            document.getElementById(
+                "certName"
+            ).innerText =
+                "No Participant";
+
+
+            document.getElementById(
+                "certificateId"
+            ).innerText =
+                "N/A";
+
+
+            document.getElementById(
+                "ticketId"
+            ).innerText =
+                "N/A";
+
+
+            document.getElementById(
+                "certCategory"
+            ).innerText =
+                "No Category";
+
+
+            document.getElementById(
+                "positionText"
+            ).innerText =
+                "No Participant";
+
+
+            document.getElementById(
+                "cashPrize"
+            ).innerText =
+                "No Cash Prize";
+
+
+            document.getElementById(
+                "qrCode"
+            ).innerHTML =
+                "";
+
+        }
+
+
+        /* =====================================================
+           DOWNLOAD CERTIFICATE
+        ====================================================== */
+
+        document.getElementById(
+            "downloadBtn"
+        ).addEventListener(
+            "click",
+            async () => {
+
+                if (
+                    !currentCertificate
+                ) {
+
+                    alert(
+                        "Please select a participant first."
+                    );
+
+                    return;
+
+                }
+
+
+                try {
+
+                    showStatus(
+                        "Generating high-quality certificate..."
+                    );
+
+
+                    const box =
+                        document.getElementById(
+                            "certificateBox"
+                        );
+
+
+                    const canvas =
+                        await html2canvas(
+                            box,
+                            {
+
+                                scale:
+                                    3,
+
+                                useCORS:
+                                    true,
+
+                                allowTaint:
+                                    false,
+
+                                backgroundColor:
+                                    "#ffffff",
+
+                                logging:
+                                    false
+
+                            }
+                        );
+
+
+                    const link =
+                        document.createElement(
+                            "a"
+                        );
+
+
+                    link.download =
+
+                        `${currentCertificate.certificateId}_${currentCertificate.name.replace(/[^a-z0-9]/gi, "_")}.png`;
+
+
+                    link.href =
+                        canvas.toDataURL(
+                            "image/png",
+                            1.0
+                        );
+
+
+                    link.click();
+
+
+                    showStatus(
+                        "Certificate downloaded successfully."
+                    );
+
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+
+                    alert(
+                        "Certificate download failed."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           WHATSAPP SHARE
+        ====================================================== */
+
+        document.getElementById(
+            "whatsappBtn"
+        ).addEventListener(
+            "click",
+            () => {
+
+                if (
+                    !currentCertificate
+                ) {
+
+                    alert(
+                        "Please select a participant first."
+                    );
+
+                    return;
+
+                }
+
+
+                let phone =
+                    (
+                        currentCertificate.mobile
+                        || ""
+                    )
+                    .replace(
+                        /\D/g,
+                        ""
+                    );
+
+
+                if (
+                    phone.length === 10
+                ) {
+
+                    phone =
+                        "91" +
+                        phone;
+
+                }
+
+
+                const message =
+
+`🎉 Congratulations ${currentCertificate.name}!
+
+🏆 Tribal Rhythm
+${currentCertificate.eventName}
+
+🏅 ${currentCertificate.certificateType}
+📌 Category: ${currentCertificate.category}
+🥇 Position: ${currentCertificate.positionText}
+💰 Prize: ${currentCertificate.cashPrize}
+
+🎫 Ticket ID:
+${currentCertificate.ticket || "N/A"}
+
+🧾 Certificate ID:
+${currentCertificate.certificateId}
+
+🔎 Verify Certificate:
+${currentCertificate.verificationURL}
+
+🌿 Tribal Rhythm
+Powered by Zentro Nex`;
+
+
+                const whatsappURL =
+
+                    phone
+
+                    ?
+
+                    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
+
+                    :
+
+                    `https://wa.me/?text=${encodeURIComponent(message)}`;
+
+
+                window.open(
+                    whatsappURL,
+                    "_blank"
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           VERIFY BUTTON
+        ====================================================== */
+
+        document.getElementById(
+            "verifyBtn"
+        ).addEventListener(
+            "click",
+            () => {
+
+                if (
+                    !currentCertificate
+                ) {
+
+                    alert(
+                        "Please select a participant first."
+                    );
+
+                    return;
+
+                }
+
+
+                window.open(
+
+                    currentCertificate.verificationURL,
+
+                    "_blank"
+
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           INITIAL STATUS
+        ====================================================== */
+
+        showStatus(
+            "Connecting to Tribal Rhythm competition database..."
+        );
 
     </script>
+
 
 </body>
 
