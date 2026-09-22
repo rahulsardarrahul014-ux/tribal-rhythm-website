@@ -4,8 +4,8 @@
 <head>
 
     <!-- BASIC -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Tribal Rhythm Registration</title>
 
@@ -18,7 +18,6 @@
 
     <meta name="author" content="Tribal Rhythm">
 
-    <!-- GOOGLE INDEX -->
     <meta name="robots" content="index,follow">
 
     <!-- THEME -->
@@ -33,71 +32,113 @@
     <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Tribal Rhythm Registration">
-    <meta name="twitter:description" content="Join Tribal Rhythm dance competitions and events online.">
+    <meta name="twitter:description"
+        content="Join Tribal Rhythm dance competitions and events online.">
 
     <!-- FAVICON -->
-    <link rel="icon" type="png" href="tribalweblogo.png">
+    <link rel="icon" type="image/png" href="tribalweblogo.png">
 
     <!-- PERFORMANCE -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
 
     <!-- GOOGLE FONT -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
     <!-- BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 
     <!-- SECURITY -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <!-- STYLE -->
+
     <style>
+
+        /* =========================================================
+           TRIBAL RHYTHM - PROFESSIONAL REGISTRATION CSS
+        ========================================================= */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background:
-                linear-gradient(rgba(0, 0, 0, 0.75),
-                    rgba(0, 0, 0, 0.8)),
-                url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200');
+                linear-gradient(
+                    rgba(0, 0, 0, 0.76),
+                    rgba(0, 0, 0, 0.86)
+                ),
+                url("https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200");
 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
 
             color: white;
-            font-family: 'Poppins', sans-serif;
+            font-family: "Poppins", sans-serif;
 
             min-height: 100vh;
             overflow-x: hidden;
         }
 
+
+        /* =========================================================
+           OVERLAY
+        ========================================================= */
+
         .overlay {
+            position: relative;
+            z-index: 5;
+
             min-height: 100vh;
+
             backdrop-filter: blur(5px);
-            padding-bottom: 50px;
+            -webkit-backdrop-filter: blur(5px);
+
+            padding-bottom: 60px;
         }
 
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
         .header {
+            position: relative;
+
             text-align: center;
+
             padding: 30px 15px;
+
             border-bottom: 2px solid gold;
-            background: rgba(0, 0, 0, 0.5);
+
+            background: rgba(0, 0, 0, 0.52);
+
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            box-shadow:
+                0 5px 25px rgba(255, 215, 0, 0.12);
         }
 
         .header h2 {
             font-size: 38px;
-            font-weight: 700;
+            font-weight: 800;
+
             color: gold;
-            text-shadow: 0 0 15px gold;
+
+            text-shadow:
+                0 0 8px gold,
+                0 0 18px rgba(255, 215, 0, 0.7);
         }
 
         .header p {
@@ -105,49 +146,196 @@
             margin-top: 5px;
         }
 
+
+        /* =========================================================
+           LOGO
+        ========================================================= */
+
+        .site-logo {
+            width: 120px;
+            height: auto;
+
+            margin-bottom: 10px;
+
+            filter:
+                drop-shadow(
+                    0 0 8px
+                    rgba(255, 215, 0, 0.45)
+                );
+        }
+
+
+        /* =========================================================
+           MAIN BOX
+        ========================================================= */
+
         .main-box {
             max-width: 700px;
-            margin: auto;
-            margin-top: 30px;
+
+            margin: 30px auto 0;
+
             padding: 20px;
+
+            position: relative;
+            z-index: 10;
         }
+
+
+        /* =========================================================
+           GLASS CARD
+        ========================================================= */
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 215, 0, 0.4);
+            position: relative;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.10),
+                    rgba(255, 255, 255, 0.035)
+                );
+
+            border:
+                1px solid
+                rgba(255, 215, 0, 0.45);
+
             border-radius: 22px;
+
             overflow: hidden;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.15);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 0 25px rgba(255, 215, 0, 0.13),
+                inset 0 0 25px rgba(255, 255, 255, 0.025);
+
+            transition: 0.35s ease;
         }
 
-        .card-header-custom {
-            background: linear-gradient(135deg, gold, orange);
-            color: black;
-            padding: 16px;
-            font-size: 20px;
-            font-weight: 700;
-            text-align: center;
+        .glass-card:hover {
+            border-color:
+                rgba(255, 215, 0, 0.75);
+
+            box-shadow:
+                0 0 35px rgba(255, 215, 0, 0.22),
+                inset 0 0 30px rgba(255, 215, 0, 0.04);
         }
+
+
+        /* =========================================================
+           CARD HEADER
+        ========================================================= */
+
+        .card-header-custom {
+            background:
+                linear-gradient(
+                    135deg,
+                    gold,
+                    orange
+                );
+
+            color: #111;
+
+            padding: 16px;
+
+            font-size: 20px;
+            font-weight: 800;
+
+            text-align: center;
+
+            box-shadow:
+                0 5px 20px rgba(255, 165, 0, 0.18);
+        }
+
+
+        /* =========================================================
+           CARD BODY
+        ========================================================= */
 
         .card-body-custom {
             padding: 25px;
         }
 
-        input,
+
+        /* =========================================================
+           FORM LABEL
+        ========================================================= */
+
+        .form-label-custom {
+            display: block;
+
+            margin-top: 18px;
+
+            color: gold;
+
+            font-weight: 600;
+
+            text-shadow:
+                0 0 6px
+                rgba(255, 215, 0, 0.35);
+        }
+
+
+        /* =========================================================
+           INPUTS
+        ========================================================= */
+
+        input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),
         select,
         textarea {
             width: 100%;
+
             padding: 13px;
+
             margin-top: 12px;
 
-            background: rgba(255, 255, 255, 0.08);
+            background:
+                rgba(255, 255, 255, 0.075);
+
             color: white;
 
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.20);
+
             border-radius: 12px;
 
-            transition: 0.3s;
+            outline: none;
+
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+
+            transition:
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                background 0.3s ease,
+                transform 0.2s ease;
+        }
+
+        input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):hover,
+        select:hover,
+        textarea:hover {
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border-color:
+                rgba(255, 215, 0, 0.45);
+        }
+
+        input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):focus,
+        select:focus,
+        textarea:focus {
+            border-color: gold;
+
+            background:
+                rgba(255, 255, 255, 0.11);
+
+            box-shadow:
+                0 0 8px rgba(255, 215, 0, 0.5),
+                0 0 18px rgba(255, 215, 0, 0.18);
+
+            transform: translateY(-1px);
         }
 
         input::placeholder,
@@ -155,200 +343,494 @@
             color: #bbb;
         }
 
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: gold;
-            box-shadow: 0 0 12px gold;
-        }
-
         select option {
             color: black;
         }
 
+
+        /* =========================================================
+           MOBILE NOTICE HIDDEN
+        ========================================================= */
+
+        #mobileNotice {
+            display: none !important;
+        }
+
+
+        /* =========================================================
+           PAYMENT BUTTON
+        ========================================================= */
+
         .pay-btn {
+            position: relative;
+
             width: 100%;
-            padding: 14px;
+
+            padding: 14px 20px;
+
             margin-top: 20px;
 
-            border: none;
+            border:
+                1px solid
+                rgba(255, 215, 0, 0.65);
+
             border-radius: 14px;
 
-            background: linear-gradient(45deg, gold, orange);
-            color: black;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 215, 0, 0.92),
+                    rgba(255, 140, 0, 0.92)
+                );
+
+            color: #111;
 
             font-size: 17px;
-            font-weight: bold;
+            font-weight: 700;
 
-            transition: 0.3s;
+            cursor: pointer;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 18px
+                rgba(255, 165, 0, 0.20);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                filter 0.3s ease;
+        }
+
+        .pay-btn::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -120%;
+
+            width: 70%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,0.55),
+                    transparent
+                );
+
+            transform: skewX(-25deg);
+
+            transition: 0.7s;
+        }
+
+        .pay-btn:hover::before {
+            left: 140%;
         }
 
         .pay-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 20px gold;
+            transform:
+                translateY(-2px)
+                scale(1.015);
+
+            filter: brightness(1.08);
+
+            box-shadow:
+                0 0 12px rgba(255,215,0,0.65),
+                0 0 28px rgba(255,165,0,0.35);
+        }
+
+        .pay-btn:active {
+            transform: scale(0.98);
         }
 
         .pay-btn:disabled {
-            opacity: 0.7;
+            opacity: 0.65;
             cursor: not-allowed;
+
+            transform: none;
+
+            box-shadow: none;
         }
 
+
+        /* =========================================================
+           TICKET BOX
+        ========================================================= */
+
         .ticket-box {
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px dashed gold;
+            background:
+                rgba(255, 215, 0, 0.09);
+
+            border:
+                1px dashed gold;
+
             padding: 12px;
+
             border-radius: 12px;
-            margin-top: 12px;
+
+            margin-top: 18px;
+
             text-align: center;
+
             color: gold;
+
             font-weight: bold;
+
+            backdrop-filter: blur(8px);
         }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
 
         .footer-note {
             text-align: center;
+
             margin-top: 20px;
+
             color: #bbb;
+
             font-size: 14px;
         }
+
+
+        /* =========================================================
+           LOADER
+        ========================================================= */
 
         .loader {
             display: none;
+
             text-align: center;
+
             margin-top: 15px;
+
             color: gold;
+
             font-weight: bold;
         }
 
-        /* MOBILE */
-        @media(max-width:768px) {
 
-            .header h2 {
-                font-size: 28px;
-            }
-
-            .card-body-custom {
-                padding: 18px;
-            }
-
-        }
-
-        /* SCROLLBAR */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: gold;
-            border-radius: 10px;
-        }
-
-        .ticket-note {
-            color: red;
-            font-weight: 700;
-            text-align: center;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .site-logo {
-            width: 120px;
-            height: auto;
-            margin-bottom: 10px;
-        }
-
-        .form-label-custom {
-            display: block;
-            margin-top: 15px;
-            color: gold;
-            font-weight: 600;
-        }
-
+        /* =========================================================
+           ID PROOF RADIO
+        ========================================================= */
 
         .radio-box {
-            margin-top: 15px;
+            margin-top: 12px;
+
+            padding: 14px;
+
+            border:
+                1px solid
+                rgba(255,215,0,0.20);
+
+            border-radius: 14px;
+
+            background:
+                rgba(0,0,0,0.20);
         }
 
         .radio-box label {
-            display: block;
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
             margin: 10px 0;
+
             color: white;
+
             cursor: pointer;
         }
 
-        .radio-box input {
-            width: auto;
-            margin-right: 10px;
+        .radio-box input[type="radio"] {
+            width: 18px;
+            height: 18px;
+
+            margin: 0;
+
+            accent-color: gold;
+
+            cursor: pointer;
         }
+
+
+        /* =========================================================
+           PROFESSIONAL UPLOAD BOX
+        ========================================================= */
 
         .upload-wrapper {
-            margin-top: 15px;
+            position: relative;
+
+            margin-top: 12px;
+
+            padding: 15px;
+
+            border:
+                1px dashed
+                rgba(255,215,0,0.45);
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,215,0,0.07),
+                    rgba(255,255,255,0.035)
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            transition: 0.3s ease;
         }
 
+        .upload-wrapper:hover {
+            border-color: gold;
+
+            background:
+                rgba(255,215,0,0.10);
+
+            box-shadow:
+                0 0 18px
+                rgba(255,215,0,0.10);
+        }
+
+
+        /* Upload button */
+
         .upload-btn {
-            display: inline-block;
-            padding: 12px 20px;
-            background: linear-gradient(45deg, gold, orange);
-            color: black;
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            padding: 11px 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    gold,
+                    orange
+                );
+
+            color: #111;
+
             font-weight: 700;
-            border-radius: 12px;
+
+            border-radius: 11px;
+
             cursor: pointer;
-            transition: 0.3s;
-            border: none;
+
+            transition: 0.3s ease;
+
+            border: 0;
+
+            box-shadow:
+                0 4px 12px
+                rgba(255,165,0,0.18);
         }
 
         .upload-btn:hover {
-            background: red;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 0 15px red;
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 0 15px
+                rgba(255,215,0,0.55);
+
+            filter: brightness(1.08);
         }
+
+        .upload-btn:active {
+            transform: scale(0.97);
+        }
+
+
+        /* Hidden actual file input */
 
         .hidden-file {
-            opacity: 0;
-            width: 1px;
-            height: 1px;
-            position: absolute;
+            position: absolute !important;
+
+            width: 1px !important;
+            height: 1px !important;
+
+            opacity: 0 !important;
+
+            overflow: hidden;
+
+            clip: rect(0,0,0,0);
+
+            white-space: nowrap;
+
+            border: 0;
         }
+
+
+        /* Selected file name */
 
         .file-name {
-            display: block;
-            margin-top: 8px;
+            flex: 1;
+
+            min-width: 150px;
+
             color: #ddd;
-            font-size: 14px;
+
+            font-size: 13px;
+
+            word-break: break-word;
         }
 
-        /* RULES AGREEMENT */
+
+        /* =========================================================
+           IMAGE PREVIEW
+        ========================================================= */
+
+        .preview-box {
+            display: none;
+
+            margin-top: 14px;
+
+            padding: 12px;
+
+            width: fit-content;
+
+            border-radius: 15px;
+
+            border:
+                1px solid
+                rgba(255,215,0,0.35);
+
+            background:
+                rgba(0,0,0,0.35);
+
+            text-align: center;
+        }
+
+        .preview-box img {
+            display: block;
+
+            width: 130px;
+            height: 130px;
+
+            object-fit: cover;
+
+            border-radius: 12px;
+
+            border:
+                2px solid
+                rgba(255,215,0,0.65);
+
+            box-shadow:
+                0 0 15px
+                rgba(255,215,0,0.20);
+        }
+
+
+        /* =========================================================
+           DELETE BUTTON
+        ========================================================= */
+
+        .delete-upload-btn {
+            margin-top: 10px;
+
+            border: 0;
+
+            padding: 7px 13px;
+
+            border-radius: 8px;
+
+            background:
+                rgba(220,53,69,0.90);
+
+            color: white;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.25s ease;
+        }
+
+        .delete-upload-btn:hover {
+            background: #dc3545;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 0 12px
+                rgba(220,53,69,0.45);
+        }
+
+
+        /* =========================================================
+           RULES
+        ========================================================= */
 
         .rules-agreement {
             margin-top: 20px;
+
             padding: 15px;
-            border: 1px solid rgba(255, 215, 0, 0.35);
+
+            border:
+                1px solid
+                rgba(255,215,0,0.35);
+
             border-radius: 12px;
-            background: rgba(255, 215, 0, 0.06);
+
+            background:
+                rgba(255,215,0,0.06);
+
+            backdrop-filter: blur(10px);
         }
 
         .rules-check {
             display: flex;
+
             align-items: flex-start;
+
             gap: 10px;
+
             color: #fff;
+
             font-size: 14px;
+
             line-height: 1.6;
+
             cursor: pointer;
         }
 
         .rules-check input {
             width: 18px;
             height: 18px;
+
             margin: 3px 0 0 0;
+
             flex-shrink: 0;
+
             accent-color: gold;
         }
 
         .rules-check a {
             color: gold;
+
             font-weight: 700;
+
             text-decoration: underline;
         }
 
@@ -356,14 +838,28 @@
             color: orange;
         }
 
+
+        /* =========================================================
+           SWEETALERT
+        ========================================================= */
+
         .swal2-container {
             z-index: 999999 !important;
         }
 
         .swal2-popup {
-            font-family: 'Poppins', sans-serif !important;
-            border: 1px solid gold !important;
-            border-radius: 18px !important;
+            font-family: "Poppins", sans-serif !important;
+
+            border:
+                1px solid gold !important;
+
+            border-radius:
+                18px !important;
+
+            background:
+                rgba(20,20,20,0.96) !important;
+
+            backdrop-filter: blur(15px);
         }
 
         .swal2-title {
@@ -374,460 +870,842 @@
             color: #ddd !important;
         }
 
-        
-/* =========================================
-   TRIBAL RHYTHM PROFESSIONAL STAR RAIN
-========================================= */
-
-.star-rain {
-    position: fixed;
-    top: 0;
-    width: 180px;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 2;
-    overflow: hidden;
-}
-
-/* LEFT SIDE */
-.left-rain {
-    left: 0;
-}
-
-/* RIGHT SIDE */
-.right-rain {
-    right: 0;
-}
-
-/* Individual falling star */
-.falling-star {
-    position: absolute;
-    top: -30px;
-
-    width: 4px;
-    height: 4px;
-
-    background: #FFD700;
-    border-radius: 50%;
-
-    box-shadow:
-        0 0 5px #FFD700,
-        0 0 12px rgba(255, 215, 0, 0.8),
-        0 0 20px rgba(255, 165, 0, 0.5);
 
-    animation-name: starFall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
+        /* =========================================================
+           STAR RAIN
+        ========================================================= */
 
-/* Small star variation */
-.falling-star.small {
-    width: 2px;
-    height: 2px;
-    opacity: 0.65;
-}
+        .star-rain {
+            position: fixed;
 
-/* Big star variation */
-.falling-star.big {
-    width: 6px;
-    height: 6px;
+            top: 0;
 
-    box-shadow:
-        0 0 8px #FFD700,
-        0 0 18px #FFD700,
-        0 0 30px rgba(255, 165, 0, 0.7);
-}
+            width: 180px;
+            height: 100vh;
 
-/* Star falling animation */
-@keyframes starFall {
+            pointer-events: none;
 
-    0% {
-        transform: translate3d(0, -40px, 0) rotate(0deg);
-        opacity: 0;
-    }
+            z-index: 2;
 
-    10% {
-        opacity: 1;
-    }
+            overflow: hidden;
+        }
 
-    50% {
-        transform: translate3d(25px, 50vh, 0) rotate(180deg);
-        opacity: 0.9;
-    }
+        .left-rain {
+            left: 0;
+        }
 
-    100% {
-        transform: translate3d(-20px, 110vh, 0) rotate(360deg);
-        opacity: 0;
-    }
-}
+        .right-rain {
+            right: 0;
+        }
 
 
-/* =========================================
-   ROTATING TRIBAL RHYTHM BADGE
-========================================= */
+        .falling-star {
+            position: absolute;
 
-.rotating-brand {
-    position: fixed;
+            top: -30px;
 
-    left: 50%;
-    bottom: 25px;
+            width: 4px;
+            height: 4px;
 
-    width: 115px;
-    height: 115px;
+            background: #FFD700;
 
-    transform: translateX(-50%);
+            border-radius: 50%;
 
-    z-index: 3;
+            box-shadow:
+                0 0 5px #FFD700,
+                0 0 12px rgba(255,215,0,0.8),
+                0 0 20px rgba(255,165,0,0.5);
 
-    pointer-events: none;
+            animation-name: starFall;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            animation-timing-function: linear;
 
-    border-radius: 50%;
+            animation-iteration-count: infinite;
+        }
 
-    background:
-        radial-gradient(
-            circle,
-            rgba(255, 215, 0, 0.18),
-            rgba(0, 0, 0, 0.45)
-        );
+        .falling-star.small {
+            width: 2px;
+            height: 2px;
 
-    border: 1px solid rgba(255, 215, 0, 0.55);
+            opacity: 0.65;
+        }
 
-    box-shadow:
-        0 0 15px rgba(255, 215, 0, 0.25),
-        inset 0 0 20px rgba(255, 215, 0, 0.08);
-}
+        .falling-star.big {
+            width: 6px;
+            height: 6px;
 
+            box-shadow:
+                0 0 8px #FFD700,
+                0 0 18px #FFD700,
+                0 0 30px rgba(255,165,0,0.7);
+        }
 
-/* Rotating text */
-.rotating-ring {
 
-    position: absolute;
+        @keyframes starFall {
 
-    width: 100%;
-    height: 100%;
+            0% {
+                transform:
+                    translate3d(0,-40px,0)
+                    rotate(0deg);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+                opacity: 0;
+            }
 
-    color: #FFD700;
+            10% {
+                opacity: 1;
+            }
 
-    font-size: 11px;
-    font-weight: 700;
+            50% {
+                transform:
+                    translate3d(25px,50vh,0)
+                    rotate(180deg);
 
-    letter-spacing: 2px;
+                opacity: 0.9;
+            }
 
-    text-shadow:
-        0 0 5px #FFD700,
-        0 0 12px rgba(255, 215, 0, 0.8);
+            100% {
+                transform:
+                    translate3d(-20px,110vh,0)
+                    rotate(360deg);
 
-    animation: tribalRotate 10s linear infinite;
+                opacity: 0;
+            }
+        }
 
-    white-space: nowrap;
-}
 
+        /* =========================================================
+           ROTATING TRIBAL RHYTHM BADGE
+        ========================================================= */
 
-/* Center TR */
-.rotating-center {
+        .rotating-brand {
+            position: fixed;
 
-    width: 48px;
-    height: 48px;
+            left: 50%;
+            bottom: 25px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            width: 115px;
+            height: 115px;
 
-    border-radius: 50%;
+            transform:
+                translateX(-50%);
 
-    background:
-        linear-gradient(
-            135deg,
-            #FFD700,
-            #ff8c00
-        );
+            z-index: 3;
 
-    color: #111;
+            pointer-events: none;
 
-    font-size: 18px;
-    font-weight: 800;
+            display: flex;
 
-    box-shadow:
-        0 0 12px rgba(255, 215, 0, 0.8),
-        0 0 25px rgba(255, 165, 0, 0.35);
-}
+            align-items: center;
+            justify-content: center;
 
+            border-radius: 50%;
 
-/* Rotation */
-@keyframes tribalRotate {
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,215,0,0.18),
+                    rgba(0,0,0,0.45)
+                );
 
-    from {
-        transform: rotate(0deg);
-    }
+            border:
+                1px solid
+                rgba(255,215,0,0.55);
 
-    to {
-        transform: rotate(360deg);
-    }
+            box-shadow:
+                0 0 15px
+                rgba(255,215,0,0.25),
 
-}
+                inset 0 0 20px
+                rgba(255,215,0,0.08);
 
+            backdrop-filter: blur(8px);
+        }
 
-/* =========================================
-   KEEP FORM ABOVE STAR EFFECT
-========================================= */
 
-.overlay {
-    position: relative;
-    z-index: 5;
-}
+        .rotating-ring {
+            position: absolute;
 
+            width: 100%;
+            height: 100%;
 
-/* =========================================
-   MOBILE
-========================================= */
+            display: flex;
 
-@media (max-width: 768px) {
+            align-items: center;
+            justify-content: center;
 
-    .star-rain {
-        width: 70px;
-    }
+            color: #FFD700;
 
-    .rotating-brand {
-        width: 90px;
-        height: 90px;
-        bottom: 15px;
-    }
+            font-size: 11px;
 
-    .rotating-center {
-        width: 38px;
-        height: 38px;
-        font-size: 14px;
-    }
+            font-weight: 700;
 
-    .rotating-ring {
-        font-size: 8px;
-        letter-spacing: 1px;
-    }
+            letter-spacing: 2px;
 
-}
+            text-shadow:
+                0 0 5px #FFD700,
+                0 0 12px rgba(255,215,0,0.8);
 
+            animation:
+                tribalRotate 10s linear infinite;
 
-/* =========================================
-   ACCESSIBILITY
-========================================= */
+            white-space: nowrap;
+        }
 
-@media (prefers-reduced-motion: reduce) {
 
-    .falling-star,
-    .rotating-ring {
-        animation: none !important;
-    }
+        .rotating-center {
+            width: 48px;
+            height: 48px;
 
-}
+            display: flex;
 
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #FFD700,
+                    #ff8c00
+                );
+
+            color: #111;
+
+            font-size: 18px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 0 12px
+                rgba(255,215,0,0.8),
+
+                0 0 25px
+                rgba(255,165,0,0.35);
+        }
+
+
+        @keyframes tribalRotate {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        /* =========================================================
+           SCROLLBAR
+        ========================================================= */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background:
+                rgba(0,0,0,0.4);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: gold;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 0 8px gold;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: orange;
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 768px) {
+
+            .header {
+                padding: 25px 12px;
+            }
+
+            .header h2 {
+                font-size: 28px;
+            }
+
+            .header p {
+                font-size: 13px;
+            }
+
+            .main-box {
+                padding: 12px;
+
+                margin-top: 20px;
+            }
+
+            .card-body-custom {
+                padding: 18px;
+            }
+
+            .card-header-custom {
+                font-size: 18px;
+            }
+
+            .star-rain {
+                width: 70px;
+            }
+
+            .rotating-brand {
+                width: 90px;
+                height: 90px;
+
+                bottom: 15px;
+            }
+
+            .rotating-center {
+                width: 38px;
+                height: 38px;
+
+                font-size: 14px;
+            }
+
+            .rotating-ring {
+                font-size: 8px;
+
+                letter-spacing: 1px;
+            }
+
+            .pay-btn {
+                font-size: 16px;
+
+                padding: 13px;
+            }
+
+            .upload-wrapper {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .upload-btn {
+                width: 100%;
+            }
+
+            .file-name {
+                width: 100%;
+
+                text-align: center;
+            }
+        }
+
+
+        /* =========================================================
+           SMALL MOBILE
+        ========================================================= */
+
+        @media (max-width: 480px) {
+
+            .header h2 {
+                font-size: 24px;
+            }
+
+            .main-box {
+                padding: 8px;
+            }
+
+            .card-body-custom {
+                padding: 15px;
+            }
+
+            .site-logo {
+                width: 95px;
+            }
+
+            .rotating-brand {
+                width: 78px;
+                height: 78px;
+
+                bottom: 10px;
+            }
+
+            .rotating-center {
+                width: 32px;
+                height: 32px;
+
+                font-size: 12px;
+            }
+
+            .rotating-ring {
+                font-size: 7px;
+
+                letter-spacing: 0.5px;
+            }
+
+            .preview-box img {
+                width: 110px;
+                height: 110px;
+            }
+        }
+
+
+        /* =========================================================
+           ACCESSIBILITY
+        ========================================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .falling-star,
+            .rotating-ring,
+            .pay-btn {
+                animation: none !important;
+
+                transition: none !important;
+            }
+        }
 
     </style>
 
 </head>
 
+
 <body>
 
-    
-<!-- ================================
-     TRIBAL RHYTHM STAR EFFECT
-     ADD IMMEDIATELY AFTER <body>
-================================ -->
 
-<div class="star-rain left-rain" aria-hidden="true"></div>
-<div class="star-rain right-rain" aria-hidden="true"></div>
+    <!-- =========================================================
+         TRIBAL RHYTHM STAR EFFECT
+    ========================================================= -->
 
-<!-- Rotating Tribal Rhythm Badge -->
-<div class="rotating-brand" aria-hidden="true">
-    <div class="rotating-ring">
-        TRIBAL RHYTHM • TRIBAL RHYTHM •
+    <div class="star-rain left-rain" aria-hidden="true"></div>
+
+    <div class="star-rain right-rain" aria-hidden="true"></div>
+
+
+    <!-- =========================================================
+         ROTATING TRIBAL RHYTHM BADGE
+    ========================================================= -->
+
+    <div class="rotating-brand" aria-hidden="true">
+
+        <div class="rotating-ring">
+            TRIBAL RHYTHM • TRIBAL RHYTHM •
+        </div>
+
+        <div class="rotating-center">
+            TR
+        </div>
+
     </div>
 
-    <div class="rotating-center">
-        TR
-    </div>
-</div>
 
-
-
+    <!-- =========================================================
+         MAIN OVERLAY
+    ========================================================= -->
 
     <div class="overlay">
 
-        <!-- HEADER -->
+
+        <!-- =====================================================
+             HEADER
+        ===================================================== -->
+
         <div class="header">
 
-            <img src="tribalweblogo.png" alt="Tribal Rhythm Logo" class="site-logo">
+            <img
+                src="tribalweblogo.png"
+                alt="Tribal Rhythm Logo"
+                class="site-logo"
+            >
 
-            <h2>TRIBAL RHYTHM</h2>
+            <h2>
+                TRIBAL RHYTHM
+            </h2>
 
-            <p>Official Competition Registration Portal</p>
-            <p>Please read all rules carefully before registration.</p>
+            <p>
+                Official Competition Registration Portal
+            </p>
+
+            <p>
+                Please read all rules carefully before registration.
+            </p>
 
         </div>
 
-        <!-- MAIN -->
+
+        <!-- =====================================================
+             MAIN
+        ===================================================== -->
+
         <div class="container main-box">
 
             <div class="glass-card">
 
+
+                <!-- CARD HEADER -->
+
                 <div class="card-header-custom">
+
                     🏆 Competition Registration
+
                 </div>
+
+
+                <!-- CARD BODY -->
 
                 <div class="card-body-custom">
 
+
                     <form id="bForm" novalidate>
 
-                        <input id="bname" type="text" placeholder="Full Name" required>
 
-                        <input id="guardian" type="text" placeholder="Father / Guardian Name" required>
+                        <!-- FULL NAME -->
 
-                        <input id="age" type="number" placeholder="Age" required>
+                        <input
+                            id="bname"
+                            type="text"
+                            placeholder="Full Name"
+                            autocomplete="name"
+                            required
+                        >
+
+
+                        <!-- GUARDIAN -->
+
+                        <input
+                            id="guardian"
+                            type="text"
+                            placeholder="Father / Guardian Name"
+                            required
+                        >
+
+
+                        <!-- AGE -->
+
+                        <input
+                            id="age"
+                            type="number"
+                            placeholder="Age"
+                            min="5"
+                            max="100"
+                            required
+                        >
+
+
+                        <!-- GENDER -->
 
                         <select id="gender" required>
-                            <option value="">Select Gender</option>
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Other</option>
+
+                            <option value="">
+                                Select Gender
+                            </option>
+
+                            <option value="Male">
+                                Male
+                            </option>
+
+                            <option value="Female">
+                                Female
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
                         </select>
 
-                        <input type="tel" id="mobile" name="mobile" placeholder="Enter 10-digit Mobile Number"
-                            maxlength="10" pattern="[0-9]{10}" inputmode="numeric" required>
 
-                        <small id="mobileNotice"
-                            style="color:#d32f2f; display:block; margin-top:5px; font-size:13px; font-weight:600;">
-                            ⚠ Notice: Enter only a valid 10-digit mobile number. Do not use 0, +91, spaces or more than
-                            10 digits.
+                        <!-- MOBILE -->
+
+                        <input
+                            type="tel"
+                            id="mobile"
+                            name="mobile"
+                            placeholder="Enter 10-digit Mobile Number"
+                            maxlength="10"
+                            pattern="[6-9][0-9]{9}"
+                            inputmode="numeric"
+                            autocomplete="tel"
+                            required
+                        >
+
+
+                        <!-- MOBILE NOTICE HIDDEN -->
+
+                        <small
+                            id="mobileNotice"
+                            aria-hidden="true"
+                        >
+                            Mobile notice
                         </small>
 
-                        <input id="bemail" type="email" placeholder="Email Address" required>
 
-                        <textarea id="address" rows="3" placeholder="Village, District, State" required></textarea>
+                        <!-- EMAIL -->
+
+                        <input
+                            id="bemail"
+                            type="email"
+                            placeholder="Email Address"
+                            autocomplete="email"
+                            required
+                        >
+
+
+                        <!-- ADDRESS -->
+
+                        <textarea
+                            id="address"
+                            rows="3"
+                            placeholder="Village, District, State"
+                            required
+                        ></textarea>
+
+
+                        <!-- TRIBE -->
 
                         <select id="tribe" required>
-                            <option value="">Select Tribe</option>
-                            <option>Bhumij</option>
-                            <option>Santali</option>
-                            <option>Ho</option>
-                            <option>Munda</option>
-                            <option>Others</option>
+
+                            <option value="">
+                                Select Tribe
+                            </option>
+
+                            <option value="Bhumij">
+                                Bhumij
+                            </option>
+
+                            <option value="Santali">
+                                Santali
+                            </option>
+
+                            <option value="Ho">
+                                Ho
+                            </option>
+
+                            <option value="Munda">
+                                Munda
+                            </option>
+
+                            <option value="Others">
+                                Others
+                            </option>
+
                         </select>
 
+
+                        <!-- =================================================
+                             PARTICIPANT PHOTO
+                        ================================================= -->
+
                         <label class="form-label-custom">
-                            Upload Your Photo
+                            📸 Upload Your Photo
                         </label>
 
                         <div class="upload-wrapper">
 
-                            <label for="photo" class="upload-btn">
-                                📸 Upload Your Photo
+                            <label
+                                for="photo"
+                                class="upload-btn"
+                            >
+                                📸 Choose Photo
                             </label>
 
-                            <input type="file" id="photo" class="hidden-file" accept="image/*" required>
+                            <input
+                                type="file"
+                                id="photo"
+                                class="hidden-file"
+                                accept="image/jpeg,image/png,image/webp"
+                                required
+                            >
 
-                            <span id="photoName" class="file-name">
+                            <span
+                                id="photoName"
+                                class="file-name"
+                            >
                                 No file selected
                             </span>
 
                         </div>
 
-                        <img id="photoPreview" style="width:120px;
-     margin-top:10px;
-     display:none;
-     border-radius:10px;">
 
+                        <!-- PHOTO PREVIEW -->
 
+                        <div
+                            id="photoPreviewBox"
+                            class="preview-box"
+                        >
 
-                        <button id="deletePhotoBtn" type="button" style="display:none"
-                            class="btn btn-danger btn-sm mt-2">
-                            Delete Photo
-                        </button>
+                            <img
+                                id="photoPreview"
+                                src=""
+                                alt="Participant Photo Preview"
+                            >
 
-                        <label class="form-label-custom">
-                            Select ID Proof
-                        </label>
-
-                        <div class="radio-box">
-
-                            <label>
-                                <input type="radio" name="idproof" value="Aadhaar" required>
-                                Aadhaar Card
-                            </label>
-
-                            <label>
-                                <input type="radio" name="idproof" value="PAN">
-                                PAN Card
-                            </label>
-
-                            <label>
-                                <input type="radio" name="idproof" value="Driving Licence">
-                                Driving Licence
-                            </label>
-
-                            <label>
-                                <input type="radio" name="idproof" value="Voter Card">
-                                Voter Card
-                            </label>
-
-                            <label class="form-label-custom">
-                                Upload ID Proof Photo
-                            </label>
-
-                            <div class="upload-wrapper">
-
-                                <label for="idPhoto" class="upload-btn">
-                                    🪪 Upload ID Proof
-                                </label>
-
-                                <input type="file" id="idPhoto" class="hidden-file" accept="image/*" required>
-
-                                <span id="idPhotoName" class="file-name">
-                                    No file selected
-                                </span>
-
-                            </div>
-
-                            <img id="idPreview" style="width:120px;
-     margin-top:10px;
-     display:none;
-     border-radius:10px;">
-
-
-
-                            <button id="deleteIdBtn" type="button" style="display:none"
-                                class="btn btn-danger btn-sm mt-2">
-                                Delete ID Proof
+                            <button
+                                id="deletePhotoBtn"
+                                type="button"
+                                class="delete-upload-btn"
+                            >
+                                🗑 Delete Photo
                             </button>
 
                         </div>
 
 
+                        <!-- =================================================
+                             ID PROOF TYPE
+                        ================================================= -->
 
-                        <div class="ticket-box">
-                            🎫 Ticket ID:
-                            <span id="ticketText"></span>
+                        <label class="form-label-custom">
+                            🪪 Select ID Proof
+                        </label>
+
+                        <div class="radio-box">
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="idproof"
+                                    value="Aadhaar"
+                                    required
+                                >
+                                Aadhaar Card
+                            </label>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="idproof"
+                                    value="PAN"
+                                >
+                                PAN Card
+                            </label>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="idproof"
+                                    value="Driving Licence"
+                                >
+                                Driving Licence
+                            </label>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="idproof"
+                                    value="Voter Card"
+                                >
+                                Voter Card
+                            </label>
+
                         </div>
 
-                        <!-- RULES & REGULATIONS -->
+
+                        <!-- =================================================
+                             ID PROOF PHOTO
+                        ================================================= -->
+
+                        <label class="form-label-custom">
+                            🪪 Upload ID Proof Photo
+                        </label>
+
+                        <div class="upload-wrapper">
+
+                            <label
+                                for="idPhoto"
+                                class="upload-btn"
+                            >
+                                🪪 Choose ID Proof
+                            </label>
+
+                            <input
+                                type="file"
+                                id="idPhoto"
+                                class="hidden-file"
+                                accept="image/jpeg,image/png,image/webp"
+                                required
+                            >
+
+                            <span
+                                id="idPhotoName"
+                                class="file-name"
+                            >
+                                No file selected
+                            </span>
+
+                        </div>
+
+
+                        <!-- ID PREVIEW -->
+
+                        <div
+                            id="idPreviewBox"
+                            class="preview-box"
+                        >
+
+                            <img
+                                id="idPreview"
+                                src=""
+                                alt="ID Proof Preview"
+                            >
+
+                            <button
+                                id="deleteIdBtn"
+                                type="button"
+                                class="delete-upload-btn"
+                            >
+                                🗑 Delete ID Proof
+                            </button>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             TICKET
+                        ================================================= -->
+
+                        <div class="ticket-box">
+
+                            🎫 Ticket ID:
+
+                            <span id="ticketText">
+                                Will Generate After Payment
+                            </span>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             RULES
+                        ================================================= -->
+
                         <div class="rules-agreement">
 
                             <label class="rules-check">
 
-                                <input type="checkbox" id="rulesAgreement" required>
+                                <input
+                                    type="checkbox"
+                                    id="rulesAgreement"
+                                    required
+                                >
 
                                 <span>
+
                                     I have read and agree to the
-                                    <a href="rules.html" target="_blank">
+
+                                    <a
+                                        href="rules.html"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
                                         Rules & Regulations
                                     </a>
+
                                     of Tribal Rhythm.
+
                                 </span>
 
                             </label>
@@ -835,21 +1713,45 @@
                         </div>
 
 
-                        <button type="submit" id="btn" class="pay-btn">
+                        <!-- =================================================
+                             PAYMENT
+                        ================================================= -->
+
+                        <button
+                            type="submit"
+                            id="btn"
+                            class="pay-btn"
+                        >
                             Pay ₹300 & Register
                         </button>
 
-                        <div class="loader" id="loader">
+
+                        <div
+                            class="loader"
+                            id="loader"
+                        >
                             Processing Payment...
                         </div>
 
+
                     </form>
 
+
+                    <!-- FOOTER -->
+
                     <div class="footer-note">
-                        Powered by <strong>Tribal Rhythm</strong>
+
+                        Powered by
+                        <strong>Tribal Rhythm</strong>
+
                         <br>
-                        <small>Official Competition Registration Portal</small>
+
+                        <small>
+                            Official Competition Registration Portal
+                        </small>
+
                     </div>
+
 
                 </div>
 
@@ -859,15 +1761,27 @@
 
     </div>
 
-    <!-- RAZORPAY -->
+
+    <!-- =========================================================
+         RAZORPAY
+    ========================================================= -->
+
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- SWEETALERT -->
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-    <!-- FIREBASE -->
+    <!-- =========================================================
+         FIREBASE + MAIN JAVASCRIPT
+    ========================================================= -->
+
     <script type="module">
 
-        // emailjs.init("YOUR_PUBLIC_KEY");
+        /* =====================================================
+           FIREBASE IMPORTS
+        ===================================================== */
 
         import { initializeApp }
             from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -878,7 +1792,9 @@
             setDoc,
             collection,
             addDoc
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 
         import {
             getStorage,
@@ -888,917 +1804,1668 @@
         }
             from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-        /* FIREBASE CONFIG */
+
+        /* =====================================================
+           FIREBASE CONFIG
+        ===================================================== */
 
         const firebaseConfig = {
 
-            apiKey: "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
+            apiKey:
+                "AIzaSyDeXDwM5_DASJCYqefJbQ-u_B-g1MTPjXM",
 
-            authDomain: "tribalrhythm-486bd.firebaseapp.com",
+            authDomain:
+                "tribalrhythm-486bd.firebaseapp.com",
 
-            projectId: "tribalrhythm-486bd",
+            projectId:
+                "tribalrhythm-486bd",
 
-            storageBucket: "tribalrhythm-486bd.firebasestorage.app",
+            storageBucket:
+                "tribalrhythm-486bd.firebasestorage.app",
 
-            messagingSenderId: "566528037279",
+            messagingSenderId:
+                "566528037279",
 
-            appId: "1:566528037279:web:b475312ea2c721d4fd2daa"
+            appId:
+                "1:566528037279:web:b475312ea2c721d4fd2daa"
 
         };
 
-        const app = initializeApp(firebaseConfig);
 
-        const db = getFirestore(app);
-        const storage = getStorage(app);
+        const app =
+            initializeApp(firebaseConfig);
 
-        /* ===============================
-   SWAL VALIDATION HELPER
-================================ */
+        const db =
+            getFirestore(app);
+
+        const storage =
+            getStorage(app);
+
+
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
+
+        const form =
+            document.getElementById("bForm");
+
+        const btn =
+            document.getElementById("btn");
+
+        const loader =
+            document.getElementById("loader");
+
+        const ticketText =
+            document.getElementById("ticketText");
+
+        const photo =
+            document.getElementById("photo");
+
+        const idPhoto =
+            document.getElementById("idPhoto");
+
+        const photoPreview =
+            document.getElementById("photoPreview");
+
+        const idPreview =
+            document.getElementById("idPreview");
+
+        const photoPreviewBox =
+            document.getElementById("photoPreviewBox");
+
+        const idPreviewBox =
+            document.getElementById("idPreviewBox");
+
+        const photoName =
+            document.getElementById("photoName");
+
+        const idPhotoName =
+            document.getElementById("idPhotoName");
+
+        const deletePhotoBtn =
+            document.getElementById("deletePhotoBtn");
+
+        const deleteIdBtn =
+            document.getElementById("deleteIdBtn");
+
+
+        /* =====================================================
+           VALIDATION ALERT
+        ===================================================== */
 
         function showValidation(title, text) {
 
             Swal.fire({
+
                 icon: "warning",
+
                 title: title,
+
                 text: text,
+
                 confirmButtonText: "OK",
+
                 confirmButtonColor: "#FFD700",
+
                 background: "#111",
+
                 color: "#fff",
+
                 allowOutsideClick: false,
+
                 allowEscapeKey: true
+
             });
 
         }
 
-        /* ELEMENTS */
 
-        const form = document.getElementById("bForm");
-
-        const btn = document.getElementById("btn");
-
-        const loader = document.getElementById("loader");
-
-        const ticketText = document.getElementById("ticketText");
-
-        const photoPreview = document.getElementById("photoPreview");
-        const idPreview = document.getElementById("idPreview");
-
-        const photoName = document.getElementById("photoName");
-        const idPhotoName = document.getElementById("idPhotoName");
-
-        /* TICKET GENERATOR */
+        /* =====================================================
+           TICKET GENERATOR
+        ===================================================== */
 
         function genTicket() {
-            return "TR-" + crypto.randomUUID().slice(0, 8).toUpperCase();
+
+            return "TR-" +
+                crypto.randomUUID()
+                    .slice(0, 8)
+                    .toUpperCase();
+
         }
 
         let finalTicket = "";
-        ticketText.innerText = "Will Generate After Payment";
-
-        /* FORM SUBMIT */
-
-        form.addEventListener("submit", async function (e) {
-
-            e.preventDefault();
-
-            /* VALUES */
-
-            let name =
-                document.getElementById("bname")
-                    .value
-                    .trim();
-
-            let guardian =
-                document.getElementById("guardian")
-                    .value
-                    .trim();
-
-            let age =
-                document.getElementById("age")
-                    .value
-                    .trim();
-
-            let gender =
-                document.getElementById("gender")
-                    .value;
-
-            let mobile =
-                document.getElementById("mobile")
-                    .value
-                    .trim();
-
-            let email =
-                document.getElementById("bemail")
-                    .value
-                    .trim();
-
-            let address =
-                document.getElementById("address")
-                    .value
-                    .trim();
-
-            let tribe =
-                document.getElementById("tribe")
-                    .value;
-
-            let photoFile =
-                document.getElementById("photo").files[0];
-
-            let idPhotoFile =
-                document.getElementById("idPhoto").files[0];
-
-            let idProof =
-                document.querySelector(
-                    'input[name="idproof"]:checked'
-                )?.value;
 
 
-            //    VALIDATION
-            // *================================ */
+        /* =====================================================
+           FILE VALIDATION
+        ===================================================== */
 
-            // Full Name
-            if (!name || name.length < 3) {
+        function validateImageFile(file) {
 
-                showValidation(
-                    "Full Name Required",
-                    "Please enter your full name."
-                );
-
-                return;
+            if (!file) {
+                return {
+                    valid: false,
+                    message: "Please select an image."
+                };
             }
 
 
-            // Guardian
-            if (!guardian || guardian.length < 3) {
+            const allowedTypes = [
+                "image/jpeg",
+                "image/png",
+                "image/webp"
+            ];
 
-                showValidation(
-                    "Guardian Name Required",
-                    "Please enter Father / Guardian Name."
-                );
 
-                return;
+            if (!allowedTypes.includes(file.type)) {
+
+                return {
+                    valid: false,
+                    message:
+                        "Only JPG, PNG or WEBP image files are allowed."
+                };
+
             }
 
 
-            // Age
-            if (!age || Number(age) < 5 || Number(age) > 100) {
+            /* Maximum 5 MB */
 
-                showValidation(
-                    "Invalid Age",
-                    "Please enter a valid age."
-                );
+            const maxSize =
+                5 * 1024 * 1024;
 
-                return;
+
+            if (file.size > maxSize) {
+
+                return {
+                    valid: false,
+                    message:
+                        "Image size must be less than 5 MB."
+                };
+
             }
 
 
-            // Gender
-            if (!gender) {
+            return {
+                valid: true
+            };
 
-                showValidation(
-                    "Gender Required",
-                    "Please select your gender."
-                );
+        }
 
-                return;
+
+        /* =====================================================
+           IMAGE PREVIEW FUNCTION
+        ===================================================== */
+
+        function previewImage(
+            file,
+            preview,
+            previewBox,
+            nameElement
+        ) {
+
+            const validation =
+                validateImageFile(file);
+
+
+            if (!validation.valid) {
+
+                Swal.fire({
+
+                    icon: "warning",
+
+                    title: "Invalid Image",
+
+                    text: validation.message,
+
+                    confirmButtonColor: "#FFD700",
+
+                    background: "#111",
+
+                    color: "#fff"
+
+                });
+
+                return false;
+
             }
 
 
-            // Mobile
-            if (!/^[6-9][0-9]{9}$/.test(mobile)) {
-
-                showValidation(
-                    "Invalid Mobile Number",
-                    "Please enter a valid 10-digit Indian mobile number."
-                );
-
-                return;
-            }
+            nameElement.innerText =
+                file.name;
 
 
-            // Email
-            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-
-                showValidation(
-                    "Invalid Email",
-                    "Please enter a valid email address."
-                );
-
-                return;
-            }
+            const objectURL =
+                URL.createObjectURL(file);
 
 
-            // Address
-            if (!address || address.length < 5) {
-
-                showValidation(
-                    "Address Required",
-                    "Please enter your Village, District and State."
-                );
-
-                return;
-            }
+            preview.src =
+                objectURL;
 
 
-            // Tribe
-            if (!tribe) {
-
-                showValidation(
-                    "Tribe Required",
-                    "Please select your tribe."
-                );
-
-                return;
-            }
+            previewBox.style.display =
+                "block";
 
 
-            // Photo
-            if (!photoFile) {
+            return true;
 
-                showValidation(
-                    "Photo Required",
-                    "Please upload your photo."
-                );
-
-                return;
-            }
+        }
 
 
-            // ID Proof Type
-            if (!idProof) {
+        /* =====================================================
+           PARTICIPANT PHOTO
+        ===================================================== */
 
-                showValidation(
-                    "ID Proof Required",
-                    "Please select your ID Proof type."
-                );
+        photo.addEventListener(
+            "change",
+            function (e) {
 
-                return;
-            }
+                const file =
+                    e.target.files[0];
 
-
-            // ID Proof Photo
-            if (!idPhotoFile) {
-
-                showValidation(
-                    "ID Proof Photo Required",
-                    "Please upload your ID Proof photo."
-                );
-
-                return;
-            }
+                if (!file) return;
 
 
-            // Rules Agreement
-            const rulesAgreement =
-                document.getElementById("rulesAgreement");
+                const success =
+                    previewImage(
+                        file,
+                        photoPreview,
+                        photoPreviewBox,
+                        photoName
+                    );
 
-            if (!rulesAgreement.checked) {
 
-                showValidation(
-                    "Rules Agreement Required",
-                    "Please read and agree to the Rules & Regulations before registration."
-                );
+                if (!success) {
 
-                return;
-            }
+                    photo.value = "";
 
-            /* LOADING */
+                    photoPreview.src = "";
 
-            btn.disabled = true;
+                    photoPreviewBox.style.display =
+                        "none";
 
-            btn.innerText = "Processing...";
+                    photoName.innerText =
+                        "No file selected";
 
-            loader.style.display = "block";
-
-            try {
-
-                /* BACKEND ORDER */
-
-                const res = await fetch(
-                    "https://tribal-rhythm-backend.onrender.com/create-order",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-
-                        body: JSON.stringify({
-
-                            amount: 300,
-
-                            email: email
-
-                        })
-                    }
-                );
-                console.log("after fetch", res.status);
-
-                const data = await res.json();
-                console.log("Order Response:", data);
-
-                if (!data.success) {
-
-                    Swal.fire({
-                        icon: "error",
-                        title: "Payment Order Failed ❌",
-                        text: data.message || "Unable to create payment order.",
-                        confirmButtonText: "OK",
-                        confirmButtonColor: "#FFD700",
-                        background: "#111",
-                        color: "#fff"
-                    });
-
-                    btn.disabled = false;
-                    btn.innerText = "Pay ₹300 & Register";
-                    loader.style.display = "none";
-
-                    return;
                 }
 
-                /* PAYMENT */
-
-                const options = {
-
-                    key: data.key,
-
-                    amount: data.amount,
-
-                    currency: "INR",
-
-                    name: "Tribal Rhythm",
-
-                    description: "Competition Registration",
-
-                    order_id: data.id,
-
-                    theme: {
-                        color: "#FFD700"
-                    },
-
-                    modal: {
-
-                        ondismiss: function () {
-
-                            btn.disabled = false;
-
-                            btn.innerText = "Pay ₹300 & Register";
+            }
+        );
 
 
-                            if (loader) {
+        /* =====================================================
+           ID PHOTO
+        ===================================================== */
 
-                                loader.style.display = "none";
+        idPhoto.addEventListener(
+            "change",
+            function (e) {
 
-                            }
+                const file =
+                    e.target.files[0];
 
-                        }
+                if (!file) return;
 
-                    },
 
-                    prefill: {
+                const success =
+                    previewImage(
+                        file,
+                        idPreview,
+                        idPreviewBox,
+                        idPhotoName
+                    );
 
-                        name: name,
 
-                        email: email,
+                if (!success) {
 
-                        contact: mobile
+                    idPhoto.value = "";
 
-                    },
+                    idPreview.src = "";
 
-                    notes: {
+                    idPreviewBox.style.display =
+                        "none";
 
-                        tribe: tribe,
+                    idPhotoName.innerText =
+                        "No file selected";
 
-                        ticket: finalTicket
+                }
 
-                    },
+            }
+        );
 
-                    handler: async function (response) {
 
-                        const verify = await fetch(
-                            "https://tribal-rhythm-backend.onrender.com/verify-payment",
+        /* =====================================================
+           DELETE PARTICIPANT PHOTO
+        ===================================================== */
+
+        deletePhotoBtn.addEventListener(
+            "click",
+            function () {
+
+                photo.value = "";
+
+                photoPreview.src = "";
+
+                photoPreviewBox.style.display =
+                    "none";
+
+                photoName.innerText =
+                    "No file selected";
+
+            }
+        );
+
+
+        /* =====================================================
+           DELETE ID PHOTO
+        ===================================================== */
+
+        deleteIdBtn.addEventListener(
+            "click",
+            function () {
+
+                idPhoto.value = "";
+
+                idPreview.src = "";
+
+                idPreviewBox.style.display =
+                    "none";
+
+                idPhotoName.innerText =
+                    "No file selected";
+
+            }
+        );
+
+
+        /* =====================================================
+           FORM SUBMIT
+        ===================================================== */
+
+        form.addEventListener(
+            "submit",
+            async function (e) {
+
+                e.preventDefault();
+
+
+                /* =================================================
+                   VALUES
+                ================================================= */
+
+                const name =
+                    document
+                        .getElementById("bname")
+                        .value
+                        .trim();
+
+
+                const guardian =
+                    document
+                        .getElementById("guardian")
+                        .value
+                        .trim();
+
+
+                const age =
+                    document
+                        .getElementById("age")
+                        .value
+                        .trim();
+
+
+                const gender =
+                    document
+                        .getElementById("gender")
+                        .value;
+
+
+                const mobile =
+                    document
+                        .getElementById("mobile")
+                        .value
+                        .trim();
+
+
+                const email =
+                    document
+                        .getElementById("bemail")
+                        .value
+                        .trim();
+
+
+                const address =
+                    document
+                        .getElementById("address")
+                        .value
+                        .trim();
+
+
+                const tribe =
+                    document
+                        .getElementById("tribe")
+                        .value;
+
+
+                const photoFile =
+                    photo.files[0];
+
+
+                const idPhotoFile =
+                    idPhoto.files[0];
+
+
+                const idProof =
+                    document.querySelector(
+                        'input[name="idproof"]:checked'
+                    )?.value;
+
+
+                /* =================================================
+                   VALIDATION
+                ================================================= */
+
+
+                /* FULL NAME */
+
+                if (!name || name.length < 3) {
+
+                    showValidation(
+                        "Full Name Required",
+                        "Please enter your full name."
+                    );
+
+                    return;
+
+                }
+
+
+                /* GUARDIAN */
+
+                if (!guardian || guardian.length < 3) {
+
+                    showValidation(
+                        "Guardian Name Required",
+                        "Please enter Father / Guardian Name."
+                    );
+
+                    return;
+
+                }
+
+
+                /* AGE */
+
+                if (
+                    !age ||
+                    Number(age) < 5 ||
+                    Number(age) > 100
+                ) {
+
+                    showValidation(
+                        "Invalid Age",
+                        "Please enter a valid age."
+                    );
+
+                    return;
+
+                }
+
+
+                /* GENDER */
+
+                if (!gender) {
+
+                    showValidation(
+                        "Gender Required",
+                        "Please select your gender."
+                    );
+
+                    return;
+
+                }
+
+
+                /* MOBILE */
+
+                if (
+                    !/^[6-9][0-9]{9}$/.test(mobile)
+                ) {
+
+                    showValidation(
+                        "Invalid Mobile Number",
+                        "Please enter a valid 10-digit Indian mobile number."
+                    );
+
+                    return;
+
+                }
+
+
+                /* EMAIL */
+
+                if (
+                    !email ||
+                    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+                ) {
+
+                    showValidation(
+                        "Invalid Email",
+                        "Please enter a valid email address."
+                    );
+
+                    return;
+
+                }
+
+
+                /* ADDRESS */
+
+                if (
+                    !address ||
+                    address.length < 5
+                ) {
+
+                    showValidation(
+                        "Address Required",
+                        "Please enter your Village, District and State."
+                    );
+
+                    return;
+
+                }
+
+
+                /* TRIBE */
+
+                if (!tribe) {
+
+                    showValidation(
+                        "Tribe Required",
+                        "Please select your tribe."
+                    );
+
+                    return;
+
+                }
+
+
+                /* PHOTO */
+
+                if (!photoFile) {
+
+                    showValidation(
+                        "Photo Required",
+                        "Please upload your photo."
+                    );
+
+                    return;
+
+                }
+
+
+                const photoValidation =
+                    validateImageFile(photoFile);
+
+
+                if (!photoValidation.valid) {
+
+                    showValidation(
+                        "Invalid Photo",
+                        photoValidation.message
+                    );
+
+                    return;
+
+                }
+
+
+                /* ID PROOF TYPE */
+
+                if (!idProof) {
+
+                    showValidation(
+                        "ID Proof Required",
+                        "Please select your ID Proof type."
+                    );
+
+                    return;
+
+                }
+
+
+                /* ID PHOTO */
+
+                if (!idPhotoFile) {
+
+                    showValidation(
+                        "ID Proof Photo Required",
+                        "Please upload your ID Proof photo."
+                    );
+
+                    return;
+
+                }
+
+
+                const idPhotoValidation =
+                    validateImageFile(idPhotoFile);
+
+
+                if (!idPhotoValidation.valid) {
+
+                    showValidation(
+                        "Invalid ID Proof Image",
+                        idPhotoValidation.message
+                    );
+
+                    return;
+
+                }
+
+
+                /* RULES */
+
+                const rulesAgreement =
+                    document.getElementById(
+                        "rulesAgreement"
+                    );
+
+
+                if (!rulesAgreement.checked) {
+
+                    showValidation(
+                        "Rules Agreement Required",
+                        "Please read and agree to the Rules & Regulations before registration."
+                    );
+
+                    return;
+
+                }
+
+
+                /* =================================================
+                   LOADING
+                ================================================= */
+
+                btn.disabled = true;
+
+                btn.innerText =
+                    "Processing...";
+
+                loader.style.display =
+                    "block";
+
+
+                try {
+
+
+                    /* =================================================
+                       BACKEND ORDER
+                    ================================================= */
+
+                    const res =
+                        await fetch(
+                            "https://tribal-rhythm-backend.onrender.com/create-order",
                             {
                                 method: "POST",
+
                                 headers: {
-                                    "Content-Type": "application/json"
+                                    "Content-Type":
+                                        "application/json"
                                 },
-                                body: JSON.stringify({
-                                    razorpay_order_id: response.razorpay_order_id,
-                                    razorpay_payment_id: response.razorpay_payment_id,
-                                    razorpay_signature: response.razorpay_signature
-                                })
+
+                                body:
+                                    JSON.stringify({
+                                        amount: 300,
+                                        email: email
+                                    })
                             }
                         );
 
-                        const verifyData = await verify.json();
 
-                        if (!verifyData.success) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Payment Failed ❌",
-                                text: "Payment verification failed. Please try again.",
-                                confirmButtonColor: "#FFD700"
-                            });
+                    console.log(
+                        "after fetch",
+                        res.status
+                    );
 
-                            return;
-                        }
 
-                        // Generate Ticket After Successful Payment
+                    const data =
+                        await res.json();
 
-                        finalTicket = genTicket();
 
-                        ticketText.innerText = finalTicket;
+                    console.log(
+                        "Order Response:",
+                        data
+                    );
 
-                        console.log("Generated Ticket:", finalTicket);
 
-
-
-
-                        /* PHOTO UPLOAD */
-
-                        // const photoRef = ref(
-                        //     storage,
-                        //     `users/${email}/photo.jpg`
-                        // );
-
-                        // await uploadBytes(
-                        //     photoRef,
-                        //     photoFile
-                        // );
-
-                        // const photoURL =
-                        //     await getDownloadURL(photoRef);
-
-                        // /* ID PHOTO UPLOAD */
-
-                        // const idRef = ref(
-                        //     storage,
-                        //     `users/${email}/idproof.jpg`
-                        // );
-
-                        // await uploadBytes(
-                        //     idRef,
-                        //     idPhotoFile
-                        // );
-
-                        // const idURL =
-                        //     await getDownloadURL(idRef);
-
-                        // Temporary: Firebase Storage disabled (Spark Plan)
-                        // TODO: Restore Firebase Storage upload after upgrading to Blaze Plan.
-
-                        const photoURL = "";
-                        const idURL = "";
-
-                        /* SAVE FIREBASE */
-                        console.log("1. Payment Verified");
-
-                        await setDoc(
-                            doc(db, "users", email),
-                            {
-
-                                name,
-
-                                nameLower: name.toLowerCase(),
-
-                                guardian,
-
-                                age,
-
-                                gender,
-
-                                mobile,
-
-                                email,
-
-                                address,
-
-                                tribe,
-
-                                idProof,
-
-                                photoURL,
-
-                                idProofURL: idURL,
-
-                                ticket: finalTicket,
-
-                                payment: true,
-
-                                payment_id:
-                                    response
-                                        .razorpay_payment_id,
-
-                                createdAt:
-                                    new Date()
-                                        .toISOString()
-
-                            }
-                        );
-
-                        // ================= SAVE PARTICIPATION =================
-
-                        await addDoc(collection(db, "participation"), {
-
-                            email: email,
-
-                            name: name,
-
-                            mobile: mobile,
-
-                            ticketId: finalTicket,
-
-                            category: "Competition",
-
-                            paymentStatus: "paid",
-
-                            joinedAt: new Date().toISOString()
-
-                        });
-                        localStorage.setItem("ticket", finalTicket);
-                        console.log("✅ Firestore Saved");
-
-
-
-
-                        try {
-                            console.log("2. Firestore Saved");
-
-                            console.log("3. Before Email API");
-                            console.log("➡ Calling Email API");
-
-                            const emailResponse = await fetch(
-                                "https://tribal-rhythm-backend.onrender.com/send-registration-email",
-                                {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json"
-                                    },
-                                    body: JSON.stringify({
-                                        name,
-                                        email,
-                                        ticketId: finalTicket
-                                    })
-                                }
-                            );
-
-                            const emailData = await emailResponse.json();
-
-                            if (!emailResponse.ok) {
-                                throw new Error(emailData.message || "Email sending failed");
-                            }
-
-                            console.log("📧 Email Response:", emailData);
-
-                        } catch (e) {
-
-                            console.error("Email Error:", e);
-
-                        }
-
-                        console.log("✅ Email API Finished");
-
-
-
-                        try {
-
-                            console.log("4. Before SMS API");
-                            console.log("➡ Calling SMS API");
-
-
-                            const smsResponse = await fetch(
-                                "https://tribal-rhythm-backend.onrender.com/send-registration-sms",
-                                {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json"
-                                    },
-                                    body: JSON.stringify({
-                                        name,
-                                        mobile,
-                                        ticketId: finalTicket
-                                    })
-                                }
-                            );
-
-
-                            const smsData = await smsResponse.json();
-
-
-                            if (!smsResponse.ok) {
-                                throw new Error(smsData.message || "SMS sending failed");
-                            }
-
-
-                            console.log("📱 SMS Response:", smsData);
-
-
-                        } catch (e) {
-
-                            console.error("SMS Error:", e);
-
-                        }
-
-
-                        console.log("✅ SMS API Finished");
-
-                        // Save User Data
-                        localStorage.setItem("email", email);
-                        localStorage.setItem("name", name);
-                        localStorage.setItem("ticketId", finalTicket);
-
-                        console.log("Redirecting to competition page...");
-
+                    if (!data.success) {
 
                         Swal.fire({
 
-                            icon: "success",
+                            icon: "error",
 
-                            title: "Registration Successful 🎉",
+                            title:
+                                "Payment Order Failed ❌",
 
-                            html: `
-        <h4 style="color:#FFD700">
-        Tribal Rhythm
-        </h4>
+                            text:
+                                data.message ||
+                                "Unable to create payment order.",
 
-        <p>
-        Your competition registration is confirmed.
-        </p>
+                            confirmButtonText: "OK",
 
-        <h3>
-        🎫 Ticket ID
-        </h3>
-
-        <h2 style="color:green">
-        ${finalTicket}
-        </h2>
-
-        <p>
-        Ticket ID is required at competition entry.
-        </p>
-    `,
-
-                            confirmButtonText: "Continue",
-
-                            confirmButtonColor: "#FFD700",
+                            confirmButtonColor:
+                                "#FFD700",
 
                             background: "#111",
 
                             color: "#fff"
 
-                        }).then(() => {
-
-                            window.location.href = "competition.html";
-
                         });
-                        loader.style.display = "none";
+
 
                         btn.disabled = false;
 
+                        btn.innerText =
+                            "Pay ₹300 & Register";
 
+                        loader.style.display =
+                            "none";
 
-
-
-
+                        return;
 
                     }
 
-                };
 
-                const rzp =
-                    new Razorpay(options);
+                    /* =================================================
+                       RAZORPAY
+                    ================================================= */
 
-                rzp.on("payment.failed", function (response) {
+                    const options = {
 
-                    console.log("FULL RESPONSE:", response);
+                        key:
+                            data.key,
 
-                    console.log("Error Code:", response.error.code);
-                    console.log("Description:", response.error.description);
-                    console.log("Reason:", response.error.reason);
-                    console.log("Source:", response.error.source);
-                    console.log("Step:", response.error.step);
-                    console.log("Metadata:", response.error.metadata);
+                        amount:
+                            data.amount,
+
+                        currency:
+                            "INR",
+
+                        name:
+                            "Tribal Rhythm",
+
+                        description:
+                            "Competition Registration",
+
+                        order_id:
+                            data.id,
+
+
+                        theme: {
+                            color:
+                                "#FFD700"
+                        },
+
+
+                        modal: {
+
+                            ondismiss:
+                                function () {
+
+                                    btn.disabled =
+                                        false;
+
+                                    btn.innerText =
+                                        "Pay ₹300 & Register";
+
+                                    loader.style.display =
+                                        "none";
+
+                                }
+
+                        },
+
+
+                        prefill: {
+
+                            name:
+                                name,
+
+                            email:
+                                email,
+
+                            contact:
+                                mobile
+
+                        },
+
+
+                        notes: {
+
+                            tribe:
+                                tribe,
+
+                            ticket:
+                                finalTicket
+
+                        },
+
+
+                        /* =================================================
+                           PAYMENT SUCCESS
+                        ================================================= */
+
+                        handler:
+                            async function (response) {
+
+                                try {
+
+
+                                    /* =========================================
+                                       VERIFY PAYMENT
+                                    ========================================= */
+
+                                    const verify =
+                                        await fetch(
+                                            "https://tribal-rhythm-backend.onrender.com/verify-payment",
+                                            {
+                                                method: "POST",
+
+                                                headers: {
+                                                    "Content-Type":
+                                                        "application/json"
+                                                },
+
+                                                body:
+                                                    JSON.stringify({
+
+                                                        razorpay_order_id:
+                                                            response.razorpay_order_id,
+
+                                                        razorpay_payment_id:
+                                                            response.razorpay_payment_id,
+
+                                                        razorpay_signature:
+                                                            response.razorpay_signature
+
+                                                    })
+                                            }
+                                        );
+
+
+                                    const verifyData =
+                                        await verify.json();
+
+
+                                    if (!verifyData.success) {
+
+                                        Swal.fire({
+
+                                            icon:
+                                                "error",
+
+                                            title:
+                                                "Payment Failed ❌",
+
+                                            text:
+                                                "Payment verification failed. Please try again.",
+
+                                            confirmButtonColor:
+                                                "#FFD700",
+
+                                            background:
+                                                "#111",
+
+                                            color:
+                                                "#fff"
+
+                                        });
+
+                                        return;
+
+                                    }
+
+
+                                    /* =========================================
+                                       GENERATE TICKET
+                                    ========================================= */
+
+                                    finalTicket =
+                                        genTicket();
+
+
+                                    ticketText.innerText =
+                                        finalTicket;
+
+
+                                    console.log(
+                                        "Generated Ticket:",
+                                        finalTicket
+                                    );
+
+
+                                    /* =========================================
+                                       FIREBASE STORAGE
+                                       CURRENTLY DISABLED
+                                    ========================================= */
+
+                                    /*
+                                    const photoRef =
+                                        ref(
+                                            storage,
+                                            `users/${email}/photo.jpg`
+                                        );
+
+                                    await uploadBytes(
+                                        photoRef,
+                                        photoFile
+                                    );
+
+                                    const photoURL =
+                                        await getDownloadURL(
+                                            photoRef
+                                        );
+
+
+                                    const idRef =
+                                        ref(
+                                            storage,
+                                            `users/${email}/idproof.jpg`
+                                        );
+
+                                    await uploadBytes(
+                                        idRef,
+                                        idPhotoFile
+                                    );
+
+                                    const idURL =
+                                        await getDownloadURL(
+                                            idRef
+                                        );
+                                    */
+
+
+                                    const photoURL =
+                                        "";
+
+                                    const idURL =
+                                        "";
+
+
+                                    /* =========================================
+                                       SAVE USER
+                                    ========================================= */
+
+                                    console.log(
+                                        "1. Payment Verified"
+                                    );
+
+
+                                    await setDoc(
+                                        doc(
+                                            db,
+                                            "users",
+                                            email
+                                        ),
+                                        {
+
+                                            name:
+
+                                                name,
+
+                                            nameLower:
+
+                                                name.toLowerCase(),
+
+                                            guardian:
+
+                                                guardian,
+
+                                            age:
+
+                                                age,
+
+                                            gender:
+
+                                                gender,
+
+                                            mobile:
+
+                                                mobile,
+
+                                            email:
+
+                                                email,
+
+                                            address:
+
+                                                address,
+
+                                            tribe:
+
+                                                tribe,
+
+                                            idProof:
+
+                                                idProof,
+
+                                            photoURL:
+
+                                                photoURL,
+
+                                            idProofURL:
+
+                                                idURL,
+
+                                            ticket:
+
+                                                finalTicket,
+
+                                            payment:
+
+                                                true,
+
+                                            payment_id:
+
+                                                response
+                                                    .razorpay_payment_id,
+
+                                            createdAt:
+
+                                                new Date()
+                                                    .toISOString()
+
+                                        }
+                                    );
+
+
+                                    /* =========================================
+                                       PARTICIPATION
+                                    ========================================= */
+
+                                    await addDoc(
+                                        collection(
+                                            db,
+                                            "participation"
+                                        ),
+                                        {
+
+                                            email:
+                                                email,
+
+                                            name:
+                                                name,
+
+                                            mobile:
+                                                mobile,
+
+                                            ticketId:
+                                                finalTicket,
+
+                                            category:
+                                                "Competition",
+
+                                            paymentStatus:
+                                                "paid",
+
+                                            joinedAt:
+                                                new Date()
+                                                    .toISOString()
+
+                                        }
+                                    );
+
+
+                                    localStorage.setItem(
+                                        "ticket",
+                                        finalTicket
+                                    );
+
+
+                                    console.log(
+                                        "✅ Firestore Saved"
+                                    );
+
+
+                                    /* =========================================
+                                       EMAIL
+                                    ========================================= */
+
+                                    try {
+
+                                        const emailResponse =
+                                            await fetch(
+                                                "https://tribal-rhythm-backend.onrender.com/send-registration-email",
+                                                {
+                                                    method:
+                                                        "POST",
+
+                                                    headers: {
+                                                        "Content-Type":
+                                                            "application/json"
+                                                    },
+
+                                                    body:
+                                                        JSON.stringify({
+
+                                                            name:
+                                                                name,
+
+                                                            email:
+                                                                email,
+
+                                                            ticketId:
+                                                                finalTicket
+
+                                                        })
+                                                }
+                                            );
+
+
+                                        const emailData =
+                                            await emailResponse.json();
+
+
+                                        if (
+                                            !emailResponse.ok
+                                        ) {
+
+                                            throw new Error(
+                                                emailData.message ||
+                                                "Email sending failed"
+                                            );
+
+                                        }
+
+
+                                        console.log(
+                                            "📧 Email Response:",
+                                            emailData
+                                        );
+
+                                    }
+
+                                    catch (e) {
+
+                                        console.error(
+                                            "Email Error:",
+                                            e
+                                        );
+
+                                    }
+
+
+                                    /* =========================================
+                                       SMS
+                                    ========================================= */
+
+                                    try {
+
+                                        const smsResponse =
+                                            await fetch(
+                                                "https://tribal-rhythm-backend.onrender.com/send-registration-sms",
+                                                {
+                                                    method:
+                                                        "POST",
+
+                                                    headers: {
+                                                        "Content-Type":
+                                                            "application/json"
+                                                    },
+
+                                                    body:
+                                                        JSON.stringify({
+
+                                                            name:
+                                                                name,
+
+                                                            mobile:
+                                                                mobile,
+
+                                                            ticketId:
+                                                                finalTicket
+
+                                                        })
+                                                }
+                                            );
+
+
+                                        const smsData =
+                                            await smsResponse.json();
+
+
+                                        if (
+                                            !smsResponse.ok
+                                        ) {
+
+                                            throw new Error(
+                                                smsData.message ||
+                                                "SMS sending failed"
+                                            );
+
+                                        }
+
+
+                                        console.log(
+                                            "📱 SMS Response:",
+                                            smsData
+                                        );
+
+                                    }
+
+                                    catch (e) {
+
+                                        console.error(
+                                            "SMS Error:",
+                                            e
+                                        );
+
+                                    }
+
+
+                                    /* =========================================
+                                       LOCAL STORAGE
+                                    ========================================= */
+
+                                    localStorage.setItem(
+                                        "email",
+                                        email
+                                    );
+
+                                    localStorage.setItem(
+                                        "name",
+                                        name
+                                    );
+
+                                    localStorage.setItem(
+                                        "ticketId",
+                                        finalTicket
+                                    );
+
+
+                                    /* =========================================
+                                       SUCCESS
+                                    ========================================= */
+
+                                    Swal.fire({
+
+                                        icon:
+                                            "success",
+
+                                        title:
+                                            "Registration Successful 🎉",
+
+                                        html: `
+
+                                            <h4 style="color:#FFD700">
+                                                Tribal Rhythm
+                                            </h4>
+
+                                            <p>
+                                                Your competition registration is confirmed.
+                                            </p>
+
+                                            <h3>
+                                                🎫 Ticket ID
+                                            </h3>
+
+                                            <h2 style="color:#00ff88">
+                                                ${finalTicket}
+                                            </h2>
+
+                                            <p>
+                                                Ticket ID is required at competition entry.
+                                            </p>
+
+                                        `,
+
+                                        confirmButtonText:
+                                            "Continue",
+
+                                        confirmButtonColor:
+                                            "#FFD700",
+
+                                        background:
+                                            "#111",
+
+                                        color:
+                                            "#fff"
+
+                                    })
+                                    .then(() => {
+
+                                        window.location.href =
+                                            "competition.html";
+
+                                    });
+
+
+                                    loader.style.display =
+                                        "none";
+
+                                    btn.disabled =
+                                        false;
+
+
+                                }
+
+                                catch (error) {
+
+                                    console.error(
+                                        "Post-payment error:",
+                                        error
+                                    );
+
+
+                                    loader.style.display =
+                                        "none";
+
+                                    btn.disabled =
+                                        false;
+
+                                    btn.innerText =
+                                        "Pay ₹300 & Register";
+
+
+                                    Swal.fire({
+
+                                        icon:
+                                            "error",
+
+                                        title:
+                                            "Registration Error ❌",
+
+                                        text:
+                                            "Payment was successful, but registration data could not be saved. Please contact Tribal Rhythm.",
+
+                                        confirmButtonColor:
+                                            "#FFD700",
+
+                                        background:
+                                            "#111",
+
+                                        color:
+                                            "#fff"
+
+                                    });
+
+                                }
+
+                            }
+
+                    };
+
+
+                    /* =================================================
+                       RAZORPAY OPEN
+                    ================================================= */
+
+                    const rzp =
+                        new Razorpay(
+                            options
+                        );
+
+
+                    /* PAYMENT FAILED */
+
+                    rzp.on(
+                        "payment.failed",
+                        function (response) {
+
+                            console.log(
+                                "FULL RESPONSE:",
+                                response
+                            );
+
+
+                            console.log(
+                                "Error Code:",
+                                response.error.code
+                            );
+
+
+                            console.log(
+                                "Description:",
+                                response.error.description
+                            );
+
+
+                            Swal.fire({
+
+                                icon:
+                                    "error",
+
+                                title:
+                                    "Payment Failed ❌",
+
+                                html: `
+
+                                    <p>
+                                        ${response.error.description}
+                                    </p>
+
+                                    <small>
+                                        Please try again.
+                                    </small>
+
+                                `,
+
+                                confirmButtonColor:
+                                    "#FFD700",
+
+                                background:
+                                    "#111",
+
+                                color:
+                                    "#fff"
+
+                            });
+
+
+                            btn.disabled =
+                                false;
+
+                            btn.innerText =
+                                "Pay ₹300 & Register";
+
+                            loader.style.display =
+                                "none";
+
+                        }
+                    );
+
+
+                    rzp.open();
+
+
+                }
+
+                catch (err) {
+
+                    console.error(
+                        err
+                    );
+
 
                     Swal.fire({
 
-                        icon: "error",
+                        icon:
+                            "error",
 
-                        title: "Payment Failed ❌",
+                        title:
+                            "Server Error ❌",
 
-                        html: `
-    <p>${response.error.description}</p>
-    <small>Please try again.</small>
-    `,
+                        text:
+                            "Please try again later.",
 
-                        confirmButtonColor: "#FFD700"
+                        confirmButtonColor:
+                            "#FFD700",
+
+                        background:
+                            "#111",
+
+                        color:
+                            "#fff"
 
                     });
-                });
 
-                rzp.open();
+
+                    btn.disabled =
+                        false;
+
+                    btn.innerText =
+                        "Pay ₹300 & Register";
+
+                    loader.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           STAR RAIN GENERATOR
+        ===================================================== */
+
+        (function () {
+
+            const leftRain =
+                document.querySelector(
+                    ".left-rain"
+                );
+
+            const rightRain =
+                document.querySelector(
+                    ".right-rain"
+                );
+
+
+            if (
+                !leftRain ||
+                !rightRain
+            ) {
+
+                return;
 
             }
 
-            catch (err) {
 
-                console.log(err);
+            function createStar(
+                container
+            ) {
 
-                Swal.fire({
+                const star =
+                    document.createElement(
+                        "span"
+                    );
 
-                    icon: "error",
 
-                    title: "Server Error ❌",
+                star.classList.add(
+                    "falling-star"
+                );
 
-                    text: "Please try again later.",
 
-                    confirmButtonColor: "#FFD700"
+                /* Random size */
 
-                });
+                const randomSize =
+                    Math.random();
 
-                btn.disabled = false;
 
-                btn.innerText =
-                    "Pay ₹300 & Register";
-                const loader = document.getElementById("loader");
-                if (loader) {
-                    loader.style.display = "none"
+                if (
+                    randomSize < 0.25
+                ) {
+
+                    star.classList.add(
+                        "small"
+                    );
+
                 }
 
-                // loader.style.display = "none";
+
+                if (
+                    randomSize > 0.88
+                ) {
+
+                    star.classList.add(
+                        "big"
+                    );
+
+                }
+
+
+                /* Horizontal */
+
+                star.style.left =
+                    Math.random() * 100 +
+                    "%";
+
+
+                /* Duration */
+
+                const duration =
+                    4 +
+                    Math.random() * 6;
+
+
+                star.style.animationDuration =
+                    duration + "s";
+
+
+                /* Delay */
+
+                star.style.animationDelay =
+                    -(
+                        Math.random() * 10
+                    ) + "s";
+
+
+                /* Opacity */
+
+                star.style.opacity =
+                    0.35 +
+                    Math.random() * 0.65;
+
+
+                container.appendChild(
+                    star
+                );
 
             }
 
-        });
 
+            /* More stars on desktop */
 
-        document
-            .getElementById("photo")
-            .addEventListener("change", e => {
+            const starCount =
+                window.innerWidth <= 768
+                    ? 28
+                    : 55;
 
-                const file = e.target.files[0];
 
-                if (file) {
+            for (
+                let i = 0;
+                i < starCount;
+                i++
+            ) {
 
-                    document.getElementById(
-                        "photoName"
-                    ).innerText = file.name;
+                createStar(
+                    leftRain
+                );
 
-                    photoPreview.src =
-                        URL.createObjectURL(file);
+                createStar(
+                    rightRain
+                );
 
-                    photoPreview.style.display =
-                        "block";
-                    document.getElementById("deletePhotoBtn").style.display = "inline-block";
-                }
+            }
 
-            });
-
-        document
-            .getElementById("idPhoto")
-            .addEventListener("change", e => {
-
-                const file = e.target.files[0];
-
-                if (file) {
-
-                    document.getElementById(
-                        "idPhotoName"
-                    ).innerText = file.name;
-
-                    idPreview.src =
-                        URL.createObjectURL(file);
-
-                    idPreview.style.display =
-                        "block";
-                    document.getElementById("deleteIdBtn").style.display = "inline-block";
-                }
-
-            });
-
-        document.getElementById("deletePhotoBtn")
-            .addEventListener("click", () => {
-
-                document.getElementById("photo").value = "";
-
-                photoPreview.src = "";
-
-                photoPreview.style.display = "none";
-
-                photoName.innerText = "No file selected";
-
-                document.getElementById("deletePhotoBtn").style.display = "none";
-
-            });
-
-        document.getElementById("deleteIdBtn")
-            .addEventListener("click", () => {
-
-                document.getElementById("idPhoto").value = "";
-
-                idPreview.src = "";
-
-                idPreview.style.display = "none";
-
-                idPhotoName.innerText = "No file selected";
-
-                document.getElementById("deleteIdBtn").style.display = "none";
-
-            });
-
-
-            
-/* =========================================
-   TRIBAL RHYTHM STAR RAIN GENERATOR
-========================================= */
-
-(function () {
-
-    const leftRain = document.querySelector(".left-rain");
-    const rightRain = document.querySelector(".right-rain");
-
-    if (!leftRain || !rightRain) return;
-
-
-    function createStar(container, index) {
-
-        const star = document.createElement("span");
-
-        star.classList.add("falling-star");
-
-
-        /* Random size */
-        const randomSize = Math.random();
-
-        if (randomSize < 0.25) {
-            star.classList.add("small");
-        }
-
-        if (randomSize > 0.88) {
-            star.classList.add("big");
-        }
-
-
-        /* Random horizontal position */
-        star.style.left =
-            Math.random() * 100 + "%";
-
-
-        /* Random animation duration */
-        const duration =
-            4 + Math.random() * 6;
-
-        star.style.animationDuration =
-            duration + "s";
-
-
-        /* Random delay */
-        star.style.animationDelay =
-            -(Math.random() * 10) + "s";
-
-
-        /* Slight random opacity */
-        star.style.opacity =
-            0.35 + Math.random() * 0.65;
-
-
-        /* Slight horizontal movement */
-        star.style.transform =
-            `translateX(${Math.random() * 30 - 15}px)`;
-
-
-        container.appendChild(star);
-
-    }
-
-
-    /* Create stars */
-
-    const starCount =
-        window.innerWidth <= 768 ? 22 : 40;
-
-
-    for (let i = 0; i < starCount; i++) {
-
-        createStar(
-            leftRain,
-            i
-        );
-
-        createStar(
-            rightRain,
-            i
-        );
-
-    }
-
-
-})();
-
-
+        })();
 
     </script>
 
+
+    <!-- EMAILJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 </body>
