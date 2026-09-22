@@ -2524,6 +2524,7 @@ app.post("/verify-payment", async (req, res) => {
             email,
             name,
             phone,
+            mobile,
 
             ticketType,
             ticketQuantity
@@ -2542,8 +2543,7 @@ app.post("/verify-payment", async (req, res) => {
                 .trim()
                 .slice(0, 100);
 
-        const normalizedPhone =
-            normalizeMobile(phone);
+        const rawPhone = phone || mobile || ""; const normalizedPhone = normalizeMobile(rawPhone);
 
         const quantity =
             Number(ticketQuantity);
