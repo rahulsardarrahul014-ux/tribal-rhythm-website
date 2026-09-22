@@ -360,26 +360,35 @@ window.login = async () => {
 
     } catch (error) {
 
-        console.error("Admin Login Error:", error);
+        console.error(
+            "Admin Login Error:",
+            error
+        );
 
         Swal.close();
 
-        let message = "Login failed. Please try again.";
+        let message =
+            "Login failed. Please try again.";
 
         if (
             error.code === "auth/invalid-credential" ||
             error.code === "auth/wrong-password" ||
             error.code === "auth/user-not-found"
         ) {
-            message = "Wrong email or password.";
+            message =
+                "Wrong email or password.";
         }
-
-        else if (error.code === "auth/too-many-requests") {
-            message = "Too many login attempts. Please try again later.";
+        else if (
+            error.code === "auth/too-many-requests"
+        ) {
+            message =
+                "Too many login attempts. Please try again later.";
         }
-
-        else if (error.code === "auth/network-request-failed") {
-            message = "Network error. Please check your internet connection.";
+        else if (
+            error.code === "auth/network-request-failed"
+        ) {
+            message =
+                "Network error. Please check your internet connection.";
         }
 
         showError(
@@ -388,6 +397,20 @@ window.login = async () => {
         );
     }
 };
+
+
+// =====================================================
+// ADMIN LOGIN FORM SUBMIT
+// =====================================================
+
+document
+    .getElementById("adminLoginForm")
+    ?.addEventListener("submit", (event) => {
+
+        event.preventDefault();
+
+        window.login();
+    });
 
 if (!emailValue || !passValue) {
 
