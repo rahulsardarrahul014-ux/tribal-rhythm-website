@@ -373,11 +373,289 @@
         .swal2-html-container {
             color: #ddd !important;
         }
+
+        
+/* =========================================
+   TRIBAL RHYTHM PROFESSIONAL STAR RAIN
+========================================= */
+
+.star-rain {
+    position: fixed;
+    top: 0;
+    width: 180px;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+}
+
+/* LEFT SIDE */
+.left-rain {
+    left: 0;
+}
+
+/* RIGHT SIDE */
+.right-rain {
+    right: 0;
+}
+
+/* Individual falling star */
+.falling-star {
+    position: absolute;
+    top: -30px;
+
+    width: 4px;
+    height: 4px;
+
+    background: #FFD700;
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 5px #FFD700,
+        0 0 12px rgba(255, 215, 0, 0.8),
+        0 0 20px rgba(255, 165, 0, 0.5);
+
+    animation-name: starFall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* Small star variation */
+.falling-star.small {
+    width: 2px;
+    height: 2px;
+    opacity: 0.65;
+}
+
+/* Big star variation */
+.falling-star.big {
+    width: 6px;
+    height: 6px;
+
+    box-shadow:
+        0 0 8px #FFD700,
+        0 0 18px #FFD700,
+        0 0 30px rgba(255, 165, 0, 0.7);
+}
+
+/* Star falling animation */
+@keyframes starFall {
+
+    0% {
+        transform: translate3d(0, -40px, 0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: translate3d(25px, 50vh, 0) rotate(180deg);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translate3d(-20px, 110vh, 0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+
+/* =========================================
+   ROTATING TRIBAL RHYTHM BADGE
+========================================= */
+
+.rotating-brand {
+    position: fixed;
+
+    left: 50%;
+    bottom: 25px;
+
+    width: 115px;
+    height: 115px;
+
+    transform: translateX(-50%);
+
+    z-index: 3;
+
+    pointer-events: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 215, 0, 0.18),
+            rgba(0, 0, 0, 0.45)
+        );
+
+    border: 1px solid rgba(255, 215, 0, 0.55);
+
+    box-shadow:
+        0 0 15px rgba(255, 215, 0, 0.25),
+        inset 0 0 20px rgba(255, 215, 0, 0.08);
+}
+
+
+/* Rotating text */
+.rotating-ring {
+
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #FFD700;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 0 5px #FFD700,
+        0 0 12px rgba(255, 215, 0, 0.8);
+
+    animation: tribalRotate 10s linear infinite;
+
+    white-space: nowrap;
+}
+
+
+/* Center TR */
+.rotating-center {
+
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #FFD700,
+            #ff8c00
+        );
+
+    color: #111;
+
+    font-size: 18px;
+    font-weight: 800;
+
+    box-shadow:
+        0 0 12px rgba(255, 215, 0, 0.8),
+        0 0 25px rgba(255, 165, 0, 0.35);
+}
+
+
+/* Rotation */
+@keyframes tribalRotate {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================
+   KEEP FORM ABOVE STAR EFFECT
+========================================= */
+
+.overlay {
+    position: relative;
+    z-index: 5;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .star-rain {
+        width: 70px;
+    }
+
+    .rotating-brand {
+        width: 90px;
+        height: 90px;
+        bottom: 15px;
+    }
+
+    .rotating-center {
+        width: 38px;
+        height: 38px;
+        font-size: 14px;
+    }
+
+    .rotating-ring {
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+
+}
+
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .falling-star,
+    .rotating-ring {
+        animation: none !important;
+    }
+
+}
+
+
     </style>
 
 </head>
 
 <body>
+
+    
+<!-- ================================
+     TRIBAL RHYTHM STAR EFFECT
+     ADD IMMEDIATELY AFTER <body>
+================================ -->
+
+<div class="star-rain left-rain" aria-hidden="true"></div>
+<div class="star-rain right-rain" aria-hidden="true"></div>
+
+<!-- Rotating Tribal Rhythm Badge -->
+<div class="rotating-brand" aria-hidden="true">
+    <div class="rotating-ring">
+        TRIBAL RHYTHM • TRIBAL RHYTHM •
+    </div>
+
+    <div class="rotating-center">
+        TR
+    </div>
+</div>
+
+
 
 
     <div class="overlay">
@@ -1427,6 +1705,97 @@
                 document.getElementById("deleteIdBtn").style.display = "none";
 
             });
+
+
+            
+/* =========================================
+   TRIBAL RHYTHM STAR RAIN GENERATOR
+========================================= */
+
+(function () {
+
+    const leftRain = document.querySelector(".left-rain");
+    const rightRain = document.querySelector(".right-rain");
+
+    if (!leftRain || !rightRain) return;
+
+
+    function createStar(container, index) {
+
+        const star = document.createElement("span");
+
+        star.classList.add("falling-star");
+
+
+        /* Random size */
+        const randomSize = Math.random();
+
+        if (randomSize < 0.25) {
+            star.classList.add("small");
+        }
+
+        if (randomSize > 0.88) {
+            star.classList.add("big");
+        }
+
+
+        /* Random horizontal position */
+        star.style.left =
+            Math.random() * 100 + "%";
+
+
+        /* Random animation duration */
+        const duration =
+            4 + Math.random() * 6;
+
+        star.style.animationDuration =
+            duration + "s";
+
+
+        /* Random delay */
+        star.style.animationDelay =
+            -(Math.random() * 10) + "s";
+
+
+        /* Slight random opacity */
+        star.style.opacity =
+            0.35 + Math.random() * 0.65;
+
+
+        /* Slight horizontal movement */
+        star.style.transform =
+            `translateX(${Math.random() * 30 - 15}px)`;
+
+
+        container.appendChild(star);
+
+    }
+
+
+    /* Create stars */
+
+    const starCount =
+        window.innerWidth <= 768 ? 22 : 40;
+
+
+    for (let i = 0; i < starCount; i++) {
+
+        createStar(
+            leftRain,
+            i
+        );
+
+        createStar(
+            rightRain,
+            i
+        );
+
+    }
+
+
+})();
+
+
 
     </script>
 
