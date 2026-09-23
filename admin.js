@@ -236,37 +236,268 @@ let otpInterval = null;
 
 
 
-/* ================= LOGIN ================= */
+// =====================================================
+// TRIBAL RHYTHM ADMIN LOGIN
+// Secure Firebase Admin Authentication
+// =====================================================
 
 window.login = async () => {
 
+    // =====================================================
+    // GET FORM ELEMENTS
+    // =====================================================
+
+    const form = document.getElementById("adminLoginForm");
+
+    const fullNameElement =
+        document.getElementById("loginFullName");
+
+    const mobileElement =
+        document.getElementById("loginMobile");
+
+    const emailElement =
+        document.getElementById("loginEmail");
+
+    const passwordElement =
+        document.getElementById("loginPassword");
+
+
+    // =====================================================
+    // FORM ELEMENT CHECK
+    // =====================================================
+
+    if (!form) {
+        await showError(
+            "Admin login form was not found.",
+            "Form Error"
+        );
+        return;
+    }
+
+    if (!fullNameElement) {
+        await showError(
+            "Full Name field is missing from the login form.",
+            "Form Field Missing"
+        );
+        return;
+    }
+
+    if (!mobileElement) {
+        await showError(
+            "Mobile Number field is missing from the login form.",
+            "Form Field Missing"
+        );
+        return;
+    }
+
+    if (!emailElement) {
+        await showError(
+            "Email field is missing from the login form.",
+            "Form Field Missing"
+        );
+        return;
+    }
+
+    if (!passwordElement) {
+        await showError(
+            "Password field is missing from the login form.",
+            "Form Field Missing"
+        );
+        return;
+    }
+
+
+    // =====================================================
+    // GET VALUES
+    // =====================================================
+
+    const fullName =
+        fullNameElement.value.trim();
+
+    const mobile =
+        mobileElement.value.trim();
+
     const emailValue =
-        document.getElementById("loginEmail")?.value.trim();
+        emailElement.value.trim().toLowerCase();
 
     const passValue =
-        document.getElementById("loginPassword")?.value.trim();
+        passwordElement.value.trim();
 
-    if (!emailValue || !passValue) {
 
-        showWarning(
-            "Please enter your admin email and password.",
-            "Login Details Required"
+    // =====================================================
+    // EMPTY FIELD CHECK
+    // =====================================================
+
+    if (!fullName) {
+
+        await showWarning(
+            "Please enter your full name.",
+            "Full Name Required"
+        );
+
+        fullNameElement.focus();
+        return;
+    }
+
+
+    if (!mobile) {
+
+        await showWarning(
+            "Please enter your mobile number.",
+            "Mobile Number Required"
+        );
+
+        mobileElement.focus();
+        return;
+    }
+
+
+    if (!emailValue) {
+
+        await showWarning(
+            "Please enter your admin email address.",
+            "Email Required"
+        );
+
+        emailElement.focus();
+        return;
+    }
+
+
+    if (!passValue) {
+
+        await showWarning(
+            "Please enter your password.",
+            "Password Required"
+        );
+
+        passwordElement.focus();
+        return;
+    }
+
+
+    // =====================================================
+    // FULL NAME VALIDATION
+    // =====================================================
+
+    if (fullName.length < 2) {
+
+        await showWarning(
+            "Please enter a valid full name.",
+            "Invalid Name"
+        );
+
+        fullNameElement.focus();
+        return;
+    }
+
+
+    // =====================================================
+    // MOBILE VALIDATION
+    // =====================================================
+
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+
+        await showWarning(
+            "Please enter a valid 10-digit Indian mobile number.",
+            "Invalid Mobile Number"
+        );
+
+        mobileElement.focus();
+        return;
+    }
+
+
+    // =====================================================
+    // EMAIL VALIDATION
+    // =====================================================
+
+    const emailRegex =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(emailValue)) {
+
+        await showWarning(
+            "Please enter a valid email address.",
+            "Invalid Email"
+        );
+
+        emailElement.focus();
+        return;
+    }
+
+
+    // =====================================================
+    // OWNER EMAIL CONFIG CHECK
+    // =====================================================
+
+    if (
+        typeof OWNER_EMAIL === "undefined" ||
+        !OWNER_EMAIL
+    ) {
+
+        console.error(
+            "OWNER_EMAIL is not defined."
+        );
+
+        await showError(
+            "Owner email configuration is missing.",
+            "Configuration Error"
         );
 
         return;
     }
 
-    try {
 
-        Swal.fire({
-            title: "Signing In...",
-            text: "Please wait while we verify your admin access.",
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
+    // =====================================================
+    // OWNER EMAIL CHECK
+    // =====================================================
+
+    if (
+        emailValue !==
+        OWNER_EMAIL.trim().toLowerCase()
+    ) {
+
+        await showError(
+            "Only the owner email can access the Admin Panel.",
+            "Access Denied"
+        );
+
+        return;
+    }
+
+
+    // =====================================================
+    // LOGIN LOADING
+    // =====================================================
+
+    Swal.fire({
+
+        title: "Signing In...",
+
+        text:
+            "Please wait while we verify your admin access.",
+
+        allowOutsideClick: false,
+
+        allowEscapeKey: false,
+
+        showConfirmButton: false,
+
+        didOpen: () => {
+
+            Swal.showLoading();
+
+        }
+
+    });
+
+
+    // =====================================================
+    // FIREBASE LOGIN
+    // =====================================================
+
+    try {
 
         const userCredential =
             await signInWithEmailAndPassword(
@@ -275,123 +506,382 @@ window.login = async () => {
                 passValue
             );
 
-        const user = userCredential.user;
 
-        if (user.email !== OWNER_EMAIL) {
+        const user =
+            userCredential.user;
 
-            await Swal.fire({
-                icon: "error",
-                title: "Access Denied",
-                text: "Only the owner can access the Admin Panel.",
-                confirmButtonColor: "#d4af37"
-            });
+
+        console.log(
+            "Firebase authentication successful:",
+            user.email
+        );
+
+
+        // =====================================================
+        // OWNER ACCOUNT CHECK
+        // =====================================================
+
+        if (
+            !user.email ||
+            user.email.trim().toLowerCase() !==
+            OWNER_EMAIL.trim().toLowerCase()
+        ) {
+
+            Swal.close();
+
+            await showError(
+                "Only the owner can access the Admin Panel.",
+                "Access Denied"
+            );
 
             await signOut(auth);
+
             return;
         }
+
+
+        // =====================================================
+        // EMAIL VERIFICATION CHECK
+        // =====================================================
 
         if (!user.emailVerified) {
 
-            await Swal.fire({
-                icon: "warning",
-                title: "Email Not Verified",
-                text: "Please verify your email before accessing the Admin Panel.",
-                confirmButtonColor: "#d4af37"
-            });
+            Swal.close();
+
+            await showWarning(
+                "Please verify your email before accessing the Admin Panel.",
+                "Email Not Verified"
+            );
 
             await signOut(auth);
+
             return;
         }
 
-        const adminSnap =
-            await getDoc(
-                doc(db, "admins", user.uid)
+
+        // =====================================================
+        // ADMIN DOCUMENT CHECK
+        // =====================================================
+
+        const adminRef =
+            doc(
+                db,
+                "admins",
+                user.uid
             );
+
+
+        const adminSnap =
+            await getDoc(adminRef);
+
 
         if (!adminSnap.exists()) {
 
-            await Swal.fire({
-                icon: "error",
-                title: "Admin Record Missing",
-                text: "Your admin record was not found.",
-                confirmButtonColor: "#d4af37"
-            });
+            Swal.close();
+
+            console.error(
+                "Admin document missing for UID:",
+                user.uid
+            );
+
+            await showError(
+                "Your admin record was not found .",
+                "Admin Record Missing"
+            );
 
             await signOut(auth);
+
             return;
         }
 
-        const admin = adminSnap.data();
 
-        if (admin.status !== "Active") {
+        // =====================================================
+        // ADMIN DATA
+        // =====================================================
 
-            await Swal.fire({
-                icon: "error",
-                title: "Account Disabled",
-                text: "This admin account is currently disabled.",
-                confirmButtonColor: "#d4af37"
-            });
+        const admin =
+            adminSnap.data();
+
+
+        console.log(
+            "Admin document:",
+            admin
+        );
+
+
+        // =====================================================
+        // ADMIN EMAIL CHECK
+        // =====================================================
+
+        if (
+            admin.email &&
+            admin.email.trim().toLowerCase() !==
+            OWNER_EMAIL.trim().toLowerCase()
+        ) {
+
+            Swal.close();
+
+            await showError(
+                "The Firestore admin record does not belong to the owner.",
+                "Admin Verification Failed"
+            );
 
             await signOut(auth);
+
             return;
         }
 
-        if (admin.approvalStatus !== "Approved") {
 
-            await Swal.fire({
-                icon: "warning",
-                title: "Approval Pending",
-                text: "Your admin account is waiting for owner approval.",
-                confirmButtonColor: "#d4af37"
-            });
+        // =====================================================
+        // STATUS CHECK
+        // =====================================================
+
+        if (
+            admin.status !== "Active"
+        ) {
+
+            Swal.close();
+
+            await showError(
+                "This admin account is currently disabled or inactive.",
+                "Account Not Active"
+            );
 
             await signOut(auth);
+
             return;
         }
+
+
+        // =====================================================
+        // APPROVAL CHECK
+        // =====================================================
+
+        if (
+            admin.approvalStatus !== "Approved"
+        ) {
+
+            Swal.close();
+
+            await showWarning(
+                "Your admin account is waiting for owner approval.",
+                "Approval Pending"
+            );
+
+            await signOut(auth);
+
+            return;
+        }
+
+
+        // =====================================================
+        // UID CHECK
+        // =====================================================
+
+        if (
+            admin.uid &&
+            admin.uid !== user.uid
+        ) {
+
+            Swal.close();
+
+            await showError(
+                "The admin account UID does not match the authenticated account.",
+                "Security Verification Failed"
+            );
+
+            await signOut(auth);
+
+            return;
+        }
+
+
+        // =====================================================
+        // LOGIN SUCCESS
+        // =====================================================
 
         Swal.close();
+
 
         await showSuccess(
             "Admin authentication successful.",
             "Welcome to Tribal Rhythm Admin"
         );
 
-        start();
 
-    } catch (error) {
+        console.log(
+            "Admin login successful:",
+            user.email
+        );
+
+
+        // =====================================================
+        // OPEN ADMIN PANEL
+        // =====================================================
+
+        await start();
+
+    }
+
+    // =====================================================
+    // LOGIN ERROR
+    // =====================================================
+
+    catch (error) {
 
         console.error(
             "Admin Login Error:",
             error
         );
 
+
         Swal.close();
+
 
         let message =
             "Login failed. Please try again.";
 
+
+        // =====================================================
+        // INVALID CREDENTIAL
+        // =====================================================
+
         if (
-            error.code === "auth/invalid-credential" ||
-            error.code === "auth/wrong-password" ||
-            error.code === "auth/user-not-found"
+            error.code ===
+            "auth/invalid-credential"
         ) {
+
             message =
                 "Wrong email or password.";
-        }
-        else if (
-            error.code === "auth/too-many-requests"
-        ) {
-            message =
-                "Too many login attempts. Please try again later.";
-        }
-        else if (
-            error.code === "auth/network-request-failed"
-        ) {
-            message =
-                "Network error. Please check your internet connection.";
+
         }
 
-        showError(
+
+        // =====================================================
+        // WRONG PASSWORD
+        // =====================================================
+
+        else if (
+            error.code ===
+            "auth/wrong-password"
+        ) {
+
+            message =
+                "Wrong email or password.";
+
+        }
+
+
+        // =====================================================
+        // USER NOT FOUND
+        // =====================================================
+
+        else if (
+            error.code ===
+            "auth/user-not-found"
+        ) {
+
+            message =
+                "Admin account not found.";
+
+        }
+
+
+        // =====================================================
+        // TOO MANY REQUESTS
+        // =====================================================
+
+        else if (
+            error.code ===
+            "auth/too-many-requests"
+        ) {
+
+            message =
+                "Too many login attempts. Please try again later.";
+
+        }
+
+
+        // =====================================================
+        // NETWORK ERROR
+        // =====================================================
+
+        else if (
+            error.code ===
+            "auth/network-request-failed"
+        ) {
+
+            message =
+                "Network error. Please check your internet connection.";
+
+        }
+
+
+        // =====================================================
+        // USER DISABLED
+        // =====================================================
+
+        else if (
+            error.code ===
+            "auth/user-disabled"
+        ) {
+
+            message =
+                "This Firebase account has been disabled.";
+
+        }
+
+
+        // =====================================================
+        // INVALID EMAIL
+        // =====================================================
+
+        else if (
+            error.code ===
+            "auth/invalid-email"
+        ) {
+
+            message =
+                "The email address is invalid.";
+
+        }
+
+
+        // =====================================================
+        // OPERATION NOT ALLOWED
+        // =====================================================
+
+        else if (
+            error.code ===
+            "auth/operation-not-allowed"
+        ) {
+
+            message =
+                "Email/password login is not enabled in Firebase Authentication.";
+
+        }
+
+
+        // =====================================================
+        // FIRESTORE PERMISSION ERROR
+        // =====================================================
+
+        else if (
+            error.code ===
+            "permission-denied"
+        ) {
+
+            message =
+                "Permission denied while checking your admin account.";
+
+        }
+
+
+        // =====================================================
+        // SHOW ERROR
+        // =====================================================
+
+        await showError(
             message,
             "Login Failed"
         );
@@ -405,125 +895,18 @@ window.login = async () => {
 
 document
     .getElementById("adminLoginForm")
-    ?.addEventListener("submit", (event) => {
+    ?.addEventListener(
+        "submit",
+        async (event) => {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        window.login();
-    });
+            await window.login();
 
-if (!emailValue || !passValue) {
-
-    document.getElementById("msg").innerText =
-        "Fill all fields";
-    return;
-
-}
+        }
+    );
 
 
-
-try {
-
-    const userCredential =
-        await signInWithEmailAndPassword(
-            auth,
-            emailValue,
-            passValue
-        );
-
-    const user = userCredential.user;
-
-    if (user.email !== OWNER_EMAIL) {
-
-        showError("Owner access only", "Access Denied");
-
-        await signOut(auth);
-
-        return;
-    }
-
-    if (!user.emailVerified) {
-        showWarning("Please verify your email first.");
-        await signOut(auth);
-        return;
-    }
-
-    console.log("Login success:", user.email);
-
-    // 🔒 ADMIN CHECK
-    const adminSnap =
-        await getDoc(
-            doc(db, "admins", user.uid)
-        );
-
-    if (!adminSnap.exists()) {
-        showError("Admin record is missing.");
-        await signOut(auth);
-        return;
-    }
-
-    const admin = adminSnap.data();
-
-    if (admin.status !== "Active") {
-        showError("This admin account is disabled.", "Account Disabled");
-        await signOut(auth);
-        return;
-    }
-
-    if (admin.approvalStatus !== "Approved") {
-        showWarning("Admin approval is still pending.", "Approval Pending");
-        await signOut(auth);
-        return;
-    }
-
-    start();
-
-}
-
-catch (error) {
-
-    console.log(error);
-
-    if (error.code === "auth/invalid-credential") {
-
-        showError(
-            "Wrong Email or Password",
-            "Login Failed"
-        );
-
-    }
-    else if (error.code === "auth/user-not-found") {
-
-        showError(
-            "Admin account not found.",
-            "Login Failed"
-        );
-
-    }
-    else {
-
-        showError(
-            error.message,
-            "Login Failed"
-        );
-
-    }
-
-}
-
-// =====================================================
-// ADMIN LOGIN FORM SUBMIT
-// =====================================================
-
-document
-    .getElementById("adminLoginForm")
-    ?.addEventListener("submit", (event) => {
-
-        event.preventDefault();
-
-        window.login();
-
-    });
 
 window.resetPass = () => {
 
