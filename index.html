@@ -396,83 +396,279 @@
     </section>
 
 
-    <!-- ================= DANCE CLASS BOOKING ================= -->
-    <section id="booking" class="py-5">
-        <div class="container">
-            <h2 class="text-center text-warning mb-3">💃 Book Your Dance Class</h2>
-            <p class="text-center text-light mb-5">
-                Learn, preserve and celebrate our traditional culture.
+
+<!-- ================= CULTURAL CLASSES & TRAINING ================= -->
+<section id="booking" class="classes-section py-5">
+
+    <div class="container">
+
+        <!-- SECTION HEADER -->
+        <div class="text-center mb-4">
+            <h2 class="classes-title">
+                🎓 Cultural Classes & Training
+            </h2>
+
+            <p class="classes-subtitle">
+                Learn • Practice • Perform • Grow
             </p>
 
-            <div class="row g-4 justify-content-center">
+            <p class="text-light">
+                Traditional culture, performing arts and professional stage training.
+            </p>
+        </div>
 
-                <div class="col-md-4">
-                    <div class="gold-premium-card text-center">
-                        <h3>🌿 Santali Dance</h3>
-                        <p>Traditional Santali dance training</p>
-                        <h4 class="text-warning">₹499 / Month</h4>
-                        <button type="button" onclick="selectClass('Santali Dance', 499)">
-                            Join Santali Class
-                        </button>
-                    </div>
+        <!-- HORIZONTAL SCROLL -->
+        <div class="classes-scroll">
+
+            <!-- 1. SANTALI DANCE -->
+            <div class="class-card">
+                <div class="class-icon">🌿</div>
+
+                <h3>Santali Dance</h3>
+
+                <p>
+                    Learn traditional Santali dance,
+                    movements, rhythm and cultural performance.
+                </p>
+
+                <div class="class-price">
+                    ₹499 <span>/ Month</span>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="gold-premium-card text-center">
-                        <h3>🥁 Bhumij Dance</h3>
-                        <p>Traditional Bhumij dance training</p>
-                        <h4 class="text-warning">₹499 / Month</h4>
-                        <button type="button" onclick="selectClass('Bhumij Dance', 499)">
-                            Join Bhumij Class
-                        </button>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="gold-premium-card text-center">
-                        <h3>🎤 Traditional Song</h3>
-                        <p>Folk and traditional song training</p>
-                        <h4 class="text-warning">₹399 / Month</h4>
-                        <button type="button" onclick="selectClass('Traditional Song', 399)">
-                            Join Song Class
-                        </button>
-                    </div>
-                </div>
-
+                <button type="button"
+                    onclick="selectClass('Santali Dance', 499)">
+                    Join Class
+                </button>
             </div>
 
-            <!-- Class Registration Form -->
-            <div id="classFormBox" class="gold-premium-card mt-5 mx-auto" style="max-width:600px; display:none;">
 
-                <h3 class="text-center text-warning">Class Registration</h3>
+            <!-- 2. BHUMIJ DANCE -->
+            <div class="class-card">
+                <div class="class-icon">🥁</div>
 
-                <p id="selectedClassText" class="text-center text-light"></p>
+                <h3>Bhumij Dance</h3>
 
-                <input type="text" id="className" placeholder="Full Name">
+                <p>
+                    Traditional Bhumij dance training
+                    with rhythm, steps and performance practice.
+                </p>
 
-                <input type="tel" id="classMobile" placeholder="10 Digit Mobile Number" maxlength="10">
+                <div class="class-price">
+                    ₹499 <span>/ Month</span>
+                </div>
 
-                <input type="email" id="classEmail" placeholder="Email Address for OTP">
+                <button type="button"
+                    onclick="selectClass('Bhumij Dance', 499)">
+                    Join Class
+                </button>
+            </div>
 
-                <button type="button" class="send-otp-btn" onclick="sendClassOTP()">
-                    Send Email OTP
+
+            <!-- 3. TRADITIONAL SONG -->
+            <div class="class-card">
+                <div class="class-icon">🎤</div>
+
+                <h3>Traditional Song</h3>
+
+                <p>
+                    Folk and traditional singing,
+                    voice practice and cultural songs.
+                </p>
+
+                <div class="class-price">
+                    ₹399 <span>/ Month</span>
+                </div>
+
+                <button type="button"
+                    onclick="selectClass('Traditional Song', 399)">
+                    Join Class
+                </button>
+            </div>
+
+
+            <!-- 4. TRADITIONAL BAJA -->
+            <div class="class-card">
+                <div class="class-icon">🥁</div>
+
+                <h3>Traditional Baja</h3>
+
+                <p>
+                    Learn traditional instruments,
+                    rhythm, beats and cultural music performance.
+                </p>
+
+                <div class="class-price">
+                    ₹499 <span>/ Month</span>
+                </div>
+
+                <button type="button"
+                    onclick="selectClass('Traditional Baja', 499)">
+                    Join Class
+                </button>
+            </div>
+
+
+            <!-- 5. MAGIC CLASS -->
+            <div class="class-card">
+                <div class="class-icon">🎩</div>
+
+                <h3>Magic Class</h3>
+
+                <p>
+                    Learn stage magic, simple tricks,
+                    presentation and audience interaction.
+                </p>
+
+                <div class="class-price">
+                    ₹499 <span>/ Month</span>
+                </div>
+
+                <button type="button"
+                    onclick="selectClass('Magic Class', 499)">
+                    Join Class
+                </button>
+            </div>
+
+
+            <!-- 6. NATAK PREPARING -->
+            <div class="class-card">
+                <div class="class-icon">🎭</div>
+
+                <h3>Natak Preparing</h3>
+
+                <p>
+                    Acting practice, dialogue delivery,
+                    character preparation and stage performance.
+                </p>
+
+                <div class="class-price">
+                    ₹499 <span>/ Month</span>
+                </div>
+
+                <button type="button"
+                    onclick="selectClass('Natak Preparing', 499)">
+                    Join Class
+                </button>
+            </div>
+
+
+            <!-- 7. COMEDY TRAINING -->
+            <div class="class-card">
+                <div class="class-icon">😂</div>
+
+                <h3>Comedy Training</h3>
+
+                <p>
+                    Learn comedy performance,
+                    expressions, timing and audience engagement.
+                </p>
+
+                <div class="class-price">
+                    ₹499 <span>/ Month</span>
+                </div>
+
+                <button type="button"
+                    onclick="selectClass('Comedy Training', 499)">
+                    Join Class
+                </button>
+            </div>
+
+
+            <!-- 8. ANCHORING CLASS -->
+            <div class="class-card">
+                <div class="class-icon">🎙️</div>
+
+                <h3>Anchoring Class</h3>
+
+                <p>
+                    Stage anchoring, public speaking,
+                    confidence and event hosting skills.
+                </p>
+
+                <div class="class-price">
+                    ₹499 <span>/ Month</span>
+                </div>
+
+                <button type="button"
+                    onclick="selectClass('Anchoring Class', 499)">
+                    Join Class
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- SCROLL HINT -->
+        <div class="text-center scroll-hint mt-3">
+            ← Swipe / Scroll to explore all classes →
+        </div>
+
+
+        <!-- ================= CLASS REGISTRATION ================= -->
+        <div id="classFormBox"
+            class="class-registration-box mt-5 mx-auto"
+            style="max-width:600px; display:none;">
+
+            <h3 class="text-center text-warning">
+                📝 Class Registration
+            </h3>
+
+            <p id="selectedClassText"
+                class="text-center text-light">
+            </p>
+
+            <input type="text"
+                id="className"
+                placeholder="Full Name">
+
+            <input type="tel"
+                id="classMobile"
+                placeholder="10 Digit Mobile Number"
+                maxlength="10">
+
+            <input type="email"
+                id="classEmail"
+                placeholder="Email Address for OTP">
+
+            <button type="button"
+                class="send-otp-btn"
+                onclick="sendClassOTP()">
+                Send Email OTP
+            </button>
+
+            <div id="classOtpSection"
+                style="display:none;"
+                class="mt-3">
+
+                <input type="text"
+                    id="classOTP"
+                    maxlength="6"
+                    inputmode="numeric"
+                    placeholder="Enter 6 Digit OTP">
+
+                <button type="button"
+                    class="btn btn-success w-100"
+                    onclick="verifyClassOTP()">
+                    Verify OTP & Register
                 </button>
 
-                <div id="classOtpSection" style="display:none;" class="mt-3">
-                    <input type="text" id="classOTP" maxlength="6" placeholder="Enter 6 Digit OTP">
-
-                    <button type="button" class="btn btn-success w-100" onclick="verifyClassOTP()">
-                        Verify OTP & Register
-                    </button>
-                </div>
-
-                <div id="classSuccessMessage"
-                    style="display:none; color:#00ff88; text-align:center; margin-top:15px; font-weight:bold;">
-                </div>
-
             </div>
+
+            <div id="classSuccessMessage"
+                style="display:none;
+                       color:#00ff88;
+                       text-align:center;
+                       margin-top:15px;
+                       font-weight:bold;">
+            </div>
+
         </div>
-    </section>
+
+    </div>
+
+</section>
+
+
 
 
 
